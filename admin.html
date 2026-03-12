@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Candler Foundry CMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    * { font-style: normal; }
+
+    :root {
+      --cream: #fafaf2;
+      --navy: #1e2530;
+      --orange: #c84826;
+      --border: rgba(30,37,48,0.12);
+      --muted: rgba(30,37,48,0.45);
+      --bg-subtle: rgba(30,37,48,0.03);
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--cream);
+      color: var(--navy);
+      min-height: 100vh;
+    }
+
+    /* ─── Password overlay ─────────────────────────── */
+    #pw-overlay {
+      position: fixed;
+      inset: 0;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+
+    #pw-box {
+      background: var(--cream);
+      padding: 52px 48px;
+      border-radius: 8px;
+      text-align: center;
+      width: 380px;
+    }
+
+    #pw-box h1 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    #pw-box p {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    #pw-input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid var(--border);
+      background: white;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 14px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      outline: none;
+      text-align: center;
+      letter-spacing: 0.1em;
+      transition: border-color 0.15s;
+    }
+
+    #pw-input:focus { border-color: var(--orange); }
+
+    #pw-error {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--orange);
+      letter-spacing: 0.05em;
+      margin-top: 8px;
+      display: none;
+    }
+
+    /* ─── Header ───────────────────────────────────── */
+    header {
+      background: var(--navy);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .header-wordmark {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: rgba(250,250,242,0.6);
+      white-space: nowrap;
+      padding: 20px 0;
+      flex-shrink: 0;
+    }
+
+    .cms-nav {
+      display: flex;
+      align-items: stretch;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .cms-nav::-webkit-scrollbar { display: none; }
+
+    .cms-tab {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(250,250,242,0.4);
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 20px 18px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color 0.15s, border-color 0.15s;
+    }
+
+    .cms-tab:hover { color: rgba(250,250,242,0.7); }
+    .cms-tab.active { color: var(--cream); border-bottom-color: var(--orange); }
+
+    /* ─── Main ─────────────────────────────────────── */
+    main {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 40px 32px 120px;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .tab-header {
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .tab-header h2 {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .tab-header p {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .coming-soon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 220px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border: 1px dashed var(--border);
+      border-radius: 8px;
+    }
+
+    /* ─── Card list ────────────────────────────────── */
+    .card-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 20px;
+    }
+
+    /* ─── Editor card ──────────────────────────────── */
+    .editor-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+
+    .editor-card.dragging {
+      opacity: 0.35;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 13px 20px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .drag-handle {
+      font-size: 15px;
+      color: var(--muted);
+      cursor: grab;
+      user-select: none;
+      padding: 4px 2px;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .drag-handle:active { cursor: grabbing; }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--navy);
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .visible-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .visible-label input[type="checkbox"] {
+      accent-color: var(--orange);
+      width: 13px;
+      height: 13px;
+      cursor: pointer;
+    }
+
+    .card-body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ─── Fields ───────────────────────────────────── */
+    .field-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .field-label .hint {
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 9px;
+    }
+
+    .field-input, .field-textarea, .field-select {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 13px;
+      color: var(--navy);
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 10px 12px;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+
+    .field-input:focus,
+    .field-textarea:focus,
+    .field-select:focus { border-color: var(--orange); }
+
+    .field-textarea {
+      resize: vertical;
+      min-height: 68px;
+      line-height: 1.55;
+    }
+
+    .field-textarea.tall { min-height: 96px; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* ─── Links ────────────────────────────────────── */
+    .links-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .link-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .link-row .field-input { flex: 1; }
+    .link-row .field-input.url { flex: 2; }
+
+    /* ─── Image upload ─────────────────────────────── */
+    .image-area {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 16px;
+      background: var(--bg-subtle);
+      border: 1px dashed var(--border);
+      border-radius: 6px;
+    }
+
+    .image-thumb-wrap {
+      flex-shrink: 0;
+    }
+
+    .image-thumb {
+      width: 88px;
+      height: 58px;
+      object-fit: cover;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .image-placeholder {
+      width: 88px;
+      height: 58px;
+      background: rgba(30,37,48,0.07);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .image-url-note {
+      font-size: 10px;
+      color: var(--muted);
+      margin-top: 5px;
+      word-break: break-all;
+    }
+
+    /* ─── Color picker ─────────────────────────────── */
+    .color-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      background: white;
+    }
+
+    .color-row input[type="color"] {
+      width: 26px;
+      height: 26px;
+      border: none;
+      padding: 0;
+      background: none;
+      cursor: pointer;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    .color-hex {
+      font-size: 12px;
+      font-family: 'Courier New', monospace;
+      color: var(--navy);
+      letter-spacing: 0.05em;
+    }
+
+    /* ─── Buttons ──────────────────────────────────── */
+    .btn {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: opacity 0.15s, background 0.15s;
+      border: none;
+      display: inline-block;
+    }
+
+    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-primary {
+      background: var(--navy);
+      color: var(--cream);
+      padding: 12px 24px;
+    }
+
+    .btn-primary:hover:not(:disabled) { background: #2a3547; }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 1px solid var(--border);
+      padding: 8px 16px;
+    }
+
+    .btn-outline:hover:not(:disabled) { border-color: var(--navy); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      padding: 6px 8px;
+      font-size: 14px;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .btn-ghost:hover:not(:disabled) { color: var(--orange); }
+
+    .btn-link {
+      background: transparent;
+      color: var(--orange);
+      padding: 0;
+      font-size: 10px;
+      border: none;
+    }
+
+    .btn-link:hover:not(:disabled) { opacity: 0.8; }
+
+    /* ─── Add member row ───────────────────────────── */
+    .add-row { margin-top: 4px; }
+
+    /* ─── Save bar ─────────────────────────────────── */
+    #save-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--navy);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 20px;
+      z-index: 200;
+      box-shadow: 0 -2px 12px rgba(0,0,0,0.2);
+    }
+
+    #save-status {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    #save-status.success { color: #6FCF97; }
+    #save-status.error { color: #ff7f7f; }
+
+    .btn-save {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 13px 32px;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+
+    .btn-save:hover { opacity: 0.9; }
+    .btn-save:disabled { opacity: 0.4; cursor: not-allowed; }
+  </style>
+</head>
+<body>
+
+<!-- ── Password gate ──────────────────────────────────────── -->
+<div id="pw-overlay">
+  <div id="pw-box">
+    <h1>Candler Foundry</h1>
+    <p>Content Management System</p>
+    <input type="password" id="pw-input" placeholder="Enter password" autocomplete="current-password">
+    <button class="btn btn-primary" style="width:100%" onclick="submitPassword()">Enter</button>
+    <div id="pw-error">Incorrect password. Please try again.</div>
+  </div>
+</div>
+
+<!-- ── App ───────────────────────────────────────────────── -->
+<div id="app" style="display:none">
+  <header>
+    <div class="header-inner">
+      <div class="header-wordmark">Candler Foundry CMS</div>
+      <nav class="cms-nav">
+        <button class="cms-tab active" onclick="switchTab('offerings', this)">Offerings</button>
+        <button class="cms-tab" onclick="switchTab('team', this)">Our Team</button>
+        <button class="cms-tab" onclick="switchTab('thisyear', this)">This Year</button>
+        <button class="cms-tab" onclick="switchTab('numbers', this)">By the Numbers</button>
+        <button class="cms-tab" onclick="switchTab('theoed', this)">TheoEd</button>
+        <button class="cms-tab" onclick="switchTab('impact', this)">Impact Stories</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- Offerings -->
+    <div id="tab-offerings" class="tab-panel active">
+      <div class="tab-header">
+        <h2>Offerings</h2>
+        <p>Edit offering titles, copy, links, and images. Drag the handle to reorder. Click Save when done.</p>
+      </div>
+      <div id="offerings-list" class="card-list"></div>
+    </div>
+
+    <!-- Our Team -->
+    <div id="tab-team" class="tab-panel">
+      <div class="tab-header">
+        <h2>Our Team</h2>
+        <p>Edit team member profiles. Drag to reorder. Click Save when done.</p>
+      </div>
+      <div id="team-list" class="card-list"></div>
+      <div class="add-row">
+        <button class="btn btn-primary" onclick="addTeamMember()">+ Add Team Member</button>
+      </div>
+    </div>
+
+    <!-- Stub tabs -->
+    <div id="tab-thisyear" class="tab-panel">
+      <div class="tab-header"><h2>This Year</h2></div>
+      <div class="coming-soon">Editor coming soon</div>
+    </div>
+
+    <div id="tab-numbers" class="tab-panel">
+      <div class="tab-header"><h2>By the Numbers</h2></div>
+      <div class="coming-soon">Editor coming soon</div>
+    </div>
+
+    <div id="tab-theoed" class="tab-panel">
+      <div class="tab-header"><h2>TheoEd</h2></div>
+      <div class="coming-soon">Editor coming soon</div>
+    </div>
+
+    <div id="tab-impact" class="tab-panel">
+      <div class="tab-header"><h2>Impact Stories</h2></div>
+      <div class="coming-soon">Editor coming soon</div>
+    </div>
+  </main>
+
+  <!-- Sticky save bar -->
+  <div id="save-bar">
+    <div id="save-status"></div>
+    <button id="save-btn" class="btn-save" onclick="saveContent()">Save Changes</button>
+  </div>
+</div>
+
+<script>
+  const PASSWORD = 'foundry2025';
+  const ICONS = ['compass', 'play', 'mic', 'book', '3mb', 'broadcast', 'quill'];
+  let content = {};
+  let newMemberSeq = 100;
+  let dragSrc = null;
+
+  // ── Auth ────────────────────────────────────────────────
+
+  function checkAuth() {
+    if (sessionStorage.getItem('cms_auth') === '1') {
+      showApp();
+    }
+  }
+
+  function submitPassword() {
+    const val = document.getElementById('pw-input').value;
+    const err = document.getElementById('pw-error');
+    if (val === PASSWORD) {
+      sessionStorage.setItem('cms_auth', '1');
+      err.style.display = 'none';
+      showApp();
+    } else {
+      err.style.display = 'block';
+      document.getElementById('pw-input').value = '';
+      document.getElementById('pw-input').focus();
+    }
+  }
+
+  function showApp() {
+    document.getElementById('pw-overlay').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    loadContent();
+  }
+
+  // ── Tab switching ────────────────────────────────────────
+
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.cms-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('tab-' + id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ── Load content ─────────────────────────────────────────
+
+  async function loadContent() {
+    try {
+      const res = await fetch('/content.json?_=' + Date.now());
+      content = res.ok ? await res.json() : blankContent();
+    } catch {
+      content = blankContent();
+    }
+    renderOfferings();
+    renderTeam();
+    initDragDrop(document.getElementById('offerings-list'));
+    initDragDrop(document.getElementById('team-list'));
+  }
+
+  function blankContent() {
+    return { offerings: [], team: [], thisYear: {}, byTheNumbers: {}, theoEd: {}, impactStories: {}, reach: {} };
+  }
+
+  // ── Offerings ────────────────────────────────────────────
+
+  function renderOfferings() {
+    const list = document.getElementById('offerings-list');
+    list.innerHTML = '';
+    [...(content.offerings || [])].sort((a, b) => a.order - b.order).forEach(o => {
+      list.appendChild(buildOfferingCard(o));
+    });
+  }
+
+  function buildOfferingCard(o) {
+    const card = document.createElement('div');
+    card.className = 'editor-card';
+    card.dataset.id = o.id;
+    card.dataset.imageUrl = o.imageUrl || '';
+
+    const linksHtml = (o.links || []).map(l => linkRowHtml(l.label, l.url)).join('');
+    const iconOpts = ICONS.map(i => `<option value="${i}"${i === o.icon ? ' selected' : ''}>${i}</option>`).join('');
+    const imgHtml = o.imageUrl
+      ? `<img class="image-thumb" src="${esc(o.imageUrl)}" alt="">`
+      : `<div class="image-placeholder">No image</div>`;
+
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="drag-handle" draggable="true" title="Drag to reorder">⠿</span>
+        <span class="card-label">${esc(o.title)}</span>
+        <label class="visible-label">
+          <input type="checkbox" data-field="visible" ${o.visible ? 'checked' : ''}> Visible
+        </label>
+      </div>
+      <div class="card-body">
+        <div class="field-row">
+          <span class="field-label">Title</span>
+          <input class="field-input" data-field="title" type="text" value="${esc(o.title)}"
+            oninput="this.closest('.editor-card').querySelector('.card-label').textContent=this.value">
+        </div>
+        <div class="field-row">
+          <span class="field-label">Blurb <span class="hint">— short text shown on card face</span></span>
+          <textarea class="field-textarea" data-field="blurb">${esc(o.blurb)}</textarea>
+        </div>
+        <div class="field-row">
+          <span class="field-label">Description <span class="hint">— full body copy for expanded view</span></span>
+          <textarea class="field-textarea tall" data-field="description">${esc(o.description)}</textarea>
+        </div>
+        <div class="field-row">
+          <span class="field-label">Links</span>
+          <div class="links-list" data-field="links">${linksHtml}</div>
+          <button class="btn btn-link" style="margin-top:8px;text-align:left" onclick="addLink(this)">+ Add Link</button>
+        </div>
+        <div class="two-col">
+          <div class="field-row">
+            <span class="field-label">Icon</span>
+            <select class="field-select" data-field="icon">${iconOpts}</select>
+          </div>
+          <div class="field-row">
+            <span class="field-label">Icon Color</span>
+            <div class="color-row">
+              <input type="color" data-field="iconColor" value="${esc(o.iconColor || '#c84826')}"
+                oninput="this.nextElementSibling.textContent=this.value">
+              <span class="color-hex">${esc(o.iconColor || '#c84826')}</span>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <span class="field-label">Card Image</span>
+          <div class="image-area">
+            <div class="image-thumb-wrap">${imgHtml}</div>
+            <div>
+              <button class="btn btn-outline" onclick="triggerUpload(this)">Upload Image</button>
+              <input type="file" class="file-input" accept="image/jpeg,image/png,image/gif,image/webp"
+                style="display:none" onchange="handleUpload(this,'offerings')">
+              ${o.imageUrl ? `<div class="image-url-note">${esc(o.imageUrl)}</div>` : ''}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    return card;
+  }
+
+  // ── Team ─────────────────────────────────────────────────
+
+  function renderTeam() {
+    const list = document.getElementById('team-list');
+    list.innerHTML = '';
+    [...(content.team || [])].sort((a, b) => a.order - b.order).forEach(m => {
+      list.appendChild(buildTeamCard(m));
+    });
+  }
+
+  function buildTeamCard(m) {
+    const card = document.createElement('div');
+    card.className = 'editor-card';
+    card.dataset.id = m.id;
+    card.dataset.imageUrl = m.headshotUrl || '';
+
+    const imgHtml = m.headshotUrl
+      ? `<img class="image-thumb" src="${esc(m.headshotUrl)}" alt="">`
+      : `<div class="image-placeholder">No photo</div>`;
+
+    card.innerHTML = `
+      <div class="card-header">
+        <span class="drag-handle" draggable="true" title="Drag to reorder">⠿</span>
+        <span class="card-label">${esc(m.name)}</span>
+        <label class="visible-label">
+          <input type="checkbox" data-field="visible" ${m.visible ? 'checked' : ''}> Visible
+        </label>
+      </div>
+      <div class="card-body">
+        <div class="two-col">
+          <div class="field-row">
+            <span class="field-label">Name</span>
+            <input class="field-input" data-field="name" type="text" value="${esc(m.name)}"
+              oninput="this.closest('.editor-card').querySelector('.card-label').textContent=this.value">
+          </div>
+          <div class="field-row">
+            <span class="field-label">Title / Role</span>
+            <input class="field-input" data-field="title" type="text" value="${esc(m.title)}">
+          </div>
+        </div>
+        <div class="field-row">
+          <span class="field-label">Bio</span>
+          <textarea class="field-textarea" data-field="bio">${esc(m.bio)}</textarea>
+        </div>
+        <div class="field-row">
+          <span class="field-label">Headshot</span>
+          <div class="image-area">
+            <div class="image-thumb-wrap">${imgHtml}</div>
+            <div>
+              <button class="btn btn-outline" onclick="triggerUpload(this)">Upload Headshot</button>
+              <input type="file" class="file-input" accept="image/jpeg,image/png,image/gif,image/webp"
+                style="display:none" onchange="handleUpload(this,'team')">
+              ${m.headshotUrl ? `<div class="image-url-note">${esc(m.headshotUrl)}</div>` : ''}
+            </div>
+          </div>
+        </div>
+      </div>`;
+    return card;
+  }
+
+  function addTeamMember() {
+    newMemberSeq++;
+    const member = {
+      id: 'member-new-' + newMemberSeq,
+      name: 'New Team Member',
+      title: '',
+      bio: '',
+      headshotUrl: '',
+      visible: true,
+      order: 9999,
+    };
+    const list = document.getElementById('team-list');
+    const card = buildTeamCard(member);
+    list.appendChild(card);
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Link helpers ─────────────────────────────────────────
+
+  function linkRowHtml(label, url) {
+    return `<div class="link-row">
+      <input class="field-input" data-subfield="label" type="text" placeholder="Label" value="${esc(label)}">
+      <input class="field-input url" data-subfield="url" type="text" placeholder="https://" value="${esc(url)}">
+      <button class="btn btn-ghost" onclick="this.closest('.link-row').remove()" title="Remove">✕</button>
+    </div>`;
+  }
+
+  function addLink(btn) {
+    const list = btn.previousElementSibling;
+    const row = document.createElement('div');
+    row.className = 'link-row';
+    row.innerHTML = `
+      <input class="field-input" data-subfield="label" type="text" placeholder="Label">
+      <input class="field-input url" data-subfield="url" type="text" placeholder="https://">
+      <button class="btn btn-ghost" onclick="this.closest('.link-row').remove()" title="Remove">✕</button>`;
+    list.appendChild(row);
+    row.querySelector('input').focus();
+  }
+
+  // ── File upload ───────────────────────────────────────────
+
+  function triggerUpload(btn) {
+    btn.parentElement.querySelector('.file-input').click();
+  }
+
+  async function handleUpload(input, section) {
+    const file = input.files[0];
+    if (!file) return;
+
+    const card = input.closest('.editor-card');
+    const id = card.dataset.id;
+    const ext = file.name.split('.').pop().toLowerCase();
+    const path = `${section}/${id}.${ext}`;
+
+    const uploadBtn = input.previousElementSibling;
+    const origText = uploadBtn.textContent;
+    uploadBtn.textContent = 'Uploading…';
+    uploadBtn.disabled = true;
+
+    try {
+      const base64 = await toBase64(file);
+      const res = await fetch('/.netlify/functions/upload-asset', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path, content: base64 }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Upload failed');
+
+      card.dataset.imageUrl = data.url;
+
+      // Swap placeholder/img
+      const wrap = card.querySelector('.image-thumb-wrap');
+      wrap.innerHTML = `<img class="image-thumb" src="${data.url}?_=${Date.now()}" alt="">`;
+
+      // Update or add URL note
+      let note = input.parentElement.querySelector('.image-url-note');
+      if (!note) {
+        note = document.createElement('div');
+        note.className = 'image-url-note';
+        input.parentElement.appendChild(note);
+      }
+      note.textContent = data.url;
+
+    } catch (err) {
+      alert('Upload failed: ' + err.message);
+    } finally {
+      uploadBtn.textContent = origText;
+      uploadBtn.disabled = false;
+      input.value = '';
+    }
+  }
+
+  function toBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  // ── Drag and drop ─────────────────────────────────────────
+
+  function initDragDrop(list) {
+    if (list.dataset.dndReady) return;
+    list.dataset.dndReady = '1';
+
+    list.addEventListener('dragstart', function (e) {
+      const handle = e.target.closest('.drag-handle');
+      if (!handle) { e.preventDefault(); return; }
+      dragSrc = handle.closest('.editor-card');
+      if (!dragSrc) return;
+      e.dataTransfer.effectAllowed = 'move';
+      e.dataTransfer.setData('text/plain', '');
+      e.dataTransfer.setDragImage(dragSrc, 24, 24);
+      setTimeout(() => dragSrc && dragSrc.classList.add('dragging'), 0);
+    });
+
+    list.addEventListener('dragover', function (e) {
+      e.preventDefault();
+      if (!dragSrc) return;
+      const target = e.target.closest('.editor-card');
+      if (!target || target === dragSrc) return;
+      const rect = target.getBoundingClientRect();
+      if (e.clientY < rect.top + rect.height / 2) {
+        list.insertBefore(dragSrc, target);
+      } else {
+        list.insertBefore(dragSrc, target.nextSibling);
+      }
+    });
+
+    list.addEventListener('dragend', function () {
+      if (dragSrc) { dragSrc.classList.remove('dragging'); dragSrc = null; }
+    });
+  }
+
+  // ── Collect DOM → content object ─────────────────────────
+
+  function collectContent() {
+    const offerings = [];
+    document.querySelectorAll('#offerings-list .editor-card').forEach((card, idx) => {
+      const links = [];
+      card.querySelectorAll('[data-field="links"] .link-row').forEach(row => {
+        links.push({
+          label: row.querySelector('[data-subfield="label"]').value.trim(),
+          url: row.querySelector('[data-subfield="url"]').value.trim(),
+        });
+      });
+      offerings.push({
+        id: card.dataset.id,
+        title: card.querySelector('[data-field="title"]').value.trim(),
+        blurb: card.querySelector('[data-field="blurb"]').value.trim(),
+        description: card.querySelector('[data-field="description"]').value.trim(),
+        links,
+        icon: card.querySelector('[data-field="icon"]').value,
+        iconColor: card.querySelector('[data-field="iconColor"]').value,
+        imageUrl: card.dataset.imageUrl || '',
+        visible: card.querySelector('[data-field="visible"]').checked,
+        order: idx + 1,
+      });
+    });
+
+    const team = [];
+    document.querySelectorAll('#team-list .editor-card').forEach((card, idx) => {
+      team.push({
+        id: card.dataset.id,
+        name: card.querySelector('[data-field="name"]').value.trim(),
+        title: card.querySelector('[data-field="title"]').value.trim(),
+        bio: card.querySelector('[data-field="bio"]').value.trim(),
+        headshotUrl: card.dataset.imageUrl || '',
+        visible: card.querySelector('[data-field="visible"]').checked,
+        order: idx + 1,
+      });
+    });
+
+    return {
+      offerings,
+      team,
+      thisYear: content.thisYear || {},
+      byTheNumbers: content.byTheNumbers || {},
+      theoEd: content.theoEd || {},
+      impactStories: content.impactStories || {},
+      reach: content.reach || {},
+    };
+  }
+
+  // ── Save ──────────────────────────────────────────────────
+
+  async function saveContent() {
+    const btn = document.getElementById('save-btn');
+    const status = document.getElementById('save-status');
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+    status.textContent = '';
+    status.className = '';
+
+    try {
+      const payload = collectContent();
+      const res = await fetch('/.netlify/functions/save-content', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ content: payload }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Save failed');
+      content = payload;
+      status.textContent = 'Saved! Dashboard will update in ~30 seconds.';
+      status.className = 'success';
+    } catch (err) {
+      status.textContent = 'Error: ' + err.message;
+      status.className = 'error';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Save Changes';
+    }
+  }
+
+  // ── Utility ───────────────────────────────────────────────
+
+  function esc(str) {
+    return String(str || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // ── Init ──────────────────────────────────────────────────
+
+  document.getElementById('pw-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') submitPassword();
+  });
+
+  checkAuth();
+</script>
+</body>
+</html>

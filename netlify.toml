@@ -1,0 +1,7 @@
+[build]
+  functions = "netlify/functions"
+
+[context.production.environment]
+  GITHUB_REPO = "candlerfoundry/executive-bi-dashboard"
+  GITHUB_BRANCH = "main"
+  # GITHUB_PAT must be added manually in the Netlify dashboard — do not hardcode it here

@@ -1,0 +1,116 @@
+{
+  "offerings": [
+    {
+      "id": "courses-in-community",
+      "title": "Courses in the Community",
+      "blurb": "Open-enrollment and congregation-based courses taught by Candler faculty across Atlanta and beyond.",
+      "description": "Courses in the Community is our umbrella offering for faculty-led learning outside the seminary walls — both open-enrollment courses anyone can join and courses brought directly into congregational settings.",
+      "links": [
+        { "label": "Browse Upcoming Courses", "url": "" },
+        { "label": "Bring a Course to Your Church", "url": "" }
+      ],
+      "icon": "compass",
+      "iconColor": "#c84826",
+      "imageUrl": "",
+      "visible": true,
+      "order": 1
+    },
+    {
+      "id": "on-demand-courses",
+      "title": "On-Demand Courses",
+      "blurb": "Self-paced video courses available anytime — learn from Candler faculty on your own schedule.",
+      "description": "Our on-demand library gives learners access to full Candler faculty courses at any time, with no registration window or live commitment required.",
+      "links": [
+        { "label": "Browse the Library", "url": "" }
+      ],
+      "icon": "play",
+      "iconColor": "#c84826",
+      "imageUrl": "",
+      "visible": true,
+      "order": 2
+    },
+    {
+      "id": "theoed",
+      "title": "TheoEd",
+      "blurb": "Live theological education events hosted in cities across the country, bringing Candler to local communities.",
+      "description": "TheoEd is The Candler Foundry's traveling theological education event series. Each event features multiple Candler faculty talks on a shared theme, hosted in partnership with local congregations and institutions.",
+      "links": [
+        { "label": "View Past Events", "url": "" },
+        { "label": "Bring TheoEd to Your City", "url": "" }
+      ],
+      "icon": "mic",
+      "iconColor": "#29a8e0",
+      "imageUrl": "",
+      "visible": true,
+      "order": 3
+    },
+    {
+      "id": "sunday-school-simplified",
+      "title": "Sunday School Simplified",
+      "blurb": "Ready-to-use Sunday school curriculum grounded in serious scholarship and designed for busy church leaders.",
+      "description": "Sunday School Simplified provides theologically rich, practically designed curriculum that any church leader can pick up and teach — no seminary degree required.",
+      "links": [
+        { "label": "Learn More", "url": "" },
+        { "label": "Access Curriculum", "url": "" }
+      ],
+      "icon": "book",
+      "iconColor": "#2D6A4F",
+      "imageUrl": "",
+      "visible": true,
+      "order": 4
+    },
+    {
+      "id": "3-minute-bible",
+      "title": "3-Minute Bible",
+      "blurb": "Short-form video series making biblical scholarship accessible — one passage, one scholar, three minutes.",
+      "description": "3-Minute Bible pairs Candler faculty with a single biblical passage for a concise, engaging video exploration. The series is freely available on YouTube and used in classrooms, small groups, and personal study.",
+      "links": [
+        { "label": "Watch on YouTube", "url": "" }
+      ],
+      "icon": "3mb",
+      "iconColor": "#c84826",
+      "imageUrl": "",
+      "visible": true,
+      "order": 5
+    },
+    {
+      "id": "candler-in-conversation",
+      "title": "Candler in Conversation",
+      "blurb": "A podcast featuring Candler faculty and guests exploring theology, ministry, and the life of faith.",
+      "description": "Candler in Conversation is our long-form audio series where faculty, practitioners, and public voices sit down to explore ideas at the intersection of theology and contemporary life.",
+      "links": [
+        { "label": "Listen Now", "url": "" },
+        { "label": "Subscribe on Spotify", "url": "" }
+      ],
+      "icon": "broadcast",
+      "iconColor": "#c84826",
+      "imageUrl": "",
+      "visible": true,
+      "order": 6
+    },
+    {
+      "id": "scholars-blog",
+      "title": "Scholar's Blog",
+      "blurb": "Accessible essays and reflections from Candler faculty on scripture, theology, and church life.",
+      "description": "The Scholar's Blog is a regular publication featuring original writing from Candler faculty — accessible to general audiences and designed to spark thinking and conversation in congregational and personal contexts.",
+      "links": [
+        { "label": "Read the Blog", "url": "" }
+      ],
+      "icon": "quill",
+      "iconColor": "#c84826",
+      "imageUrl": "",
+      "visible": true,
+      "order": 7
+    }
+  ],
+  "team": [
+    { "id": "member-1", "name": "Team Member Name", "title": "Role / Title", "bio": "Short bio goes here.", "headshotUrl": "", "visible": true, "order": 1 },
+    { "id": "member-2", "name": "Team Member Name", "title": "Role / Title", "bio": "Short bio goes here.", "headshotUrl": "", "visible": true, "order": 2 },
+    { "id": "member-3", "name": "Team Member Name", "title": "Role / Title", "bio": "Short bio goes here.", "headshotUrl": "", "visible": true, "order": 3 }
+  ],
+  "thisYear": {},
+  "byTheNumbers": {},
+  "theoEd": {},
+  "impactStories": {},
+  "reach": {}
+}
