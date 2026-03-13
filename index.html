@@ -17,12 +17,14 @@
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 * { font-style: normal !important; }
+h1 { letter-spacing: -0.8px; }
+h2, h3 { letter-spacing: -0.5px; }
 body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: var(--blue); min-height: 100vh; overflow-x: hidden; }
 
 /* ═══ SECTION: HEADER ═══ */
 .header { background: var(--blue); padding: 18px 48px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--orange); }
 .header-logo { display: flex; align-items: center; }
-.header-logo-img { height: 38px; display: block; }
+.header-logo-img { height: 44px; width: auto; display: block; }
 .header-watermark { position: absolute; right: 48px; top: 50%; transform: translateY(-50%); height: 60px; opacity: 0.08; pointer-events: none; z-index: 0; }
 .header-center { text-align: center; }
 .header-eyebrow { font-size: 9px; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(250,250,242,0.45); margin-bottom: 2px; }
@@ -31,18 +33,18 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* ═══ SECTION: NAV TABS ═══ */
 .nav-tabs { background: var(--blue); display: flex; justify-content: center; padding: 0 32px; border-bottom: 1px solid rgba(250,250,242,0.08); }
-.nav-tab { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,250,242,0.45); padding: 17px 24px; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; }
-.nav-tab:hover { color: rgba(250,250,242,0.8); border-bottom-color: rgba(200,72,38,0.35); }
-.nav-tab.active { color: var(--cream); border-bottom-color: var(--orange); }
+.nav-tab { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,250,242,0.7); padding: 17px 24px; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; opacity: 0.7; }
+.nav-tab:hover { color: var(--cream); border-bottom-color: rgba(200,72,38,0.35); opacity: 1.0; }
+.nav-tab.active { color: var(--cream); border-bottom-color: var(--orange); opacity: 1.0; }
 
 /* PANELS */
 .panel { display: none; }
-.panel.active { display: block; animation: fadeUp 0.35s ease; }
+.panel.active { display: block; animation: fadeUp 0.35s ease; padding-top: 10px; padding-bottom: 10px; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 /* ═══ SECTION: TYPOGRAPHY ═══ */
 .section-header { padding: 48px 64px 32px; border-bottom: 1px solid rgba(30,37,48,0.08); }
-.section-label { font-size: 11px; font-weight: 700; letter-spacing: 0.4em; text-transform: uppercase; color: var(--orange); margin-bottom: 10px; }
+.section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #c84826; margin-bottom: 10px; }
 .section-title { font-size: clamp(28px,3.5vw,46px); font-weight: 300; color: var(--blue); line-height: 1.15; }
 .section-subtitle { font-size: 14px; font-weight: 400; color: rgba(30,37,48,0.45); margin-top: 8px; line-height: 1.6; }
 
@@ -69,7 +71,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .overlay-stats { display: grid; grid-template-columns: repeat(3,1fr); border-top: 1px solid rgba(30,37,48,0.12); padding-top: 14px; }
 .o-stat { text-align: center; }
 .o-stat + .o-stat { border-left: 1px solid rgba(30,37,48,0.1); }
-.o-num { font-size: 26px; font-weight: 700; color: var(--blue); line-height: 1; }
+.o-num { font-size: 26px; font-weight: 700; color: #c84826; line-height: 1; }
 .o-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(30,37,48,0.4); margin-top: 4px; }
 
 /* TAB 2 — NUMBERS */
@@ -102,7 +104,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .dleg-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
 .stat-strip { display:grid; grid-template-columns:repeat(5,1fr); gap:3px; }
 .ss-cell { background:white; border:1px solid rgba(30,37,48,0.07); padding:24px; text-align:center; }
-.ss-num { font-size:34px; font-weight:700; color:var(--blue); line-height:1; }
+.ss-num { font-size:34px; font-weight:700; color:#c84826; line-height:1; }
 .ss-lbl { font-size:10px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:rgba(30,37,48,0.45); margin-top:7px; line-height:1.5; }
 
 /* SOCIAL + THEOED SECTIONS */
@@ -114,7 +116,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .theoed-section { margin-top:3px; background:white; border:1px solid rgba(30,37,48,0.07); padding:32px 40px; }
 .theoed-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; margin-top:20px; }
 .theoed-cell { background:var(--cream); border:1px solid rgba(30,37,48,0.07); padding:20px; text-align:center; }
-.theoed-num { font-size:28px; font-weight:700; color:var(--blue); line-height:1; }
+.theoed-num { font-size:28px; font-weight:700; color:#c84826; line-height:1; }
 .theoed-lbl { font-size:8px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:rgba(30,37,48,0.45); margin-top:5px; line-height:1.5; }
 @media (max-width:900px) { .social-band { grid-template-columns:repeat(3,1fr); } .theoed-grid { grid-template-columns:repeat(2,1fr); } }
 
@@ -142,6 +144,17 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .alum-num { font-size:72px; font-weight:700; color:var(--cream); line-height:1; }
 .alum-lbl { font-size:8px; font-weight:700; letter-spacing:0.35em; text-transform:uppercase; color:var(--orange); margin-top:6px; }
 .alum-desc { font-size:18px; font-weight:300; color:rgba(250,250,242,0.65); line-height:1.7; }
+
+/* ═══ SECTION: GLOBAL CARD POLISH ═══ */
+.chart-panel, .ss-cell, .reach-card, .denom-section, .theoed-section, .theoed-cell, .map-panel, .team-card, .placeholder-card, .coming-card {
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.08);
+  border: 1px solid rgba(30,37,48,0.06);
+}
+.person-card { border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.08); border: 1px solid rgba(30,37,48,0.06); }
+.chart-panel, .ss-cell, .reach-card, .theoed-cell, .team-card { transition: all 0.2s ease; }
+.chart-panel:hover, .ss-cell:hover, .reach-card:hover, .theoed-cell:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); border-left: 3px solid #c84826; }
+.team-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
 
 /* TAB 4 — REACH */
 .reach-body { padding: 48px 64px; }
@@ -247,7 +260,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 <header class="header">
   <div class="header-logo">
-    <img class="header-logo-img" src="https://www.dropbox.com/scl/fi/dmg6ep2tb5aukjmbxv1r1/Classic-Foundry-Logo.png?rlkey=tqkfvizhrvtmbuz1u6k8cggne&st=xeqrs2rk&dl=1" alt="The Candler Foundry">
+    <img class="header-logo-img" src="/assets/TCF_Logo-Orange-Transparent.png" alt="The Candler Foundry">
   </div>
   <div class="header-center">
     <div class="header-eyebrow">Impact Dashboard</div>
