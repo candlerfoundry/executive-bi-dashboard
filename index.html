@@ -197,34 +197,31 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* TAB: WHO WE ARE */
 .whoweare-body { padding: 48px 64px; }
-.wwa-subtabs { display:flex; gap:0; border-bottom:1px solid rgba(30,37,48,0.1); margin-bottom:36px; }
-.wwa-tab { background:none; border:none; border-bottom:2px solid transparent; padding:10px 24px; font-family:'Montserrat',sans-serif; font-size:10px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:rgba(30,37,48,0.4); cursor:pointer; transition:all 0.2s; margin-bottom:-1px; }
-.wwa-tab.active { color:var(--blue); border-bottom-color:var(--orange); }
-.wwa-tab:hover { color:var(--blue); }
-.wwa-panel { display:none; }
-.wwa-panel.active { display:block; }
-.team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:3px; }
-.team-card { background:white; border:1px solid rgba(30,37,48,0.07); padding:28px 24px; }
-.tc-avatar { width:60px; height:60px; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; color:var(--cream); margin-bottom:16px; }
-.tc-name { font-size:14px; font-weight:600; color:var(--blue); margin-bottom:3px; }
-.tc-role { font-size:9px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--orange); }
-.offerings-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:3px; }
-.offering-card { background:var(--blue); padding:32px 28px; position:relative; overflow:hidden; }
-.offering-card::before { content:''; position:absolute; top:-20px; right:-20px; width:80px; height:80px; border-radius:50%; background:var(--orange-glow); }
-.oc-icon { font-size:28px; margin-bottom:16px; }
-.oc-name { font-size:18px; font-weight:700; color:var(--cream); margin-bottom:8px; }
-.oc-desc { font-size:12px; font-weight:300; color:rgba(250,250,242,0.6); line-height:1.7; }
-.oc-tag { display:inline-block; margin-top:14px; font-size:8px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--orange); border:1px solid var(--orange); padding:3px 10px; }
-.oc-icon, .oc-name, .oc-desc, .oc-tag { position: relative; z-index: 1; }
-.oc-graphic { position: absolute; bottom: 0; right: 0; width: 55%; height: 100%; object-fit: cover; object-position: left center; opacity: 0.1; z-index: 0; pointer-events: none; }
-.oc-links { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
-.oc-link { font-size: 8px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); text-decoration: none; border-bottom: 1px solid rgba(200,72,38,0.4); padding-bottom: 2px; }
-.oc-link:hover { color: var(--cream); border-bottom-color: var(--cream); }
-.offering-card { border-left: 3px solid transparent; transition: border-left-color 0.2s; }
-.offering-card:hover { border-left-color: var(--orange); }
-.team-card { border-left: 3px solid transparent; transition: border-left-color 0.2s; }
-.team-card:hover { border-left-color: var(--orange); }
-.wwa-loading { display: none; padding: 32px; text-align: center; color: rgba(30,37,48,0.35); font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+.wwa-section { margin-bottom: 52px; }
+.wwa-section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #c84826; margin-bottom: 22px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,37,48,0.08); }
+.team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; }
+.team-card { background:white; border:1px solid rgba(30,37,48,0.07); padding:24px 20px; }
+.tc-avatar { width:50px; height:50px; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; font-size:16px; font-weight:700; color:var(--cream); margin-bottom:14px; flex-shrink:0; }
+.tc-name { font-size:14px; font-weight:600; color:var(--blue); margin-bottom:4px; }
+.tc-role { font-size:9px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(30,37,48,0.45); }
+.offerings-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
+/* ═══ 3D FLIP CARDS ═══ */
+.offering-flip { perspective: 1000px; cursor: pointer; }
+.offering-flip-inner { display:grid; min-height:220px; transform-style:preserve-3d; transition:transform 0.5s ease; }
+.offering-flip:hover .offering-flip-inner { transform:rotateY(180deg); }
+.card-front, .card-back { grid-row:1; grid-column:1; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:12px; padding:28px 24px; display:flex; flex-direction:column; }
+.card-front { background:var(--cream); border:1px solid rgba(30,37,48,0.08); box-shadow:0 1px 2px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.08); overflow:hidden; position:relative; }
+.card-front::before { content:''; position:absolute; inset:0; background-image:var(--card-graphic,none); background-size:cover; background-position:var(--card-bg-pos,center); background-repeat:no-repeat; opacity:0.08; z-index:0; pointer-events:none; border-radius:inherit; }
+.card-back { background:var(--blue); transform:rotateY(180deg); }
+.cf-icon { position:relative; z-index:1; margin-bottom:14px; }
+.cf-name { position:relative; z-index:1; font-size:16px; font-weight:700; color:var(--blue); margin-bottom:8px; }
+.cf-blurb { position:relative; z-index:1; font-size:11px; font-weight:400; color:rgba(30,37,48,0.6); line-height:1.65; }
+.cb-icon { margin-bottom:12px; }
+.cb-name { font-size:14px; font-weight:700; color:var(--cream); margin-bottom:10px; }
+.cb-desc { font-size:11px; font-weight:300; color:rgba(250,250,242,0.7); line-height:1.7; flex:1; }
+.cb-cta { display:inline-block; margin-top:16px; font-size:8px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--cream); border:1px solid #c84826; padding:6px 14px; text-decoration:none; transition:background 0.2s,color 0.2s; align-self:flex-start; }
+.cb-cta:hover { background:#c84826; color:var(--cream); }
+.cb-cta-tag { display:inline-block; margin-top:16px; font-size:8px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:rgba(250,250,242,0.35); border:1px solid rgba(250,250,242,0.12); padding:6px 14px; align-self:flex-start; }
 
 /* TAB: THEOED */
 .theoed-body { padding: 48px 64px; }
@@ -558,16 +555,12 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     </div>
   </div>
   <div class="whoweare-body">
-    <div class="wwa-subtabs">
-      <button class="wwa-tab active" onclick="switchWWA('team',this)">Our Team</button>
-      <button class="wwa-tab" onclick="switchWWA('offerings',this)">Our Offerings</button>
-    </div>
-    <div id="wwa-team" class="wwa-panel active">
-      <div class="wwa-loading" id="team-loading">Loading&hellip;</div>
+    <div class="wwa-section">
+      <div class="wwa-section-label">Our Team</div>
       <div class="team-grid" id="team-grid"></div>
     </div>
-    <div id="wwa-offerings" class="wwa-panel">
-      <div class="wwa-loading" id="offerings-loading">Loading&hellip;</div>
+    <div class="wwa-section">
+      <div class="wwa-section-label">Our Offerings</div>
       <div class="offerings-grid" id="offerings-grid"></div>
     </div>
   </div>
@@ -698,13 +691,6 @@ const THEOED_EVENTS = [
     {s:'Dr. Brent Strawn',t:'Bible as Poetry',u:'https://www.youtube.com/watch?v=SiEIUvFmfU4&t=269s'}
   ]}
 ];
-
-function switchWWA(id, btn) {
-  document.querySelectorAll('.wwa-tab').forEach(function(t) { t.classList.remove('active'); });
-  document.querySelectorAll('.wwa-panel').forEach(function(p) { p.classList.remove('active'); });
-  document.getElementById('wwa-' + id).classList.add('active');
-  btn.classList.add('active');
-}
 
 var teoEdReady = false;
 function initTheoEd() {
@@ -996,14 +982,16 @@ var FALLBACK_OFFERINGS = [
 ];
 
 var FALLBACK_TEAM = [
-  { name: 'Eric Connally', title: 'Executive Director', bio: '', headshotUrl: '', visible: true, order: 1 },
-  { name: 'Evan Savant', title: 'Director of Programs', bio: '', headshotUrl: '', visible: true, order: 2 }
+  { name: 'Emily Savant', title: 'Operations Director', bio: '', headshotUrl: '', visible: true, order: 1 },
+  { name: 'Dr. Ryan Bonfiglio', title: 'Executive Director', bio: '', headshotUrl: '', visible: true, order: 2 },
+  { name: 'Dr. Elizabeth Arnold', title: 'Faculty', bio: '', headshotUrl: '', visible: true, order: 3 },
+  { name: 'Cristha Lea', title: 'Creative Production', bio: '', headshotUrl: '', visible: true, order: 4 },
+  { name: '[TBD]', title: 'TBD', bio: '', headshotUrl: '', visible: true, order: 5 },
+  { name: '[TBD]', title: 'TBD', bio: '', headshotUrl: '', visible: true, order: 6 }
 ];
 
-var GRAPHIC_URLS = [
-  'https://www.dropbox.com/scl/fi/r4ycmibkgy8w5nvvsjgyu/Graphic-1.png?rlkey=0xzj2nmxz7h1rbt4e9b0mmlq0&st=rnpforp1&dl=1',
-  'https://www.dropbox.com/scl/fi/tx6k4ubqqxl69qg47tr0r/Graphic-2.png?rlkey=apo1fywczymj7bo7ziegubpol&st=9qbo5zvb&dl=1'
-];
+var GRAPHIC_URLS = ['/assets/Graphic_1.png', '/assets/Graphic_2.png'];
+var BG_POSITIONS = ['center top','right center','left bottom','center center','right bottom','left top','center top'];
 
 function getIconSVG(icon, color) {
   color = color || '#c84826';
@@ -1048,43 +1036,43 @@ function renderTeam(team) {
 
 function renderOfferings(offerings) {
   var grid = document.getElementById('offerings-grid');
-  var loading = document.getElementById('offerings-loading');
   if (!grid) return;
-  if (loading) loading.style.display = 'none';
   grid.innerHTML = '';
   var visible = offerings.filter(function(o) { return o.visible !== false; });
   visible.sort(function(a, b) { return (a.order || 99) - (b.order || 99); });
   visible.forEach(function(o, idx) {
-    var card = document.createElement('div');
-    card.className = 'offering-card';
     var graphicUrl = GRAPHIC_URLS[idx % 2];
-    var linksHtml = '';
-    if (o.links && o.links.length) {
-      linksHtml = '<div class="oc-links">';
-      o.links.forEach(function(l) {
-        if (l.label) {
-          linksHtml += l.url
-            ? '<a class="oc-link" href="' + l.url + '" target="_blank">' + l.label + '</a>'
-            : '<span class="oc-tag">' + l.label + '</span>';
-        }
-      });
-      linksHtml += '</div>';
+    var bgPos = BG_POSITIONS[idx % BG_POSITIONS.length];
+    var ctaHtml = '';
+    if (o.links && o.links.length && o.links[0].label) {
+      var l = o.links[0];
+      ctaHtml = l.url
+        ? '<a class="cb-cta" href="' + l.url + '" target="_blank">' + l.label + '</a>'
+        : '<span class="cb-cta-tag">' + l.label + '</span>';
     }
-    card.innerHTML =
-      '<img class="oc-graphic" src="' + graphicUrl + '" alt="" aria-hidden="true">' +
-      '<div class="oc-icon">' + getIconSVG(o.icon, o.iconColor) + '</div>' +
-      '<div class="oc-name">' + o.title + '</div>' +
-      '<div class="oc-desc">' + o.blurb + '</div>' +
-      linksHtml;
-    grid.appendChild(card);
+    var flip = document.createElement('div');
+    flip.className = 'offering-flip';
+    flip.style.setProperty('--card-graphic', 'url("' + graphicUrl + '")');
+    flip.style.setProperty('--card-bg-pos', bgPos);
+    flip.innerHTML =
+      '<div class="offering-flip-inner">' +
+        '<div class="card-front">' +
+          '<div class="cf-icon">' + getIconSVG(o.icon, o.iconColor) + '</div>' +
+          '<div class="cf-name">' + o.title + '</div>' +
+          '<div class="cf-blurb">' + o.blurb + '</div>' +
+        '</div>' +
+        '<div class="card-back">' +
+          '<div class="cb-icon">' + getIconSVG(o.icon, '#c84826') + '</div>' +
+          '<div class="cb-name">' + o.title + '</div>' +
+          '<div class="cb-desc">' + o.blurb + '</div>' +
+          ctaHtml +
+        '</div>' +
+      '</div>';
+    grid.appendChild(flip);
   });
 }
 
 function loadContent() {
-  var teamLoading = document.getElementById('team-loading');
-  var offeringsLoading = document.getElementById('offerings-loading');
-  if (teamLoading) teamLoading.style.display = 'block';
-  if (offeringsLoading) offeringsLoading.style.display = 'block';
   fetch('content.json')
     .then(function(r) {
       if (!r.ok) throw new Error('fetch failed');
