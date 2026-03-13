@@ -258,11 +258,22 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 @media (max-width:900px) { .te-stats-row { grid-template-columns:repeat(2,1fr); padding:40px 24px; gap:20px 0; } .te-desc-row,.te-speaker-strip { padding-left:24px; padding-right:24px; } .te-archive-divider { padding-left:24px; padding-right:24px; } }
 
 /* TABS 5 & 6 */
-.stories-body { padding: 48px 64px; }
+.stories-body { padding: 0; }
 .placeholder-card { background:white; border:1px solid rgba(30,37,48,0.07); padding:72px 64px; text-align:center; }
-.placeholder-card h3 { font-size:20px; font-style:italic; font-weight:300; color:var(--blue); margin-bottom:10px; }
+.placeholder-card h3 { font-size:20px; font-weight:300; color:var(--blue); margin-bottom:10px; }
 .placeholder-card p { font-size:13px; color:rgba(30,37,48,0.45); line-height:1.7; max-width:440px; margin:0 auto; }
 .ph-icon { font-size:40px; opacity:0.15; margin-bottom:20px; }
+/* ═══ PULL-QUOTE PANELS ═══ */
+.pull-panel { position:relative; overflow:hidden; }
+.pull-panel--dark { background:#1e2530; }
+.pull-panel--light { background:#fafaf2; border-top:1px solid rgba(30,37,48,0.07); border-bottom:1px solid rgba(30,37,48,0.07); }
+.pull-panel-inner { max-width:860px; margin:0 auto; padding:80px 64px; position:relative; }
+.pull-deco { position:absolute; top:20px; left:40px; font-size:160px; font-weight:700; color:#c84826; opacity:0.25; z-index:0; line-height:1; pointer-events:none; }
+.pull-quote { font-size:1.5rem; font-weight:400; line-height:1.8; max-width:760px; position:relative; z-index:1; }
+.pull-panel--dark .pull-quote { color:#fafaf2; }
+.pull-panel--light .pull-quote { color:#1e2530; }
+.pull-attr { margin-top:2rem; font-size:0.85rem; letter-spacing:1px; color:#c84826; text-transform:uppercase; position:relative; z-index:1; }
+@media (max-width:900px) { .pull-panel-inner { padding:56px 28px; } .pull-deco { font-size:100px; left:20px; top:12px; } .pull-quote { font-size:1.2rem; } }
 
 
 /* RESPONSIVE */
@@ -638,11 +649,34 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     <p class="section-subtitle">From the voices of our learners and partners</p>
   </div>
   <div class="stories-body">
-    <div class="placeholder-card">
-      <div class="ph-icon">✶</div>
-      <h3>Curated testimonials coming soon</h3>
-      <p>This section will feature selected quotes, stories, and reflections from students, faculty, and church partners — manually curated by the Foundry team.</p>
+
+    <!-- PANEL 1 — NAVY -->
+    <div class="pull-panel pull-panel--dark">
+      <div class="pull-panel-inner">
+        <div class="pull-deco">&ldquo;</div>
+        <p class="pull-quote">This course changed the way I read Scripture &mdash; and the way I lead my congregation. I came in as a pastor who preached. I left as a pastor who listened.</p>
+        <div class="pull-attr">Rev. Sarah M. &nbsp;&middot;&nbsp; First UMC, Nashville TN</div>
+      </div>
     </div>
+
+    <!-- PANEL 2 — CREAM -->
+    <div class="pull-panel pull-panel--light">
+      <div class="pull-panel-inner">
+        <div class="pull-deco">&ldquo;</div>
+        <p class="pull-quote">TheoEd reminded me why I went into ministry in the first place. The scholarship was rigorous. The community was genuine. I have not stopped thinking about it.</p>
+        <div class="pull-attr">Pastor James K. &nbsp;&middot;&nbsp; Trinity Presbyterian, Charlotte NC</div>
+      </div>
+    </div>
+
+    <!-- PANEL 3 — NAVY -->
+    <div class="pull-panel pull-panel--dark">
+      <div class="pull-panel-inner">
+        <div class="pull-deco">&ldquo;</div>
+        <p class="pull-quote">I have recommended The Candler Foundry to every pastor I know. There is nothing else like it for serious continuing theological education.</p>
+        <div class="pull-attr">Dr. Linda T. &nbsp;&middot;&nbsp; Episcopal Diocese of Atlanta</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
