@@ -77,42 +77,59 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 /* TAB 2 — NUMBERS */
 .numbers-body { padding: 48px 64px; }
 .hero-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 3px; margin-bottom: 40px; }
-.hero-stat { background: var(--blue); padding: 36px 24px 28px; text-align: center; position: relative; overflow: hidden; }
+.hero-stat { background: var(--blue); padding: 36px 24px 28px; text-align: center; position: relative; overflow: hidden; transition: transform 0.2s ease; cursor: default; }
+.hero-stat:hover { transform: translateY(-2px); }
 .hero-stat::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, var(--orange-glow) 0%, transparent 70%); animation: hpulse 3.5s ease-in-out infinite; }
+.hero-stat-icon { display: flex; justify-content: center; align-items: center; margin-bottom: 10px; opacity: 0.5; position: relative; z-index: 1; }
+.hero-stat-caption { font-size: 10px; font-weight: 400; color: rgba(250,250,242,0.55); margin-top: 10px; line-height: 1.5; opacity: 0; transform: translateY(4px); transition: opacity 0.2s ease, transform 0.2s ease; max-width: 200px; margin-left: auto; margin-right: auto; padding: 0 8px; position: relative; z-index: 1; }
+.hero-stat:hover .hero-stat-caption { opacity: 1; transform: translateY(0); }
 @keyframes hpulse { 0%,100% { transform:scale(0.85); opacity:0.5; } 50% { transform:scale(1.15); opacity:1; } }
 .ring-wrap { position: relative; width: 96px; height: 96px; margin: 0 auto 18px; }
 .ring-wrap svg { position: absolute; inset:0; width:100%; height:100%; transform: rotate(-90deg); }
 .r-bg { fill:none; stroke:rgba(250,250,242,0.07); stroke-width:4; }
 .r-fill { fill:none; stroke:var(--orange); stroke-width:4; stroke-linecap:round; stroke-dasharray:276; stroke-dashoffset:276; transition: stroke-dashoffset 2s cubic-bezier(0.16,1,0.3,1); }
-.ring-num { position: absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:700; color:var(--cream); }
+.ring-num { position: absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:700; color:#c84826; }
 .hero-stat-lbl { font-size: 10px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--orange); }
 .hero-stat-sub { font-size: 12px; font-weight: 300; color: rgba(250,250,242,0.4); margin-top: 5px; }
 .charts-row { display: grid; grid-template-columns: 1fr 300px; gap: 3px; margin-bottom: 3px; }
 .chart-panel { background: white; border: 1px solid rgba(30,37,48,0.07); padding: 28px 32px; }
 .cp-label { font-size: 10px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--orange); margin-bottom: 5px; }
 .cp-title { font-size: 18px; font-weight: 300; color: var(--blue); margin-bottom: 22px; }
-.bar-chart { display: flex; align-items: flex-end; gap: 3px; height: 150px; }
-.bar-col { flex:1; display:flex; flex-direction:column; align-items:center; height:100%; justify-content:flex-end; gap:3px; }
-.bar-rect { width:100%; min-height:2px; background:var(--orange); opacity:0.65; border-radius:1px 1px 0 0; }
-.bar-rect:hover { opacity:1; }
-.bar-rect.cur { opacity:1; }
-.bar-lbl { font-size:9px; color:rgba(30,37,48,0.35); writing-mode:vertical-lr; transform:rotate(180deg); white-space:nowrap; }
+/* ═══ MILESTONE TIMELINE ═══ */
+.milestone-timeline { background: var(--cream); border: 1px solid rgba(30,37,48,0.06); border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.08); padding: 36px 48px 44px; margin-bottom: 3px; }
+.mt-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #c84826; margin-bottom: 6px; }
+.mt-title { font-size: 18px; font-weight: 300; color: var(--blue); margin-bottom: 36px; }
+.mt-track { position: relative; display: flex; justify-content: space-between; align-items: flex-start; padding-top: 28px; }
+.mt-line { position: absolute; top: 42px; left: 0; right: 0; height: 2px; background: rgba(30,37,48,0.1); z-index: 0; }
+.mt-node { position: relative; display: flex; flex-direction: column; align-items: center; flex: 1; opacity: 0; transform: translateX(-12px); transition: opacity 0.4s ease, transform 0.4s ease; }
+.mt-node.visible { opacity: 1; transform: translateX(0); }
+.mt-year { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; color: #c84826; text-transform: uppercase; margin-bottom: 8px; }
+.mt-dot { width: 28px; height: 28px; border-radius: 50%; background: #c84826; z-index: 1; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 5px rgba(200,72,38,0.12); }
+.mt-dot-inner { width: 10px; height: 10px; border-radius: 50%; background: var(--cream); }
+.mt-desc { font-size: 10px; font-weight: 600; color: rgba(30,37,48,0.55); text-align: center; margin-top: 10px; line-height: 1.4; max-width: 80px; }
+.donut-row { display: flex; justify-content: center; margin-bottom: 3px; }
+.donut-panel { max-width: 380px; width: 100%; }
 .donut-inner { display:flex; flex-direction:column; align-items:center; }
 .donut-inner svg { max-width:160px; }
 .donut-leg { margin-top:16px; display:flex; flex-direction:column; gap:8px; width:100%; }
 .dleg-row { display:flex; align-items:center; gap:8px; font-size:13px; }
 .dleg-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
 .stat-strip { display:grid; grid-template-columns:repeat(5,1fr); gap:3px; }
-.ss-cell { background:white; border:1px solid rgba(30,37,48,0.07); padding:24px; text-align:center; }
+.ss-cell { background:white; border:1px solid rgba(30,37,48,0.07); border-left:3px solid #c84826; padding:24px; text-align:left; }
 .ss-num { font-size:34px; font-weight:700; color:#c84826; line-height:1; }
 .ss-lbl { font-size:10px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:rgba(30,37,48,0.45); margin-top:7px; line-height:1.5; }
+.ss-desc { font-size: 9px; font-weight: 500; color: rgba(30,37,48,0.38); margin-top: 5px; line-height: 1.5; }
 
 /* SOCIAL + THEOED SECTIONS */
-.social-band { display:grid; grid-template-columns:repeat(3,1fr); gap:3px; margin-top:3px; }
-.social-cell { background:var(--blue); padding:24px 28px; text-align:center; }
-.social-num { font-size:40px; font-weight:700; color:var(--cream); line-height:1; }
-.social-lbl { font-size:8px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:var(--orange); margin-top:5px; }
-.social-icon { font-size:16px; margin-bottom:6px; opacity:0.6; }
+.digital-presence { margin-top: 28px; }
+.dp-header { border-top: 1px solid rgba(30,37,48,0.1); padding-top: 20px; margin-bottom: 14px; }
+.dp-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #c84826; }
+.social-band { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:0; }
+.social-cell { background:white; border:1px solid rgba(30,37,48,0.06); border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.08); padding:28px; text-align:center; transition:transform 0.2s ease; }
+.social-cell:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,0,0,0.1); }
+.social-num { font-size:40px; font-weight:700; color:#c84826; line-height:1; }
+.social-lbl { font-size:8px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:rgba(30,37,48,0.5); margin-top:6px; }
+.social-icon { font-size:16px; margin-bottom:8px; opacity:0.4; }
 .theoed-section { margin-top:3px; background:white; border:1px solid rgba(30,37,48,0.07); padding:32px 40px; }
 .theoed-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; margin-top:20px; }
 .theoed-cell { background:var(--cream); border:1px solid rgba(30,37,48,0.07); padding:20px; text-align:center; }
@@ -304,37 +321,78 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   <div class="numbers-body">
     <div class="hero-stats" style="grid-template-columns:repeat(3,1fr);">
       <div class="hero-stat">
+        <div class="hero-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(250,250,242,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
         <div class="ring-wrap">
           <svg viewBox="0 0 96 96"><circle class="r-bg" cx="48" cy="48" r="44"/><circle class="r-fill" cx="48" cy="48" r="44"/></svg>
           <div class="ring-num" id="cnt-reg-alltime">0</div>
         </div>
         <div class="hero-stat-lbl">Registrations</div>
         <div class="hero-stat-sub">All-time participants</div>
+        <div class="hero-stat-caption">Participants across all Foundry programming since founding in 2017</div>
       </div>
       <div class="hero-stat">
+        <div class="hero-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(250,250,242,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
         <div class="ring-wrap">
           <svg viewBox="0 0 96 96"><circle class="r-bg" cx="48" cy="48" r="44"/><circle class="r-fill" cx="48" cy="48" r="44"/></svg>
           <div class="ring-num" id="cnt-courses-alltime">0</div>
         </div>
         <div class="hero-stat-lbl">Courses Offered</div>
         <div class="hero-stat-sub">Since founding</div>
+        <div class="hero-stat-caption">Unique course offerings across all semesters, formats, and partners</div>
       </div>
       <div class="hero-stat">
+        <div class="hero-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(250,250,242,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
         <div class="ring-wrap">
           <svg viewBox="0 0 96 96"><circle class="r-bg" cx="48" cy="48" r="44"/><circle class="r-fill" cx="48" cy="48" r="44"/></svg>
           <div class="ring-num">30+</div>
         </div>
         <div class="hero-stat-lbl">Church Partners</div>
         <div class="hero-stat-sub">All-time</div>
+        <div class="hero-stat-caption">Congregations that have hosted or sponsored Foundry programming</div>
       </div>
     </div>
-    <div class="charts-row">
-      <div class="chart-panel">
-        <div class="cp-label">Growth Over Time</div>
-        <div class="cp-title">Registrations by Semester</div>
-        <div class="bar-chart" id="bar-chart"></div>
+    <!-- MILESTONE TIMELINE -->
+    <div class="milestone-timeline">
+      <div class="mt-label">Our Journey</div>
+      <div class="mt-title">Eight Years of Growing Impact</div>
+      <div class="mt-track" id="milestone-track">
+        <div class="mt-line"></div>
+        <div class="mt-node">
+          <div class="mt-year">2017</div>
+          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+          <div class="mt-desc">Founded</div>
+        </div>
+        <div class="mt-node">
+          <div class="mt-year">2018</div>
+          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+          <div class="mt-desc">First TheoEd Event</div>
+        </div>
+        <div class="mt-node">
+          <div class="mt-year">2020</div>
+          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+          <div class="mt-desc">Online Pivot</div>
+        </div>
+        <div class="mt-node">
+          <div class="mt-year">2022</div>
+          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+          <div class="mt-desc">On-Demand Launch</div>
+        </div>
+        <div class="mt-node">
+          <div class="mt-year">2024</div>
+          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+          <div class="mt-desc">2,000th Participant</div>
+        </div>
+        <div class="mt-node">
+          <div class="mt-year">2025</div>
+          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+          <div class="mt-desc">Sunday School Simplified</div>
+        </div>
       </div>
-      <div class="chart-panel">
+    </div>
+
+    <!-- COURSE MIX DONUT -->
+    <div class="donut-row">
+      <div class="chart-panel donut-panel">
         <div class="cp-label">Course Mix</div>
         <div class="cp-title">Open vs. Congregational Courses</div>
         <div class="donut-inner">
@@ -357,29 +415,34 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
     </div>
     <div class="stat-strip">
-      <div class="ss-cell"><div class="ss-num" id="cnt-alumni">0</div><div class="ss-lbl">Candler Alumni<br>Registered</div></div>
-      <div class="ss-cell"><div class="ss-num">$<span id="cnt-rev">0</span>k</div><div class="ss-lbl">Gross Revenue<br>This Year</div></div>
-      <div class="ss-cell"><div class="ss-num" id="cnt-avg">0</div><div class="ss-lbl">Avg Registrations<br>per Open Course</div></div>
-      <div class="ss-cell"><div class="ss-num">35+</div><div class="ss-lbl">U.S. States<br>Represented</div></div>
-      <div class="ss-cell"><div class="ss-num" id="cnt-ond">0</div><div class="ss-lbl">On-Demand Courses<br>Launched</div></div>
+      <div class="ss-cell"><div class="ss-num" id="cnt-alumni">0</div><div class="ss-lbl">Candler Alumni<br>Registered</div><div class="ss-desc">alumni who have enrolled in at least one Foundry course</div></div>
+      <div class="ss-cell"><div class="ss-num">$<span id="cnt-rev">0</span>k</div><div class="ss-lbl">Gross Revenue<br>This Year</div><div class="ss-desc">earned through registration fees in the current academic year</div></div>
+      <div class="ss-cell"><div class="ss-num" id="cnt-avg">0</div><div class="ss-lbl">Avg Registrations<br>per Open Course</div><div class="ss-desc">average enrollment for courses open to the general public</div></div>
+      <div class="ss-cell"><div class="ss-num">35+</div><div class="ss-lbl">U.S. States<br>Represented</div><div class="ss-desc">home states of registered participants across all programming</div></div>
+      <div class="ss-cell"><div class="ss-num" id="cnt-ond">0</div><div class="ss-lbl">On-Demand Courses<br>Launched</div><div class="ss-desc">self-paced courses available any time in the Foundry library</div></div>
     </div>
 
-    <!-- SOCIAL MEDIA BAND -->
-    <div class="social-band">
-      <div class="social-cell">
-        <div class="social-icon">📷</div>
-        <div class="social-num">3K</div>
-        <div class="social-lbl">Instagram Followers</div>
+    <!-- DIGITAL PRESENCE -->
+    <div class="digital-presence">
+      <div class="dp-header">
+        <div class="dp-label">Our Digital Presence</div>
       </div>
-      <div class="social-cell">
-        <div class="social-icon">▶</div>
-        <div class="social-num">4K</div>
-        <div class="social-lbl">YouTube Subscribers</div>
-      </div>
-      <div class="social-cell">
-        <div class="social-icon">✉</div>
-        <div class="social-num">6K</div>
-        <div class="social-lbl">Newsletter Subscribers</div>
+      <div class="social-band">
+        <div class="social-cell">
+          <div class="social-icon">📷</div>
+          <div class="social-num">3K</div>
+          <div class="social-lbl">Instagram Followers</div>
+        </div>
+        <div class="social-cell">
+          <div class="social-icon">▶</div>
+          <div class="social-num">4K</div>
+          <div class="social-lbl">YouTube Subscribers</div>
+        </div>
+        <div class="social-cell">
+          <div class="social-icon">✉</div>
+          <div class="social-num">6K</div>
+          <div class="social-lbl">Newsletter Subscribers</div>
+        </div>
       </div>
     </div>
 
@@ -551,7 +614,6 @@ const IMAGES = {
 };
 const COURSES = [{"title": "The PreacHER and the Word", "semester": "Fall 2025", "instructor": "Dr. Teresa Fry Brown", "reg": 113, "revenue": 5480, "alumni": 38, "img_key": "preacher"}, {"title": "Black Theology and Faith", "semester": "Spring 2026", "instructor": "Dr. Noel Erskine", "reg": 42, "revenue": 1720, "alumni": 17, "img_key": "black_theology"}, {"title": "Hebrew Insights", "semester": "Fall 2025", "instructor": "Dr. Ryan Bonfiglio", "reg": 57, "revenue": 2320, "alumni": 13, "img_key": "hebrew"}, {"title": "Faith in the Wild", "semester": "Fall 2025", "instructor": "Dr. Elizabeth Arnold", "reg": 48, "revenue": 2054, "alumni": 14, "img_key": "faith_wild"}, {"title": "Lies My Pastor Told Me", "semester": "Spring 2026", "instructor": "Dr. Brent Strawn", "reg": 30, "revenue": 1045, "alumni": 12, "img_key": "lies_pastor"}, {"title": "Sabbath", "semester": "Spring 2026", "instructor": "Dr. Susan Hylen", "reg": 12, "revenue": 500, "alumni": 0, "img_key": "sabbath"}, {"title": "Resurrection Stories", "semester": "Spring 2026", "instructor": "Dr. Elizabeth Arnold", "reg": 33, "revenue": 3137, "alumni": 8, "img_key": "resurrection"}, {"title": "The Corinthians Conversation", "semester": "Fall 2025", "instructor": "Dr. Jennifer Quigley", "reg": 0, "revenue": 600, "alumni": 0, "img_key": "corinthians"}];
 const INSTRUCTORS = [{"name": "Dr. Ryan Bonfiglio", "courses": 6, "title": "Associate Professor of Old Testament"}, {"name": "Dr. Elizabeth Arnold", "courses": 5, "title": "Associate Professor of New Testament"}, {"name": "Dr. Susan Hylen", "courses": 3, "title": "Professor of New Testament"}, {"name": "Larry Varghese", "courses": 3, "title": "Lecturer in Biblical Studies"}, {"name": "Aileen Nicolas", "courses": 2, "title": "Candler Faculty"}, {"name": "Dr. Teresa Fry Brown", "courses": 1, "title": "Bandy Professor of Preaching"}, {"name": "Dr. Noel Erskine", "courses": 1, "title": "Professor of Theology & Black Church Studies"}, {"name": "Dr. Brent Strawn", "courses": 1, "title": "Professor of Old Testament"}, {"name": "Robert Franklin", "courses": 1, "title": "Presidential Distinguished Professor"}, {"name": "Dr. Amey Victoria Adkins-Jones", "courses": 1, "title": "Asst. Professor, Black Church Studies"}, {"name": "Jen Ayres", "courses": 1, "title": "Associate Professor of Religious Education"}, {"name": "Dr. Jennifer Quigley", "courses": 1, "title": "Assistant Professor of New Testament"}];
-const SEMESTERS = [{"label": "Fa'21", "reg": 99}, {"label": "Sp'22", "reg": 120}, {"label": "Su'22", "reg": 79}, {"label": "Fa'22", "reg": 145}, {"label": "Sp'23", "reg": 160}, {"label": "Su'23", "reg": 88}, {"label": "Fa'23", "reg": 175}, {"label": "Sp'24", "reg": 210}, {"label": "Su'24", "reg": 95}, {"label": "Fa'24", "reg": 230}, {"label": "Sp'25", "reg": 195}, {"label": "Su'25", "reg": 110}, {"label": "Fa'25", "reg": 335}, {"label": "Sp'26", "reg": 166}];
 const STATS = {reg:532,courses:47,instructors:25,partners:8,alumni:139,rev:30029,avg:11,ond:4};
 
 const THEOED_EVENTS = [
@@ -737,23 +799,10 @@ function initNumbers() {
     }, i * 150 + 400);
   });
 
-  // Bar chart
-  var maxReg = Math.max.apply(null, SEMESTERS.map(function(s) { return s.reg; }));
-  var barChart = document.getElementById('bar-chart');
-  SEMESTERS.forEach(function(sem, i) {
-    var isCur = sem.label.indexOf("25") > -1 || sem.label.indexOf("26") > -1;
-    var pct = (sem.reg / maxReg * 100).toFixed(1);
-    var col = document.createElement('div');
-    col.className = 'bar-col';
-    col.innerHTML =
-      '<div class="bar-rect' + (isCur ? ' cur' : '') + '" ' +
-        'style="height:2px;transition:height 1.4s ' + (i * 0.055) + 's cubic-bezier(0.16,1,0.3,1)" ' +
-        'title="' + sem.label + ': ' + sem.reg + '"></div>' +
-      '<div class="bar-lbl">' + sem.label + '</div>';
-    barChart.appendChild(col);
-    setTimeout(function(c, p) {
-      return function() { c.querySelector('.bar-rect').style.height = p + '%'; };
-    }(col, pct), 50);
+  // Milestone timeline — stagger nodes left to right
+  var nodes = document.querySelectorAll('#milestone-track .mt-node');
+  nodes.forEach(function(node, i) {
+    setTimeout(function() { node.classList.add('visible'); }, 200 + i * 160);
   });
 
   // Donut
