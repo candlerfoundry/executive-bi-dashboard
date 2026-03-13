@@ -175,21 +175,25 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* TAB 4 — REACH */
 .reach-body { padding: 48px 64px; }
-.reach-row { display:grid; grid-template-columns:1fr 260px; gap:3px; margin-bottom:3px; }
-.map-panel { background:white; border:1px solid rgba(30,37,48,0.07); padding:28px 32px; min-height:380px; display:flex; flex-direction:column; }
-.map-inner { flex:1; display:flex; align-items:flex-start; justify-content:flex-start; flex-direction:column; gap:12px; }
-.map-icon { font-size:52px; opacity:0.2; }
-.reach-sidebar { display:flex; flex-direction:column; gap:3px; }
-.reach-card { background:white; border:1px solid rgba(30,37,48,0.07); padding:24px 28px; }
-.denom-section { background:white; border:1px solid rgba(30,37,48,0.07); padding:32px 40px; }
-.denom-list { margin-top:20px; display:flex; flex-direction:column; gap:18px; }
-.denom-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px 48px; margin-top:20px; }
+.map-panel { background:white; padding:32px 40px; min-height:380px; display:flex; flex-direction:column; margin-bottom:16px; }
+.map-tooltip { position:fixed; background:var(--blue); color:var(--cream); padding:8px 14px; border-radius:8px; font-size:11px; font-weight:600; pointer-events:none; opacity:0; transition:opacity 0.15s; z-index:999; white-space:nowrap; }
+.map-tooltip.show { opacity:1; }
+.partner-congs { margin-bottom:20px; }
+.pc-header { font-size:0.75rem; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:#c84826; margin-bottom:14px; }
+.pc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); gap:10px; }
+.pc-tile { background:var(--cream); border:1px solid rgba(30,37,48,0.08); border-radius:10px; padding:12px 16px; display:flex; align-items:center; gap:10px; transition:border-color 0.2s; }
+.pc-tile:hover { border-color:#c84826; }
+.pc-pin { color:#c84826; flex-shrink:0; display:flex; }
+.pc-loc { font-size:12px; font-weight:600; color:var(--blue); }
+.pc-state { font-size:10px; color:rgba(30,37,48,0.45); font-weight:500; margin-top:1px; }
+.denom-section { background:white; padding:36px 48px; max-width:700px; margin:0 auto; }
+.denom-grid { display:grid; grid-template-columns:1fr; gap:22px; margin-top:20px; }
 .d-row { display:flex; flex-direction:column; gap:6px; }
-.d-head { display:flex; justify-content:space-between; font-size:14px; }
-.d-name { font-weight:600; color:var(--blue); }
-.d-pct { font-weight:700; color:var(--orange); }
-.d-track { height:6px; background:rgba(30,37,48,0.08); border-radius:3px; overflow:hidden; }
+.d-name-row { font-size:13px; font-weight:600; color:var(--blue); }
+.d-bar-row { display:flex; align-items:center; gap:12px; }
+.d-track { flex:1; height:6px; background:rgba(30,37,48,0.08); border-radius:3px; overflow:hidden; }
 .d-fill { height:100%; background:var(--orange); border-radius:3px; width:0; transition:width 1.4s cubic-bezier(0.16,1,0.3,1); }
+.d-pct { font-size:11px; font-weight:700; color:#c84826; white-space:nowrap; min-width:32px; text-align:right; }
 
 /* TAB: WHO WE ARE */
 .whoweare-body { padding: 48px 64px; }
@@ -257,7 +261,6 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   .hero-stats { grid-template-columns:repeat(2,1fr); }
   .charts-row { grid-template-columns:1fr; }
   .stat-strip { grid-template-columns:repeat(2,1fr); }
-  .reach-row { grid-template-columns:1fr; }
   .courses-grid { grid-template-columns:1fr 1fr; }
   .alumni-band { flex-direction:column; gap:24px; text-align:center; padding:32px 24px; }
   .nav-tab { font-size:9px; padding:12px 12px; letter-spacing:0.15em; }
@@ -502,39 +505,45 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     <p class="section-subtitle">Where our learners come from — across denominations, geographies, and faith traditions</p>
   </div>
   <div class="reach-body">
-    <div class="reach-row">
-      <div class="map-panel">
-        <div class="cp-label">Registrant Locations</div>
-        <div class="cp-title">Where Our Learners Are</div>
-        <div class="map-inner" style="padding:8px 0 0;">
-          <div id="us-map-container" style="width:100%;"></div>
-          <div style="display:flex;align-items:center;gap:20px;margin-top:14px;flex-wrap:wrap;">
-            <div style="font-weight:700;font-size:12px;color:var(--orange);">35+ States Represented</div>
-            <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(30,37,48,0.5);">
-              <span style="display:inline-block;width:12px;height:12px;background:#f0c9be;border-radius:2px;"></span>Low
-              <span style="display:inline-block;width:12px;height:12px;background:#e07a5f;border-radius:2px;margin-left:4px;"></span>Mid
-              <span style="display:inline-block;width:12px;height:12px;background:#c84826;border-radius:2px;margin-left:4px;"></span>High
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="reach-sidebar">
-        <div class="reach-card" style="flex:1;">
-          <div class="cp-label">Congregational Partnerships</div>
-          <div class="cp-title" style="font-size:15px;">Church Partners</div>
-          <div style="margin-top:16px;">
-            <div style="font-size:56px;font-weight:700;color:var(--blue);line-height:1;">30+</div>
-            <div class="ss-lbl" style="text-align:left;margin-top:8px;">Partner congregations<br>all-time</div>
-          </div>
+
+    <!-- DOMINANT US HEAT MAP -->
+    <div class="map-panel">
+      <div class="cp-label">Registrant Locations</div>
+      <div class="cp-title" style="margin-bottom:20px;">Where Our Learners Are</div>
+      <div id="us-map-container" style="width:100%;"></div>
+      <div style="display:flex;align-items:center;gap:24px;margin-top:20px;flex-wrap:wrap;">
+        <div style="font-size:28px;font-weight:700;color:#c84826;line-height:1;">35+ <span style="font-size:13px;font-weight:600;color:rgba(30,37,48,0.5);">States Represented</span></div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:rgba(30,37,48,0.5);">
+          <span style="display:inline-block;width:12px;height:12px;background:#f0c9be;border-radius:2px;"></span>Low
+          <span style="display:inline-block;width:12px;height:12px;background:#e07a5f;border-radius:2px;margin-left:4px;"></span>Mid
+          <span style="display:inline-block;width:12px;height:12px;background:#c84826;border-radius:2px;margin-left:4px;"></span>High
         </div>
       </div>
     </div>
+
+    <!-- PARTNER CONGREGATIONS -->
+    <div class="partner-congs">
+      <div class="pc-header">Partner Congregations</div>
+      <div class="pc-grid">
+        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Atlanta</div><div class="pc-state">Georgia</div></div></div>
+        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Nashville</div><div class="pc-state">Tennessee</div></div></div>
+        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Charlotte</div><div class="pc-state">North Carolina</div></div></div>
+        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Austin</div><div class="pc-state">Texas</div></div></div>
+        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Orlando</div><div class="pc-state">Florida</div></div></div>
+        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Macon</div><div class="pc-state">Georgia</div></div></div>
+        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Birmingham</div><div class="pc-state">Alabama</div></div></div>
+        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Memphis</div><div class="pc-state">Tennessee</div></div></div>
+      </div>
+    </div>
+
+    <!-- DENOMINATION BARS -->
     <div class="denom-section">
-      <div class="cp-label">Faith Traditions</div>
-      <div class="cp-title">Denominational Reach</div>
+      <div class="cp-label">Denominational Reach</div>
+      <div class="cp-title">Faith Traditions</div>
       <div class="denom-grid" id="denom-list"></div>
       <p style="font-size:10px;color:rgba(30,37,48,0.35);margin-top:20px;">Approximate — denomination not always collected at registration.</p>
     </div>
+
   </div>
 </div>
 
@@ -865,6 +874,26 @@ function initPeople() {
 function buildMap() {
   var container = document.getElementById('us-map-container');
   if (!container) return;
+  // Approximate participant counts by state
+  var PARTS = {
+    GA:215,NY:180,IL:165,PA:148,OH:142,VA:138,NC:132,TN:115,TX:108,FL:95,
+    CA:88,MA:82,MD:76,DC:70,NJ:64,IN:58,SC:52,MI:48,CT:45,OR:42,
+    WI:40,MO:38,KY:35,AL:32,AR:28,LA:26,WA:24,CO:22,NM:18,MN:17,
+    AZ:16,RI:14,HI:13,ID:12,WY:11,UT:10,VT:9,NH:8,DE:8,NE:7,
+    ND:6,SD:6,KS:6,OK:5,MS:5,IA:5,MT:4,ME:3,WV:3,AK:2
+  };
+  var NAMES = {
+    ME:'Maine',VT:'Vermont',NH:'New Hampshire',WA:'Washington',MT:'Montana',
+    ND:'North Dakota',MN:'Minnesota',WI:'Wisconsin',MI:'Michigan',NY:'New York',
+    MA:'Massachusetts',RI:'Rhode Island',OR:'Oregon',ID:'Idaho',SD:'South Dakota',
+    IA:'Iowa',IL:'Illinois',IN:'Indiana',OH:'Ohio',PA:'Pennsylvania',
+    NJ:'New Jersey',CT:'Connecticut',CA:'California',NV:'Nevada',WY:'Wyoming',
+    NE:'Nebraska',MO:'Missouri',KY:'Kentucky',WV:'West Virginia',VA:'Virginia',
+    MD:'Maryland',DE:'Delaware',AZ:'Arizona',UT:'Utah',CO:'Colorado',
+    KS:'Kansas',AR:'Arkansas',TN:'Tennessee',NC:'North Carolina',SC:'South Carolina',
+    DC:'D.C.',NM:'New Mexico',OK:'Oklahoma',LA:'Louisiana',MS:'Mississippi',
+    AL:'Alabama',GA:'Georgia',HI:'Hawaii',TX:'Texas',FL:'Florida',AK:'Alaska'
+  };
   // [row, col, heat] — heat: 3=high, 2=mid, 1=low
   var SD = {
     ME:[0,10,2],
@@ -876,29 +905,55 @@ function buildMap() {
     NM:[6,2,1],OK:[6,4,1],LA:[6,5,2],MS:[6,6,1],AL:[6,7,2],GA:[6,8,3],
     HI:[7,1,1],TX:[7,4,3],FL:[7,8,3]
   };
-  var clr = ['rgba(30,37,48,0.06)','#f0c9be','#e07a5f','#c84826'];
-  var tc = ['rgba(30,37,48,0.25)','rgba(30,37,48,0.6)','#fff','#fff'];
-  var cs = 34, gap = 2, step = cs + gap;
+  var clr = ['rgba(30,37,48,0.04)','#f0c9be','#e07a5f','#c84826'];
+  var tc = ['rgba(30,37,48,0.2)','rgba(30,37,48,0.65)','#fff','#fff'];
+  var cs = 44, gap = 3, step = cs + gap;
   var cols = 12, rows = 8;
   var W = cols * step - gap, H = rows * step - gap;
-  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;">';
-  // Background grid dots for empty cells
+  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" id="us-map-svg">';
   for (var r = 0; r < rows; r++) {
     for (var c = 0; c < cols; c++) {
-      s += '<rect x="'+(c*step)+'" y="'+(r*step)+'" width="'+cs+'" height="'+cs+'" rx="3" fill="rgba(30,37,48,0.03)"/>';
+      s += '<rect x="'+(c*step)+'" y="'+(r*step)+'" width="'+cs+'" height="'+cs+'" rx="4" fill="rgba(30,37,48,0.025)"/>';
     }
   }
   Object.keys(SD).forEach(function(abbr) {
-    var d = SD[abbr], row = d[0], col = d[1], heat = d[2];
-    var x = col * step, y = row * step;
-    s += '<rect x="'+x+'" y="'+y+'" width="'+cs+'" height="'+cs+'" rx="3" fill="'+clr[heat]+'"/>';
-    s += '<text x="'+(x+cs/2)+'" y="'+(y+cs/2+3.5)+'" text-anchor="middle" dominant-baseline="middle" font-family="Montserrat,sans-serif" font-size="7.5" font-weight="700" fill="'+tc[heat]+'">'+abbr+'</text>';
+    var d = SD[abbr], heat = d[2];
+    var x = d[1]*step, y = d[0]*step;
+    var name = NAMES[abbr]||abbr, pts = PARTS[abbr]||0;
+    s += '<g class="map-state" data-name="'+name+'" data-pts="'+pts+'">';
+    s += '<rect x="'+x+'" y="'+y+'" width="'+cs+'" height="'+cs+'" rx="4" fill="'+clr[heat]+'" style="cursor:pointer;"/>';
+    s += '<text x="'+(x+cs/2)+'" y="'+(y+cs/2+4)+'" text-anchor="middle" dominant-baseline="middle" font-family="Montserrat,sans-serif" font-size="9" font-weight="700" fill="'+tc[heat]+'" style="pointer-events:none;">'+abbr+'</text>';
+    s += '</g>';
   });
-  // AK placeholder
-  s += '<rect x="0" y="'+(7*step)+'" width="'+cs+'" height="'+cs+'" rx="3" fill="'+clr[1]+'"/>';
-  s += '<text x="'+(cs/2)+'" y="'+(7*step+cs/2+3.5)+'" text-anchor="middle" dominant-baseline="middle" font-family="Montserrat,sans-serif" font-size="7.5" font-weight="700" fill="'+tc[1]+'">AK</text>';
+  var akY = 7*step;
+  s += '<g class="map-state" data-name="Alaska" data-pts="2">';
+  s += '<rect x="0" y="'+akY+'" width="'+cs+'" height="'+cs+'" rx="4" fill="'+clr[1]+'" style="cursor:pointer;"/>';
+  s += '<text x="'+(cs/2)+'" y="'+(akY+cs/2+4)+'" text-anchor="middle" dominant-baseline="middle" font-family="Montserrat,sans-serif" font-size="9" font-weight="700" fill="'+tc[1]+'" style="pointer-events:none;">AK</text>';
+  s += '</g>';
   s += '</svg>';
   container.innerHTML = s;
+  // Tooltip
+  var tip = document.getElementById('map-tooltip');
+  if (!tip) {
+    tip = document.createElement('div');
+    tip.id = 'map-tooltip';
+    tip.className = 'map-tooltip';
+    document.body.appendChild(tip);
+  }
+  container.addEventListener('mouseover', function(e) {
+    var g = e.target.closest ? e.target.closest('.map-state') : null;
+    if (!g) return;
+    var pts = parseInt(g.getAttribute('data-pts'), 10);
+    tip.textContent = g.getAttribute('data-name') + (pts > 0 ? ' — ' + pts + ' participants' : '');
+    tip.classList.add('show');
+  });
+  container.addEventListener('mouseout', function(e) {
+    if (!e.target.closest || !e.target.closest('.map-state')) tip.classList.remove('show');
+  });
+  container.addEventListener('mousemove', function(e) {
+    tip.style.left = (e.clientX + 16) + 'px';
+    tip.style.top  = (e.clientY - 12) + 'px';
+  });
 }
 
 var reachReady = false;
@@ -920,8 +975,8 @@ function initReach() {
     var row = document.createElement('div');
     row.className = 'd-row';
     row.innerHTML =
-      '<div class="d-head"><span class="d-name">' + d.name + '</span><span class="d-pct">' + d.pct + '%</span></div>' +
-      '<div class="d-track"><div class="d-fill" style="transition-delay:' + (i * 0.09) + 's"></div></div>';
+      '<div class="d-name-row">' + d.name + '</div>' +
+      '<div class="d-bar-row"><div class="d-track"><div class="d-fill" style="transition-delay:' + (i * 0.09) + 's"></div></div><span class="d-pct">' + d.pct + '%</span></div>';
     list.appendChild(row);
     setTimeout(function(r, p) {
       return function() { r.querySelector('.d-fill').style.width = p + '%'; };
