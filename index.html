@@ -21,8 +21,9 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* ═══ SECTION: HEADER ═══ */
 .header { background: var(--blue); padding: 18px 48px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--orange); }
-.header-logo { font-weight: 300; font-size: 16px; color: var(--cream); display: flex; align-items: center; gap: 12px; }
-.header-logo-mark { width: 32px; height: 32px; border: 1.5px solid var(--orange); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: var(--orange); flex-shrink: 0; }
+.header-logo { display: flex; align-items: center; }
+.header-logo-img { height: 38px; display: block; }
+.header-watermark { position: absolute; right: 48px; top: 50%; transform: translateY(-50%); height: 60px; opacity: 0.08; pointer-events: none; z-index: 0; }
 .header-center { text-align: center; }
 .header-eyebrow { font-size: 9px; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(250,250,242,0.45); margin-bottom: 2px; }
 .header-main { font-size: 12px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream); }
@@ -180,6 +181,16 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .oc-name { font-size:18px; font-weight:700; color:var(--cream); margin-bottom:8px; }
 .oc-desc { font-size:12px; font-weight:300; color:rgba(250,250,242,0.6); line-height:1.7; }
 .oc-tag { display:inline-block; margin-top:14px; font-size:8px; font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:var(--orange); border:1px solid var(--orange); padding:3px 10px; }
+.oc-icon, .oc-name, .oc-desc, .oc-tag { position: relative; z-index: 1; }
+.oc-graphic { position: absolute; bottom: 0; right: 0; width: 55%; height: 100%; object-fit: cover; object-position: left center; opacity: 0.1; z-index: 0; pointer-events: none; }
+.oc-links { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+.oc-link { font-size: 8px; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--orange); text-decoration: none; border-bottom: 1px solid rgba(200,72,38,0.4); padding-bottom: 2px; }
+.oc-link:hover { color: var(--cream); border-bottom-color: var(--cream); }
+.offering-card { border-left: 3px solid transparent; transition: border-left-color 0.2s; }
+.offering-card:hover { border-left-color: var(--orange); }
+.team-card { border-left: 3px solid transparent; transition: border-left-color 0.2s; }
+.team-card:hover { border-left-color: var(--orange); }
+.wwa-loading { display: none; padding: 32px; text-align: center; color: rgba(30,37,48,0.35); font-size: 11px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
 
 /* TAB: THEOED */
 .theoed-body { padding: 48px 64px; }
@@ -236,14 +247,14 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 <header class="header">
   <div class="header-logo">
-    <div class="header-logo-mark">CF</div>
-    The Candler Foundry
+    <img class="header-logo-img" src="https://www.dropbox.com/scl/fi/dmg6ep2tb5aukjmbxv1r1/Classic-Foundry-Logo.png?rlkey=tqkfvizhrvtmbuz1u6k8cggne&st=xeqrs2rk&dl=1" alt="The Candler Foundry">
   </div>
   <div class="header-center">
     <div class="header-eyebrow">Impact Dashboard</div>
     <div class="header-main">Emory University</div>
   </div>
   <div class="header-year">2025 – 2026</div>
+  <img class="header-watermark" src="https://www.dropbox.com/scl/fi/604csuzkqfpwcotrqojet/Candler-Foundry-Logo-Solid-Orange-Circular.jpg?rlkey=ucalm6cxmsf3kmuvii0gdfgf2&st=y07mvpyh&dl=1" alt="">
 </header>
 
 <nav class="nav-tabs">
@@ -456,10 +467,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 <!-- TAB: WHO WE ARE -->
 <div id="panel-whoweare" class="panel">
-  <div class="section-header">
-    <div class="section-label">Team &amp; Programming</div>
-    <h2 class="section-title">Who We Are</h2>
-    <p class="section-subtitle">The people and programs that make The Candler Foundry possible</p>
+  <div class="section-header" style="position:relative;overflow:hidden;">
+    <div style="position:absolute;bottom:0;right:0;width:220px;height:100%;background:url('https://www.dropbox.com/scl/fi/gcfz51iq9fuyoymflsyos/Homepage-Graphic-Foundations.png?rlkey=8akkf7unnvqqtx5ot2co4syid&st=rlhw2n5l&dl=1') center/cover no-repeat;opacity:0.07;pointer-events:none;z-index:0;"></div>
+    <div style="position:relative;z-index:1;">
+      <div class="section-label">Team &amp; Programming</div>
+      <h2 class="section-title">Who We Are</h2>
+      <p class="section-subtitle">The people and programs that make The Candler Foundry possible</p>
+    </div>
   </div>
   <div class="whoweare-body">
     <div class="wwa-subtabs">
@@ -467,51 +481,12 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       <button class="wwa-tab" onclick="switchWWA('offerings',this)">Our Offerings</button>
     </div>
     <div id="wwa-team" class="wwa-panel active">
-      <div class="team-grid">
-        <div class="team-card">
-          <div class="tc-avatar">EC</div>
-          <div class="tc-name">Eric Connally</div>
-          <div class="tc-role">Executive Director</div>
-        </div>
-        <div class="team-card">
-          <div class="tc-avatar">ES</div>
-          <div class="tc-name">Evan Savant</div>
-          <div class="tc-role">Director of Programs</div>
-        </div>
-        <div class="team-card">
-          <div class="tc-avatar" style="background:rgba(30,37,48,0.15);color:rgba(30,37,48,0.3);font-size:24px;">+</div>
-          <div class="tc-name" style="color:rgba(30,37,48,0.35);">Team member</div>
-          <div class="tc-role" style="color:rgba(30,37,48,0.2);">To be added</div>
-        </div>
-      </div>
+      <div class="wwa-loading" id="team-loading">Loading&hellip;</div>
+      <div class="team-grid" id="team-grid"></div>
     </div>
     <div id="wwa-offerings" class="wwa-panel">
-      <div class="offerings-grid">
-        <div class="offering-card">
-          <div class="oc-icon">📖</div>
-          <div class="oc-name">Open Courses</div>
-          <div class="oc-desc">Semester-based public courses taught by Candler faculty — open to anyone seeking deep theological learning outside a degree program.</div>
-          <div class="oc-tag">Semester-based</div>
-        </div>
-        <div class="offering-card">
-          <div class="oc-icon">⛪</div>
-          <div class="oc-name">Congregational Courses</div>
-          <div class="oc-desc">Customized programming delivered in partnership with local congregations, meeting churches where they are and equipping them theologically.</div>
-          <div class="oc-tag">Partnered</div>
-        </div>
-        <div class="offering-card">
-          <div class="oc-icon">▶</div>
-          <div class="oc-name">On-Demand</div>
-          <div class="oc-desc">Self-paced recorded courses available anytime — giving learners flexible access to Candler's faculty and theological content on their own schedule.</div>
-          <div class="oc-tag">Self-paced</div>
-        </div>
-        <div class="offering-card">
-          <div class="oc-icon">🎤</div>
-          <div class="oc-name">TheoEd Events</div>
-          <div class="oc-desc">Live public lecture events in cities across the country, bringing world-class theological thinkers to audiences hungry for serious intellectual engagement with faith.</div>
-          <div class="oc-tag">Live events</div>
-        </div>
-      </div>
+      <div class="wwa-loading" id="offerings-loading">Loading&hellip;</div>
+      <div class="offerings-grid" id="offerings-grid"></div>
     </div>
   </div>
 </div>
@@ -911,6 +886,124 @@ function initReach() {
     }(row, d.pct), 150 + i * 80);
   });
 }
+
+/* ═══ SECTION: CONTENT.JSON CMS ═══ */
+var FALLBACK_OFFERINGS = [
+  { title: 'Courses in the Community', blurb: 'Open-enrollment and congregation-based courses taught by Candler faculty across Atlanta and beyond.', icon: 'compass', iconColor: '#c84826', links: [{ label: 'Browse Upcoming Courses', url: '' }], visible: true, order: 1 },
+  { title: 'On-Demand Courses', blurb: 'Self-paced video courses available anytime — learn from Candler faculty on your own schedule.', icon: 'play', iconColor: '#c84826', links: [{ label: 'Browse the Library', url: '' }], visible: true, order: 2 },
+  { title: 'TheoEd', blurb: 'Live theological education events hosted in cities across the country, bringing Candler to local communities.', icon: 'mic', iconColor: '#29a8e0', links: [{ label: 'View Past Events', url: '' }], visible: true, order: 3 },
+  { title: 'Sunday School Simplified', blurb: 'Ready-to-use Sunday school curriculum grounded in serious scholarship and designed for busy church leaders.', icon: 'book', iconColor: '#2D6A4F', links: [{ label: 'Learn More', url: '' }], visible: true, order: 4 },
+  { title: '3-Minute Bible', blurb: 'Short-form video series making biblical scholarship accessible — one passage, one scholar, three minutes.', icon: '3mb', iconColor: '#c84826', links: [{ label: 'Watch on YouTube', url: '' }], visible: true, order: 5 },
+  { title: 'Candler in Conversation', blurb: 'A podcast featuring Candler faculty and guests exploring theology, ministry, and the life of faith.', icon: 'broadcast', iconColor: '#c84826', links: [{ label: 'Listen Now', url: '' }], visible: true, order: 6 },
+  { title: "Scholar's Blog", blurb: 'Accessible essays and reflections from Candler faculty on scripture, theology, and church life.', icon: 'quill', iconColor: '#c84826', links: [{ label: 'Read the Blog', url: '' }], visible: true, order: 7 }
+];
+
+var FALLBACK_TEAM = [
+  { name: 'Eric Connally', title: 'Executive Director', bio: '', headshotUrl: '', visible: true, order: 1 },
+  { name: 'Evan Savant', title: 'Director of Programs', bio: '', headshotUrl: '', visible: true, order: 2 }
+];
+
+var GRAPHIC_URLS = [
+  'https://www.dropbox.com/scl/fi/r4ycmibkgy8w5nvvsjgyu/Graphic-1.png?rlkey=0xzj2nmxz7h1rbt4e9b0mmlq0&st=rnpforp1&dl=1',
+  'https://www.dropbox.com/scl/fi/tx6k4ubqqxl69qg47tr0r/Graphic-2.png?rlkey=apo1fywczymj7bo7ziegubpol&st=9qbo5zvb&dl=1'
+];
+
+function getIconSVG(icon, color) {
+  color = color || '#c84826';
+  var icons = {
+    compass: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>',
+    play: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor" stroke="none"/></svg>',
+    mic: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M19 10a7 7 0 0 1-14 0"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>',
+    book: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>',
+    '3mb': '<svg width="28" height="28" viewBox="0 0 28 28" fill="none"><text x="1" y="20" font-family="Montserrat,sans-serif" font-size="10" font-weight="700" fill="currentColor">3:MB</text></svg>',
+    broadcast: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 6c0 0 5-4 11-4s11 4 11 4"/><path d="M4 9.5s3.5-2.5 8-2.5 8 2.5 8 2.5"/><path d="M7.5 13s2-1.5 4.5-1.5 4.5 1.5 4.5 1.5"/><circle cx="12" cy="17" r="1" fill="currentColor" stroke="none"/></svg>',
+    quill: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 3c0 0-8 0-14 8 2 1 4 2 6 4 1 2 2 4 3 6 8-6 5-18 5-18z"/><path d="M9.5 14.5L5 19"/></svg>'
+  };
+  var svgStr = icons[icon] || icons.book;
+  return '<span style="color:' + color + '; display:inline-flex; align-items:center;">' + svgStr + '</span>';
+}
+
+function getInitials(name) {
+  return (name || '').split(' ').filter(Boolean).slice(0, 2).map(function(w) { return w[0]; }).join('');
+}
+
+function renderTeam(team) {
+  var grid = document.getElementById('team-grid');
+  var loading = document.getElementById('team-loading');
+  if (!grid) return;
+  if (loading) loading.style.display = 'none';
+  grid.innerHTML = '';
+  var visible = team.filter(function(m) { return m.visible !== false; });
+  visible.sort(function(a, b) { return (a.order || 99) - (b.order || 99); });
+  visible.forEach(function(m) {
+    var card = document.createElement('div');
+    card.className = 'team-card';
+    var avatarContent = m.headshotUrl
+      ? '<img src="' + m.headshotUrl + '" alt="' + m.name + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
+      : getInitials(m.name);
+    card.innerHTML =
+      '<div class="tc-avatar">' + avatarContent + '</div>' +
+      '<div class="tc-name">' + m.name + '</div>' +
+      '<div class="tc-role">' + m.title + '</div>';
+    grid.appendChild(card);
+  });
+}
+
+function renderOfferings(offerings) {
+  var grid = document.getElementById('offerings-grid');
+  var loading = document.getElementById('offerings-loading');
+  if (!grid) return;
+  if (loading) loading.style.display = 'none';
+  grid.innerHTML = '';
+  var visible = offerings.filter(function(o) { return o.visible !== false; });
+  visible.sort(function(a, b) { return (a.order || 99) - (b.order || 99); });
+  visible.forEach(function(o, idx) {
+    var card = document.createElement('div');
+    card.className = 'offering-card';
+    var graphicUrl = GRAPHIC_URLS[idx % 2];
+    var linksHtml = '';
+    if (o.links && o.links.length) {
+      linksHtml = '<div class="oc-links">';
+      o.links.forEach(function(l) {
+        if (l.label) {
+          linksHtml += l.url
+            ? '<a class="oc-link" href="' + l.url + '" target="_blank">' + l.label + '</a>'
+            : '<span class="oc-tag">' + l.label + '</span>';
+        }
+      });
+      linksHtml += '</div>';
+    }
+    card.innerHTML =
+      '<img class="oc-graphic" src="' + graphicUrl + '" alt="" aria-hidden="true">' +
+      '<div class="oc-icon">' + getIconSVG(o.icon, o.iconColor) + '</div>' +
+      '<div class="oc-name">' + o.title + '</div>' +
+      '<div class="oc-desc">' + o.blurb + '</div>' +
+      linksHtml;
+    grid.appendChild(card);
+  });
+}
+
+function loadContent() {
+  var teamLoading = document.getElementById('team-loading');
+  var offeringsLoading = document.getElementById('offerings-loading');
+  if (teamLoading) teamLoading.style.display = 'block';
+  if (offeringsLoading) offeringsLoading.style.display = 'block';
+  fetch('content.json')
+    .then(function(r) {
+      if (!r.ok) throw new Error('fetch failed');
+      return r.json();
+    })
+    .then(function(data) {
+      renderTeam((data.team && data.team.length) ? data.team : FALLBACK_TEAM);
+      renderOfferings((data.offerings && data.offerings.length) ? data.offerings : FALLBACK_OFFERINGS);
+    })
+    .catch(function() {
+      renderTeam(FALLBACK_TEAM);
+      renderOfferings(FALLBACK_OFFERINGS);
+    });
+}
+
+document.addEventListener('DOMContentLoaded', loadContent);
 
 </script>
 </body>
