@@ -139,23 +139,29 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* TAB 3 — PEOPLE / CANDLER DATA */
 .candler-stat-band { display:grid; grid-template-columns:repeat(2,1fr); gap:3px; background:var(--blue); }
-.csb-cell { padding:28px 40px; text-align:center; border-right:1px solid rgba(250,250,242,0.07); }
+.csb-cell { padding:32px 40px; text-align:center; border-right:1px solid rgba(250,250,242,0.07); }
 .csb-cell:last-child { border-right:none; }
-.csb-num { font-size:52px; font-weight:700; color:var(--cream); line-height:1; }
-.csb-lbl { font-size:8px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:var(--orange); margin-top:6px; }
-.csb-sub { font-size:11px; font-weight:300; color:rgba(250,250,242,0.4); margin-top:4px; }
+.csb-icon { margin:0 auto 10px; display:flex; align-items:center; justify-content:center; }
+.csb-num { font-size:2.5rem; font-weight:700; color:#c84826; line-height:1; }
+.csb-lbl { font-size:8px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:rgba(250,250,242,0.7); margin-top:6px; }
+.csb-cap { font-size:11px; font-weight:300; color:rgba(250,250,242,0.4); margin-top:4px; }
 .people-body { padding: 48px 64px; }
-.people-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:3px; margin-bottom:16px; }
-.person-card { background:white; border:1px solid rgba(30,37,48,0.07); padding:24px 20px; transition:transform 0.2s,border-color 0.2s,box-shadow 0.2s; position:relative; overflow:hidden; }
-.person-card:hover { border-color:var(--orange); transform:translateY(-3px); box-shadow:0 10px 28px rgba(30,37,48,0.1); }
-.p-avatar { width:56px; height:56px; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; font-size:18px; color:var(--cream); margin-bottom:14px; }
-.p-name { font-size:15px; color:var(--blue); line-height:1.3; }
-.p-count { display:flex; align-items:center; gap:5px; margin-top:14px; background:var(--blue); color:var(--cream); padding:5px 10px; font-size:10px; font-weight:600; letter-spacing:0.08em; opacity:0; transform:translateY(4px); transition:opacity 0.25s ease, transform 0.25s ease; }
-.person-card:hover .p-count { opacity:1; transform:translateY(0); }
-.p-count em { color:var(--orange); font-style:normal; }
+.faculty-chart { margin-bottom:16px; }
+.fb-row { display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; position:relative; transition:background 0.2s; cursor:default; }
+.fb-row:hover { background:rgba(250,250,242,0.8); }
+.fb-avatar { width:44px; height:44px; border-radius:50%; background:#1e2530; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:#fafaf2; flex-shrink:0; }
+.fb-name { font-weight:500; font-size:0.95rem; color:#1e2530; min-width:180px; flex-shrink:0; }
+.fb-track { flex:1; height:28px; background:rgba(200,72,38,0.1); border-radius:4px; overflow:hidden; }
+.fb-fill { height:100%; width:0; border-radius:4px; background:linear-gradient(90deg,#c84826,#e8763a); transition:width 0.6s ease-out; }
+.fb-count { font-weight:700; color:#c84826; font-size:0.9rem; margin-left:8px; flex-shrink:0; min-width:24px; }
+.fb-popout { position:absolute; top:50%; left:272px; transform:translateY(-50%); background:#fafaf2; border-left:3px solid #c84826; box-shadow:0 4px 12px rgba(0,0,0,0.1); padding:12px 16px; font-size:0.85rem; color:#1e2530; z-index:10; border-radius:0 8px 8px 0; min-width:230px; opacity:0; visibility:hidden; transition:opacity 0.2s ease; pointer-events:none; }
+.fb-row:hover .fb-popout { opacity:1; visibility:visible; pointer-events:auto; }
+.fb-popout-title { font-weight:700; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:#c84826; margin-bottom:8px; }
+.fb-popout-course { padding:3px 0; border-bottom:1px solid rgba(30,37,48,0.07); font-size:0.82rem; line-height:1.45; }
+.fb-popout-course:last-child { border-bottom:none; }
 .show-more-wrap { text-align:center; padding:16px 0 0; }
-.show-more-btn { background:none; border:1px solid rgba(30,37,48,0.2); padding:9px 28px; font-family:'Montserrat',sans-serif; font-size:10px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--blue); cursor:pointer; transition:border-color 0.2s,color 0.2s; }
-.show-more-btn:hover { border-color:var(--orange); color:var(--orange); }
+.show-more-btn { background:transparent; border:1.5px solid #c84826; padding:8px 20px; font-family:'Montserrat',sans-serif; font-size:10px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:#c84826; cursor:pointer; border-radius:6px; transition:background 0.2s,color 0.2s; }
+.show-more-btn:hover { background:#c84826; color:#fafaf2; }
 .alumni-band { background:var(--blue); padding:40px 48px; display:flex; align-items:center; gap:56px; }
 .alum-big { flex-shrink:0; text-align:center; }
 .alum-num { font-size:72px; font-weight:700; color:var(--cream); line-height:1; }
@@ -287,7 +293,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   .courses-grid { grid-template-columns:1fr 1fr; }
   .alumni-band { flex-direction:column; gap:24px; text-align:center; padding:32px 24px; }
   .nav-tab { font-size:9px; padding:12px 12px; letter-spacing:0.15em; }
-  .people-grid { grid-template-columns:repeat(2,1fr); }
+  .fb-name { min-width:120px; font-size:0.85rem; }
+  .fb-popout { left:auto; right:0; top:calc(100% + 4px); transform:none; border-radius:8px; border-left:none; border-top:3px solid #c84826; }
 }
 @media (max-width:600px) {
   .courses-grid { grid-template-columns:1fr; }
@@ -495,18 +502,20 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   </div>
   <div class="candler-stat-band">
     <div class="csb-cell">
+      <div class="csb-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c84826" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
       <div class="csb-num" id="cnt-faculty">0</div>
       <div class="csb-lbl">Faculty &amp; Instructors</div>
-      <div class="csb-sub">Candler School of Theology</div>
+      <div class="csb-cap">Candler School of Theology faculty</div>
     </div>
     <div class="csb-cell">
+      <div class="csb-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c84826" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5"/></svg></div>
       <div class="csb-num" id="cnt-alum-top">0</div>
       <div class="csb-lbl">Candler Alumni</div>
-      <div class="csb-sub">Registered this academic year</div>
+      <div class="csb-cap">certificate program completions</div>
     </div>
   </div>
   <div class="people-body">
-    <div class="people-grid" id="people-grid"></div>
+    <div class="faculty-chart" id="faculty-chart"></div>
     <div class="show-more-wrap" id="show-more-wrap" style="display:none;">
       <button class="show-more-btn" id="show-more-btn">Show All Faculty</button>
     </div>
@@ -908,36 +917,85 @@ var peopleReady = false;
 function initPeople() {
   if (peopleReady) return;
   peopleReady = true;
-  var grid = document.getElementById('people-grid');
-  if (!grid) return;
+  var chart = document.getElementById('faculty-chart');
+  if (!chart) return;
+
+  // Build course-title map from COURSES array (keyed by instructor name)
+  var courseMap = {};
+  COURSES.forEach(function(c) {
+    if (!courseMap[c.instructor]) courseMap[c.instructor] = [];
+    courseMap[c.instructor].push(c.title);
+  });
+
   var sorted = INSTRUCTORS.slice().sort(function(a, b) { return b.courses - a.courses; });
+  var maxCourses = sorted[0] ? sorted[0].courses : 1;
   var TOP_N = 10;
-  var hiddenCards = [];
+  var hiddenRows = [];
+
   sorted.forEach(function(p, idx) {
-    var clean = p.name.replace(/Dr\.\s*/g, '').replace(/The Rev\. Canon\s*/g, '');
+    var clean = p.name.replace(/Dr\.\s*/g, '').replace(/The Rev\. Canon\s*/g, '').replace(/Rev\.\s*/g, '');
     var parts = clean.trim().split(' ');
     var initials = parts.map(function(w) { return w[0] || ''; }).join('').slice(0, 2).toUpperCase();
-    var card = document.createElement('div');
-    card.className = 'person-card';
-    card.innerHTML =
-      '<div class="p-avatar">' + initials + '</div>' +
-      '<div class="p-name">' + p.name + '</div>' +
-      '<div class="p-count"><em>' + p.courses + '</em> all-time course' + (p.courses !== 1 ? 's' : '') + '</div>';
-    if (idx >= TOP_N) {
-      card.style.display = 'none';
-      hiddenCards.push(card);
+    var pct = Math.round((p.courses / maxCourses) * 100);
+
+    // Build popout HTML
+    var knownCourses = courseMap[p.name] || [];
+    var extraCount = p.courses - knownCourses.length;
+    var popoutHtml = '<div class="fb-popout-title">Courses Taught</div>';
+    knownCourses.forEach(function(t) {
+      popoutHtml += '<div class="fb-popout-course">' + t + '</div>';
+    });
+    if (extraCount > 0) {
+      popoutHtml += '<div class="fb-popout-course" style="color:rgba(30,37,48,0.45);">+ ' + extraCount + ' additional course' + (extraCount !== 1 ? 's' : '') + '</div>';
     }
-    grid.appendChild(card);
+    if (knownCourses.length === 0) {
+      popoutHtml += '<div class="fb-popout-course" style="color:rgba(30,37,48,0.45);">' + p.courses + ' course' + (p.courses !== 1 ? 's' : '') + ' taught</div>';
+    }
+
+    var row = document.createElement('div');
+    row.className = 'fb-row';
+    row.innerHTML =
+      '<div class="fb-avatar">' + initials + '</div>' +
+      '<div class="fb-name">' + p.name + '</div>' +
+      '<div class="fb-track"><div class="fb-fill" data-pct="' + pct + '"></div></div>' +
+      '<div class="fb-count">' + p.courses + '</div>' +
+      '<div class="fb-popout">' + popoutHtml + '</div>';
+
+    if (idx >= TOP_N) {
+      row.style.display = 'none';
+      hiddenRows.push(row);
+    }
+    chart.appendChild(row);
   });
-  if (hiddenCards.length > 0) {
+
+  // Animate bars after a short delay (allows layout to settle)
+  setTimeout(function() {
+    var fills = chart.querySelectorAll('.fb-fill');
+    fills.forEach(function(fill, i) {
+      setTimeout(function() {
+        fill.style.width = fill.getAttribute('data-pct') + '%';
+      }, i * 40);
+    });
+  }, 120);
+
+  if (hiddenRows.length > 0) {
     var wrap = document.getElementById('show-more-wrap');
     var btn = document.getElementById('show-more-btn');
     if (wrap) wrap.style.display = 'block';
     if (btn) btn.addEventListener('click', function() {
-      hiddenCards.forEach(function(c) { c.style.display = ''; });
+      hiddenRows.forEach(function(r) { r.style.display = ''; });
       wrap.style.display = 'none';
+      setTimeout(function() {
+        hiddenRows.forEach(function(r, i) {
+          setTimeout(function() {
+            var fill = r.querySelector('.fb-fill');
+            if (fill) fill.style.width = fill.getAttribute('data-pct') + '%';
+          }, i * 40);
+        });
+      }, 50);
     });
   }
+
   countUp(document.getElementById('cnt-faculty'), STATS.instructors, 1200);
   countUp(document.getElementById('cnt-alum-top'), STATS.alumni, 1800);
   countUp(document.getElementById('cnt-alum-big'), STATS.alumni, 1800);
