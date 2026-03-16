@@ -212,8 +212,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .tc-role { font-size:9px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(30,37,48,0.45); }
 .offerings-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
 /* ═══ MISSION & OFFERINGS TAB ═══ */
-.mission-bar { background-color: #1e2530; background-image: url('/assets/Graphic_1.png'); background-size: cover; background-position: center; position: relative; }
-.mission-bar-overlay { background: radial-gradient(ellipse at center, rgba(250,250,242,0.92) 30%, rgba(250,250,242,0.65) 100%); padding: 52px 60px; text-align: center; }
+.mission-bar { background-color: #1e2530; background-image: url('/assets/Graphic_1.png'); background-size: cover; background-position: center top; position: relative; min-height: 360px; display: flex; flex-direction: column; }
+.mission-bar-overlay { background: radial-gradient(ellipse at center, rgba(250,250,242,0.92) 30%, rgba(250,250,242,0.65) 100%); padding: 80px 60px; text-align: center; flex: 1; display: flex; flex-direction: column; justify-content: center; }
 .mission-text { max-width: 720px; margin: 0 auto; font-size: 1.1rem; line-height: 1.9; color: #1e2530; font-weight: 400; }
 .offerings-layout { display: grid; grid-template-columns: 72% 25%; gap: 3%; padding: 40px 60px 52px; align-items: start; }
 .offerings-card-section .offerings-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 16px; align-items: stretch; }
@@ -312,7 +312,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   .fb-name { min-width:120px; font-size:0.85rem; }
   .fb-popout { left:auto; right:0; top:calc(100% + 4px); transform:none; border-radius:8px; border-left:none; border-top:3px solid #c84826; }
   .offerings-layout { grid-template-columns: 1fr; padding: 28px 24px 36px; }
-  .mission-bar-overlay { padding: 40px 24px; }
+  .mission-bar-overlay { padding: 48px 24px; }
   .offerings-card-section .offerings-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width:600px) {
