@@ -39,7 +39,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* PANELS */
 .panel { display: none; }
-.panel.active { display: block; animation: fadeUp 0.35s ease; padding-top: 10px; padding-bottom: 10px; }
+.panel.active { display: block; animation: fadeUp 0.35s ease; padding-top: 10px; padding-bottom: 10px; max-width: 1400px; margin: 0 auto; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 /* ═══ SECTION: TYPOGRAPHY ═══ */
@@ -211,23 +211,38 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .tc-name { font-size:14px; font-weight:600; color:var(--blue); margin-bottom:4px; }
 .tc-role { font-size:9px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(30,37,48,0.45); }
 .offerings-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
+/* ═══ MISSION & OFFERINGS TAB ═══ */
+.mission-bar { background-color: #1e2530; background-image: url('/assets/Graphic_1.png'); background-size: cover; background-position: center; position: relative; }
+.mission-bar-overlay { background: radial-gradient(ellipse at center, rgba(250,250,242,0.92) 30%, rgba(250,250,242,0.65) 100%); padding: 52px 60px; text-align: center; }
+.mission-text { max-width: 720px; margin: 0 auto; font-size: 1.1rem; line-height: 1.9; color: #1e2530; font-weight: 400; }
+.offerings-layout { display: grid; grid-template-columns: 72% 25%; gap: 3%; padding: 40px 60px 52px; align-items: start; }
+.offerings-card-section .offerings-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 1fr; gap: 16px; align-items: stretch; }
+.impact-sidebar { background: #1e2530; padding: 24px; border-radius: 12px; align-self: stretch; }
+.impact-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #c84826; margin-bottom: 10px; }
+.impact-rule { height: 1px; background: rgba(200,72,38,0.5); margin-bottom: 20px; }
+.impact-quote { margin-bottom: 16px; }
+.iq-text { font-size: 0.9rem; color: #fafaf2; line-height: 1.75; margin-bottom: 8px; }
+.iq-attr { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #c84826; }
+.impact-divider { height: 1px; background: rgba(250,250,242,0.1); margin: 16px 0; }
+
 /* ═══ 3D FLIP CARDS ═══ */
-.offering-flip { perspective: 1000px; cursor: pointer; }
-.offering-flip-inner { display:grid; min-height:220px; transform-style:preserve-3d; transition:transform 0.5s ease; }
+.offering-flip { perspective: 1000px; cursor: pointer; min-height: 200px; }
+.offering-flip-inner { display:grid; min-height:200px; transform-style:preserve-3d; transition:transform 0.5s ease; }
 .offering-flip:hover .offering-flip-inner { transform:rotateY(180deg); }
-.card-front, .card-back { grid-row:1; grid-column:1; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:12px; padding:28px 24px; display:flex; flex-direction:column; }
-.card-front { background:var(--cream); border:1px solid rgba(30,37,48,0.08); box-shadow:0 1px 2px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.08); overflow:hidden; position:relative; }
+.card-front, .card-back { grid-row:1; grid-column:1; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:12px; padding:22px 18px; display:flex; flex-direction:column; min-height:200px; }
+.card-front { background:rgba(255,255,255,0.55); border:1px solid rgba(30,37,48,0.1); border-left:3px solid #c84826; box-shadow:0 1px 2px rgba(0,0,0,0.05),0 2px 8px rgba(0,0,0,0.07); overflow:hidden; position:relative; }
 .card-front::before { content:''; position:absolute; inset:0; background-image:var(--card-graphic,none); background-size:cover; background-position:var(--card-bg-pos,center); background-repeat:no-repeat; opacity:0.08; z-index:0; pointer-events:none; border-radius:inherit; }
 .card-back { background:var(--blue); transform:rotateY(180deg); }
-.cf-icon { position:relative; z-index:1; margin-bottom:14px; }
-.cf-name { position:relative; z-index:1; font-size:16px; font-weight:700; color:var(--blue); margin-bottom:8px; }
-.cf-blurb { position:relative; z-index:1; font-size:11px; font-weight:400; color:rgba(30,37,48,0.6); line-height:1.65; }
-.cb-icon { margin-bottom:12px; }
-.cb-name { font-size:14px; font-weight:700; color:var(--cream); margin-bottom:10px; }
-.cb-desc { font-size:11px; font-weight:300; color:rgba(250,250,242,0.7); line-height:1.7; flex:1; }
-.cb-cta { display:inline-block; margin-top:16px; font-size:8px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--cream); border:1px solid #c84826; padding:6px 14px; text-decoration:none; transition:background 0.2s,color 0.2s; align-self:flex-start; }
+.cf-icon { position:relative; z-index:1; margin-bottom:10px; }
+.cf-name { position:relative; z-index:1; font-size:15px; font-weight:700; color:var(--blue); margin-bottom:6px; }
+.cf-tagline { position:relative; z-index:1; font-size:0.8rem; font-weight:600; letter-spacing:0.5px; color:#c84826; margin-bottom:6px; line-height:1.5; }
+.cf-blurb { position:relative; z-index:1; font-size:0.9rem; font-weight:400; color:rgba(30,37,48,0.6); line-height:1.6; }
+.cb-icon { margin-bottom:10px; }
+.cb-name { font-size:13px; font-weight:700; color:var(--cream); margin-bottom:10px; }
+.cb-links { display:flex; flex-direction:column; gap:6px; margin-top:auto; padding-top:12px; }
+.cb-cta { display:block; font-size:8px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--cream); border:1px solid #c84826; padding:6px 14px; text-decoration:none; transition:background 0.2s,color 0.2s; }
 .cb-cta:hover { background:#c84826; color:var(--cream); }
-.cb-cta-tag { display:inline-block; margin-top:16px; font-size:8px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:rgba(250,250,242,0.35); border:1px solid rgba(250,250,242,0.12); padding:6px 14px; align-self:flex-start; }
+.cb-cta-tag { display:block; font-size:8px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:rgba(250,250,242,0.35); border:1px solid rgba(250,250,242,0.12); padding:6px 14px; }
 
 /* TAB: THEOED */
 .theoed-body { padding: 48px 64px; }
@@ -307,11 +322,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 <header class="header">
   <div class="header-logo">
-    <img class="header-logo-img" src="/assets/TCF_Logo-Orange-Transparent.png" alt="The Candler Foundry">
+    <a href="https://candlerfoundry.emory.edu" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;">
+      <img class="header-logo-img" src="/assets/TCF_Logo-Orange-Transparent.png" alt="The Candler Foundry">
+    </a>
   </div>
   <div class="header-center">
     <div class="header-eyebrow">Impact Dashboard</div>
-    <div class="header-main">Emory University</div>
+    <div class="header-main">Candler Foundry</div>
   </div>
   <div class="header-year">2025 – 2026</div>
   <img class="header-watermark" src="https://www.dropbox.com/scl/fi/604csuzkqfpwcotrqojet/Candler-Foundry-Logo-Solid-Orange-Circular.jpg?rlkey=ucalm6cxmsf3kmuvii0gdfgf2&st=y07mvpyh&dl=1" alt="">
@@ -319,13 +336,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 <nav class="nav-tabs">
   <button class="nav-tab active" onclick="switchTab('year',this)">This Year</button>
+  <button class="nav-tab" onclick="switchTab('whoweare',this)">Our Mission &amp; Offerings</button>
   <button class="nav-tab" onclick="switchTab('numbers',this)">By the Numbers</button>
   <button class="nav-tab" onclick="switchTab('people',this)">Candler Data</button>
   <button class="nav-tab" onclick="switchTab('reach',this)">Our Reach</button>
-  <button class="nav-tab" onclick="switchTab('whoweare',this)">Who We Are</button>
   <button class="nav-tab" onclick="switchTab('theoed',this)">TheoEd</button>
+  <button class="nav-tab" onclick="switchTab('ourteam',this)">Our Team</button>
   <button class="nav-tab" onclick="switchTab('stories',this)">Impact Stories</button>
-
 </nav>
 
 <!-- TAB 1: THIS YEAR -->
@@ -579,25 +596,47 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   </div>
 </div>
 
-<!-- TAB: WHO WE ARE -->
+<!-- TAB: OUR MISSION & OFFERINGS -->
 <div id="panel-whoweare" class="panel">
-  <div class="section-header" style="position:relative;overflow:hidden;">
-    <div style="position:absolute;bottom:0;right:0;width:220px;height:100%;background:url('https://www.dropbox.com/scl/fi/gcfz51iq9fuyoymflsyos/Homepage-Graphic-Foundations.png?rlkey=8akkf7unnvqqtx5ot2co4syid&st=rlhw2n5l&dl=1') center/cover no-repeat;opacity:0.07;pointer-events:none;z-index:0;"></div>
-    <div style="position:relative;z-index:1;">
-      <div class="section-label">Team &amp; Programming</div>
-      <h2 class="section-title">Who We Are</h2>
-      <p class="section-subtitle">The people and programs that make The Candler Foundry possible</p>
+
+  <!-- Mission narrative bar -->
+  <div class="mission-bar">
+    <div class="mission-bar-overlay">
+      <p class="mission-text">Since its founding in 2019, The Candler Foundry has made the best of theological education available to curious learners around the globe &mdash; through a growing series of courses, talks, podcasts, and resources that bring the scholarship of Candler School of Theology into everyday ministry and life.</p>
     </div>
   </div>
-  <div class="whoweare-body">
-    <div class="wwa-section">
-      <div class="wwa-section-label">Our Team</div>
-      <div class="team-grid" id="team-grid"></div>
-    </div>
-    <div class="wwa-section">
-      <div class="wwa-section-label">Our Offerings</div>
+
+  <!-- Two-column: card grid + impact sidebar -->
+  <div class="offerings-layout">
+    <div class="offerings-card-section">
       <div class="offerings-grid" id="offerings-grid"></div>
     </div>
+    <aside class="impact-sidebar">
+      <div class="impact-label">Our Impact</div>
+      <div class="impact-rule"></div>
+      <div class="impact-quote">
+        <p class="iq-text">&ldquo;We couldn&rsquo;t fully prepare our congregation to be the public theologians they are without all of the help from The Candler Foundry.&rdquo;</p>
+        <p class="iq-attr">Jenn Stiles Williams &middot; Lead Pastor, St. Luke&rsquo;s UMC, Orlando</p>
+      </div>
+      <div class="impact-divider"></div>
+      <div class="impact-quote">
+        <p class="iq-text">&ldquo;TheoEd talks offers one of the best resources available for people wrestling with spiritual questions.&rdquo;</p>
+        <p class="iq-attr">Jeff Myers &middot; Senior Pastor, Roswell Presbyterian Church</p>
+      </div>
+    </aside>
+  </div>
+
+</div>
+
+<!-- TAB: OUR TEAM -->
+<div id="panel-ourteam" class="panel">
+  <div class="section-header">
+    <div class="section-label">The Candler Foundry</div>
+    <h2 class="section-title">Our Team</h2>
+    <p class="section-subtitle">The people who make The Candler Foundry possible</p>
+  </div>
+  <div class="whoweare-body">
+    <div class="team-grid" id="team-grid"></div>
   </div>
 </div>
 
@@ -1116,13 +1155,14 @@ function initReach() {
 
 /* ═══ SECTION: CONTENT.JSON CMS ═══ */
 var FALLBACK_OFFERINGS = [
-  { title: 'Courses in the Community', blurb: 'Open-enrollment and congregation-based courses taught by Candler faculty across Atlanta and beyond.', icon: 'compass', iconColor: '#c84826', links: [{ label: 'Browse Upcoming Courses', url: '' }], visible: true, order: 1 },
-  { title: 'On-Demand Courses', blurb: 'Self-paced video courses available anytime — learn from Candler faculty on your own schedule.', icon: 'play', iconColor: '#c84826', links: [{ label: 'Browse the Library', url: '' }], visible: true, order: 2 },
-  { title: 'TheoEd', blurb: 'Live theological education events hosted in cities across the country, bringing Candler to local communities.', icon: 'mic', iconColor: '#29a8e0', links: [{ label: 'View Past Events', url: '' }], visible: true, order: 3 },
-  { title: 'Sunday School Simplified', blurb: 'Ready-to-use Sunday school curriculum grounded in serious scholarship and designed for busy church leaders.', icon: 'book', iconColor: '#2D6A4F', links: [{ label: 'Learn More', url: '' }], visible: true, order: 4 },
-  { title: '3-Minute Bible', blurb: 'Short-form video series making biblical scholarship accessible — one passage, one scholar, three minutes.', icon: '3mb', iconColor: '#c84826', links: [{ label: 'Watch on YouTube', url: '' }], visible: true, order: 5 },
-  { title: 'Candler in Conversation', blurb: 'A podcast featuring Candler faculty and guests exploring theology, ministry, and the life of faith.', icon: 'broadcast', iconColor: '#c84826', links: [{ label: 'Listen Now', url: '' }], visible: true, order: 6 },
-  { title: "Scholar's Blog", blurb: 'Accessible essays and reflections from Candler faculty on scripture, theology, and church life.', icon: 'quill', iconColor: '#c84826', links: [{ label: 'Read the Blog', url: '' }], visible: true, order: 7 }
+  { title: 'Courses in the Community', tagline: 'Brings inexpensive, scholar-led courses to congregations and learners across the world.', blurb: '', icon: 'compass', iconColor: '#c84826', links: [{ label: 'Browse our current courses', url: 'https://candlerfoundry.emory.edu/courses' }], visible: true, order: 1 },
+  { title: 'On-Demand Courses', tagline: 'Allows curious learners to access theology courses anywhere, anytime.', blurb: '', icon: 'play', iconColor: '#c84826', links: [{ label: 'Browse our library', url: 'https://candlerfoundry.emory.edu/courses' }], visible: true, order: 2 },
+  { title: 'TheoEd', tagline: 'A faith-based speaker series featuring TED-style talks on theology, Bible, and spirituality.', blurb: '', icon: 'mic', iconColor: '#c84826', links: [{ label: 'Browse our library of talks', url: 'https://www.theoed.com/' }, { label: 'View Free Discussion Guides', url: 'https://www.theoed.com/discussionguides' }], visible: true, order: 3 },
+  { title: 'Sunday School Simplified', tagline: 'Easy, no-prep Bible study and Sunday School lessons.', blurb: '', icon: 'book', iconColor: '#c84826', links: [{ label: 'Free Lesson 1', url: 'https://mailchi.mp/a585d9b4946a/new-sunday-school-just-got-even-better-17662962' }, { label: 'Free Lesson 2', url: 'https://mailchi.mp/554205f24c25/new-sunday-school-just-got-even-better-17662317' }, { label: 'Free Lesson 3', url: 'https://mailchi.mp/0c2d5266f9ea/new-sunday-school-just-got-even-better-17661845' }, { label: 'Free Lesson 4', url: 'https://mailchi.mp/fee3c9136421/new-sunday-school-just-got-even-better-17661356' }], visible: true, order: 4 },
+  { title: '3-Minute Bible', tagline: 'Bite-sized videos that simplify and explain the Bible.', blurb: '', icon: '3mb', iconColor: '#c84826', links: [{ label: 'What is a Covenant?', url: 'https://youtu.be/vxyietk2YQE' }, { label: 'How does the Bible use mythical language?', url: 'https://youtu.be/jo5YMy0qHm0' }], visible: true, order: 5 },
+  { title: 'Candler in Conversation', tagline: "Candler School of Theology\u2019s flagship podcast, featuring Candler\u2019s best and brightest scholars, staff, and students.", blurb: '', icon: 'broadcast', iconColor: '#c84826', links: [{ label: 'How Can We Make the Bible Come Alive?', url: 'https://youtu.be/0aD-SAQaGMU' }], visible: true, order: 6 },
+  { title: "Scholar\u2019s Blog", tagline: 'Brings a faithful lens to current events and the Bible in plain English.', blurb: '', icon: 'quill', iconColor: '#c84826', links: [{ label: 'Visit the blog', url: 'https://candlerfoundry.emory.edu/blog' }], visible: true, order: 7 },
+  { title: 'Unstuck', tagline: 'Videos and other resources to assist in discerning vocation, life, and ministry.', blurb: '', icon: 'compass', iconColor: '#c84826', links: [{ label: 'How can I find belonging and purpose?', url: 'https://youtu.be/lD8I40R9FQU' }], visible: true, order: 8 }
 ];
 
 var FALLBACK_TEAM = [
@@ -1187,13 +1227,15 @@ function renderOfferings(offerings) {
   visible.forEach(function(o, idx) {
     var graphicUrl = GRAPHIC_URLS[idx % 2];
     var bgPos = BG_POSITIONS[idx % BG_POSITIONS.length];
-    var ctaHtml = '';
-    if (o.links && o.links.length && o.links[0].label) {
-      var l = o.links[0];
-      ctaHtml = l.url
-        ? '<a class="cb-cta" href="' + l.url + '" target="_blank">' + l.label + '</a>'
-        : '<span class="cb-cta-tag">' + l.label + '</span>';
+    var linksHtml = '';
+    if (o.links && o.links.length) {
+      linksHtml = '<div class="cb-links">' + o.links.map(function(l) {
+        return l.url
+          ? '<a class="cb-cta" href="' + l.url + '" target="_blank" rel="noopener">' + l.label + '</a>'
+          : '<span class="cb-cta-tag">' + l.label + '</span>';
+      }).join('') + '</div>';
     }
+    var tagline = o.tagline || o.blurb || '';
     var flip = document.createElement('div');
     flip.className = 'offering-flip';
     flip.style.setProperty('--card-graphic', 'url("' + graphicUrl + '")');
@@ -1203,13 +1245,12 @@ function renderOfferings(offerings) {
         '<div class="card-front">' +
           '<div class="cf-icon">' + getIconSVG(o.icon, o.iconColor) + '</div>' +
           '<div class="cf-name">' + o.title + '</div>' +
-          '<div class="cf-blurb">' + o.blurb + '</div>' +
+          '<div class="cf-tagline">' + tagline + '</div>' +
         '</div>' +
         '<div class="card-back">' +
           '<div class="cb-icon">' + getIconSVG(o.icon, '#c84826') + '</div>' +
           '<div class="cb-name">' + o.title + '</div>' +
-          '<div class="cb-desc">' + o.blurb + '</div>' +
-          ctaHtml +
+          linksHtml +
         '</div>' +
       '</div>';
     grid.appendChild(flip);
