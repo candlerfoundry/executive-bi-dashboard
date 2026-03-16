@@ -39,7 +39,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* PANELS */
 .panel { display: none; }
-.panel.active { display: block; animation: fadeUp 0.35s ease; padding-top: 10px; padding-bottom: 10px; max-width: 1400px; margin: 0 auto; }
+.panel.active { display: block; width: 100%; animation: fadeUp 0.35s ease; padding-top: 10px; padding-bottom: 10px; }
 @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 /* ═══ SECTION: TYPOGRAPHY ═══ */
@@ -58,7 +58,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 @media (max-width:900px) { .year-banner { grid-template-columns:repeat(2,1fr); } }
 
 /* ═══ SECTION: COURSE CARDS ═══ */
-.courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 16px; padding: 32px 48px; background: var(--cream); }
+.courses-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 16px; padding: 32px 60px; background: var(--cream); }
 .course-card { position: relative; aspect-ratio: 3/2; overflow: hidden; background: var(--blue); border-radius: 12px; }
 .course-img { width: 100%; height: 100%; object-fit: cover; display: block; transition: opacity 0.5s cubic-bezier(0.4,0,0.2,1); }
 .course-card:hover .course-img { opacity: 0.15; }
