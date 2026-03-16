@@ -3,104 +3,111 @@
     {
       "id": "courses-in-community",
       "title": "Courses in the Community",
-      "blurb": "Open-enrollment and congregation-based courses taught by Candler faculty across Atlanta and beyond.",
-      "description": "Courses in the Community is our umbrella offering for faculty-led learning outside the seminary walls — both open-enrollment courses anyone can join and courses brought directly into congregational settings.",
+      "tagline": "Brings inexpensive, scholar-led courses to congregations and learners across the world.",
+      "blurb": "Brings inexpensive, scholar-led courses to congregations and learners across the world.",
       "links": [
-        { "label": "Browse Upcoming Courses", "url": "" },
-        { "label": "Bring a Course to Your Church", "url": "" }
+        { "label": "Browse our current courses", "url": "https://candlerfoundry.emory.edu/courses" }
       ],
       "icon": "compass",
       "iconColor": "#c84826",
-      "imageUrl": "",
       "visible": true,
       "order": 1
     },
     {
       "id": "on-demand-courses",
       "title": "On-Demand Courses",
-      "blurb": "Self-paced video courses available anytime — learn from Candler faculty on your own schedule.",
-      "description": "Our on-demand library gives learners access to full Candler faculty courses at any time, with no registration window or live commitment required.",
+      "tagline": "Allows curious learners to access theology courses anywhere, anytime.",
+      "blurb": "Allows curious learners to access theology courses anywhere, anytime.",
       "links": [
-        { "label": "Browse the Library", "url": "" }
+        { "label": "Browse our library", "url": "https://candlerfoundry.emory.edu/courses" }
       ],
       "icon": "play",
       "iconColor": "#c84826",
-      "imageUrl": "",
       "visible": true,
       "order": 2
     },
     {
       "id": "theoed",
       "title": "TheoEd",
-      "blurb": "Live theological education events hosted in cities across the country, bringing Candler to local communities.",
-      "description": "TheoEd is The Candler Foundry's traveling theological education event series. Each event features multiple Candler faculty talks on a shared theme, hosted in partnership with local congregations and institutions.",
+      "tagline": "A faith-based speaker series featuring TED-style talks on theology, Bible, and spirituality.",
+      "blurb": "A faith-based speaker series featuring TED-style talks on theology, Bible, and spirituality.",
       "links": [
-        { "label": "View Past Events", "url": "" },
-        { "label": "Bring TheoEd to Your City", "url": "" }
+        { "label": "Browse our library of talks", "url": "https://www.theoed.com/" },
+        { "label": "View Free Discussion Guides", "url": "https://www.theoed.com/discussionguides" }
       ],
       "icon": "mic",
-      "iconColor": "#29a8e0",
-      "imageUrl": "",
+      "iconColor": "#c84826",
       "visible": true,
       "order": 3
     },
     {
       "id": "sunday-school-simplified",
       "title": "Sunday School Simplified",
-      "blurb": "Ready-to-use Sunday school curriculum grounded in serious scholarship and designed for busy church leaders.",
-      "description": "Sunday School Simplified provides theologically rich, practically designed curriculum that any church leader can pick up and teach — no seminary degree required.",
+      "tagline": "Easy, no-prep Bible study and Sunday School lessons.",
+      "blurb": "Easy, no-prep Bible study and Sunday School lessons.",
       "links": [
-        { "label": "Learn More", "url": "" },
-        { "label": "Access Curriculum", "url": "" }
+        { "label": "Free Lesson 1", "url": "https://mailchi.mp/a585d9b4946a/new-sunday-school-just-got-even-better-17662962" },
+        { "label": "Free Lesson 2", "url": "https://mailchi.mp/554205f24c25/new-sunday-school-just-got-even-better-17662317" },
+        { "label": "Free Lesson 3", "url": "https://mailchi.mp/0c2d5266f9ea/new-sunday-school-just-got-even-better-17661845" },
+        { "label": "Free Lesson 4", "url": "https://mailchi.mp/fee3c9136421/new-sunday-school-just-got-even-better-17661356" }
       ],
       "icon": "book",
-      "iconColor": "#2D6A4F",
-      "imageUrl": "",
+      "iconColor": "#c84826",
       "visible": true,
       "order": 4
     },
     {
       "id": "3-minute-bible",
       "title": "3-Minute Bible",
-      "blurb": "Short-form video series making biblical scholarship accessible — one passage, one scholar, three minutes.",
-      "description": "3-Minute Bible pairs Candler faculty with a single biblical passage for a concise, engaging video exploration. The series is freely available on YouTube and used in classrooms, small groups, and personal study.",
+      "tagline": "Bite-sized videos that simplify and explain the Bible.",
+      "blurb": "Bite-sized videos that simplify and explain the Bible.",
       "links": [
-        { "label": "Watch on YouTube", "url": "" }
+        { "label": "What is a Covenant?", "url": "https://youtu.be/vxyietk2YQE" },
+        { "label": "How does the Bible use mythical language?", "url": "https://youtu.be/jo5YMy0qHm0" }
       ],
       "icon": "3mb",
       "iconColor": "#c84826",
-      "imageUrl": "",
       "visible": true,
       "order": 5
     },
     {
       "id": "candler-in-conversation",
       "title": "Candler in Conversation",
-      "blurb": "A podcast featuring Candler faculty and guests exploring theology, ministry, and the life of faith.",
-      "description": "Candler in Conversation is our long-form audio series where faculty, practitioners, and public voices sit down to explore ideas at the intersection of theology and contemporary life.",
+      "tagline": "Candler School of Theology\u2019s flagship podcast, featuring Candler\u2019s best and brightest scholars, staff, and students.",
+      "blurb": "Candler School of Theology\u2019s flagship podcast, featuring Candler\u2019s best and brightest scholars, staff, and students.",
       "links": [
-        { "label": "Listen Now", "url": "" },
-        { "label": "Subscribe on Spotify", "url": "" }
+        { "label": "How Can We Make the Bible Come Alive?", "url": "https://youtu.be/0aD-SAQaGMU" }
       ],
       "icon": "broadcast",
       "iconColor": "#c84826",
-      "imageUrl": "",
       "visible": true,
       "order": 6
     },
     {
       "id": "scholars-blog",
-      "title": "Scholar's Blog",
-      "blurb": "Accessible essays and reflections from Candler faculty on scripture, theology, and church life.",
-      "description": "The Scholar's Blog is a regular publication featuring original writing from Candler faculty — accessible to general audiences and designed to spark thinking and conversation in congregational and personal contexts.",
+      "title": "Scholar\u2019s Blog",
+      "tagline": "Brings a faithful lens to current events and the Bible in plain English.",
+      "blurb": "Brings a faithful lens to current events and the Bible in plain English.",
       "links": [
-        { "label": "Read the Blog", "url": "" }
+        { "label": "Visit the blog", "url": "https://candlerfoundry.emory.edu/blog" }
       ],
       "icon": "quill",
       "iconColor": "#c84826",
-      "imageUrl": "",
       "visible": true,
       "order": 7
+    },
+    {
+      "id": "unstuck",
+      "title": "Unstuck",
+      "tagline": "Videos and other resources to assist in discerning vocation, life, and ministry.",
+      "blurb": "Videos and other resources to assist in discerning vocation, life, and ministry.",
+      "links": [
+        { "label": "How can I find belonging and purpose?", "url": "https://youtu.be/lD8I40R9FQU" }
+      ],
+      "icon": "compass",
+      "iconColor": "#c84826",
+      "visible": true,
+      "order": 8
     }
   ],
   "team": [
