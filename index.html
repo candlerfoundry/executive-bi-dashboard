@@ -194,6 +194,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .pc-loc { font-size:15px; font-weight:600; color:var(--blue); }
 .pc-state { font-size:13px; color:rgba(30,37,48,0.45); font-weight:500; margin-top:1px; }
 .denom-section { background:white; padding:36px 48px; max-width:700px; margin:0 auto; }
+.numreach-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; padding:40px 60px; }
+.numreach-map { grid-column:1 / -1; }
+.numreach-stats { display:flex; flex-direction:column; gap:3px; }
+.numreach-denom .denom-section, .numreach-partners .partner-congs { max-width:none; margin:0; }
 .denom-grid { display:grid; grid-template-columns:1fr; gap:22px; margin-top:20px; }
 .d-row { display:flex; flex-direction:column; gap:6px; }
 .d-name-row { font-size:16px; font-weight:600; color:var(--blue); }
@@ -314,7 +318,9 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   .header { padding:10px 20px; }
   .header-logo-img { height: 40px; }
   .section-header { padding:32px 24px 24px; }
-  .numbers-body,.people-body,.reach-body,.stories-body { padding:28px 20px; }
+  .people-body,.stories-body { padding:28px 20px; }
+  .numreach-grid { grid-template-columns:1fr; padding:28px 20px; gap:20px; }
+  .numreach-map { grid-column:1; }
   .hero-stats { grid-template-columns:repeat(2,1fr); }
   .charts-row { grid-template-columns:1fr; }
   .stat-strip { grid-template-columns:repeat(2,1fr); }
@@ -353,9 +359,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 <nav class="nav-tabs">
   <button class="nav-tab active" onclick="switchTab('whoweare',this)">Our Mission &amp; Offerings</button>
   <button class="nav-tab" onclick="switchTab('year',this)">This Year</button>
-  <button class="nav-tab" onclick="switchTab('numbers',this)">By the Numbers</button>
+  <button class="nav-tab" onclick="switchTab('numreach',this)">By the Numbers &amp; Reach</button>
   <button class="nav-tab" onclick="switchTab('people',this)">Candler Data</button>
-  <button class="nav-tab" onclick="switchTab('reach',this)">Our Reach</button>
   <button class="nav-tab" onclick="switchTab('theoed',this)">TheoEd</button>
   <button class="nav-tab" onclick="switchTab('ourteam',this)">Our Team</button>
   <button class="nav-tab" onclick="switchTab('stories',this)">Impact Stories</button>
@@ -377,15 +382,75 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   <div class="courses-grid" id="courses-grid"></div>
 </div>
 
-<!-- TAB 2: BY THE NUMBERS -->
-<div id="panel-numbers" class="panel">
+<!-- TAB: BY THE NUMBERS & REACH -->
+<div id="panel-numreach" class="panel">
   <div class="section-header">
     <div class="section-label">All-Time Impact — The Candler Foundry</div>
-    <h2 class="section-title">By the Numbers</h2>
-    <p class="section-subtitle">Cumulative enrollment, reach, and revenue across all Candler Foundry programming since founding</p>
+    <h2 class="section-title">By the Numbers &amp; Reach</h2>
+    <p class="section-subtitle">Cumulative enrollment, geographic reach, and denominational diversity across all Candler Foundry programming since founding</p>
   </div>
-  <div class="numbers-body">
-    <div class="hero-stats" style="grid-template-columns:repeat(3,1fr);">
+  <div class="numreach-grid">
+
+    <!-- ROW 1: Full-width heat map -->
+    <div class="numreach-map">
+      <div class="map-panel">
+        <div class="cp-label">Registrant Locations</div>
+        <div class="cp-title" style="margin-bottom:20px;">Where Our Learners Are</div>
+        <div id="us-map-container" style="width:100%;"></div>
+        <div style="display:flex;align-items:center;gap:24px;margin-top:20px;flex-wrap:wrap;">
+          <div style="font-size:35px;font-weight:700;color:#c84826;line-height:1;">35+ <span style="font-size:16px;font-weight:600;color:rgba(30,37,48,0.5);">States Represented</span></div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(30,37,48,0.5);">
+            <span style="display:inline-block;width:12px;height:12px;background:#f0c9be;border-radius:2px;"></span>Low
+            <span style="display:inline-block;width:12px;height:12px;background:#e07a5f;border-radius:2px;margin-left:4px;"></span>Mid
+            <span style="display:inline-block;width:12px;height:12px;background:#c84826;border-radius:2px;margin-left:4px;"></span>High
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2 LEFT: Milestone timeline -->
+    <div class="numreach-timeline">
+      <div class="milestone-timeline">
+        <div class="mt-label">Our Journey</div>
+        <div class="mt-title">Eight Years of Growing Impact</div>
+        <div class="mt-track" id="milestone-track">
+          <div class="mt-line"></div>
+          <div class="mt-node">
+            <div class="mt-year">2017</div>
+            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+            <div class="mt-desc">Founded</div>
+          </div>
+          <div class="mt-node">
+            <div class="mt-year">2018</div>
+            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+            <div class="mt-desc">First TheoEd Event</div>
+          </div>
+          <div class="mt-node">
+            <div class="mt-year">2020</div>
+            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+            <div class="mt-desc">Online Pivot</div>
+          </div>
+          <div class="mt-node">
+            <div class="mt-year">2022</div>
+            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+            <div class="mt-desc">On-Demand Launch</div>
+          </div>
+          <div class="mt-node">
+            <div class="mt-year">2024</div>
+            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+            <div class="mt-desc">2,000th Participant</div>
+          </div>
+          <div class="mt-node">
+            <div class="mt-year">2025</div>
+            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
+            <div class="mt-desc">Sunday School Simplified</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ROW 2 RIGHT: Key stats stacked -->
+    <div class="numreach-stats">
       <div class="hero-stat">
         <div class="hero-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(250,250,242,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
         <div class="ring-wrap">
@@ -417,112 +482,34 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         <div class="hero-stat-caption">Congregations that have hosted or sponsored Foundry programming</div>
       </div>
     </div>
-    <!-- MILESTONE TIMELINE -->
-    <div class="milestone-timeline">
-      <div class="mt-label">Our Journey</div>
-      <div class="mt-title">Eight Years of Growing Impact</div>
-      <div class="mt-track" id="milestone-track">
-        <div class="mt-line"></div>
-        <div class="mt-node">
-          <div class="mt-year">2017</div>
-          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-          <div class="mt-desc">Founded</div>
-        </div>
-        <div class="mt-node">
-          <div class="mt-year">2018</div>
-          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-          <div class="mt-desc">First TheoEd Event</div>
-        </div>
-        <div class="mt-node">
-          <div class="mt-year">2020</div>
-          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-          <div class="mt-desc">Online Pivot</div>
-        </div>
-        <div class="mt-node">
-          <div class="mt-year">2022</div>
-          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-          <div class="mt-desc">On-Demand Launch</div>
-        </div>
-        <div class="mt-node">
-          <div class="mt-year">2024</div>
-          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-          <div class="mt-desc">2,000th Participant</div>
-        </div>
-        <div class="mt-node">
-          <div class="mt-year">2025</div>
-          <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-          <div class="mt-desc">Sunday School Simplified</div>
+
+    <!-- ROW 3 LEFT: Denominational reach -->
+    <div class="numreach-denom">
+      <div class="denom-section">
+        <div class="cp-label">Denominational Reach</div>
+        <div class="cp-title">Faith Traditions</div>
+        <div class="denom-grid" id="denom-list"></div>
+        <p style="font-size:13px;color:rgba(30,37,48,0.35);margin-top:20px;">Approximate — denomination not always collected at registration.</p>
+      </div>
+    </div>
+
+    <!-- ROW 3 RIGHT: Partner congregation cities -->
+    <div class="numreach-partners">
+      <div class="partner-congs">
+        <div class="pc-header">Partner Congregations</div>
+        <div class="pc-grid">
+          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Atlanta</div><div class="pc-state">Georgia</div></div></div>
+          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Nashville</div><div class="pc-state">Tennessee</div></div></div>
+          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Charlotte</div><div class="pc-state">North Carolina</div></div></div>
+          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Austin</div><div class="pc-state">Texas</div></div></div>
+          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Orlando</div><div class="pc-state">Florida</div></div></div>
+          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Macon</div><div class="pc-state">Georgia</div></div></div>
+          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Birmingham</div><div class="pc-state">Alabama</div></div></div>
+          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Memphis</div><div class="pc-state">Tennessee</div></div></div>
         </div>
       </div>
     </div>
 
-    <!-- COURSE MIX DONUT -->
-    <div class="donut-row">
-      <div class="chart-panel donut-panel">
-        <div class="cp-label">Course Mix</div>
-        <div class="cp-title">Open vs. Congregational Courses</div>
-        <div class="donut-inner">
-          <svg viewBox="0 0 160 160" id="donut-svg">
-            <circle cx="80" cy="80" r="56" fill="none" stroke="rgba(30,37,48,0.08)" stroke-width="22"/>
-            <circle id="d-open" cx="80" cy="80" r="56" fill="none" stroke="#c84826" stroke-width="22"
-              stroke-dasharray="351.9 351.9" stroke-dashoffset="351.9"
-              transform="rotate(-90 80 80)" style="transition:stroke-dashoffset 1.8s cubic-bezier(0.16,1,0.3,1)"/>
-            <circle id="d-cong" cx="80" cy="80" r="56" fill="none" stroke="#1e2530" stroke-width="22"
-              stroke-dasharray="351.9 351.9" stroke-dashoffset="351.9"
-              transform="rotate(-90 80 80)" style="transition:stroke-dashoffset 1.8s 0.25s cubic-bezier(0.16,1,0.3,1)"/>
-            <text x="80" y="75" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="28" font-weight="700" fill="#1e2530">47</text>
-            <text x="80" y="93" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="10" fill="rgba(30,37,48,0.4)" letter-spacing="1.5">COURSES</text>
-          </svg>
-          <div class="donut-leg">
-            <div class="dleg-row"><div class="dleg-dot" style="background:#c84826"></div>Open to Public (52%)</div>
-            <div class="dleg-row"><div class="dleg-dot" style="background:#1e2530"></div>Congregational Courses (48%)</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="stat-strip">
-      <div class="ss-cell"><div class="ss-num" id="cnt-alumni">0</div><div class="ss-lbl">Candler Alumni<br>Registered</div><div class="ss-desc">alumni who have enrolled in at least one Foundry course</div></div>
-      <div class="ss-cell"><div class="ss-num">$<span id="cnt-rev">0</span>k</div><div class="ss-lbl">Gross Revenue<br>This Year</div><div class="ss-desc">earned through registration fees in the current academic year</div></div>
-      <div class="ss-cell"><div class="ss-num" id="cnt-avg">0</div><div class="ss-lbl">Avg Registrations<br>per Open Course</div><div class="ss-desc">average enrollment for courses open to the general public</div></div>
-      <div class="ss-cell"><div class="ss-num">35+</div><div class="ss-lbl">U.S. States<br>Represented</div><div class="ss-desc">home states of registered participants across all programming</div></div>
-      <div class="ss-cell"><div class="ss-num" id="cnt-ond">0</div><div class="ss-lbl">On-Demand Courses<br>Launched</div><div class="ss-desc">self-paced courses available any time in the Foundry library</div></div>
-    </div>
-
-    <!-- DIGITAL PRESENCE -->
-    <div class="digital-presence">
-      <div class="dp-header">
-        <div class="dp-label">Our Digital Presence</div>
-      </div>
-      <div class="social-band">
-        <div class="social-cell">
-          <div class="social-icon">📷</div>
-          <div class="social-num">3K</div>
-          <div class="social-lbl">Instagram Followers</div>
-        </div>
-        <div class="social-cell">
-          <div class="social-icon">▶</div>
-          <div class="social-num">4K</div>
-          <div class="social-lbl">YouTube Subscribers</div>
-        </div>
-        <div class="social-cell">
-          <div class="social-icon">✉</div>
-          <div class="social-num">6K</div>
-          <div class="social-lbl">Newsletter Subscribers</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- THEOED SECTION -->
-    <div class="theoed-section">
-      <div class="cp-label">Programming</div>
-      <div class="cp-title">Theological Education (TheoEd)</div>
-      <div class="theoed-grid">
-        <div class="theoed-cell"><div class="theoed-num">—</div><div class="theoed-lbl">Events Hosted</div></div>
-        <div class="theoed-cell"><div class="theoed-num">—</div><div class="theoed-lbl">Speakers Featured</div></div>
-        <div class="theoed-cell"><div class="theoed-num">—</div><div class="theoed-lbl">Total Attendees</div></div>
-        <div class="theoed-cell"><div class="theoed-num">—</div><div class="theoed-lbl">Cities Reached</div></div>
-      </div>
-    </div>
   </div>
 </div>
 
@@ -562,55 +549,6 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   </div>
 </div>
 
-<!-- TAB 4: OUR REACH -->
-<div id="panel-reach" class="panel">
-  <div class="section-header">
-    <div class="section-label">Geographic &amp; Denominational</div>
-    <h2 class="section-title">Our Reach</h2>
-    <p class="section-subtitle">Where our learners come from — across denominations, geographies, and faith traditions</p>
-  </div>
-  <div class="reach-body">
-
-    <!-- DOMINANT US HEAT MAP -->
-    <div class="map-panel">
-      <div class="cp-label">Registrant Locations</div>
-      <div class="cp-title" style="margin-bottom:20px;">Where Our Learners Are</div>
-      <div id="us-map-container" style="width:100%;"></div>
-      <div style="display:flex;align-items:center;gap:24px;margin-top:20px;flex-wrap:wrap;">
-        <div style="font-size:35px;font-weight:700;color:#c84826;line-height:1;">35+ <span style="font-size:16px;font-weight:600;color:rgba(30,37,48,0.5);">States Represented</span></div>
-        <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(30,37,48,0.5);">
-          <span style="display:inline-block;width:12px;height:12px;background:#f0c9be;border-radius:2px;"></span>Low
-          <span style="display:inline-block;width:12px;height:12px;background:#e07a5f;border-radius:2px;margin-left:4px;"></span>Mid
-          <span style="display:inline-block;width:12px;height:12px;background:#c84826;border-radius:2px;margin-left:4px;"></span>High
-        </div>
-      </div>
-    </div>
-
-    <!-- PARTNER CONGREGATIONS -->
-    <div class="partner-congs">
-      <div class="pc-header">Partner Congregations</div>
-      <div class="pc-grid">
-        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Atlanta</div><div class="pc-state">Georgia</div></div></div>
-        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Nashville</div><div class="pc-state">Tennessee</div></div></div>
-        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Charlotte</div><div class="pc-state">North Carolina</div></div></div>
-        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Austin</div><div class="pc-state">Texas</div></div></div>
-        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Orlando</div><div class="pc-state">Florida</div></div></div>
-        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Macon</div><div class="pc-state">Georgia</div></div></div>
-        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Birmingham</div><div class="pc-state">Alabama</div></div></div>
-        <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Memphis</div><div class="pc-state">Tennessee</div></div></div>
-      </div>
-    </div>
-
-    <!-- DENOMINATION BARS -->
-    <div class="denom-section">
-      <div class="cp-label">Denominational Reach</div>
-      <div class="cp-title">Faith Traditions</div>
-      <div class="denom-grid" id="denom-list"></div>
-      <p style="font-size:13px;color:rgba(30,37,48,0.35);margin-top:20px;">Approximate — denomination not always collected at registration.</p>
-    </div>
-
-  </div>
-</div>
 
 <!-- TAB: OUR MISSION & OFFERINGS -->
 <div id="panel-whoweare" class="panel active">
@@ -885,9 +823,8 @@ function switchTab(id, btn) {
   document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
   document.getElementById('panel-' + id).classList.add('active');
   btn.classList.add('active');
-  if (id === 'numbers') initNumbers();
+  if (id === 'numreach') { initNumbers(); initReach(); }
   if (id === 'people') initPeople();
-  if (id === 'reach') initReach();
   if (id === 'theoed') initTheoEd();
 }
 
