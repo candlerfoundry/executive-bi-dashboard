@@ -233,17 +233,20 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .card-front, .card-back { grid-row:1; grid-column:1; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:12px; padding:22px 18px; display:flex; flex-direction:column; min-height:200px; }
 .card-front { background:rgba(255,255,255,0.55); border:1px solid rgba(30,37,48,0.1); border-left:3px solid #c84826; box-shadow:0 1px 2px rgba(0,0,0,0.05),0 2px 8px rgba(0,0,0,0.07); overflow:hidden; position:relative; }
 .card-front::before { content:''; position:absolute; inset:0; background-image:var(--card-graphic,none); background-size:cover; background-position:var(--card-bg-pos,center); background-repeat:no-repeat; opacity:0.16; z-index:0; pointer-events:none; border-radius:inherit; }
-.card-back { background:var(--blue); transform:rotateY(180deg); }
+.card-back { background:var(--blue); transform:rotateY(180deg); padding:0; overflow:hidden; }
 .cf-icon { position:relative; z-index:1; margin-bottom:10px; }
-.cf-name { position:relative; z-index:1; font-size:19px; font-weight:700; color:var(--blue); margin-bottom:6px; }
+.cf-name { position:relative; z-index:1; font-size:1.3rem; font-weight:700; color:var(--blue); margin-bottom:6px; }
 .cf-tagline { position:relative; z-index:1; font-size:0.8rem; font-weight:600; letter-spacing:0.5px; color:#c84826; margin-bottom:6px; line-height:1.5; }
 .cf-blurb { position:relative; z-index:1; font-size:0.9rem; font-weight:400; color:rgba(30,37,48,0.6); line-height:1.6; }
+.cb-strip { background:#c84826; padding:8px 16px; font-size:0.7rem; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:#fafaf2; border-radius:12px 12px 0 0; flex-shrink:0; }
+.cb-body { padding:16px 18px; display:flex; flex-direction:column; flex:1; min-height:0; }
+.cb-hook { font-size:0.85rem; line-height:1.5; color:#fafaf2; margin-bottom:12px; }
 .cb-icon { margin-bottom:10px; }
 .cb-name { font-size:16px; font-weight:700; color:var(--cream); margin-bottom:10px; }
-.cb-links { display:flex; flex-direction:column; gap:6px; margin-top:auto; padding-top:12px; }
-.cb-cta { display:block; font-size:10px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--cream); border:1px solid #c84826; padding:6px 14px; text-decoration:none; transition:background 0.2s,color 0.2s; }
-.cb-cta:hover { background:#c84826; color:var(--cream); }
-.cb-cta-tag { display:block; font-size:10px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:rgba(250,250,242,0.35); border:1px solid rgba(250,250,242,0.12); padding:6px 14px; }
+.cb-links { display:flex; flex-direction:column; gap:6px; margin-top:auto; }
+.cb-cta { display:block; background:transparent; border:1.5px solid #c84826; color:#c84826; border-radius:20px; padding:8px 16px; font-size:0.9rem; font-weight:600; text-align:center; margin-bottom:8px; text-decoration:none; transition:background 0.2s,color 0.2s; }
+.cb-cta:hover { background:#c84826; color:#fafaf2; }
+.cb-cta-tag { display:block; font-size:10px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:rgba(250,250,242,0.35); border:1px solid rgba(250,250,242,0.12); padding:6px 14px; border-radius:20px; }
 
 /* TAB: THEOED */
 .theoed-body { width: 100%; padding: 48px 60px; }
@@ -1180,8 +1183,26 @@ var FALLBACK_TEAM = [
   { name: '[TBD]', title: 'TBD', bio: '', headshotUrl: '', visible: true, order: 6 }
 ];
 
-var GRAPHIC_URLS = ['/assets/Graphic_1.png', '/assets/Graphic_2.png'];
-var BG_POSITIONS = ['center top','right center','left bottom','center center','right bottom','left top','center top'];
+var CARD_GRAPHICS = [
+  { url: '/assets/Graphic_1.png', pos: 'center 20%' },
+  { url: '/assets/Graphic_2.png', pos: 'center 25%' },
+  { url: '/assets/Graphic_1.png', pos: '30% 15%' },
+  { url: '/assets/Graphic_2.png', pos: '70% 20%' },
+  { url: '/assets/Graphic_1.png', pos: '60% 25%' },
+  { url: '/assets/Graphic_2.png', pos: '40% 20%' },
+  { url: '/assets/Graphic_1.png', pos: '20% 15%' },
+  { url: '/assets/Graphic_2.png', pos: '50% 30%' }
+];
+var CARD_HOOKS = [
+  'Scholar-led learning, brought to your congregation.',
+  'Theology on your schedule, from anywhere in the world.',
+  'Big ideas. Twenty minutes. Conversations that change everything.',
+  'No prep required \u2014 just open and teach.',
+  'Scripture explained simply, one question at a time.',
+  'Theology in dialogue \u2014 faith, vocation, and life.',
+  'Where scholarship meets the headlines.',
+  'Discerning your next step, together.'
+];
 
 function getIconSVG(icon, color) {
   color = color || '#c84826';
@@ -1231,8 +1252,9 @@ function renderOfferings(offerings) {
   var visible = offerings.filter(function(o) { return o.visible !== false; });
   visible.sort(function(a, b) { return (a.order || 99) - (b.order || 99); });
   visible.forEach(function(o, idx) {
-    var graphicUrl = GRAPHIC_URLS[idx % 2];
-    var bgPos = BG_POSITIONS[idx % BG_POSITIONS.length];
+    var graphic = CARD_GRAPHICS[idx] || CARD_GRAPHICS[idx % CARD_GRAPHICS.length];
+    var graphicUrl = graphic.url;
+    var bgPos = graphic.pos;
     var linksHtml = '';
     if (o.links && o.links.length) {
       linksHtml = '<div class="cb-links">' + o.links.map(function(l) {
@@ -1254,9 +1276,12 @@ function renderOfferings(offerings) {
           '<div class="cf-tagline">' + tagline + '</div>' +
         '</div>' +
         '<div class="card-back">' +
-          '<div class="cb-icon">' + getIconSVG(o.icon, '#c84826') + '</div>' +
-          '<div class="cb-name">' + o.title + '</div>' +
-          linksHtml +
+          '<div class="cb-strip">' + o.title + '</div>' +
+          '<div class="cb-body">' +
+            '<div class="cb-hook">' + (CARD_HOOKS[idx] || '') + '</div>' +
+            '<div class="cb-icon">' + getIconSVG(o.icon, '#c84826') + '</div>' +
+            linksHtml +
+          '</div>' +
         '</div>' +
       '</div>';
     grid.appendChild(flip);
