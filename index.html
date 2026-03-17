@@ -210,11 +210,12 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .whoweare-body { width: 100%; padding: 48px 60px; }
 .wwa-section { margin-bottom: 52px; }
 .wwa-section-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #c84826; margin-bottom: 22px; padding-bottom: 12px; border-bottom: 1px solid rgba(30,37,48,0.08); }
-.team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:14px; }
-.team-card { background:white; border:1px solid rgba(30,37,48,0.07); padding:24px 20px; }
-.tc-avatar { width:50px; height:50px; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; font-size:20px; font-weight:700; color:var(--cream); margin-bottom:14px; flex-shrink:0; }
-.tc-name { font-size:18px; font-weight:600; color:var(--blue); margin-bottom:4px; }
-.tc-role { font-size:11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:rgba(30,37,48,0.45); }
+.team-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:24px; padding:0; }
+.team-card { background:#fafaf2; border:1px solid rgba(30,37,48,0.1); border-radius:12px; padding:28px 24px; text-align:center; width:calc(33.33% - 24px); min-width:260px; max-width:340px; box-sizing:border-box; }
+.tc-avatar { width:100px; height:100px; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; font-size:1.1rem; font-weight:700; color:var(--cream); margin:0 auto 18px; flex-shrink:0; overflow:hidden; }
+.tc-name { font-size:18px; font-weight:700; color:var(--blue); margin-bottom:6px; }
+.tc-role { font-size:11px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#c84826; margin-bottom:12px; line-height:1.5; }
+.tc-bio { font-size:0.85rem; color:var(--blue); line-height:1.6; text-align:left; margin-top:12px; }
 .offerings-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px; }
 /* ═══ MISSION & OFFERINGS TAB ═══ */
 .mission-bar { background-color: #1e2530; background-image: url('/assets/Graphic_1.png'); background-size: cover; background-position: center 30%; position: relative; display: flex; flex-direction: column; }
@@ -1129,12 +1130,36 @@ var FALLBACK_OFFERINGS = [
 ];
 
 var FALLBACK_TEAM = [
-  { name: 'Emily Savant', title: 'Operations Director', bio: '', headshotUrl: '', visible: true, order: 1 },
-  { name: 'Dr. Ryan Bonfiglio', title: 'Executive Director', bio: '', headshotUrl: '', visible: true, order: 2 },
-  { name: 'Dr. Elizabeth Arnold', title: 'Faculty', bio: '', headshotUrl: '', visible: true, order: 3 },
-  { name: 'Cristha Lea', title: 'Creative Production', bio: '', headshotUrl: '', visible: true, order: 4 },
-  { name: '[TBD]', title: 'TBD', bio: '', headshotUrl: '', visible: true, order: 5 },
-  { name: '[TBD]', title: 'TBD', bio: '', headshotUrl: '', visible: true, order: 6 }
+  {
+    name: 'Dr. Ryan Bonfiglio',
+    title: 'Executive Director \u00b7 Associate Professor of Old Testament, Candler School of Theology',
+    bio: 'Ryan Bonfiglio leads The Candler Foundry as Executive Director and serves as Associate Professor in the Practice of Old Testament at Candler School of Theology. He holds a BA in Chemistry from Princeton University, an MDiv from Princeton Theological Seminary, and a PhD in Hebrew Bible from Emory University. Before joining Candler\u2019s faculty in 2018, he taught at Columbia Theological Seminary and served as Scholar in Residence at First Presbyterian Church of Atlanta. Ryan founded TheoEd in 2017 and currently leads all academic programming and strategic vision for the Foundry.',
+    initials: 'RB', headshotUrl: '/assets/headshots/bonfiglio.jpg', visible: true, order: 1
+  },
+  {
+    name: 'Rev. Dr. Elizabeth \u201cEbby\u201d Arnold',
+    title: 'Post-Doctoral Fellow',
+    bio: 'Ebby Arnold serves as Post-Doctoral Fellow at The Candler Foundry, where she teaches Courses in the Community and developed the Foundations in Faith and Leadership online certificate program. She holds a PhD in New Testament from Emory University, where her dissertation explored the theme of wilderness in Luke-Acts. A member of Smoke Rise Baptist Church, Ebby also co-leads the 3-Minute Bible video series and contributes to the Scholar\u2019s Blog.',
+    initials: 'EA', headshotUrl: '/assets/headshots/arnold.jpg', visible: true, order: 2
+  },
+  {
+    name: 'Cristha Lea, M.Div.',
+    title: 'Coordinator of Media, Communications \u0026 Digital Initiatives',
+    bio: 'Cristha Lea leads all media production, communications, and digital initiatives for The Candler Foundry. A 2021 graduate of Candler School of Theology (MDiv, with a Certificate in Religion \u0026 Health) and a Spelman College alumna (BA in Evolutionary Biology), she brings a unique interdisciplinary lens to theological media. Cristha hosts the Candler in Conversation podcast and has grown the Foundry\u2019s digital presence across multiple platforms.',
+    initials: 'CL', headshotUrl: '/assets/headshots/lea.jpg', visible: true, order: 3
+  },
+  {
+    name: 'Dr. Donnell Williamson',
+    title: 'Assistant Director of Community Learning \u0026 Partnerships',
+    bio: 'Donnell Williamson serves as Assistant Director of Community Learning and Partnerships, overseeing the Foundry\u2019s congregation partnerships and the Candler Course Access (CCA) program, which connects non-degree-seeking learners with seminary-level coursework. A member of Zion Hill Baptist Church, Donnell brings deep commitment to accessible theological education and community-centered learning.',
+    initials: 'DW', headshotUrl: '/assets/headshots/williamson.jpg', visible: true, order: 4
+  },
+  {
+    name: 'Rev. Emily Avant',
+    title: 'Assistant Director of Strategy \u0026 Operations',
+    bio: 'Emily Avant serves as Assistant Director of Strategy and Operations at The Candler Foundry. A Candler School of Theology alumna (MDiv, 2024) and a proud \u201cdouble dawg\u201d holding both undergraduate and law degrees from the University of Georgia, Emily brought 17 years of experience in law and business to a second career in ministry and theological education. A member of Trinity Presbyterian Church in Atlanta, she leads operations, digital workflow development, and content strategy for the Foundry.',
+    initials: 'EAv', headshotUrl: '/assets/headshots/avant.jpg', visible: true, order: 5
+  }
 ];
 
 var CARD_GRAPHICS = [
@@ -1188,13 +1213,15 @@ function renderTeam(team) {
   visible.forEach(function(m) {
     var card = document.createElement('div');
     card.className = 'team-card';
+    var initials = m.initials || getInitials(m.name);
     var avatarContent = m.headshotUrl
-      ? '<img src="' + m.headshotUrl + '" alt="' + m.name + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">'
-      : getInitials(m.name);
+      ? '<img src="' + m.headshotUrl + '" alt="' + m.name + '" style="width:100%;height:100%;object-fit:cover;border-radius:50%;" onerror="var p=this.parentNode;p.textContent=\'' + initials + '\'">'
+      : initials;
     card.innerHTML =
       '<div class="tc-avatar">' + avatarContent + '</div>' +
       '<div class="tc-name">' + m.name + '</div>' +
-      '<div class="tc-role">' + m.title + '</div>';
+      '<div class="tc-role">' + m.title + '</div>' +
+      (m.bio ? '<div class="tc-bio">' + m.bio + '</div>' : '');
     grid.appendChild(card);
   });
 }
