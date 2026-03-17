@@ -225,6 +225,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .iq-text { font-size: 0.9rem; color: #fafaf2; line-height: 1.75; margin-bottom: 8px; }
 .iq-attr { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.8px; text-transform: uppercase; color: #c84826; }
 .impact-divider { height: 1px; background: rgba(250,250,242,0.1); margin: 16px 0; }
+.iq-carousel { position: relative; }
+.iq-slide { display: none; }
+.iq-slide.active { display: block; animation: iqFade 0.4s ease; }
+@keyframes iqFade { from { opacity: 0; } to { opacity: 1; } }
+.iq-dots { display: flex; justify-content: center; gap: 10px; margin-top: 18px; }
+.iq-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(250,250,242,0.3); border: none; cursor: pointer; padding: 0; transition: background 0.2s; }
+.iq-dot.active { background: #c84826; }
 
 /* ═══ 3D FLIP CARDS ═══ */
 .offering-flip { perspective: 1000px; cursor: pointer; min-height: 200px; height: 100%; }
@@ -623,14 +630,24 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     <aside class="impact-sidebar">
       <div class="impact-label">Our Impact</div>
       <div class="impact-rule"></div>
-      <div class="impact-quote">
-        <p class="iq-text">&ldquo;We couldn&rsquo;t fully prepare our congregation to be the public theologians they are without all of the help from The Candler Foundry.&rdquo;</p>
-        <p class="iq-attr">Jenn Stiles Williams &middot; Lead Pastor, St. Luke&rsquo;s UMC, Orlando</p>
-      </div>
-      <div class="impact-divider"></div>
-      <div class="impact-quote">
-        <p class="iq-text">&ldquo;TheoEd talks offers one of the best resources available for people wrestling with spiritual questions.&rdquo;</p>
-        <p class="iq-attr">Jeff Myers &middot; Senior Pastor, Roswell Presbyterian Church</p>
+      <div class="iq-carousel">
+        <div class="iq-slide active">
+          <p class="iq-text">&ldquo;We couldn&rsquo;t fully prepare our congregation to be the public theologians they are without all of the help from The Candler Foundry.&rdquo;</p>
+          <p class="iq-attr">Jenn Stiles Williams &middot; Lead Pastor, St. Luke&rsquo;s UMC, Orlando</p>
+        </div>
+        <div class="iq-slide">
+          <p class="iq-text">&ldquo;TheoEd talks offers one of the best resources available for people wrestling with spiritual questions. The diversity of topics and presenters is unparalleled!&rdquo;</p>
+          <p class="iq-attr">Jeff Myers &middot; Senior Pastor, Roswell Presbyterian Church</p>
+        </div>
+        <div class="iq-slide">
+          <p class="iq-text">&ldquo;The Candler Foundry gave our congregation access to world-class theological scholarship we never could have found on our own. Our people are still talking about what they learned months later.&rdquo;</p>
+          <p class="iq-attr">Rev. Carmie McDonald &middot; Associate Rector, Epiphany Episcopal Church, Decatur, GA</p>
+        </div>
+        <div class="iq-dots">
+          <button class="iq-dot active" onclick="iqGoto(0)"></button>
+          <button class="iq-dot" onclick="iqGoto(1)"></button>
+          <button class="iq-dot" onclick="iqGoto(2)"></button>
+        </div>
       </div>
     </aside>
   </div>
@@ -1305,6 +1322,30 @@ function loadContent() {
 }
 
 document.addEventListener('DOMContentLoaded', loadContent);
+
+// ═══ OUR IMPACT CAROUSEL ═══
+(function() {
+  var iqIdx = 0;
+  var iqTimer;
+  function showSlide(n) {
+    document.querySelectorAll('.iq-slide').forEach(function(s, i) { s.classList.toggle('active', i === n); });
+    document.querySelectorAll('.iq-dot').forEach(function(d, i) { d.classList.toggle('active', i === n); });
+    iqIdx = n;
+  }
+  function iqNext() {
+    var total = document.querySelectorAll('.iq-slide').length;
+    showSlide((iqIdx + 1) % total);
+  }
+  window.iqGoto = function(n) {
+    clearInterval(iqTimer);
+    showSlide(n);
+    iqTimer = setInterval(iqNext, 5000);
+  };
+  document.addEventListener('DOMContentLoaded', function() {
+    showSlide(0);
+    iqTimer = setInterval(iqNext, 5000);
+  });
+})();
 
 </script>
 </body>
