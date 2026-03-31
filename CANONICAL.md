@@ -114,6 +114,31 @@ TheoEd event years (2019 city labels) are NOT the founding year and must NOT be 
 
 ---
 
+---
+
+## 11. BY THE NUMBERS & REACH TAB LAYOUT
+**Rule:** 3-row grid using `.numreach-grid` (display:grid; grid-template-columns:1fr 1fr; gap:32px; padding:40px 60px).
+Row 1: `.numreach-map` (grid-column:1/-1; min-height:420px) — full-width heat map.
+Row 2 left: `.numreach-timeline` — Our Journey milestone timeline with 6 nodes.
+Row 2 right: `.numreach-stats` — 3 stacked hero-stat blocks (2815, 150, 30+).
+Row 3 left: `.numreach-denom` — denominational bar chart.
+Row 3 right: `.numreach-partners` — partner congregation city tiles.
+Section eyebrow: "Reach & Impact Data". Tab nav label: "By the Numbers & Reach".
+
+**Timeline entries (in order):**
+  2017: TheoEd founded by Ryan Bonfiglio
+  2018: The Candler Foundry formally established at Emory
+  2020: Online pivot (COVID); first Candler in Conversation podcast
+  2022: On-Demand courses launched
+  2024: 2,000th participant milestone
+  2025: Sunday School Simplified launched
+
+**Why:** Prior implementations had scattered layouts with TheoEd stats, duplicate stat strips, and social band cluttering this tab. Clean 3-row structure was established in Session 22.
+
+**Regression risk:** Do not add stat-strip, social-band, TheoEd programming stats, or alumni-band to this panel. Do not change 2018 founding year in timeline to 2019.
+
+---
+
 SELF-AUDIT before committing:
 [ ] FACULTY array is hardcoded from headshot filenames — no Airtable names in list
 [ ] No "N/A", "FFL-Various", "TheoEd-Various", or "Webinar" entries in grid

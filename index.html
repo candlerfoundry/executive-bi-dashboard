@@ -204,7 +204,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* TAB 4 — REACH */
 .reach-body { width: 100%; padding: 48px 60px; }
-.map-panel { background:white; padding:32px 40px; min-height:380px; display:flex; flex-direction:column; margin-bottom:16px; }
+.map-panel { background:white; padding:32px 40px; min-height:420px; display:flex; flex-direction:column; margin-bottom:16px; }
 .map-tooltip { position:fixed; background:var(--blue); color:var(--cream); padding:8px 14px; border-radius:8px; font-size:14px; font-weight:600; pointer-events:none; opacity:0; transition:opacity 0.15s; z-index:999; white-space:nowrap; }
 .map-tooltip.show { opacity:1; }
 .partner-congs { margin-bottom:20px; }
@@ -408,9 +408,9 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 <!-- TAB: BY THE NUMBERS & REACH -->
 <div id="panel-numreach" class="panel">
   <div class="section-header">
-    <div class="section-label">All-Time Impact — The Candler Foundry</div>
+    <div class="section-label">Reach &amp; Impact Data</div>
     <h2 class="section-title">By the Numbers &amp; Reach</h2>
-    <p class="section-subtitle">Cumulative enrollment, geographic reach, and denominational diversity across all Candler Foundry programming since founding</p>
+    <p class="section-subtitle">The breadth and depth of The Candler Foundry&rsquo;s impact &mdash; by the data.</p>
   </div>
   <div class="numreach-grid">
 
@@ -441,32 +441,32 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
           <div class="mt-node">
             <div class="mt-year">2017</div>
             <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">Founded</div>
+            <div class="mt-desc">TheoEd founded by Ryan Bonfiglio</div>
           </div>
           <div class="mt-node">
             <div class="mt-year">2018</div>
             <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">First TheoEd Event</div>
+            <div class="mt-desc">The Candler Foundry formally established at Emory</div>
           </div>
           <div class="mt-node">
             <div class="mt-year">2020</div>
             <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">Online Pivot</div>
+            <div class="mt-desc">Online pivot (COVID); first Candler in Conversation podcast</div>
           </div>
           <div class="mt-node">
             <div class="mt-year">2022</div>
             <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">On-Demand Launch</div>
+            <div class="mt-desc">On-Demand courses launched</div>
           </div>
           <div class="mt-node">
             <div class="mt-year">2024</div>
             <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">2,000th Participant</div>
+            <div class="mt-desc">2,000th participant milestone</div>
           </div>
           <div class="mt-node">
             <div class="mt-year">2025</div>
             <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">Sunday School Simplified</div>
+            <div class="mt-desc">Sunday School Simplified launched</div>
           </div>
         </div>
       </div>
@@ -943,11 +943,6 @@ function initNumbers() {
 
   countUp(document.getElementById('cnt-reg-alltime'), 2815, 1800);
   countUp(document.getElementById('cnt-courses-alltime'), 150, 1400);
-  countUp(document.getElementById('cnt-alumni'), STATS.alumni, 1600);
-  countUp(document.getElementById('cnt-avg'), STATS.avg, 1200);
-  countUp(document.getElementById('cnt-ond'), STATS.ond, 900);
-  var revEl = document.getElementById('cnt-rev');
-  if (revEl) countUp(revEl, Math.round(STATS.rev / 1000), 1600);
 
   // Animate rings
   var ringTargets = [0.82, 0.91, 0.58];
@@ -964,23 +959,6 @@ function initNumbers() {
   nodes.forEach(function(node, i) {
     setTimeout(function() { node.classList.add('visible'); }, 200 + i * 160);
   });
-
-  // Donut
-  var C = 2 * Math.PI * 56;
-  setTimeout(function() {
-    var openLen = C * 0.52;
-    var congLen = C * 0.48;
-    var dOpen = document.getElementById('d-open');
-    var dCong = document.getElementById('d-cong');
-    if (dOpen) {
-      dOpen.style.strokeDasharray = openLen + ' ' + C;
-      dOpen.style.strokeDashoffset = '0';
-    }
-    if (dCong) {
-      dCong.style.strokeDasharray = congLen + ' ' + C;
-      dCong.style.strokeDashoffset = String(-openLen);
-    }
-  }, 350);
 }
 
 var peopleReady = false;
