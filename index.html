@@ -140,48 +140,53 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* TAB 3 — CANDLER IMPACT */
 /* Quote Banner */
-.ci-quote-banner { background:#fdf7f0; border-left:5px solid #c84826; padding:20px 36px 18px 28px; display:flex; justify-content:space-between; align-items:center; gap:24px; transition:opacity 0.5s; }
+.ci-quote-banner { background:#fdf7f0; border-left:5px solid #c84826; padding:28px 48px 24px 32px; display:flex; justify-content:space-between; align-items:center; gap:24px; transition:opacity 0.5s; }
 .ci-quote-content { flex:1; }
-.ci-qmark { font-family:'Georgia',serif; font-size:80px; line-height:0.5; color:#c84826; display:block; margin-bottom:10px; }
-.ci-qtext { color:#2a2a2a; font-size:14px; line-height:1.7; }
-.ci-qattr { color:#c84826; font-size:10px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; margin-top:8px; }
+.ci-qmark { font-family:'Georgia',serif; font-size:100px; line-height:0.4; color:#c84826; display:block; margin-bottom:10px; }
+.ci-qtext { color:#2a2a2a; font-size:16px; line-height:1.75; }
+.ci-qattr { color:#c84826; font-size:12px; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-top:8px; }
 .ci-dots { display:flex; flex-direction:column; gap:7px; align-items:center; flex-shrink:0; }
 .ci-dot { width:7px; height:7px; border-radius:50%; background:#ddd; cursor:pointer; border:none; padding:0; }
 .ci-dot.active { background:#c84826; }
 /* 2-col layout */
-.ci-body { display:grid; grid-template-columns:1fr 200px; }
+.ci-body { display:grid; grid-template-columns:1fr 220px; }
 /* Faculty grid (left) */
 .ci-faculty { padding:32px 40px 40px; }
-.ci-faculty-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:16px 12px; margin-bottom:20px; }
+.ci-faculty-label { font-size:12px; letter-spacing:2px; text-transform:uppercase; font-weight:600; color:#555; margin-bottom:20px; }
+.ci-faculty-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:24px 16px; margin-bottom:20px; }
 .ci-person { text-align:center; }
-.ci-circle-wrap { position:relative; width:90px; margin:0 auto 6px; }
-.ci-circle { width:90px; height:90px; border-radius:50%; border:2px solid transparent; overflow:hidden; background:#1e2530; display:flex; align-items:center; justify-content:center; cursor:default; transition:border-color 0.2s,transform 0.2s; }
+.ci-circle-wrap { position:relative; width:130px; margin:0 auto 6px; }
+.ci-circle { width:130px; height:130px; border-radius:50%; border:2px solid transparent; overflow:hidden; background:#1e2530; display:flex; align-items:center; justify-content:center; cursor:default; transition:border-color 0.2s; }
 .ci-circle img { width:100%; height:100%; object-fit:cover; display:block; }
-.ci-initials { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; color:#c84826; }
-.ci-circle-wrap:hover .ci-circle { border-color:#c84826; transform:scale(1.05); }
-.ci-hover { position:absolute; top:0; left:0; width:90px; height:90px; border-radius:50%; background:rgba(30,37,48,0.93); display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; pointer-events:none; }
-.ci-circle-wrap:hover .ci-hover { opacity:1; }
-.ci-hover-num { font-size:20px; font-weight:700; color:#c84826; line-height:1; }
-.ci-hover-lbl { font-size:8px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; color:rgba(250,250,242,0.7); margin-bottom:4px; }
-.ci-hover-div { width:30px; height:1px; background:rgba(250,250,242,0.2); margin:4px 0; }
-.ci-hover-reg { font-size:14px; font-weight:700; color:rgba(250,250,242,0.9); line-height:1; }
-.ci-hover-rlbl { font-size:8px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; color:rgba(250,250,242,0.7); margin-top:2px; }
-.ci-name { font-size:9px; color:#333; font-weight:500; line-height:1.25; max-width:90px; margin:0 auto; }
+.ci-initials { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:700; color:#c84826; }
+.ci-circle-wrap:hover .ci-circle { border-color:#c84826; }
+/* Popout card */
+.ci-popout { display:none; position:absolute; bottom:calc(100% + 10px); left:50%; transform:translateX(-50%); z-index:100; background:#1e2530; border-radius:10px; padding:14px 18px; min-width:160px; border:1px solid rgba(200,72,38,0.4); box-shadow:0 4px 20px rgba(0,0,0,0.25); text-align:center; white-space:nowrap; }
+.ci-popout::after { content:''; position:absolute; bottom:-6px; left:50%; margin-left:-6px; border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid #1e2530; }
+.ci-popout.ci-popout-below { bottom:auto; top:calc(100% + 10px); }
+.ci-popout.ci-popout-below::after { bottom:auto; top:-6px; border-top:none; border-bottom:6px solid #1e2530; }
+.ci-pop-name { color:#fafaf2; font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:0.8px; margin-bottom:10px; white-space:normal; }
+.ci-pop-num { font-size:22px; font-weight:700; color:#c84826; line-height:1; }
+.ci-pop-lbl { font-size:9px; font-weight:600; text-transform:uppercase; color:rgba(250,250,242,0.7); margin-bottom:2px; }
+.ci-pop-div { width:100%; height:1px; background:rgba(255,255,255,0.12); margin:8px 0; }
+.ci-name { font-size:12px; color:#333; font-weight:500; line-height:1.3; max-width:130px; margin:0 auto; }
 .ci-show-all-wrap { text-align:center; padding:8px 0; }
 .show-more-btn { background:transparent; border:1.5px solid #c84826; padding:8px 20px; font-family:'Montserrat',sans-serif; font-size:13px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:#c84826; cursor:pointer; border-radius:6px; transition:background 0.2s,color 0.2s; }
 .show-more-btn:hover { background:#c84826; color:#fafaf2; }
 /* Sidebar (right) */
-.ci-sidebar { background:#1e2530; padding:24px 18px; }
-.ci-sidebar-hdr { color:#c84826; font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; border-bottom:1px solid rgba(200,72,38,0.3); padding-bottom:10px; }
+.ci-sidebar { background:#1e2530; padding:24px 18px; min-width:220px; }
+.ci-sidebar-hdr { color:#c84826; font-size:10px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; border-bottom:1px solid rgba(200,72,38,0.3); padding-bottom:10px; }
 .ci-stat-block { padding:16px 0; border-bottom:1px solid rgba(255,255,255,0.07); text-align:center; }
 .ci-stat-block:last-child { border-bottom:none; }
-.ci-stat-num { color:#c84826; font-size:30px; font-weight:700; line-height:1; margin-bottom:5px; }
-.ci-stat-lbl { color:rgba(255,255,255,0.85); font-size:10px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:3px; }
-.ci-stat-desc { color:rgba(255,255,255,0.38); font-size:9px; line-height:1.4; }
+.ci-stat-num { color:#c84826; font-size:36px; font-weight:700; line-height:1; margin-bottom:5px; }
+.ci-stat-lbl { color:rgba(255,255,255,0.85); font-size:11px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:3px; }
+.ci-stat-desc { color:rgba(255,255,255,0.38); font-size:10px; line-height:1.4; }
 /* Loading skeleton */
-.ci-skel { width:90px; height:90px; border-radius:50%; background:rgba(30,37,48,0.12); margin:0 auto 6px; animation:ci-pulse 1.4s ease-in-out infinite; }
+.ci-skel { width:130px; height:130px; border-radius:50%; background:rgba(30,37,48,0.12); margin:0 auto 6px; animation:ci-pulse 1.4s ease-in-out infinite; }
 .ci-skel-name { height:9px; background:rgba(30,37,48,0.1); border-radius:4px; width:70%; margin:0 auto; animation:ci-pulse 1.4s ease-in-out infinite; }
 @keyframes ci-pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+/* Page subheader override for Candler Impact tab */
+#panel-people .section-subtitle { font-size:15px; line-height:1.6; max-width:900px; margin-bottom:24px; }
 
 /* ═══ SECTION: GLOBAL CARD POLISH ═══ */
 .chart-panel, .ss-cell, .reach-card, .denom-section, .theoed-section, .theoed-cell, .map-panel, .team-card, .placeholder-card {
@@ -550,6 +555,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   <!-- Main body: faculty grid + sidebar -->
   <div class="ci-body">
     <div class="ci-faculty">
+      <div class="ci-faculty-label">Faculty &amp; Instructor Involvement</div>
       <div class="ci-faculty-grid" id="ci-faculty-grid"></div>
       <div class="ci-show-all-wrap">
         <button class="show-more-btn" id="ci-show-all-btn" style="display:none;">Show All Faculty</button>
@@ -742,6 +748,37 @@ const IMAGES = {
 const COURSES = [{"title": "The PreacHER and the Word", "semester": "Fall 2025", "instructor": "Dr. Teresa Fry Brown", "reg": 113, "revenue": 5480, "alumni": 38, "img_key": "preacher"}, {"title": "Black Theology and Faith", "semester": "Spring 2026", "instructor": "Dr. Noel Erskine", "reg": 42, "revenue": 1720, "alumni": 17, "img_key": "black_theology"}, {"title": "Hebrew Insights", "semester": "Fall 2025", "instructor": "Dr. Ryan Bonfiglio", "reg": 57, "revenue": 2320, "alumni": 13, "img_key": "hebrew"}, {"title": "Faith in the Wild", "semester": "Fall 2025", "instructor": "Dr. Elizabeth Arnold", "reg": 48, "revenue": 2054, "alumni": 14, "img_key": "faith_wild"}, {"title": "Lies My Pastor Told Me", "semester": "Spring 2026", "instructor": "Dr. Brent Strawn", "reg": 30, "revenue": 1045, "alumni": 12, "img_key": "lies_pastor"}, {"title": "Sabbath", "semester": "Spring 2026", "instructor": "Dr. Susan Hylen", "reg": 12, "revenue": 500, "alumni": 0, "img_key": "sabbath"}, {"title": "Resurrection Stories", "semester": "Spring 2026", "instructor": "Dr. Elizabeth Arnold", "reg": 33, "revenue": 3137, "alumni": 8, "img_key": "resurrection"}, {"title": "The Corinthians Conversation", "semester": "Fall 2025", "instructor": "Dr. Jennifer Quigley", "reg": 0, "revenue": 600, "alumni": 0, "img_key": "corinthians"}];
 const INSTRUCTORS = [{"name": "Dr. Ryan Bonfiglio", "courses": 6, "title": "Associate Professor of Old Testament"}, {"name": "Dr. Elizabeth Arnold", "courses": 5, "title": "Associate Professor of New Testament"}, {"name": "Dr. Susan Hylen", "courses": 3, "title": "Professor of New Testament"}, {"name": "Larry Varghese", "courses": 3, "title": "Lecturer in Biblical Studies"}, {"name": "Aileen Nicolas", "courses": 2, "title": "Candler Faculty"}, {"name": "Dr. Teresa Fry Brown", "courses": 1, "title": "Bandy Professor of Preaching"}, {"name": "Dr. Noel Erskine", "courses": 1, "title": "Professor of Theology & Black Church Studies"}, {"name": "Dr. Brent Strawn", "courses": 1, "title": "Professor of Old Testament"}, {"name": "Robert Franklin", "courses": 1, "title": "Presidential Distinguished Professor"}, {"name": "Dr. Amey Victoria Adkins-Jones", "courses": 1, "title": "Asst. Professor, Black Church Studies"}, {"name": "Jen Ayres", "courses": 1, "title": "Associate Professor of Religious Education"}, {"name": "Dr. Jennifer Quigley", "courses": 1, "title": "Assistant Professor of New Testament"}];
 const STATS = {reg:532,courses:47,instructors:25,partners:8,alumni:139,rev:30029,avg:11,ond:4};
+const FACULTY = [
+  { file: 'Anthony_Briggman.jpg',                     name: 'Anthony Briggman' },
+  { file: 'Bo_Adams.jpg',                              name: 'Bo Adams' },
+  { file: 'Brett_Opalinski.jpg',                       name: 'Brett Opalinski' },
+  { file: 'Danielle_Tummino-Hansen.jpg',               name: 'Danielle Tummino-Hansen' },
+  { file: 'Dean_Joanne_Solis_Walker.jpg',              name: 'Dean Joanne Solis Walker' },
+  { file: 'Dr._Amey_Victoria_Adkins-Jones.jpg',        name: 'Dr. Amey Victoria Adkins-Jones' },
+  { file: 'Dr._Craig_Ford.jpg',                        name: 'Dr. Craig Ford' },
+  { file: 'Dr._Deanna_Womack.jpg',                     name: 'Dr. Deanna Womack' },
+  { file: 'Dr._Elizabeth_Arnold.jpg',                  name: 'Dr. Elizabeth Arnold' },
+  { file: 'Dr._Gregory_Wllison_II.jpg',                name: 'Dr. Gregory Wllison II' },
+  { file: 'Dr._Khalia_Williams.jpg',                   name: 'Dr. Khalia Williams' },
+  { file: 'Dr._Musa_Dube.jpg',                         name: 'Dr. Musa Dube' },
+  { file: 'Dr._Nichole_Phillips.jpg',                  name: 'Dr. Nichole Phillips' },
+  { file: 'Dr._Noel_Erskine.jpg',                      name: 'Dr. Noel Erskine' },
+  { file: 'Dr._Ryan_Bonfiglio.jpg',                    name: 'Dr. Ryan Bonfiglio' },
+  { file: 'Dr._Susan_Hylen.jpg',                       name: 'Dr. Susan Hylen' },
+  { file: 'Dr._Teresa_Fry_Brown.jpg',                  name: 'Dr. Teresa Fry Brown' },
+  { file: 'Gabrielle_Thomas.jpg',                      name: 'Gabrielle Thomas' },
+  { file: 'Ian_McFarland.jpg',                         name: 'Ian McFarland' },
+  { file: 'Jennifer_Ayres.jpg',                        name: 'Jennifer Ayres' },
+  { file: 'Jennifer_Quigley.jpg',                      name: 'Jennifer Quigley' },
+  { file: 'Joel_Kemp.jpg',                             name: 'Joel Kemp' },
+  { file: 'Lahronda_Little.jpg',                       name: 'Lahronda Little' },
+  { file: 'Luke_Timothy_Johnson.jpg',                  name: 'Luke Timothy Johnson' },
+  { file: 'Robert_Franklin.jpg',                       name: 'Robert Franklin' },
+  { file: 'Roger_Nam.jpg',                             name: 'Roger Nam' },
+  { file: 'Sarah_Bogue.jpg',                           name: 'Sarah Bogue' },
+  { file: 'The_Rev._Canon_John_Thompson-Quartey.jpg',  name: 'The Rev. Canon John Thompson-Quartey' },
+  { file: 'Tony_Alonso.jpg',                           name: 'Tony Alonso' }
+];
 
 const THEOED_EVENTS = [
   {city:'Nashville',year:'2025',label:'TheoEd Nashville',grad:'135deg, #1e3020 0%, #1e2530 100%',talks:[
@@ -1016,7 +1053,7 @@ function ciRenderGrid(instructors, totalCount, alumnCount) {
     circle.className = 'ci-circle';
 
     var img = document.createElement('img');
-    img.src = ciHeadshotUrl(p.name);
+    img.src = '/assets/headshots/' + p.file;
     img.alt = displayName;
 
     var initialsDiv = document.createElement('div');
@@ -1032,17 +1069,31 @@ function ciRenderGrid(instructors, totalCount, alumnCount) {
     circle.appendChild(img);
     circle.appendChild(initialsDiv);
 
-    var hover = document.createElement('div');
-    hover.className = 'ci-hover';
-    hover.innerHTML =
-      '<div class="ci-hover-num">' + p.courses + '</div>' +
-      '<div class="ci-hover-lbl">Courses</div>' +
-      '<div class="ci-hover-div"></div>' +
-      '<div class="ci-hover-reg">' + (p.regs || 0) + '</div>' +
-      '<div class="ci-hover-rlbl">Students</div>';
+    // Popout card (shown on mouseenter, hidden on mouseleave)
+    var popout = document.createElement('div');
+    popout.className = 'ci-popout';
+    popout.innerHTML =
+      '<div class="ci-pop-name">' + p.name + '</div>' +
+      '<div class="ci-pop-num">' + (p.courses || 0) + '</div>' +
+      '<div class="ci-pop-lbl">Courses Taught</div>' +
+      '<div class="ci-pop-div"></div>' +
+      '<div class="ci-pop-num">' + (p.regs || 0) + '</div>' +
+      '<div class="ci-pop-lbl">Students Reached</div>';
 
     circleWrap.appendChild(circle);
-    circleWrap.appendChild(hover);
+    circleWrap.appendChild(popout);
+
+    circleWrap.addEventListener('mouseenter', function() {
+      popout.style.display = 'block';
+      if (circleWrap.offsetTop < 200) {
+        popout.classList.add('ci-popout-below');
+      } else {
+        popout.classList.remove('ci-popout-below');
+      }
+    });
+    circleWrap.addEventListener('mouseleave', function() {
+      popout.style.display = 'none';
+    });
 
     var nameEl = document.createElement('div');
     nameEl.className = 'ci-name';
@@ -1100,33 +1151,6 @@ function initPeople() {
     }
   }
 
-  var fallbackInstructors = [
-    {name:'Dr. Ryan Bonfiglio',courses:8,regs:120},
-    {name:'Dr. Khalia Williams',courses:6,regs:90},
-    {name:'Dr. Teresa Fry Brown',courses:5,regs:75},
-    {name:'Dr. Susan Hylen',courses:4,regs:60},
-    {name:'Dr. Nichole Phillips',courses:4,regs:55},
-    {name:'Dr. Craig Ford',courses:3,regs:45},
-    {name:'Dr. Deanna Womack',courses:3,regs:40},
-    {name:'Jennifer Ayres',courses:3,regs:38},
-    {name:'Dr. Noel Erskine',courses:2,regs:30},
-    {name:'Dr. Elizabeth Arnold',courses:2,regs:28},
-    {name:'Roger Nam',courses:2,regs:25},
-    {name:'Ian McFarland',courses:2,regs:22},
-    {name:'Robert Franklin',courses:2,regs:20},
-    {name:'Luke Timothy Johnson',courses:2,regs:18},
-    {name:'Tony Alonso',courses:1,regs:15},
-    {name:'Joel Kemp',courses:1,regs:12},
-    {name:'Sarah Bogue',courses:1,regs:10},
-    {name:'Lahronda Little',courses:1,regs:8},
-    {name:'Gabrielle Thomas',courses:1,regs:8},
-    {name:'Brett Opalinski',courses:1,regs:7},
-    {name:'Bo Adams',courses:1,regs:6},
-    {name:'Anthony Briggman',courses:1,regs:5},
-    {name:'Jennifer Quigley',courses:1,regs:5},
-    {name:'Dr. Amey Victoria Adkins-Jones',courses:1,regs:5},
-    {name:'The Rev. Canon John Thompson-Quartey',courses:1,regs:4}
-  ];
   var fallbackAlum = 139;
 
   Promise.all([
@@ -1135,38 +1159,56 @@ function initPeople() {
   ]).then(function(results) {
     var coursesData = results[0];
     var studentsData = results[1];
-    var instructorMap = {};
     var alumnCount = fallbackAlum;
 
+    // Build enriched list from canonical FACULTY array
+    var enriched = FACULTY.map(function(f) {
+      return { file: f.file, name: f.name, courses: 0, regs: 0 };
+    });
+
+    // Enrich with Airtable course data — partial last-name match
     if (coursesData && coursesData.records && coursesData.records.length) {
       coursesData.records.forEach(function(rec) {
-        var names = rec.fields && rec.fields['Instructor(s)'];
+        var instrNames = rec.fields && rec.fields['Instructor(s)'];
         var regs = (rec.fields && rec.fields['# Reg']) || 0;
-        if (!names) return;
-        if (typeof names === 'string') names = [names];
-        names.forEach(function(name) {
-          name = name.trim();
-          if (!name) return;
-          if (!instructorMap[name]) instructorMap[name] = {name: name, courses: 0, regs: 0};
-          instructorMap[name].courses++;
-          instructorMap[name].regs += regs;
+        if (!instrNames) return;
+        if (typeof instrNames === 'string') instrNames = [instrNames];
+        instrNames.forEach(function(instrName) {
+          instrName = instrName.trim().toLowerCase();
+          enriched.forEach(function(f) {
+            var lastName = ciStripTitles(f.name).split(/\s+/).pop().toLowerCase();
+            if (lastName.length > 2 && instrName.includes(lastName)) {
+              f.courses++;
+              f.regs += regs;
+            }
+          });
         });
       });
     }
 
-    if (studentsData && studentsData.records) {
-      alumnCount = studentsData.records.filter(function(rec) {
-        return rec.fields && rec.fields['Is Candler Alum'] == 1;
-      }).length;
+    // Alumni count — try field name variations
+    if (studentsData && studentsData.records && studentsData.records.length) {
+      var alumFields = ['Is Candler Alum', 'Is Candler Alumni', 'Candler Alum', 'Candler Alumni'];
+      var counted = false;
+      for (var fi = 0; fi < alumFields.length; fi++) {
+        var fieldName = alumFields[fi];
+        var count = studentsData.records.filter(function(rec) {
+          var val = rec.fields && rec.fields[fieldName];
+          return val === 1 || val === true || val === '1' || val === 'Yes';
+        }).length;
+        if (count > 0) { alumnCount = count; counted = true; break; }
+      }
+      if (!counted) {
+        alumnCount = 139;
+        console.warn('Alumni count: all field name variations returned 0, using fallback 139');
+      }
     }
 
-    var instructors = Object.keys(instructorMap).map(function(k) { return instructorMap[k]; });
-    if (!instructors.length) instructors = fallbackInstructors;
-    instructors.sort(function(a, b) { return b.courses !== a.courses ? b.courses - a.courses : b.regs - a.regs; });
-
-    ciRenderGrid(instructors, instructors.length, alumnCount);
+    enriched.sort(function(a, b) { return b.courses !== a.courses ? b.courses - a.courses : b.regs - a.regs; });
+    ciRenderGrid(enriched, FACULTY.length, alumnCount);
   }).catch(function() {
-    ciRenderGrid(fallbackInstructors, fallbackInstructors.length, fallbackAlum);
+    var fallback = FACULTY.map(function(f) { return { file: f.file, name: f.name, courses: 0, regs: 0 }; });
+    ciRenderGrid(fallback, FACULTY.length, fallbackAlum);
   });
 }
 
