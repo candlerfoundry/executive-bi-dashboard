@@ -138,36 +138,50 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .theoed-lbl { font-size:10px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:rgba(30,37,48,0.45); margin-top:5px; line-height:1.5; }
 @media (max-width:900px) { .social-band { grid-template-columns:repeat(3,1fr); } .theoed-grid { grid-template-columns:repeat(2,1fr); } }
 
-/* TAB 3 — PEOPLE / CANDLER DATA */
-.candler-stat-band { display:grid; grid-template-columns:repeat(2,1fr); gap:3px; background:var(--blue); }
-.csb-cell { padding:32px 40px; text-align:center; border-right:1px solid rgba(250,250,242,0.07); }
-.csb-cell:last-child { border-right:none; }
-.csb-icon { margin:0 auto 10px; display:flex; align-items:center; justify-content:center; }
-.csb-num { font-size:2.5rem; font-weight:700; color:#c84826; line-height:1; }
-.csb-lbl { font-size:10px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:rgba(250,250,242,0.7); margin-top:6px; }
-.csb-cap { font-size:14px; font-weight:300; color:rgba(250,250,242,0.4); margin-top:4px; }
-.people-body { width: 100%; padding: 48px 60px; }
-.faculty-chart { margin-bottom:16px; }
-.fb-row { display:flex; align-items:center; gap:14px; padding:10px 14px; border-radius:8px; position:relative; transition:background 0.2s; cursor:default; }
-.fb-row:hover { background:rgba(250,250,242,0.8); }
-.fb-avatar { width:44px; height:44px; border-radius:50%; background:#1e2530; display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:700; color:#fafaf2; flex-shrink:0; }
-.fb-name { font-weight:500; font-size:0.95rem; color:#1e2530; min-width:180px; flex-shrink:0; }
-.fb-track { flex:1; height:28px; background:rgba(200,72,38,0.1); border-radius:4px; overflow:hidden; }
-.fb-fill { height:100%; width:0; border-radius:4px; background:linear-gradient(90deg,#c84826,#e8763a); transition:width 0.6s ease-out; }
-.fb-count { font-weight:700; color:#c84826; font-size:0.9rem; margin-left:8px; flex-shrink:0; min-width:24px; }
-.fb-popout { position:absolute; top:50%; left:272px; transform:translateY(-50%); background:#fafaf2; border-left:3px solid #c84826; box-shadow:0 4px 12px rgba(0,0,0,0.1); padding:12px 16px; font-size:0.85rem; color:#1e2530; z-index:10; border-radius:0 8px 8px 0; min-width:230px; opacity:0; visibility:hidden; transition:opacity 0.2s ease; pointer-events:none; }
-.fb-row:hover .fb-popout { opacity:1; visibility:visible; pointer-events:auto; }
-.fb-popout-title { font-weight:700; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:#c84826; margin-bottom:8px; }
-.fb-popout-course { padding:3px 0; border-bottom:1px solid rgba(30,37,48,0.07); font-size:0.82rem; line-height:1.45; }
-.fb-popout-course:last-child { border-bottom:none; }
-.show-more-wrap { text-align:center; padding:16px 0 0; }
+/* TAB 3 — CANDLER IMPACT */
+/* Quote Banner */
+.ci-quote-banner { background:#fdf7f0; border-left:5px solid #c84826; padding:20px 36px 18px 28px; display:flex; justify-content:space-between; align-items:center; gap:24px; transition:opacity 0.5s; }
+.ci-quote-content { flex:1; }
+.ci-qmark { font-family:'Georgia',serif; font-size:80px; line-height:0.5; color:#c84826; display:block; margin-bottom:10px; }
+.ci-qtext { color:#2a2a2a; font-size:14px; line-height:1.7; }
+.ci-qattr { color:#c84826; font-size:10px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; margin-top:8px; }
+.ci-dots { display:flex; flex-direction:column; gap:7px; align-items:center; flex-shrink:0; }
+.ci-dot { width:7px; height:7px; border-radius:50%; background:#ddd; cursor:pointer; border:none; padding:0; }
+.ci-dot.active { background:#c84826; }
+/* 2-col layout */
+.ci-body { display:grid; grid-template-columns:1fr 200px; }
+/* Faculty grid (left) */
+.ci-faculty { padding:32px 40px 40px; }
+.ci-faculty-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:16px 12px; margin-bottom:20px; }
+.ci-person { text-align:center; }
+.ci-circle-wrap { position:relative; width:90px; margin:0 auto 6px; }
+.ci-circle { width:90px; height:90px; border-radius:50%; border:2px solid transparent; overflow:hidden; background:#1e2530; display:flex; align-items:center; justify-content:center; cursor:default; transition:border-color 0.2s,transform 0.2s; }
+.ci-circle img { width:100%; height:100%; object-fit:cover; display:block; }
+.ci-initials { width:100%; height:100%; display:flex; align-items:center; justify-content:center; font-size:22px; font-weight:700; color:#c84826; }
+.ci-circle-wrap:hover .ci-circle { border-color:#c84826; transform:scale(1.05); }
+.ci-hover { position:absolute; top:0; left:0; width:90px; height:90px; border-radius:50%; background:rgba(30,37,48,0.93); display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; transition:opacity 0.2s; pointer-events:none; }
+.ci-circle-wrap:hover .ci-hover { opacity:1; }
+.ci-hover-num { font-size:20px; font-weight:700; color:#c84826; line-height:1; }
+.ci-hover-lbl { font-size:8px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; color:rgba(250,250,242,0.7); margin-bottom:4px; }
+.ci-hover-div { width:30px; height:1px; background:rgba(250,250,242,0.2); margin:4px 0; }
+.ci-hover-reg { font-size:14px; font-weight:700; color:rgba(250,250,242,0.9); line-height:1; }
+.ci-hover-rlbl { font-size:8px; font-weight:600; letter-spacing:0.5px; text-transform:uppercase; color:rgba(250,250,242,0.7); margin-top:2px; }
+.ci-name { font-size:9px; color:#333; font-weight:500; line-height:1.25; max-width:90px; margin:0 auto; }
+.ci-show-all-wrap { text-align:center; padding:8px 0; }
 .show-more-btn { background:transparent; border:1.5px solid #c84826; padding:8px 20px; font-family:'Montserrat',sans-serif; font-size:13px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:#c84826; cursor:pointer; border-radius:6px; transition:background 0.2s,color 0.2s; }
 .show-more-btn:hover { background:#c84826; color:#fafaf2; }
-.alumni-band { background:var(--blue); padding:40px 48px; display:flex; align-items:center; gap:56px; }
-.alum-big { flex-shrink:0; text-align:center; }
-.alum-num { font-size:90px; font-weight:700; color:var(--cream); line-height:1; }
-.alum-lbl { font-size:10px; font-weight:700; letter-spacing:0.35em; text-transform:uppercase; color:var(--orange); margin-top:6px; }
-.alum-desc { font-size:23px; font-weight:300; color:rgba(250,250,242,0.65); line-height:1.7; }
+/* Sidebar (right) */
+.ci-sidebar { background:#1e2530; padding:24px 18px; }
+.ci-sidebar-hdr { color:#c84826; font-size:9px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; border-bottom:1px solid rgba(200,72,38,0.3); padding-bottom:10px; }
+.ci-stat-block { padding:16px 0; border-bottom:1px solid rgba(255,255,255,0.07); text-align:center; }
+.ci-stat-block:last-child { border-bottom:none; }
+.ci-stat-num { color:#c84826; font-size:30px; font-weight:700; line-height:1; margin-bottom:5px; }
+.ci-stat-lbl { color:rgba(255,255,255,0.85); font-size:10px; font-weight:600; letter-spacing:0.8px; text-transform:uppercase; margin-bottom:3px; }
+.ci-stat-desc { color:rgba(255,255,255,0.38); font-size:9px; line-height:1.4; }
+/* Loading skeleton */
+.ci-skel { width:90px; height:90px; border-radius:50%; background:rgba(30,37,48,0.12); margin:0 auto 6px; animation:ci-pulse 1.4s ease-in-out infinite; }
+.ci-skel-name { height:9px; background:rgba(30,37,48,0.1); border-radius:4px; width:70%; margin:0 auto; animation:ci-pulse 1.4s ease-in-out infinite; }
+@keyframes ci-pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
 
 /* ═══ SECTION: GLOBAL CARD POLISH ═══ */
 .chart-panel, .ss-cell, .reach-card, .denom-section, .theoed-section, .theoed-cell, .map-panel, .team-card, .placeholder-card {
@@ -361,7 +375,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   <button class="nav-tab active" onclick="switchTab('whoweare',this)">Our Mission &amp; Offerings</button>
   <button class="nav-tab" onclick="switchTab('year',this)">This Year</button>
   <button class="nav-tab" onclick="switchTab('numreach',this)">By the Numbers &amp; Reach</button>
-  <button class="nav-tab" onclick="switchTab('people',this)">Candler Data</button>
+  <button class="nav-tab" onclick="switchTab('people',this)">Candler Impact</button>
   <button class="nav-tab" onclick="switchTab('theoed',this)">TheoEd</button>
   <button class="nav-tab" onclick="switchTab('ourteam',this)">Our Team</button>
   <button class="nav-tab" onclick="switchTab('stories',this)">Impact Stories</button>
@@ -514,38 +528,50 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   </div>
 </div>
 
-<!-- TAB 3: OUR PEOPLE -->
+<!-- TAB 3: CANDLER IMPACT -->
 <div id="panel-people" class="panel">
   <div class="section-header">
-    <div class="section-label">Faculty, Alumni &amp; Staff</div>
-    <h2 class="section-title">Candler Data</h2>
-    <p class="section-subtitle">The people behind The Candler Foundry — faculty, staff, and alumni shaping theological education for the public</p>
+    <h2 class="section-title">Candler Impact</h2>
+    <p class="section-subtitle">The Candler Foundry maintains an incredibly strong partnership with its faculty, students, and alumni, serving as a bridge that connects the academy to Candler-educated leaders and their communities around the world.</p>
   </div>
-  <div class="candler-stat-band">
-    <div class="csb-cell">
-      <div class="csb-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c84826" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
-      <div class="csb-num" id="cnt-faculty">0</div>
-      <div class="csb-lbl">Faculty &amp; Instructors</div>
-      <div class="csb-cap">Candler School of Theology faculty</div>
+  <!-- Quote Banner -->
+  <div class="ci-quote-banner">
+    <div class="ci-quote-content">
+      <span class="ci-qmark">&ldquo;</span>
+      <div class="ci-qtext" id="ci-qtext"></div>
+      <div class="ci-qattr" id="ci-qattr"></div>
     </div>
-    <div class="csb-cell">
-      <div class="csb-icon"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c84826" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5-10-5z"/><path d="M6 12v5c0 1.657 2.686 3 6 3s6-1.343 6-3v-5"/></svg></div>
-      <div class="csb-num" id="cnt-alum-top">0</div>
-      <div class="csb-lbl">Candler Alumni</div>
-      <div class="csb-cap">certificate program completions</div>
+    <div class="ci-dots" id="ci-dots">
+      <button class="ci-dot active" onclick="ciGoto(0)"></button>
+      <button class="ci-dot" onclick="ciGoto(1)"></button>
+      <button class="ci-dot" onclick="ciGoto(2)"></button>
     </div>
   </div>
-  <div class="people-body">
-    <div class="faculty-chart" id="faculty-chart"></div>
-    <div class="show-more-wrap" id="show-more-wrap" style="display:none;">
-      <button class="show-more-btn" id="show-more-btn">Show All Faculty</button>
-    </div>
-    <div class="alumni-band">
-      <div class="alum-big">
-        <div class="alum-num" id="cnt-alum-big">0</div>
-        <div class="alum-lbl">Candler Alumni</div>
+  <!-- Main body: faculty grid + sidebar -->
+  <div class="ci-body">
+    <div class="ci-faculty">
+      <div class="ci-faculty-grid" id="ci-faculty-grid"></div>
+      <div class="ci-show-all-wrap">
+        <button class="show-more-btn" id="ci-show-all-btn" style="display:none;">Show All Faculty</button>
       </div>
-      <div class="alum-desc">Candler graduates continue their theological formation through The Foundry — returning as learners, deepening their relationship with Emory and the broader church.</div>
+    </div>
+    <div class="ci-sidebar">
+      <div class="ci-sidebar-hdr">At a Glance</div>
+      <div class="ci-stat-block">
+        <div class="ci-stat-num" id="ci-stat-pct">&mdash;</div>
+        <div class="ci-stat-lbl">Faculty Engaged</div>
+        <div class="ci-stat-desc" id="ci-stat-pct-desc">of 68 Candler faculty have taught for The Foundry</div>
+      </div>
+      <div class="ci-stat-block">
+        <div class="ci-stat-num" id="ci-stat-alum">&mdash;</div>
+        <div class="ci-stat-lbl">Alumni Enrolled</div>
+        <div class="ci-stat-desc">Candler alumni in a Foundry program</div>
+      </div>
+      <div class="ci-stat-block">
+        <div class="ci-stat-num">74</div>
+        <div class="ci-stat-lbl">Churches Served</div>
+        <div class="ci-stat-desc">Congregations reached through Foundry programs</div>
+      </div>
     </div>
   </div>
 </div>
@@ -917,91 +943,231 @@ function initNumbers() {
 }
 
 var peopleReady = false;
+
+var CI_QUOTES = [
+  {
+    text: 'The Candler Foundry gave our congregation access to world-class theological scholarship we never could have found on our own. Our people are still talking about what they learned months later.',
+    attr: 'Rev. Carmie McDonald \u00b7 Associate Rector, Epiphany Episcopal Church, Decatur GA \u00b7 M.Div. 2008'
+  },
+  {
+    text: 'We couldn\u2019t fully prepare our congregation to be the public theologians they are without all of the help from The Candler Foundry.',
+    attr: 'Jenn Stiles Williams \u00b7 Lead Pastor, St. Luke\u2019s UMC, Orlando'
+  },
+  {
+    text: 'TheoEd talks offers one of the best resources available for people wrestling with spiritual questions. The diversity of topics and presenters is unparalleled!',
+    attr: 'Jeff Myers \u00b7 Senior Pastor, Roswell Presbyterian Church'
+  }
+];
+var ciQuoteIdx = 0;
+var ciQuoteTimer = null;
+
+function ciSetQuote(idx) {
+  ciQuoteIdx = idx;
+  var banner = document.querySelector('.ci-quote-banner');
+  var textEl = document.getElementById('ci-qtext');
+  var attrEl = document.getElementById('ci-qattr');
+  if (!textEl || !attrEl) return;
+  if (banner) banner.style.opacity = '0';
+  setTimeout(function() {
+    textEl.textContent = CI_QUOTES[idx].text;
+    attrEl.textContent = '\u2014 ' + CI_QUOTES[idx].attr;
+    document.querySelectorAll('.ci-dot').forEach(function(d, i) {
+      d.classList.toggle('active', i === idx);
+    });
+    if (banner) banner.style.opacity = '1';
+  }, 250);
+}
+
+function ciGoto(idx) {
+  if (ciQuoteTimer) clearInterval(ciQuoteTimer);
+  ciSetQuote(idx);
+  ciQuoteTimer = setInterval(function() { ciSetQuote((ciQuoteIdx + 1) % CI_QUOTES.length); }, 9000);
+}
+
+function ciStripTitles(name) {
+  return name
+    .replace(/^(The\s+Rev\.\s*Canon\s+|Rev\.\s*Dr\.\s*|Rev\.\s*|Dr\.\s*|Prof\.\s*|Mr\.\s*|Ms\.\s*|Mrs\.\s*|Dean\s+)/i, '')
+    .replace(/^(The\s+Rev\.\s*Canon\s+|Rev\.\s*Dr\.\s*|Rev\.\s*|Dr\.\s*|Prof\.\s*|Mr\.\s*|Ms\.\s*|Mrs\.\s*|Dean\s+)/i, '')
+    .trim();
+}
+
+function ciHeadshotUrl(name) {
+  return '/assets/headshots/' + name.replace(/\s+/g, '_') + '.jpg';
+}
+
+function ciRenderGrid(instructors, totalCount, alumnCount) {
+  var grid = document.getElementById('ci-faculty-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  var SHOW_N = 20;
+  var hidden = [];
+
+  instructors.forEach(function(p, idx) {
+    var displayName = ciStripTitles(p.name);
+    var initials = displayName.split(/\s+/).map(function(w) { return w[0] || ''; }).join('').slice(0, 2).toUpperCase();
+
+    var wrap = document.createElement('div');
+    wrap.className = 'ci-person';
+
+    var circleWrap = document.createElement('div');
+    circleWrap.className = 'ci-circle-wrap';
+
+    var circle = document.createElement('div');
+    circle.className = 'ci-circle';
+
+    var img = document.createElement('img');
+    img.src = ciHeadshotUrl(p.name);
+    img.alt = displayName;
+
+    var initialsDiv = document.createElement('div');
+    initialsDiv.className = 'ci-initials';
+    initialsDiv.textContent = initials;
+    initialsDiv.style.display = 'none';
+
+    img.onerror = function() {
+      this.style.display = 'none';
+      initialsDiv.style.display = 'flex';
+    };
+
+    circle.appendChild(img);
+    circle.appendChild(initialsDiv);
+
+    var hover = document.createElement('div');
+    hover.className = 'ci-hover';
+    hover.innerHTML =
+      '<div class="ci-hover-num">' + p.courses + '</div>' +
+      '<div class="ci-hover-lbl">Courses</div>' +
+      '<div class="ci-hover-div"></div>' +
+      '<div class="ci-hover-reg">' + (p.regs || 0) + '</div>' +
+      '<div class="ci-hover-rlbl">Students</div>';
+
+    circleWrap.appendChild(circle);
+    circleWrap.appendChild(hover);
+
+    var nameEl = document.createElement('div');
+    nameEl.className = 'ci-name';
+    nameEl.textContent = displayName;
+
+    wrap.appendChild(circleWrap);
+    wrap.appendChild(nameEl);
+
+    if (idx >= SHOW_N) {
+      wrap.style.display = 'none';
+      hidden.push(wrap);
+    }
+    grid.appendChild(wrap);
+  });
+
+  var btn = document.getElementById('ci-show-all-btn');
+  if (btn) {
+    if (hidden.length > 0) {
+      btn.style.display = '';
+      btn.onclick = function() {
+        hidden.forEach(function(el) { el.style.display = ''; });
+        btn.style.display = 'none';
+      };
+    } else {
+      btn.style.display = 'none';
+    }
+  }
+
+  // Update sidebar stats
+  var pctEl = document.getElementById('ci-stat-pct');
+  var pctDescEl = document.getElementById('ci-stat-pct-desc');
+  var alumEl = document.getElementById('ci-stat-alum');
+  if (pctEl) pctEl.textContent = Math.round((totalCount / 68) * 100) + '%';
+  if (pctDescEl) pctDescEl.textContent = totalCount + ' of 68 Candler faculty have taught for The Foundry';
+  if (alumEl) alumEl.textContent = alumnCount;
+}
+
 function initPeople() {
   if (peopleReady) return;
   peopleReady = true;
-  var chart = document.getElementById('faculty-chart');
-  if (!chart) return;
 
-  // Build course-title map from COURSES array (keyed by instructor name)
-  var courseMap = {};
-  COURSES.forEach(function(c) {
-    if (!courseMap[c.instructor]) courseMap[c.instructor] = [];
-    courseMap[c.instructor].push(c.title);
-  });
+  // Initialize quote carousel
+  ciSetQuote(0);
+  ciQuoteTimer = setInterval(function() { ciSetQuote((ciQuoteIdx + 1) % CI_QUOTES.length); }, 9000);
 
-  var sorted = INSTRUCTORS.slice().sort(function(a, b) { return b.courses - a.courses; });
-  var maxCourses = sorted[0] ? sorted[0].courses : 1;
-  var TOP_N = 10;
-  var hiddenRows = [];
-
-  sorted.forEach(function(p, idx) {
-    var clean = p.name.replace(/Dr\.\s*/g, '').replace(/The Rev\. Canon\s*/g, '').replace(/Rev\.\s*/g, '');
-    var parts = clean.trim().split(' ');
-    var initials = parts.map(function(w) { return w[0] || ''; }).join('').slice(0, 2).toUpperCase();
-    var pct = Math.round((p.courses / maxCourses) * 100);
-
-    // Build popout HTML
-    var knownCourses = courseMap[p.name] || [];
-    var extraCount = p.courses - knownCourses.length;
-    var popoutHtml = '<div class="fb-popout-title">Courses Taught</div>';
-    knownCourses.forEach(function(t) {
-      popoutHtml += '<div class="fb-popout-course">' + t + '</div>';
-    });
-    if (extraCount > 0) {
-      popoutHtml += '<div class="fb-popout-course" style="color:rgba(30,37,48,0.45);">+ ' + extraCount + ' additional course' + (extraCount !== 1 ? 's' : '') + '</div>';
+  // Show loading skeleton
+  var grid = document.getElementById('ci-faculty-grid');
+  if (grid) {
+    grid.innerHTML = '';
+    for (var s = 0; s < 10; s++) {
+      var sk = document.createElement('div');
+      sk.className = 'ci-person';
+      sk.innerHTML = '<div class="ci-skel"></div><div class="ci-skel-name"></div>';
+      grid.appendChild(sk);
     }
-    if (knownCourses.length === 0) {
-      popoutHtml += '<div class="fb-popout-course" style="color:rgba(30,37,48,0.45);">' + p.courses + ' course' + (p.courses !== 1 ? 's' : '') + ' taught</div>';
-    }
-
-    var row = document.createElement('div');
-    row.className = 'fb-row';
-    row.innerHTML =
-      '<div class="fb-avatar">' + initials + '</div>' +
-      '<div class="fb-name">' + p.name + '</div>' +
-      '<div class="fb-track"><div class="fb-fill" data-pct="' + pct + '"></div></div>' +
-      '<div class="fb-count">' + p.courses + '</div>' +
-      '<div class="fb-popout">' + popoutHtml + '</div>';
-
-    if (idx >= TOP_N) {
-      row.style.display = 'none';
-      hiddenRows.push(row);
-    }
-    chart.appendChild(row);
-  });
-
-  // Animate bars after a short delay (allows layout to settle)
-  setTimeout(function() {
-    var fills = chart.querySelectorAll('.fb-fill');
-    fills.forEach(function(fill, i) {
-      setTimeout(function() {
-        fill.style.width = fill.getAttribute('data-pct') + '%';
-      }, i * 40);
-    });
-  }, 120);
-
-  if (hiddenRows.length > 0) {
-    var wrap = document.getElementById('show-more-wrap');
-    var btn = document.getElementById('show-more-btn');
-    if (wrap) wrap.style.display = 'block';
-    if (btn) btn.addEventListener('click', function() {
-      hiddenRows.forEach(function(r) { r.style.display = ''; });
-      wrap.style.display = 'none';
-      setTimeout(function() {
-        hiddenRows.forEach(function(r, i) {
-          setTimeout(function() {
-            var fill = r.querySelector('.fb-fill');
-            if (fill) fill.style.width = fill.getAttribute('data-pct') + '%';
-          }, i * 40);
-        });
-      }, 50);
-    });
   }
 
-  countUp(document.getElementById('cnt-faculty'), STATS.instructors, 1200);
-  countUp(document.getElementById('cnt-alum-top'), STATS.alumni, 1800);
-  countUp(document.getElementById('cnt-alum-big'), STATS.alumni, 1800);
+  var fallbackInstructors = [
+    {name:'Dr. Ryan Bonfiglio',courses:8,regs:120},
+    {name:'Dr. Khalia Williams',courses:6,regs:90},
+    {name:'Dr. Teresa Fry Brown',courses:5,regs:75},
+    {name:'Dr. Susan Hylen',courses:4,regs:60},
+    {name:'Dr. Nichole Phillips',courses:4,regs:55},
+    {name:'Dr. Craig Ford',courses:3,regs:45},
+    {name:'Dr. Deanna Womack',courses:3,regs:40},
+    {name:'Jennifer Ayres',courses:3,regs:38},
+    {name:'Dr. Noel Erskine',courses:2,regs:30},
+    {name:'Dr. Elizabeth Arnold',courses:2,regs:28},
+    {name:'Roger Nam',courses:2,regs:25},
+    {name:'Ian McFarland',courses:2,regs:22},
+    {name:'Robert Franklin',courses:2,regs:20},
+    {name:'Luke Timothy Johnson',courses:2,regs:18},
+    {name:'Tony Alonso',courses:1,regs:15},
+    {name:'Joel Kemp',courses:1,regs:12},
+    {name:'Sarah Bogue',courses:1,regs:10},
+    {name:'Lahronda Little',courses:1,regs:8},
+    {name:'Gabrielle Thomas',courses:1,regs:8},
+    {name:'Brett Opalinski',courses:1,regs:7},
+    {name:'Bo Adams',courses:1,regs:6},
+    {name:'Anthony Briggman',courses:1,regs:5},
+    {name:'Jennifer Quigley',courses:1,regs:5},
+    {name:'Dr. Amey Victoria Adkins-Jones',courses:1,regs:5},
+    {name:'The Rev. Canon John Thompson-Quartey',courses:1,regs:4}
+  ];
+  var fallbackAlum = 139;
+
+  Promise.all([
+    fetch('/.netlify/functions/airtable?table=tblQNAsrQcdnM8UZC').then(function(r) { return r.json(); }).catch(function() { return null; }),
+    fetch('/.netlify/functions/airtable?table=tbl0jx0urjA5KINjA').then(function(r) { return r.json(); }).catch(function() { return null; })
+  ]).then(function(results) {
+    var coursesData = results[0];
+    var studentsData = results[1];
+    var instructorMap = {};
+    var alumnCount = fallbackAlum;
+
+    if (coursesData && coursesData.records && coursesData.records.length) {
+      coursesData.records.forEach(function(rec) {
+        var names = rec.fields && rec.fields['Instructor(s)'];
+        var regs = (rec.fields && rec.fields['# Reg']) || 0;
+        if (!names) return;
+        if (typeof names === 'string') names = [names];
+        names.forEach(function(name) {
+          name = name.trim();
+          if (!name) return;
+          if (!instructorMap[name]) instructorMap[name] = {name: name, courses: 0, regs: 0};
+          instructorMap[name].courses++;
+          instructorMap[name].regs += regs;
+        });
+      });
+    }
+
+    if (studentsData && studentsData.records) {
+      alumnCount = studentsData.records.filter(function(rec) {
+        return rec.fields && rec.fields['Is Candler Alum'] == 1;
+      }).length;
+    }
+
+    var instructors = Object.keys(instructorMap).map(function(k) { return instructorMap[k]; });
+    if (!instructors.length) instructors = fallbackInstructors;
+    instructors.sort(function(a, b) { return b.courses !== a.courses ? b.courses - a.courses : b.regs - a.regs; });
+
+    ciRenderGrid(instructors, instructors.length, alumnCount);
+  }).catch(function() {
+    ciRenderGrid(fallbackInstructors, fallbackInstructors.length, fallbackAlum);
+  });
 }
 
 function buildMap() {
