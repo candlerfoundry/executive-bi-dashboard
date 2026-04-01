@@ -117,6 +117,20 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 /* Map */
 #nr-map-container { width:100%; }
 
+/* Growth and Reach — Hero Banner */
+.gr-hero { background-image:url('/assets/Graphic_2.png'); background-size:cover; background-position:center; position:relative; min-height:240px; display:flex; align-items:center; justify-content:center; }
+.gr-hero-overlay { position:absolute; inset:0; background:rgba(26,37,48,0.72); }
+.gr-hero-content { position:relative; z-index:1; text-align:center; padding:48px 32px; }
+.gr-hero-title { font-size:36px; font-weight:700; color:#ffffff; letter-spacing:-0.5px; margin:0 0 14px; font-family:'Montserrat',sans-serif; }
+.gr-hero-subtitle { font-size:17px; font-weight:400; color:#ffffff; max-width:700px; margin:0 auto; line-height:1.7; font-family:'Montserrat',sans-serif; }
+/* Growth and Reach — Impact Stats Grid */
+.gr-stats-section { background:#fafaf2; padding:48px 60px; }
+.gr-stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+.gr-stat-card { background:#1e2530; border-radius:12px; padding:28px 24px; }
+.gr-stat-num { font-size:56px; font-weight:700; color:#c84826; line-height:1; font-family:'Montserrat',sans-serif; }
+.gr-stat-label { font-size:13px; font-weight:600; color:#fafaf2; text-transform:uppercase; letter-spacing:2px; margin-top:6px; font-family:'Montserrat',sans-serif; }
+.gr-stat-sublabel { font-size:13px; font-weight:400; color:rgba(250,250,242,0.6); margin-top:4px; font-family:'Montserrat',sans-serif; }
+
 /* TAB 3 — CANDLER IMPACT */
 /* Quote Banner — hero image with dark overlay */
 .ci-quote-banner { background-image:url('/assets/Graphic_1.png'); background-size:cover; background-position:center 25%; position:relative; min-height:220px; display:flex; align-items:center; justify-content:center; transition:opacity 0.5s; }
@@ -347,7 +361,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 <nav class="nav-tabs">
   <button class="nav-tab active" onclick="switchTab('whoweare',this)">Our Mission &amp; Offerings</button>
   <button class="nav-tab" onclick="switchTab('year',this)">This Year</button>
-  <button class="nav-tab" onclick="switchTab('numreach',this)">By the Numbers &amp; Reach</button>
+  <button class="nav-tab" onclick="switchTab('numreach',this)">Growth and Reach</button>
   <button class="nav-tab" onclick="switchTab('people',this)">Candler Impact</button>
   <button class="nav-tab" onclick="switchTab('theoed',this)">TheoEd</button>
   <button class="nav-tab" onclick="switchTab('ourteam',this)">Our Team</button>
@@ -372,11 +386,77 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 <!-- TAB: BY THE NUMBERS & REACH -->
 <div id="panel-numreach" class="panel">
-  <div class="section-header">
-    <div class="section-label">Reach &amp; Impact Data</div>
-    <h2 class="section-title">By the Numbers &amp; Reach</h2>
-    <p class="section-subtitle">The breadth and depth of The Candler Foundry&rsquo;s impact &mdash; by the data.</p>
+
+  <!-- Hero Banner -->
+  <div class="gr-hero">
+    <div class="gr-hero-overlay"></div>
+    <div class="gr-hero-content">
+      <div class="gr-hero-title">Growth and Reach</div>
+      <p class="gr-hero-subtitle">Since its founding in 2018, The Candler Foundry has steadily grown from the ground up, now serving thousands of students worldwide through a multitude of learning modalities.</p>
+    </div>
   </div>
+
+  <!-- Impact Stats Grid -->
+  <div class="gr-stats-section">
+    <div class="gr-stats-grid">
+
+      <div class="gr-stat-card">
+        <div class="gr-stat-num">2,815</div>
+        <div class="gr-stat-label">Total Registrations</div>
+        <div class="gr-stat-sublabel">All-time participants</div>
+      </div>
+
+      <div class="gr-stat-card">
+        <div class="gr-stat-num">150</div>
+        <div class="gr-stat-label">Courses Offered</div>
+        <div class="gr-stat-sublabel">Since founding in 2018</div>
+      </div>
+
+      <div class="gr-stat-card">
+        <div class="gr-stat-num">74</div>
+        <div class="gr-stat-label">Church Partners</div>
+        <div class="gr-stat-sublabel">Partner congregations</div>
+      </div>
+
+      <div class="gr-stat-card">
+        <div class="gr-stat-num">532</div>
+        <div class="gr-stat-label">Participants This Year</div>
+        <div class="gr-stat-sublabel">2025 registrations</div>
+      </div>
+
+      <div class="gr-stat-card">
+        <div class="gr-stat-num">47</div>
+        <div class="gr-stat-label">Courses This Year</div>
+        <div class="gr-stat-sublabel">2025 programming</div>
+      </div>
+
+      <div class="gr-stat-card">
+        <div class="gr-stat-num">139</div>
+        <div class="gr-stat-label">Alumni Reached</div>
+        <div class="gr-stat-sublabel">Candler alumni served</div>
+      </div>
+
+      <div class="gr-stat-card">
+        <div class="gr-stat-num">8</div>
+        <div class="gr-stat-label">Years of Impact</div>
+        <div class="gr-stat-sublabel">Founded in 2018</div>
+      </div>
+
+      <div class="gr-stat-card">
+        <div class="gr-stat-num">12</div>
+        <div class="gr-stat-label">TheoEd Events</div>
+        <div class="gr-stat-sublabel">Live theological talks</div>
+      </div>
+
+      <div class="gr-stat-card">
+        <div class="gr-stat-num">$30,029</div>
+        <div class="gr-stat-label">Program Revenue</div>
+        <div class="gr-stat-sublabel">2025 courses</div>
+      </div>
+
+    </div>
+  </div>
+
   <div class="numreach-grid">
 
     <!-- BLOCK 1: Timeline (full width) -->

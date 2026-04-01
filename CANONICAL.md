@@ -1,5 +1,5 @@
 # Executive BI Dashboard — CANONICAL.md
-Last updated: 2026-03-31
+Last updated: 2026-04-01
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in index.html.
@@ -116,8 +116,15 @@ TheoEd event years (2019 city labels) are NOT the founding year and must NOT be 
 
 ---
 
-## 11. BY THE NUMBERS & REACH — LAYOUT (as of Session 22)
-**Rule:** 3-row, 2-column grid using `.numreach-grid` (display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:0 48px 48px).
+## 11. GROWTH AND REACH — LAYOUT (as of Session 23)
+**Rule:** Tab is named "Growth and Reach" (was "By the Numbers & Reach"). Nav button and panel heading both use "Growth and Reach".
+
+**Hero banner** (`.gr-hero`): background-image url('/assets/Graphic_2.png'), background-size cover, min-height 240px. Dark overlay `.gr-hero-overlay` rgba(26,37,48,0.72). Content div `.gr-hero-content` centered, z-index 1. Title `.gr-hero-title` 36px 700 white letter-spacing -0.5px. Subtitle `.gr-hero-subtitle` 17px 400 white max-width 700px line-height 1.7. No eyebrow label.
+
+**Impact Stats Grid** (`.gr-stats-section`): cream (#fafaf2) bg, padding 48px 60px. Grid `.gr-stats-grid`: repeat(3,1fr), gap 20px. Each `.gr-stat-card`: navy (#1e2530) bg, border-radius 12px, padding 28px 24px. Stat number `.gr-stat-num`: #c84826, 56px, Montserrat 700. Label `.gr-stat-label`: #fafaf2, 13px, 600, uppercase, letter-spacing 2px, margin-top 6px. Sublabel `.gr-stat-sublabel`: rgba(250,250,242,0.6), 13px, 400, margin-top 4px.
+9 cards (3 rows × 3 cols): 2,815 Total Registrations / 150 Courses Offered / 74 Church Partners / 532 Participants This Year / 47 Courses This Year / 139 Alumni Reached / 8 Years of Impact / 12 TheoEd Events / $30,029 Program Revenue.
+
+**Below stats: `.numreach-grid`** — 3-row, 2-column grid (display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:0 48px 48px).
 All blocks use `.nr-block` (white bg, border-radius 12px, border rgba(30,37,48,0.08), padding 22px 24px).
 Row 1: `.nr-block.nr-block-full` (grid-column:1/-1) — horizontal timeline, 5 milestones.
 Row 2 left: All-time stats block — 3 side-by-side stat items (2,815 / 150 / 74), white bg.
