@@ -76,67 +76,46 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .o-lbl { font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(30,37,48,0.4); margin-top: 4px; }
 
 /* TAB 2 — NUMBERS */
-.numbers-body { width: 100%; padding: 48px 60px; }
-.hero-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 3px; margin-bottom: 40px; }
-.hero-stat { background: var(--blue); padding: 36px 24px 28px; text-align: center; position: relative; overflow: hidden; transition: transform 0.2s ease; cursor: default; }
-.hero-stat:hover { transform: translateY(-2px); }
-.hero-stat::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 60%, var(--orange-glow) 0%, transparent 70%); animation: hpulse 3.5s ease-in-out infinite; }
-.hero-stat-icon { display: flex; justify-content: center; align-items: center; margin-bottom: 10px; opacity: 0.5; position: relative; z-index: 1; }
-.hero-stat-caption { font-size: 13px; font-weight: 400; color: rgba(250,250,242,0.55); margin-top: 10px; line-height: 1.5; opacity: 0; transform: translateY(4px); transition: opacity 0.2s ease, transform 0.2s ease; max-width: 200px; margin-left: auto; margin-right: auto; padding: 0 8px; position: relative; z-index: 1; }
-.hero-stat:hover .hero-stat-caption { opacity: 1; transform: translateY(0); }
-@keyframes hpulse { 0%,100% { transform:scale(0.85); opacity:0.5; } 50% { transform:scale(1.15); opacity:1; } }
-.ring-wrap { position: relative; width: 96px; height: 96px; margin: 0 auto 18px; }
-.ring-wrap svg { position: absolute; inset:0; width:100%; height:100%; transform: rotate(-90deg); }
-.r-bg { fill:none; stroke:rgba(250,250,242,0.07); stroke-width:4; }
-.r-fill { fill:none; stroke:var(--orange); stroke-width:4; stroke-linecap:round; stroke-dasharray:276; stroke-dashoffset:276; transition: stroke-dashoffset 2s cubic-bezier(0.16,1,0.3,1); }
-.ring-num { position: absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:35px; font-weight:700; color:#c84826; }
-.hero-stat-lbl { font-size: 13px; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase; color: var(--orange); }
-.hero-stat-sub { font-size: 15px; font-weight: 300; color: rgba(250,250,242,0.4); margin-top: 5px; }
-.charts-row { display: grid; grid-template-columns: 1fr 300px; gap: 3px; margin-bottom: 3px; }
-.chart-panel { background: white; border: 1px solid rgba(30,37,48,0.07); padding: 28px 32px; }
-.cp-label { font-size: 13px; font-weight: 700; letter-spacing: 0.35em; text-transform: uppercase; color: var(--orange); margin-bottom: 5px; }
-.cp-title { font-size: 23px; font-weight: 300; color: var(--blue); margin-bottom: 22px; }
-/* ═══ MILESTONE TIMELINE ═══ */
-.milestone-timeline { background: var(--cream); border: 1px solid rgba(30,37,48,0.06); border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.08); padding: 36px 48px 44px; margin-bottom: 3px; }
-.mt-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #c84826; margin-bottom: 6px; }
-.mt-title { font-size: 23px; font-weight: 300; color: var(--blue); margin-bottom: 36px; }
-.mt-track { position: relative; display: flex; justify-content: space-between; align-items: flex-start; padding-top: 28px; }
-.mt-line { position: absolute; top: 42px; left: 0; right: 0; height: 2px; background: rgba(30,37,48,0.1); z-index: 0; }
-.mt-node { position: relative; display: flex; flex-direction: column; align-items: center; flex: 1; opacity: 0; transform: translateX(-12px); transition: opacity 0.4s ease, transform 0.4s ease; }
-.mt-node.visible { opacity: 1; transform: translateX(0); }
-.mt-year { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: #c84826; text-transform: uppercase; margin-bottom: 8px; }
-.mt-dot { width: 28px; height: 28px; border-radius: 50%; background: #c84826; z-index: 1; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 5px rgba(200,72,38,0.12); }
-.mt-dot-inner { width: 10px; height: 10px; border-radius: 50%; background: var(--cream); }
-.mt-desc { font-size: 13px; font-weight: 600; color: rgba(30,37,48,0.55); text-align: center; margin-top: 10px; line-height: 1.4; max-width: 80px; }
-.donut-row { display: flex; justify-content: center; margin-bottom: 3px; }
-.donut-panel { max-width: 380px; width: 100%; }
-.donut-inner { display:flex; flex-direction:column; align-items:center; }
-.donut-inner svg { max-width:160px; }
-.donut-leg { margin-top:16px; display:flex; flex-direction:column; gap:8px; width:100%; }
-.dleg-row { display:flex; align-items:center; gap:8px; font-size:16px; }
-.dleg-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
-.stat-strip { display:grid; grid-template-columns:repeat(5,1fr); gap:3px; }
-.ss-cell { background:white; border:1px solid rgba(30,37,48,0.07); border-left:3px solid #c84826; padding:24px; text-align:left; }
-.ss-num { font-size:43px; font-weight:700; color:#c84826; line-height:1; }
-.ss-lbl { font-size:13px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:rgba(30,37,48,0.45); margin-top:7px; line-height:1.5; }
-.ss-desc { font-size: 11px; font-weight: 500; color: rgba(30,37,48,0.38); margin-top: 5px; line-height: 1.5; }
-
-/* SOCIAL + THEOED SECTIONS */
-.digital-presence { margin-top: 28px; }
-.dp-header { border-top: 1px solid rgba(30,37,48,0.1); padding-top: 20px; margin-bottom: 14px; }
-.dp-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #c84826; }
-.social-band { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-top:0; }
-.social-cell { background:white; border:1px solid rgba(30,37,48,0.06); border-radius:12px; box-shadow:0 1px 2px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.08); padding:28px; text-align:center; transition:transform 0.2s ease; }
-.social-cell:hover { transform:translateY(-2px); box-shadow:0 4px 16px rgba(0,0,0,0.1); }
-.social-num { font-size:50px; font-weight:700; color:#c84826; line-height:1; }
-.social-lbl { font-size:10px; font-weight:700; letter-spacing:0.3em; text-transform:uppercase; color:rgba(30,37,48,0.5); margin-top:6px; }
-.social-icon { font-size:20px; margin-bottom:8px; opacity:0.4; }
-.theoed-section { margin-top:3px; background:white; border:1px solid rgba(30,37,48,0.07); padding:32px 40px; }
-.theoed-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:3px; margin-top:20px; }
-.theoed-cell { background:var(--cream); border:1px solid rgba(30,37,48,0.07); padding:20px; text-align:center; }
-.theoed-num { font-size:35px; font-weight:700; color:#c84826; line-height:1; }
-.theoed-lbl { font-size:10px; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:rgba(30,37,48,0.45); margin-top:5px; line-height:1.5; }
-@media (max-width:900px) { .social-band { grid-template-columns:repeat(3,1fr); } .theoed-grid { grid-template-columns:repeat(2,1fr); } }
+.nr-block { background:#fff; border-radius:12px; border:1px solid rgba(30,37,48,0.08); padding:22px 24px; }
+.nr-block-full { grid-column:1 / -1; }
+.nr-block-label { font-size:9px; font-weight:700; letter-spacing:2px; color:#c84826; text-transform:uppercase; display:block; margin-bottom:3px; }
+.nr-block-title { font-size:15px; font-weight:600; color:#1e2530; margin-bottom:14px; }
+/* Timeline */
+.nr-timeline-wrap { position:relative; padding-top:8px; }
+.nr-timeline-line { position:absolute; top:19px; left:40px; right:40px; height:2px; background:rgba(200,72,38,0.18); }
+.nr-timeline-nodes { display:flex; justify-content:space-between; }
+.nr-tnode { flex:1; display:flex; flex-direction:column; align-items:center; }
+.nr-tnode-dot { width:12px; height:12px; border-radius:50%; background:#c84826; border:2px solid #fff; box-shadow:0 0 0 2px #c84826; margin-bottom:7px; }
+.nr-tnode-year { font-size:13px; font-weight:700; color:#c84826; margin-bottom:4px; }
+.nr-tnode-desc { font-size:10px; color:#555; text-align:center; line-height:1.4; max-width:100px; }
+/* All-time stats */
+.nr-stats-row { display:flex; }
+.nr-stat-item { flex:1; text-align:center; padding:16px 8px; }
+.nr-stat-item:not(:last-child) { border-right:1px solid rgba(30,37,48,0.08); }
+.nr-stat-num { font-size:40px; font-weight:700; color:#c84826; line-height:1; margin-bottom:5px; }
+.nr-stat-lbl { font-size:9px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:#1e2530; margin-bottom:2px; }
+.nr-stat-desc { font-size:10px; color:#aaa; }
+/* Denomination bars */
+.nr-denom-row { display:flex; align-items:center; gap:10px; margin-bottom:9px; }
+.nr-denom-row:last-of-type { margin-bottom:0; }
+.nr-denom-name { font-size:11px; color:#1e2530; min-width:140px; }
+.nr-denom-track { flex:1; height:5px; background:#f0e8e0; border-radius:3px; overflow:hidden; }
+.nr-denom-fill { height:100%; background:#c84826; border-radius:3px; width:0; transition:width 1.4s cubic-bezier(0.16,1,0.3,1); }
+.nr-denom-pct { font-size:11px; color:#c84826; font-weight:600; min-width:30px; text-align:right; }
+.nr-denom-note { font-size:10px; color:#bbb; margin-top:10px; }
+/* City pills */
+.nr-cities-subhead { font-size:11px; color:#aaa; margin-top:-8px; margin-bottom:12px; }
+.nr-cities-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.nr-city-pill { background:#fdf7f0; border:1px solid rgba(200,72,38,0.15); border-radius:8px; padding:8px 12px; display:flex; justify-content:space-between; align-items:center; }
+.nr-city-left { display:flex; align-items:center; gap:6px; }
+.nr-city-dot { width:6px; height:6px; border-radius:50%; background:#c84826; flex-shrink:0; }
+.nr-city-name { font-size:12px; font-weight:600; color:#1e2530; }
+.nr-city-st { font-size:10px; color:#999; margin-left:2px; }
+.nr-city-right { display:flex; align-items:baseline; }
+.nr-city-count { font-size:12px; font-weight:700; color:#c84826; }
+.nr-city-lbl { font-size:9px; color:#bbb; margin-left:2px; }
+/* Map */
+#nr-map-container { width:100%; }
 
 /* TAB 3 — CANDLER IMPACT */
 /* Quote Banner — hero image with dark overlay */
@@ -192,14 +171,14 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 #panel-people .section-subtitle { font-size:16px; line-height:1.65; color:#666; max-width:none; margin-bottom:0; padding-right:40px; }
 
 /* ═══ SECTION: GLOBAL CARD POLISH ═══ */
-.chart-panel, .ss-cell, .reach-card, .denom-section, .theoed-section, .theoed-cell, .map-panel, .team-card, .placeholder-card {
+.reach-card, .team-card, .placeholder-card {
   border-radius: 12px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.08);
   border: 1px solid rgba(30,37,48,0.06);
 }
 .person-card { border-radius: 12px; box-shadow: 0 1px 2px rgba(0,0,0,0.06), 0 2px 8px rgba(0,0,0,0.08); border: 1px solid rgba(30,37,48,0.06); }
-.chart-panel, .ss-cell, .reach-card, .theoed-cell, .team-card { transition: all 0.2s ease; }
-.chart-panel:hover, .ss-cell:hover, .reach-card:hover, .theoed-cell:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); border-left: 3px solid #c84826; }
+.reach-card, .team-card { transition: all 0.2s ease; }
+.reach-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); border-left: 3px solid #c84826; }
 .team-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
 
 /* TAB 4 — REACH */
@@ -215,18 +194,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .pc-pin { color:#c84826; flex-shrink:0; display:flex; }
 .pc-loc { font-size:15px; font-weight:600; color:var(--blue); }
 .pc-state { font-size:13px; color:rgba(30,37,48,0.45); font-weight:500; margin-top:1px; }
-.denom-section { background:white; padding:36px 48px; max-width:700px; margin:0 auto; }
-.numreach-grid { display:grid; grid-template-columns:1fr 1fr; gap:32px; padding:40px 60px; }
-.numreach-map { grid-column:1 / -1; }
-.numreach-stats { display:flex; flex-direction:column; gap:3px; }
-.numreach-denom .denom-section, .numreach-partners .partner-congs { max-width:none; margin:0; }
-.denom-grid { display:grid; grid-template-columns:1fr; gap:22px; margin-top:20px; }
-.d-row { display:flex; flex-direction:column; gap:6px; }
-.d-name-row { font-size:16px; font-weight:600; color:var(--blue); }
-.d-bar-row { display:flex; align-items:center; gap:12px; }
-.d-track { flex:1; height:6px; background:rgba(30,37,48,0.08); border-radius:3px; overflow:hidden; }
-.d-fill { height:100%; background:var(--orange); border-radius:3px; width:0; transition:width 1.4s cubic-bezier(0.16,1,0.3,1); }
-.d-pct { font-size:14px; font-weight:700; color:#c84826; white-space:nowrap; min-width:32px; text-align:right; }
+.numreach-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:0 48px 48px; background:#fafaf2; }
 
 /* TAB: WHO WE ARE */
 .whoweare-body { width: 100%; padding: 48px 60px; }
@@ -342,11 +310,9 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   .header-logo-img { height: 40px; }
   .section-header { padding:32px 24px 24px; }
   .people-body,.stories-body { padding:28px 20px; }
-  .numreach-grid { grid-template-columns:1fr; padding:28px 20px; gap:20px; }
-  .numreach-map { grid-column:1; }
-  .hero-stats { grid-template-columns:repeat(2,1fr); }
-  .charts-row { grid-template-columns:1fr; }
-  .stat-strip { grid-template-columns:repeat(2,1fr); }
+  .numreach-grid { grid-template-columns:1fr; padding:28px 20px; gap:16px; }
+  .nr-block-full { grid-column:1; }
+  .nr-cities-grid { grid-template-columns:1fr; }
   .courses-grid { grid-template-columns:1fr 1fr; }
   .alumni-band { flex-direction:column; gap:24px; text-align:center; padding:32px 24px; }
   .nav-tab { font-size:11px; padding:12px 12px; letter-spacing:0.15em; }
@@ -358,7 +324,6 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 }
 @media (max-width:600px) {
   .courses-grid { grid-template-columns:1fr; }
-  .stat-strip { grid-template-columns:1fr 1fr; }
 }
 
 </style>
@@ -414,123 +379,86 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   </div>
   <div class="numreach-grid">
 
-    <!-- ROW 1: Full-width heat map -->
-    <div class="numreach-map">
-      <div class="map-panel">
-        <div class="cp-label">Registrant Locations</div>
-        <div class="cp-title" style="margin-bottom:20px;">Where Our Learners Are</div>
-        <div id="us-map-container" style="width:100%;"></div>
-        <div style="display:flex;align-items:center;gap:24px;margin-top:20px;flex-wrap:wrap;">
-          <div style="font-size:35px;font-weight:700;color:#c84826;line-height:1;">35+ <span style="font-size:16px;font-weight:600;color:rgba(30,37,48,0.5);">States Represented</span></div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(30,37,48,0.5);">
-            <span style="display:inline-block;width:12px;height:12px;background:#f0c9be;border-radius:2px;"></span>Low
-            <span style="display:inline-block;width:12px;height:12px;background:#e07a5f;border-radius:2px;margin-left:4px;"></span>Mid
-            <span style="display:inline-block;width:12px;height:12px;background:#c84826;border-radius:2px;margin-left:4px;"></span>High
+    <!-- BLOCK 1: Timeline (full width) -->
+    <div class="nr-block nr-block-full">
+      <span class="nr-block-label">Our Journey</span>
+      <div class="nr-block-title">Eight Years of Growing Impact</div>
+      <div class="nr-timeline-wrap">
+        <div class="nr-timeline-line"></div>
+        <div class="nr-timeline-nodes">
+          <div class="nr-tnode">
+            <div class="nr-tnode-dot"></div>
+            <div class="nr-tnode-year">2018</div>
+            <div class="nr-tnode-desc">The Candler Foundry established at Emory University</div>
+          </div>
+          <div class="nr-tnode">
+            <div class="nr-tnode-dot"></div>
+            <div class="nr-tnode-year">2020</div>
+            <div class="nr-tnode-desc">Online courses launched; first Candler in Conversation podcast</div>
+          </div>
+          <div class="nr-tnode">
+            <div class="nr-tnode-dot"></div>
+            <div class="nr-tnode-year">2022</div>
+            <div class="nr-tnode-desc">500th participant milestone reached</div>
+          </div>
+          <div class="nr-tnode">
+            <div class="nr-tnode-dot"></div>
+            <div class="nr-tnode-year">2024</div>
+            <div class="nr-tnode-desc">2,000th participant milestone; TheoEd expands to 8 cities</div>
+          </div>
+          <div class="nr-tnode">
+            <div class="nr-tnode-dot"></div>
+            <div class="nr-tnode-year">2025</div>
+            <div class="nr-tnode-desc">On-Demand courses and Sunday School Simplified launched</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ROW 2 LEFT: Milestone timeline -->
-    <div class="numreach-timeline">
-      <div class="milestone-timeline">
-        <div class="mt-label">Our Journey</div>
-        <div class="mt-title">Eight Years of Growing Impact</div>
-        <div class="mt-track" id="milestone-track">
-          <div class="mt-line"></div>
-          <div class="mt-node">
-            <div class="mt-year">2017</div>
-            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">TheoEd founded by Ryan Bonfiglio</div>
-          </div>
-          <div class="mt-node">
-            <div class="mt-year">2018</div>
-            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">The Candler Foundry formally established at Emory</div>
-          </div>
-          <div class="mt-node">
-            <div class="mt-year">2020</div>
-            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">Online pivot (COVID); first Candler in Conversation podcast</div>
-          </div>
-          <div class="mt-node">
-            <div class="mt-year">2022</div>
-            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">On-Demand courses launched</div>
-          </div>
-          <div class="mt-node">
-            <div class="mt-year">2024</div>
-            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">2,000th participant milestone</div>
-          </div>
-          <div class="mt-node">
-            <div class="mt-year">2025</div>
-            <div class="mt-dot"><div class="mt-dot-inner"></div></div>
-            <div class="mt-desc">Sunday School Simplified launched</div>
-          </div>
+    <!-- BLOCK 2: All-time stats (left) -->
+    <div class="nr-block">
+      <span class="nr-block-label">At a Glance</span>
+      <div class="nr-block-title">All-Time Impact</div>
+      <div class="nr-stats-row">
+        <div class="nr-stat-item">
+          <div class="nr-stat-num">2,815</div>
+          <div class="nr-stat-lbl">Registrations</div>
+          <div class="nr-stat-desc">All-time participants</div>
+        </div>
+        <div class="nr-stat-item">
+          <div class="nr-stat-num">150</div>
+          <div class="nr-stat-lbl">Courses Offered</div>
+          <div class="nr-stat-desc">Since founding</div>
+        </div>
+        <div class="nr-stat-item">
+          <div class="nr-stat-num">74</div>
+          <div class="nr-stat-lbl">Church Partners</div>
+          <div class="nr-stat-desc">Partner congregations</div>
         </div>
       </div>
     </div>
 
-    <!-- ROW 2 RIGHT: Key stats stacked -->
-    <div class="numreach-stats">
-      <div class="hero-stat">
-        <div class="hero-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(250,250,242,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-        <div class="ring-wrap">
-          <svg viewBox="0 0 96 96"><circle class="r-bg" cx="48" cy="48" r="44"/><circle class="r-fill" cx="48" cy="48" r="44"/></svg>
-          <div class="ring-num" id="cnt-reg-alltime">0</div>
-        </div>
-        <div class="hero-stat-lbl">Registrations</div>
-        <div class="hero-stat-sub">All-time participants</div>
-        <div class="hero-stat-caption">Participants across all Foundry programming since founding in 2017</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(250,250,242,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
-        <div class="ring-wrap">
-          <svg viewBox="0 0 96 96"><circle class="r-bg" cx="48" cy="48" r="44"/><circle class="r-fill" cx="48" cy="48" r="44"/></svg>
-          <div class="ring-num" id="cnt-courses-alltime">0</div>
-        </div>
-        <div class="hero-stat-lbl">Courses Offered</div>
-        <div class="hero-stat-sub">Since founding</div>
-        <div class="hero-stat-caption">Unique course offerings across all semesters, formats, and partners</div>
-      </div>
-      <div class="hero-stat">
-        <div class="hero-stat-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="rgba(250,250,242,0.8)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-        <div class="ring-wrap">
-          <svg viewBox="0 0 96 96"><circle class="r-bg" cx="48" cy="48" r="44"/><circle class="r-fill" cx="48" cy="48" r="44"/></svg>
-          <div class="ring-num">30+</div>
-        </div>
-        <div class="hero-stat-lbl">Church Partners</div>
-        <div class="hero-stat-sub">All-time</div>
-        <div class="hero-stat-caption">Congregations that have hosted or sponsored Foundry programming</div>
-      </div>
+    <!-- BLOCK 3: US Map (right) -->
+    <div class="nr-block">
+      <span class="nr-block-label">Registrant Locations</span>
+      <div class="nr-block-title">Where Our Learners Are</div>
+      <div id="nr-map-container"></div>
     </div>
 
-    <!-- ROW 3 LEFT: Denominational reach -->
-    <div class="numreach-denom">
-      <div class="denom-section">
-        <div class="cp-label">Denominational Reach</div>
-        <div class="cp-title">Faith Traditions</div>
-        <div class="denom-grid" id="denom-list"></div>
-        <p style="font-size:13px;color:rgba(30,37,48,0.35);margin-top:20px;">Approximate — denomination not always collected at registration.</p>
-      </div>
+    <!-- BLOCK 4: Denominational reach (left) -->
+    <div class="nr-block">
+      <span class="nr-block-label">Denominational Reach</span>
+      <div class="nr-block-title">Faith Traditions</div>
+      <div id="nr-denom-list"></div>
+      <p class="nr-denom-note">Approximate &mdash; denomination not always collected at registration.</p>
     </div>
 
-    <!-- ROW 3 RIGHT: Partner congregation cities -->
-    <div class="numreach-partners">
-      <div class="partner-congs">
-        <div class="pc-header">Partner Congregations</div>
-        <div class="pc-grid">
-          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Atlanta</div><div class="pc-state">Georgia</div></div></div>
-          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Nashville</div><div class="pc-state">Tennessee</div></div></div>
-          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Charlotte</div><div class="pc-state">North Carolina</div></div></div>
-          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Austin</div><div class="pc-state">Texas</div></div></div>
-          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Orlando</div><div class="pc-state">Florida</div></div></div>
-          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Macon</div><div class="pc-state">Georgia</div></div></div>
-          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Birmingham</div><div class="pc-state">Alabama</div></div></div>
-          <div class="pc-tile"><span class="pc-pin"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span><div><div class="pc-loc">Memphis</div><div class="pc-state">Tennessee</div></div></div>
-        </div>
-      </div>
+    <!-- BLOCK 5: Cities served (right) -->
+    <div class="nr-block">
+      <span class="nr-block-label">Partner Congregations</span>
+      <div class="nr-block-title">Cities Served</div>
+      <p class="nr-cities-subhead">Participant counts by metro area &mdash; all programs combined.</p>
+      <div class="nr-cities-grid" id="nr-cities-grid"></div>
     </div>
 
   </div>
@@ -940,25 +868,6 @@ var numbersReady = false;
 function initNumbers() {
   if (numbersReady) return;
   numbersReady = true;
-
-  countUp(document.getElementById('cnt-reg-alltime'), 2815, 1800);
-  countUp(document.getElementById('cnt-courses-alltime'), 150, 1400);
-
-  // Animate rings
-  var ringTargets = [0.82, 0.91, 0.58];
-  var rings = document.querySelectorAll('.r-fill');
-  rings.forEach(function(r, i) {
-    var circ = 2 * Math.PI * 44;
-    setTimeout(function() {
-      r.style.strokeDashoffset = circ * (1 - ringTargets[i]);
-    }, i * 150 + 400);
-  });
-
-  // Milestone timeline — stagger nodes left to right
-  var nodes = document.querySelectorAll('#milestone-track .mt-node');
-  nodes.forEach(function(node, i) {
-    setTimeout(function() { node.classList.add('visible'); }, 200 + i * 160);
-  });
 }
 
 var peopleReady = false;
@@ -1195,66 +1104,52 @@ function initPeople() {
 }
 
 function buildMap() {
-  var container = document.getElementById('us-map-container');
+  var container = document.getElementById('nr-map-container');
   if (!container) return;
-  // Approximate participant counts by state
-  var PARTS = {
-    GA:215,NY:180,IL:165,PA:148,OH:142,VA:138,NC:132,TN:115,TX:108,FL:95,
-    CA:88,MA:82,MD:76,DC:70,NJ:64,IN:58,SC:52,MI:48,CT:45,OR:42,
-    WI:40,MO:38,KY:35,AL:32,AR:28,LA:26,WA:24,CO:22,NM:18,MN:17,
-    AZ:16,RI:14,HI:13,ID:12,WY:11,UT:10,VT:9,NH:8,DE:8,NE:7,
-    ND:6,SD:6,KS:6,OK:5,MS:5,IA:5,MT:4,ME:3,WV:3,AK:2
-  };
-  var NAMES = {
-    ME:'Maine',VT:'Vermont',NH:'New Hampshire',WA:'Washington',MT:'Montana',
-    ND:'North Dakota',MN:'Minnesota',WI:'Wisconsin',MI:'Michigan',NY:'New York',
-    MA:'Massachusetts',RI:'Rhode Island',OR:'Oregon',ID:'Idaho',SD:'South Dakota',
-    IA:'Iowa',IL:'Illinois',IN:'Indiana',OH:'Ohio',PA:'Pennsylvania',
-    NJ:'New Jersey',CT:'Connecticut',CA:'California',NV:'Nevada',WY:'Wyoming',
-    NE:'Nebraska',MO:'Missouri',KY:'Kentucky',WV:'West Virginia',VA:'Virginia',
-    MD:'Maryland',DE:'Delaware',AZ:'Arizona',UT:'Utah',CO:'Colorado',
-    KS:'Kansas',AR:'Arkansas',TN:'Tennessee',NC:'North Carolina',SC:'South Carolina',
-    DC:'D.C.',NM:'New Mexico',OK:'Oklahoma',LA:'Louisiana',MS:'Mississippi',
-    AL:'Alabama',GA:'Georgia',HI:'Hawaii',TX:'Texas',FL:'Florida',AK:'Alaska'
-  };
-  // [row, col, heat] — heat: 3=high, 2=mid, 1=low
+
+  // Column x-positions (left edge of each 50px tile, 5px gap)
+  var CX = [30,85,140,195,250,305,360,415,470,525,580,635,690,745,800,855];
+  var TW = 50, TH = 40;
+
+  // State data: [y, col_index, heat]
+  // heat: 0=none, 1=low, 2=medium, 3=high, 4=highest
   var SD = {
-    ME:[0,10,2],
-    VT:[1,9,2],NH:[1,10,2],
-    WA:[2,1,2],MT:[2,2,1],ND:[2,3,1],MN:[2,4,2],WI:[2,6,2],MI:[2,7,2],NY:[2,8,3],MA:[2,9,3],RI:[2,10,1],
-    OR:[3,1,2],ID:[3,2,1],SD:[3,3,1],IA:[3,4,1],IL:[3,5,3],IN:[3,6,2],OH:[3,7,3],PA:[3,8,3],NJ:[3,9,2],CT:[3,10,2],
-    CA:[4,0,3],NV:[4,1,1],WY:[4,2,1],NE:[4,3,1],MO:[4,4,2],KY:[4,5,2],WV:[4,6,1],VA:[4,7,3],MD:[4,8,2],DE:[4,9,1],
-    AZ:[5,1,2],UT:[5,2,1],CO:[5,3,2],KS:[5,4,1],AR:[5,5,1],TN:[5,6,3],NC:[5,7,3],SC:[5,8,2],DC:[5,9,2],
-    NM:[6,2,1],OK:[6,4,1],LA:[6,5,2],MS:[6,6,1],AL:[6,7,2],GA:[6,8,3],
-    HI:[7,1,1],TX:[7,4,3],FL:[7,8,3]
+    ME:[20,15,1],
+    VT:[70,14,1],NH:[70,15,1],
+    WA:[120,0,2],MT:[120,1,0],ND:[120,2,0],MN:[120,3,2],WI:[120,5,2],MI:[120,6,2],NY:[120,8,3],MA:[120,9,3],RI:[120,10,1],
+    OR:[170,0,2],ID:[170,1,1],SD:[170,2,0],IA:[170,3,1],IL:[170,5,3],IN:[170,6,2],OH:[170,7,3],PA:[170,9,3],NJ:[170,10,2],CT:[170,11,2],
+    CA:[220,0,2],NV:[220,1,1],WY:[220,2,0],NE:[220,3,1],MO:[220,4,2],KY:[220,6,2],WV:[220,7,1],VA:[220,8,3],MD:[220,9,2],DE:[220,10,1],
+    UT:[270,1,1],CO:[270,2,2],KS:[270,3,1],AR:[270,4,1],TN:[270,6,3],NC:[270,8,3],SC:[270,9,2],
+    AZ:[320,0,1],NM:[320,1,1],OK:[320,2,1],TX:[320,3,3],MS:[320,4,1],AL:[320,5,2],GA:[320,6,4],FL:[320,7,3],LA:[320,8,2],
+    AK:[380,0,0],HI:[380,1,0]
   };
-  var clr = ['rgba(30,37,48,0.04)','#f0c9be','#e07a5f','#c84826'];
-  var tc = ['rgba(30,37,48,0.2)','rgba(30,37,48,0.65)','#fff','#fff'];
-  var cs = 44, gap = 3, step = cs + gap;
-  var cols = 12, rows = 8;
-  var W = cols * step - gap, H = rows * step - gap;
-  var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;" id="us-map-svg">';
-  for (var r = 0; r < rows; r++) {
-    for (var c = 0; c < cols; c++) {
-      s += '<rect x="'+(c*step)+'" y="'+(r*step)+'" width="'+cs+'" height="'+cs+'" rx="4" fill="rgba(30,37,48,0.025)"/>';
-    }
-  }
+
+  var FILL = ['#f0e0d4','#f5c4b3','#e8956e','#c84826','#8a2f15'];
+  var TC   = ['#a05030','#fff','#fff','#fff','#fff'];
+
+  var NAMES = {ME:'Maine',VT:'Vermont',NH:'New Hampshire',WA:'Washington',MT:'Montana',ND:'North Dakota',MN:'Minnesota',WI:'Wisconsin',MI:'Michigan',NY:'New York',MA:'Massachusetts',RI:'Rhode Island',OR:'Oregon',ID:'Idaho',SD:'South Dakota',IA:'Iowa',IL:'Illinois',IN:'Indiana',OH:'Ohio',PA:'Pennsylvania',NJ:'New Jersey',CT:'Connecticut',CA:'California',NV:'Nevada',WY:'Wyoming',NE:'Nebraska',MO:'Missouri',KY:'Kentucky',WV:'West Virginia',VA:'Virginia',MD:'Maryland',DE:'Delaware',AZ:'Arizona',UT:'Utah',CO:'Colorado',KS:'Kansas',AR:'Arkansas',TN:'Tennessee',NC:'North Carolina',SC:'South Carolina',NM:'New Mexico',OK:'Oklahoma',TX:'Texas',MS:'Mississippi',AL:'Alabama',GA:'Georgia',FL:'Florida',LA:'Louisiana',AK:'Alaska',HI:'Hawaii'};
+
+  var s = '<svg viewBox="0 0 960 420" xmlns="http://www.w3.org/2000/svg" style="width:100%;display:block;">';
+
   Object.keys(SD).forEach(function(abbr) {
-    var d = SD[abbr], heat = d[2];
-    var x = d[1]*step, y = d[0]*step;
-    var name = NAMES[abbr]||abbr, pts = PARTS[abbr]||0;
-    s += '<g class="map-state" data-name="'+name+'" data-pts="'+pts+'">';
-    s += '<rect x="'+x+'" y="'+y+'" width="'+cs+'" height="'+cs+'" rx="4" fill="'+clr[heat]+'" style="cursor:pointer;"/>';
-    s += '<text x="'+(x+cs/2)+'" y="'+(y+cs/2+4)+'" text-anchor="middle" dominant-baseline="middle" font-family="Montserrat,sans-serif" font-size="11" font-weight="700" fill="'+tc[heat]+'" style="pointer-events:none;">'+abbr+'</text>';
+    var d = SD[abbr], y = d[0], x = CX[d[1]], heat = d[2];
+    s += '<g class="map-state" data-abbr="'+abbr+'" data-name="'+(NAMES[abbr]||abbr)+'">';
+    s += '<rect x="'+x+'" y="'+y+'" width="'+TW+'" height="'+TH+'" rx="4" fill="'+FILL[heat]+'"/>';
+    s += '<text x="'+(x+TW/2)+'" y="'+(y+TH/2)+'" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-size="9" font-weight="700" fill="'+TC[heat]+'">'+abbr+'</text>';
     s += '</g>';
   });
-  var akY = 7*step;
-  s += '<g class="map-state" data-name="Alaska" data-pts="2">';
-  s += '<rect x="0" y="'+akY+'" width="'+cs+'" height="'+cs+'" rx="4" fill="'+clr[1]+'" style="cursor:pointer;"/>';
-  s += '<text x="'+(cs/2)+'" y="'+(akY+cs/2+4)+'" text-anchor="middle" dominant-baseline="middle" font-family="Montserrat,sans-serif" font-size="11" font-weight="700" fill="'+tc[1]+'" style="pointer-events:none;">AK</text>';
-  s += '</g>';
+
+  // Legend — bottom right
+  var LEG = [['#f5c4b3','Few'],['#e8956e','Some'],['#c84826','Many'],['#8a2f15','Most']];
+  LEG.forEach(function(l, i) {
+    var lx = 620 + i * 82;
+    s += '<rect x="'+lx+'" y="390" width="14" height="14" rx="2" fill="'+l[0]+'"/>';
+    s += '<text x="'+(lx+18)+'" y="401" font-family="sans-serif" font-size="10" fill="#777">'+l[1]+'</text>';
+  });
+
   s += '</svg>';
   container.innerHTML = s;
+
   // Tooltip
   var tip = document.getElementById('map-tooltip');
   if (!tip) {
@@ -1266,8 +1161,7 @@ function buildMap() {
   container.addEventListener('mouseover', function(e) {
     var g = e.target.closest ? e.target.closest('.map-state') : null;
     if (!g) return;
-    var pts = parseInt(g.getAttribute('data-pts'), 10);
-    tip.textContent = g.getAttribute('data-name') + (pts > 0 ? ' — ' + pts + ' participants' : '');
+    tip.textContent = g.getAttribute('data-name');
     tip.classList.add('show');
   });
   container.addEventListener('mouseout', function(e) {
@@ -1284,27 +1178,98 @@ function initReach() {
   if (reachReady) return;
   reachReady = true;
   buildMap();
+
+  // Denomination bars
   var denoms = [
-    {name: 'Methodist / UMC', pct: 35},
-    {name: 'Presbyterian', pct: 22},
-    {name: 'Episcopal / Anglican', pct: 14},
-    {name: 'Baptist', pct: 12},
-    {name: 'Interdenominational', pct: 10},
-    {name: 'Other / Unknown', pct: 7},
+    {name:'Methodist / UMC', pct:35},
+    {name:'Presbyterian', pct:22},
+    {name:'Episcopal / Anglican', pct:14},
+    {name:'Baptist', pct:12},
+    {name:'Interdenominational', pct:10},
+    {name:'Other / Unknown', pct:7}
   ];
-  var list = document.getElementById('denom-list');
-  if (!list) return;
-  denoms.forEach(function(d, i) {
-    var row = document.createElement('div');
-    row.className = 'd-row';
-    row.innerHTML =
-      '<div class="d-name-row">' + d.name + '</div>' +
-      '<div class="d-bar-row"><div class="d-track"><div class="d-fill" style="transition-delay:' + (i * 0.09) + 's"></div></div><span class="d-pct">' + d.pct + '%</span></div>';
-    list.appendChild(row);
-    setTimeout(function(r, p) {
-      return function() { r.querySelector('.d-fill').style.width = p + '%'; };
-    }(row, d.pct), 150 + i * 80);
-  });
+  var denomList = document.getElementById('nr-denom-list');
+  if (denomList) {
+    denoms.forEach(function(d, i) {
+      var row = document.createElement('div');
+      row.className = 'nr-denom-row';
+      row.innerHTML =
+        '<span class="nr-denom-name">'+d.name+'</span>'+
+        '<div class="nr-denom-track"><div class="nr-denom-fill" id="ndf-'+i+'"></div></div>'+
+        '<span class="nr-denom-pct">'+d.pct+'%</span>';
+      denomList.appendChild(row);
+      setTimeout(function(idx, pct) {
+        return function() {
+          var el = document.getElementById('ndf-'+idx);
+          if (el) el.style.width = pct + '%';
+        };
+      }(i, d.pct), 150 + i * 80);
+    });
+  }
+
+  // City pills — fallback data
+  var FALLBACK = [
+    {city:'Atlanta',    state:'GA', count:'680+'},
+    {city:'Nashville',  state:'TN', count:'140+'},
+    {city:'Orlando',    state:'FL', count:'95+'},
+    {city:'Charlotte',  state:'NC', count:'80+'},
+    {city:'Austin',     state:'TX', count:'75+'},
+    {city:'Knoxville',  state:'TN', count:'60+'},
+    {city:'Macon',      state:'GA', count:'55+'},
+    {city:'Birmingham', state:'AL', count:'45+'}
+  ];
+
+  function renderCities(cities) {
+    var grid = document.getElementById('nr-cities-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    cities.forEach(function(c) {
+      var pill = document.createElement('div');
+      pill.className = 'nr-city-pill';
+      pill.innerHTML =
+        '<div class="nr-city-left">'+
+          '<div class="nr-city-dot"></div>'+
+          '<span class="nr-city-name">'+c.city+'</span>'+
+          '<span class="nr-city-st">'+c.state+'</span>'+
+        '</div>'+
+        '<div class="nr-city-right">'+
+          '<span class="nr-city-count">'+c.count+'</span>'+
+          '<span class="nr-city-lbl">participants</span>'+
+        '</div>';
+      grid.appendChild(pill);
+    });
+  }
+
+  // Loading state
+  var citiesGrid = document.getElementById('nr-cities-grid');
+  if (citiesGrid) {
+    citiesGrid.innerHTML = '<div style="font-size:11px;color:#bbb;grid-column:1/-1;padding:8px 0;">Loading\u2026</div>';
+  }
+
+  fetch('/.netlify/functions/airtable?table=tbldN1Ak4SHS41PvM')
+    .then(function(r) { return r.ok ? r.json() : Promise.reject('http'); })
+    .then(function(data) {
+      var records = (data && data.records) ? data.records : [];
+      if (!records.length) throw new Error('empty');
+      var counts = {};
+      records.forEach(function(rec) {
+        var f = rec.fields || {};
+        var city = (f.City || '').trim();
+        var state = (f.State || f['State/Province'] || '').trim().toUpperCase().slice(0, 2);
+        if (!city) return;
+        var key = city + '||' + state;
+        counts[key] = (counts[key] || 0) + 1;
+      });
+      var sorted = Object.keys(counts)
+        .sort(function(a, b) { return counts[b] - counts[a]; })
+        .slice(0, 8);
+      if (!sorted.length) throw new Error('no cities');
+      renderCities(sorted.map(function(k) {
+        var p = k.split('||');
+        return {city: p[0], state: p[1], count: String(counts[k])};
+      }));
+    })
+    .catch(function() { renderCities(FALLBACK); });
 }
 
 /* ═══ SECTION: CONTENT.JSON CMS ═══ */

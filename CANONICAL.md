@@ -116,26 +116,34 @@ TheoEd event years (2019 city labels) are NOT the founding year and must NOT be 
 
 ---
 
-## 11. BY THE NUMBERS & REACH TAB LAYOUT
-**Rule:** 3-row grid using `.numreach-grid` (display:grid; grid-template-columns:1fr 1fr; gap:32px; padding:40px 60px).
-Row 1: `.numreach-map` (grid-column:1/-1; min-height:420px) — full-width heat map.
-Row 2 left: `.numreach-timeline` — Our Journey milestone timeline with 6 nodes.
-Row 2 right: `.numreach-stats` — 3 stacked hero-stat blocks (2815, 150, 30+).
-Row 3 left: `.numreach-denom` — denominational bar chart.
-Row 3 right: `.numreach-partners` — partner congregation city tiles.
-Section eyebrow: "Reach & Impact Data". Tab nav label: "By the Numbers & Reach".
+## 11. BY THE NUMBERS & REACH — LAYOUT (as of Session 22)
+**Rule:** 3-row, 2-column grid using `.numreach-grid` (display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:0 48px 48px).
+All blocks use `.nr-block` (white bg, border-radius 12px, border rgba(30,37,48,0.08), padding 22px 24px).
+Row 1: `.nr-block.nr-block-full` (grid-column:1/-1) — horizontal timeline, 5 milestones.
+Row 2 left: All-time stats block — 3 side-by-side stat items (2,815 / 150 / 74), white bg.
+Row 2 right: US map block — inline SVG tile-grid cartogram (viewBox 0 0 960 420), id="nr-map-container".
+Row 3 left: Denomination bars — 6 `.nr-denom-row` items, populated by initReach() JS.
+Row 3 right: City pills — 2-col grid of `.nr-city-pill`, top 8 cities from Airtable (tbldN1Ak4SHS41PvM), fallback hardcoded.
 
-**Timeline entries (in order):**
-  2017: TheoEd founded by Ryan Bonfiglio
-  2018: The Candler Foundry formally established at Emory
-  2020: Online pivot (COVID); first Candler in Conversation podcast
-  2022: On-Demand courses launched
-  2024: 2,000th participant milestone
-  2025: Sunday School Simplified launched
+**Timeline entries (5 nodes, starts 2018 — NOT 2017):**
+  2018: The Candler Foundry established at Emory University
+  2020: Online courses launched; first Candler in Conversation podcast
+  2022: 500th participant milestone reached
+  2024: 2,000th participant milestone; TheoEd expands to 8 cities
+  2025: On-Demand courses and Sunday School Simplified launched
 
-**Why:** Prior implementations had scattered layouts with TheoEd stats, duplicate stat strips, and social band cluttering this tab. Clean 3-row structure was established in Session 22.
+**Map color tiers:**
+  Highest (200+): GA → #8a2f15 | High (81-200): TN FL NC NY TX MA IL OH PA VA → #c84826
+  Medium (21-80): CA CO WA OR MN WI MI IN MO SC AL LA NJ CT MD KY → #e8956e
+  No data: ND SD WY MT AK HI → #f0e0d4 | Low (rest) → #f5c4b3
 
-**Regression risk:** Do not add stat-strip, social-band, TheoEd programming stats, or alumni-band to this panel. Do not change 2018 founding year in timeline to 2019.
+**Why:** Previous layout used a giant full-width heat map as Row 1 and dark navy hero-stat cards,
+violating the 6-equal-data-blocks vision from Emily's March 17 session notes.
+
+**Regression risk:** Do not reintroduce a dominant full-width heat map. Do not use dark navy card
+backgrounds on the stat block. Do not add a 2017 timeline node. Timeline must start at 2018.
+Stats block must be white/cream bg with 3 side-by-side stats (2815 / 150 / 74).
+Map container id is "nr-map-container" — do NOT revert to "us-map-container".
 
 ---
 
