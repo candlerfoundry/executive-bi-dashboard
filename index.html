@@ -319,7 +319,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* TAB: THEOED */
 #panel-theoed { padding-top:0; padding-bottom:0; background:#F5F0EB; }
-.te-hero { background-image:url('assets/theoed_photos/Greg Ellison - 1.jpg'); background-size:cover; background-position:top center; min-height:420px; position:relative; }
+.te-hero { background-image:url('assets/theoed_photos/Greg Ellison - 1.jpg'); background-size:cover; background-position:center 25%; background-repeat:no-repeat; min-height:420px; position:relative; filter:grayscale(60%) brightness(0.85); }
 .te-hero-overlay { position:absolute; inset:0; background:rgba(20,26,40,0.65); }
 .te-hero-content { position:relative; z-index:1; min-height:420px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:48px; text-align:center; gap:16px; }
 .te-logo-img { min-width:280px; width:clamp(280px,22vw,420px); height:auto; display:block; }
@@ -329,15 +329,21 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .te-hs-num { font-size:clamp(1.2rem,2.2vw,1.8rem); font-weight:700; color:#E8541A; line-height:1; }
 .te-hs-lbl { font-size:0.6rem; font-weight:600; letter-spacing:0.15em; text-transform:uppercase; color:rgba(250,250,242,0.68); margin-top:4px; }
 .te-hs-sep { width:1px; height:36px; background:rgba(250,250,242,0.2); flex-shrink:0; }
-.theoed-speaker-grid { display:grid; grid-template-columns:repeat(3,280px); grid-template-rows:repeat(3,320px); gap:16px; justify-content:center; padding:48px; background-color:#F5F0EB; }
-.theoed-speaker-tile { border-radius:16px; overflow:hidden; position:relative; cursor:pointer; transition:transform 0.2s ease,opacity 0.2s ease; }
-.theoed-speaker-tile img { width:100%; height:100%; object-fit:cover; object-position:center top; opacity:0.85; display:block; }
+.theoed-content-row { display:flex; align-items:flex-start; background-color:#F5F0EB; width:100%; }
+.theoed-speaker-grid { display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,300px); gap:16px; max-width:1200px; margin:0 auto; padding:48px 32px; background-color:#F5F0EB; flex:1; min-width:0; }
+.theoed-speaker-tile { border-radius:16px; overflow:hidden; position:relative; cursor:pointer; transition:transform 0.2s ease; }
+.theoed-speaker-tile img { width:100%; height:100%; object-fit:cover; object-position:center 20%; opacity:0.85; display:block; }
 .theoed-speaker-tile:hover { transform:scale(1.03); }
 .theoed-speaker-tile:hover img { opacity:0.95; }
-.theoed-tile-overlay { position:absolute; bottom:0; left:0; right:0; padding:16px; background:linear-gradient(transparent,rgba(0,0,0,0.85)); }
-.theoed-tile-quote { font-style:italic !important; font-size:11px; color:rgba(255,255,255,0.85); margin-bottom:6px; line-height:1.4; }
-.theoed-tile-name { font-size:18px; font-weight:700; color:#ffffff; margin-bottom:3px; }
+.theoed-tile-overlay { position:absolute; bottom:0; left:0; right:0; padding:20px 16px 16px; background:linear-gradient(transparent,rgba(0,0,0,0.88)); }
+.theoed-tile-quote { font-style:italic; font-size:12px; color:rgba(255,255,255,0.88); margin-bottom:8px; line-height:1.4; }
+.theoed-tile-name { font-size:20px; font-weight:700; color:#ffffff; margin-bottom:4px; }
 .theoed-tile-location { font-size:11px; color:#1A73E8; letter-spacing:0.08em; text-transform:uppercase; }
+.theoed-sidebar { width:220px; flex-shrink:0; background-color:#1a2744; border-radius:16px; padding:28px 20px; display:flex; flex-direction:column; gap:28px; align-self:start; margin-top:48px; margin-right:32px; }
+.theoed-sidebar-label { font-size:10px; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#E8541A; }
+.theoed-sidebar-quote { border-left:3px solid #1A73E8; padding-left:12px; }
+.theoed-sidebar-quote p { font-style:italic; font-size:12px; color:rgba(255,255,255,0.88); line-height:1.6; margin-bottom:8px; }
+.theoed-sidebar-quote cite { font-size:10px; color:#1A73E8; text-transform:uppercase; letter-spacing:0.06em; font-style:normal; }
 .te-lightbox { display:none; position:fixed; inset:0; z-index:9000; align-items:center; justify-content:center; }
 .te-lightbox.open { display:flex; }
 .te-lb-backdrop { position:absolute; inset:0; background:rgba(10,14,22,0.88); }
@@ -363,7 +369,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .te-acc-talk a { font-size:0.8rem; color:rgba(30,37,48,0.65); text-decoration:none; line-height:1.5; display:block; }
 .te-acc-talk a:hover { color:#1e2530; text-decoration:underline; }
 .te-acc-talk-spk { font-size:0.65rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:rgba(30,37,48,0.38); margin-bottom:2px; }
-@media (max-width:960px) { .theoed-speaker-grid { grid-template-columns:repeat(2,280px); grid-template-rows:auto; } .te-archive-section { padding:28px 24px 40px; } .te-lb-box { width:92vw; } }
+@media (max-width:960px) { .theoed-content-row { flex-direction:column; } .theoed-speaker-grid { grid-template-columns:repeat(2,1fr); grid-template-rows:auto; } .theoed-sidebar { width:auto; margin:0 32px 32px; align-self:stretch; } .te-archive-section { padding:28px 24px 40px; } .te-lb-box { width:92vw; } }
 
 /* TABS 5 & 6 */
 .stories-body { padding: 0; }
@@ -798,7 +804,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     <div class="te-hero-overlay"></div>
     <div class="te-hero-content">
       <img class="te-logo-img" src="https://www.dropbox.com/scl/fi/mytchjl1bntbysy3scwu1/TheoEd-Full-Name-no-tagline-white.png?rlkey=nzul4ipst3mesi95zinzm3y3m&st=3r134bwi&dl=1" alt="TheoEd">
-      <p class="te-hero-desc">TheoEd brings the most important theological voices in America into the same room as your congregation. Twenty-minute public talks. Rigorous scholarship. Open to everyone.</p>
+      <p class="te-hero-desc">TheoEd brings the world&#8217;s leading theological thinkers to cities across the United States &#8212; livestreamed, in person, and open to everyone. With over 50 talks available online and free discussion guides for every one, TheoEd has become an unexpected gathering place for curious minds, spiritual seekers, and communities hungry for something deeper.</p>
       <div class="te-hero-stats">
         <div class="te-hs-item">
           <div class="te-hs-num">12</div>
@@ -823,8 +829,29 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     </div>
   </div>
 
-  <!-- SPEAKER GRID 3×3 (populated by JS) -->
-  <div class="theoed-speaker-grid" id="theoed-speaker-grid"></div>
+  <!-- SPEAKER GRID + SIDEBAR -->
+  <div class="theoed-content-row">
+    <div class="theoed-speaker-grid" id="theoed-speaker-grid"></div>
+    <div class="theoed-sidebar">
+      <div class="theoed-sidebar-label">What People Are Saying</div>
+      <div class="theoed-sidebar-quote">
+        <p>&#8220;I&#8217;ve been going to church my whole life and never had conversations like the ones TheoEd started. Young people, old people, all in the same room actually talking about what they believe.&#8221;</p>
+        <cite>&#8212; Margaret T., attendee, Atlanta 2022</cite>
+      </div>
+      <div class="theoed-sidebar-quote">
+        <p>&#8220;My husband hasn&#8217;t been in a church in twenty years. He watched three TheoEd talks in one sitting. That&#8217;s when I knew something was different about this.&#8221;</p>
+        <cite>&#8212; Renee K., online viewer</cite>
+      </div>
+      <div class="theoed-sidebar-quote">
+        <p>&#8220;We used the discussion guides for our small group for an entire semester. The questions are so good &#8212; they meet people exactly where they are.&#8221;</p>
+        <cite>&#8212; Pastor David M., First UMC, Charlotte</cite>
+      </div>
+      <div class="theoed-sidebar-quote">
+        <p>&#8220;I came to TheoEd curious and left convicted. Pete Enns said something I&#8217;ve been turning over in my mind ever since.&#8221;</p>
+        <cite>&#8212; James R., attendee, Atlanta 2019</cite>
+      </div>
+    </div>
+  </div>
 
   <!-- LIGHTBOX (fixed overlay) -->
   <div class="te-lightbox" id="te-lightbox">
@@ -1044,7 +1071,7 @@ function initTheoEd() {
       var tile = document.createElement('div');
       tile.className = 'theoed-speaker-tile';
       tile.innerHTML =
-        '<img src="' + sp.photo + '" alt="' + sp.name + '" loading="lazy">' +
+        '<img src="' + sp.photo + '" alt="' + sp.name + '" loading="lazy"' + (sp.imgPos ? ' style="object-position:' + sp.imgPos + '"' : '') + '>' +
         '<div class="theoed-tile-overlay">' +
           '<div class="theoed-tile-quote">' + sp.quote + '</div>' +
           '<div class="theoed-tile-name">' + sp.name + '</div>' +
