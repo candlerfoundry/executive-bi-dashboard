@@ -1,5 +1,5 @@
 # Executive BI Dashboard — CANONICAL.md
-Last updated: 2026-03-31
+Last updated: 2026-04-01 (Session 24)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in index.html.
@@ -116,34 +116,96 @@ TheoEd event years (2019 city labels) are NOT the founding year and must NOT be 
 
 ---
 
-## 11. BY THE NUMBERS & REACH — LAYOUT (as of Session 22)
-**Rule:** 3-row, 2-column grid using `.numreach-grid` (display:grid; grid-template-columns:1fr 1fr; gap:20px; padding:0 48px 48px).
-All blocks use `.nr-block` (white bg, border-radius 12px, border rgba(30,37,48,0.08), padding 22px 24px).
-Row 1: `.nr-block.nr-block-full` (grid-column:1/-1) — horizontal timeline, 5 milestones.
-Row 2 left: All-time stats block — 3 side-by-side stat items (2,815 / 150 / 74), white bg.
-Row 2 right: US map block — inline SVG tile-grid cartogram (viewBox 0 0 960 420), id="nr-map-container".
-Row 3 left: Denomination bars — 6 `.nr-denom-row` items, populated by initReach() JS.
-Row 3 right: City pills — 2-col grid of `.nr-city-pill`, top 8 cities from Airtable (tbldN1Ak4SHS41PvM), fallback hardcoded.
+## 11. GROWTH AND REACH — CANONICAL LAYOUT (as of Session 24)
+**Rule:** Tab nav and panel id remain `numreach`. Tab button label: "Growth and Reach". All `gr-` prefixed CSS classes.
 
-**Timeline entries (5 nodes, starts 2018 — NOT 2017):**
-  2018: The Candler Foundry established at Emory University
-  2020: Online courses launched; first Candler in Conversation podcast
-  2022: 500th participant milestone reached
-  2024: 2,000th participant milestone; TheoEd expands to 8 cities
-  2025: On-Demand courses and Sunday School Simplified launched
+**Hero banner** (`.gr-hero`): background-image url('/assets/Graphic_2.png'), background-size cover, min-height 240px. Dark overlay `.gr-hero-overlay` rgba(26,37,48,0.72). Title 36px 700 white letter-spacing -0.5px. Subtitle 17px 400 white max-width 700px line-height 1.7. NO eyebrow label.
 
-**Map color tiers:**
-  Highest (200+): GA → #8a2f15 | High (81-200): TN FL NC NY TX MA IL OH PA VA → #c84826
-  Medium (21-80): CA CO WA OR MN WI MI IN MO SC AL LA NJ CT MD KY → #e8956e
-  No data: ND SD WY MT AK HI → #f0e0d4 | Low (rest) → #f5c4b3
+**Row 1 — Journey Timeline** (`.gr-timeline-row`): navy (#1e2530) bg, padding 48px 60px. Eyebrow `.gr-eyebrow` orange 12px uppercase letter-spacing 2.5px. Title `.gr-row-title` cream 22px 700. Horizontal timeline (`.gr-timeline`), orange center line, 5 nodes. `.gr-tnode-year` orange 16px 700. `.gr-tnode-desc` cream 14px 400 max-width 160px centered.
+Milestones: 2018 / 2020 / 2022 / 2024 / 2025 (see section 13 for text).
 
-**Why:** Previous layout used a giant full-width heat map as Row 1 and dark navy hero-stat cards,
-violating the 6-equal-data-blocks vision from Emily's March 17 session notes.
+**Row 2 — Stats + Map** (`.gr-stats-map-row`): cream (#fafaf2) bg, padding 48px 60px, flex, gap 40px.
+  Left col (`.gr-stats-col`, ~40%): 3×3 grid of `.gr-sc` stat cards. Navy bg, border-radius 12px. `.gr-sc-num` orange 48px 700. `.gr-sc-label` cream 12px 600 uppercase letter-spacing 2px. `.gr-sc-sub` cream 60% opacity 14px 400. Count-up animation on tab load via data-val / data-suffix / data-prefix attributes. Years of Impact is dynamic (getFullYear() - 2018, no count-up).
+  Right col (`.gr-map-col`, ~60%): SVG path-based Albers USA map. viewBox 0 0 960 600. Real geographic path data for all 50 states + DC. Hover tooltip follows cursor. Legend below map.
 
-**Regression risk:** Do not reintroduce a dominant full-width heat map. Do not use dark navy card
-backgrounds on the stat block. Do not add a 2017 timeline node. Timeline must start at 2018.
-Stats block must be white/cream bg with 3 side-by-side stats (2815 / 150 / 74).
-Map container id is "nr-map-container" — do NOT revert to "us-map-container".
+**Row 3 — Denom + Cities** (`.gr-denom-cities-row`): navy (#1e2530) bg, padding 48px 60px, flex, gap 40px.
+  Left: Faith Traditions denomination bars — animated fill, percentage + headcount labels, cream 14px.
+  Right: Cities Served — orange dot + city name 16px cream + count 14px orange, 2-col grid.
+
+**JS functions:** `initNumbers()` runs all animations (count-up, bars, map). `buildMap()` and `initReach()` are stubs (no-op).
+
+**Regression risk:** Do NOT reintroduce `.nr-block` / `.numreach-grid` layout on this tab. Do NOT use CSS tile-grid for the map — it must be SVG `<path>` elements. Do NOT add a 2017 timeline node. Timeline starts at 2018.
+
+---
+
+## 12. MINIMUM TEXT SIZE RULE (standing rule — applies every tab, every session)
+**Rule:**
+  - Body / supporting text: minimum 15px, target 16–17px
+  - Stat sublabels and data captions: minimum 14px
+  - Card subtitle text: minimum 14px, target 15px
+  - Section eyebrow labels: 12px acceptable minimum
+  - NO font-size below 12px anywhere in the dashboard
+  - Negative space: padding > 60px top/bottom with no content → reduce or fill
+  - Audit every session before committing: grep for font-size values ending in 8px, 9px, 10px, 11px
+
+**Why:** Prior sessions produced illegible text at 9–11px on stat labels, city labels, denom notes.
+
+**Regression risk:** Any new CSS block must have its smallest font-size checked before commit.
+Old `.nr-block-label` (9px), `.nr-stat-lbl` (9px), `.nr-city-lbl` (9px), `.nr-tnode-desc` (10px) etc. are legacy — do not copy these sizes to new sections.
+
+---
+
+## 13. GROWTH AND REACH — CANONICAL DATA
+**Rule:** Use ONLY these numbers. Do not use 2,815 (retired).
+
+  Unique individual learners:  4,200
+  Total registrations:         6,200+ (all programs since 2018)
+  Church partners:             74
+  Courses offered:             150
+  TheoEd talks:                50+
+  TheoEd events hosted:        14
+  Social followers (YT+IG):    ~6,500
+  Email subscribers:           ~6,000
+  Years of Impact:             dynamic — new Date().getFullYear() - 2018
+
+  Denomination breakdown (approx, based on ~4,200 unique registrants):
+    Methodist / UMC:          35%  ~1,470 people
+    Presbyterian:             22%  ~924 people
+    Episcopal / Anglican:     14%  ~588 people
+    Baptist:                  12%  ~504 people
+    Interdenominational:      10%  ~420 people
+    Other / Unknown:           7%  ~294 people
+
+  Cities (do not change these counts):
+    Atlanta GA: 680+ | Nashville TN: 140+ | Orlando FL: 95+ | Charlotte NC: 80+
+    Austin TX: 75+ | Knoxville TN: 60+ | Macon GA: 55+ | Birmingham AL: 45+
+
+  Timeline milestones (do not change):
+    2018: The Candler Foundry established at Emory University
+    2020: Online courses launched; first Candler in Conversation podcast
+    2022: 500th participant milestone reached
+    2024: 2,000th participant milestone; TheoEd expands to 8 cities
+    2025: On-Demand courses and Sunday School Simplified launched
+
+**Retired stats (do not use):** 2,815 total registrations, $30,029 revenue, 532/47/139 this-year stats in Growth and Reach. Those belong on Tab 1 (This Year) only.
+
+---
+
+## 14. GROWTH AND REACH — SVG MAP SPEC
+**Rule:** The US map must be an SVG `<path>`-based Albers USA projection — NOT a CSS tile grid, NOT divs in rows.
+  - viewBox: '0 0 960 600'
+  - All 50 states + DC must be present as `<path>` elements with real geographic shapes
+  - Heat map tiers (by participant count):
+      Tier 0 (0):       fill #c8d0d8
+      Tier 1 (1–9):     fill #e8a898
+      Tier 2 (10–49):   fill #d4705a
+      Tier 3 (50–199):  fill #c84826
+      Tier 4 (200+):    fill #8b2800
+  - Hover tooltip: fixed position, follows cursor, white bg navy text 13px border-radius 6px shadow
+  - Legend: 5 swatches (16px squares) + navy 13px labels, flex row below map
+  - State fill colors are set by initNumbers() JS using data-state and data-count attributes on each path
+
+**Regression risk:** Do not replace SVG paths with tile divs or cartogram approximations. Do not remove data-state or data-count attributes from path elements. The map tooltip div (.gr-map-tooltip) must exist in the DOM before initNumbers() runs.
 
 ---
 
@@ -158,6 +220,16 @@ SELF-AUDIT before committing:
 [ ] Quote text is white (#ffffff), 18px; quotation mark is 80px
 [ ] No left border on quote banner
 [ ] Hover shows popout above circle — no flip animation, no rotateY
+[ ] Growth and Reach tab: hero banner Graphic_2.png, dark overlay, no eyebrow label
+[ ] Row 1: Journey Timeline, navy bg, 5 milestones, starts at 2018
+[ ] Row 2: stat grid (~40%) + SVG map (~60%), cream bg
+[ ] 9 stat cards with correct canonical data (section 13 — not 2,815)
+[ ] Years of Impact card is dynamic (getFullYear() - 2018)
+[ ] SVG map: path-based, all 50 states + DC, hover tooltip works, legend present
+[ ] Row 3: Denom + Cities, navy bg, bars show pct + headcount, city counts unchanged
+[ ] No font-size below 12px in Growth and Reach section
+[ ] All body/supporting copy 14px minimum
+[ ] buildMap() and initReach() are stubs (no-op) — not called
 [ ] CANONICAL.md updated at repo root
 [ ] index.html is in git diff
 [ ] CANONICAL.md is in git diff

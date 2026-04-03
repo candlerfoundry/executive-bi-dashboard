@@ -330,10 +330,49 @@
       display: flex;
       gap: 8px;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     .link-row .field-input { flex: 1; }
     .link-row .field-input.url { flex: 2; }
+    .link-row .field-select {
+      flex: 0 0 120px;
+      width: auto;
+      min-width: 120px;
+    }
+
+    .link-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .link-toggle input[type="checkbox"],
+    .flip-toggle-row input[type="checkbox"] {
+      accent-color: var(--orange);
+      width: 13px;
+      height: 13px;
+      cursor: pointer;
+    }
+
+    .flip-toggle-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--navy);
+      cursor: pointer;
+    }
 
     /* ─── Image upload ─────────────────────────────── */
     .image-area {
@@ -668,41 +707,55 @@
     const card = document.createElement('div');
     card.className = 'editor-card';
     card.dataset.id = o.id;
-    card.dataset.imageUrl = o.imageUrl || '';
+    card.dataset.imageUrl = o.frontImageUrl || o.imageUrl || '';
 
-    const linksHtml = (o.links || []).map(l => linkRowHtml(l.label, l.url)).join('');
+    const actionSource = (o.cardActions && o.cardActions.length) ? o.cardActions : (o.links || []);
+    const linksHtml = actionSource.map(action => linkRowHtml(action)).join('');
     const iconOpts = ICONS.map(i => `<option value="${i}"${i === o.icon ? ' selected' : ''}>${i}</option>`).join('');
-    const imgHtml = o.imageUrl
-      ? `<img class="image-thumb" src="${esc(o.imageUrl)}" alt="">`
+    const imgUrl = o.frontImageUrl || o.imageUrl || '';
+    const frontTitle = o.frontTitle || o.title || '';
+    const frontDescription = o.frontDescription || o.tagline || o.blurb || '';
+    const backHeading = o.backHeading || frontTitle;
+    const backDescription = o.backDescription || o.description || frontDescription;
+    const imgHtml = imgUrl
+      ? `<img class="image-thumb" src="${esc(imgUrl)}" alt="">`
       : `<div class="image-placeholder">No image</div>`;
+    const flipChecked = o.useFlipInteraction !== false ? 'checked' : '';
 
     card.innerHTML = `
       <div class="card-header">
         <span class="drag-handle" draggable="true" title="Drag to reorder">⠿</span>
-        <span class="card-label">${esc(o.title)}</span>
+        <span class="card-label">${esc(frontTitle)}</span>
         <label class="visible-label">
           <input type="checkbox" data-field="visible" ${o.visible ? 'checked' : ''}> Visible
         </label>
       </div>
       <div class="card-body">
         <div class="field-row">
-          <span class="field-label">Title</span>
-          <input class="field-input" data-field="title" type="text" value="${esc(o.title)}"
+          <span class="field-label">Front Title</span>
+          <input class="field-input" data-field="frontTitle" type="text" value="${esc(frontTitle)}"
             oninput="this.closest('.editor-card').querySelector('.card-label').textContent=this.value">
         </div>
         <div class="field-row">
           <span class="field-label">Blurb <span class="hint">— short text shown on card face</span></span>
-          <textarea class="field-textarea" data-field="blurb">${esc(o.blurb)}</textarea>
+          <textarea class="field-textarea" data-field="frontDescription">${esc(frontDescription)}</textarea>
         </div>
         <div class="field-row">
           <span class="field-label">Description <span class="hint">— full body copy for expanded view</span></span>
-          <textarea class="field-textarea tall" data-field="description">${esc(o.description)}</textarea>
+          <input class="field-input" data-field="backHeading" type="text" value="${esc(backHeading)}">
         </div>
         <div class="field-row">
-          <span class="field-label">Links</span>
-          <div class="links-list" data-field="links">${linksHtml}</div>
-          <button class="btn btn-link" style="margin-top:8px;text-align:left" onclick="addLink(this)">+ Add Link</button>
+          <span class="field-label">Back Description</span>
+          <textarea class="field-textarea tall" data-field="backDescription">${esc(backDescription)}</textarea>
         </div>
+        <div class="field-row">
+          <span class="field-label">Back-Side Actions</span>
+          <div class="links-list" data-field="cardActions">${linksHtml}</div>
+          <button class="btn btn-link" style="margin-top:8px;text-align:left" onclick="addLink(this)">+ Add Action</button>
+        </div>
+        <label class="flip-toggle-row">
+          <input type="checkbox" data-field="useFlipInteraction" ${flipChecked}> Enable flip/reveal interaction
+        </label>
         <div class="two-col">
           <div class="field-row">
             <span class="field-label">Icon</span>
@@ -812,10 +865,23 @@
 
   // ── Link helpers ─────────────────────────────────────────
 
-  function linkRowHtml(label, url) {
+  function linkRowHtml(action) {
+    const label = (action && action.label) || '';
+    const url = (action && action.url) || '';
+    const type = (action && action.type) || 'resource';
+    const checked = !action || action.visible !== false ? 'checked' : '';
     return `<div class="link-row">
       <input class="field-input" data-subfield="label" type="text" placeholder="Label" value="${esc(label)}">
       <input class="field-input url" data-subfield="url" type="text" placeholder="https://" value="${esc(url)}">
+      <select class="field-select" data-subfield="type">
+        <option value="sample"${type === 'sample' ? ' selected' : ''}>Sample</option>
+        <option value="overview"${type === 'overview' ? ' selected' : ''}>Overview</option>
+        <option value="course"${type === 'course' ? ' selected' : ''}>Course</option>
+        <option value="resource"${type === 'resource' ? ' selected' : ''}>Resource</option>
+        <option value="podcast"${type === 'podcast' ? ' selected' : ''}>Podcast</option>
+        <option value="article"${type === 'article' ? ' selected' : ''}>Article</option>
+      </select>
+      <label class="link-toggle"><input type="checkbox" data-subfield="visible" ${checked}> Show</label>
       <button class="btn btn-ghost" onclick="this.closest('.link-row').remove()" title="Remove">✕</button>
     </div>`;
   }
@@ -827,6 +893,15 @@
     row.innerHTML = `
       <input class="field-input" data-subfield="label" type="text" placeholder="Label">
       <input class="field-input url" data-subfield="url" type="text" placeholder="https://">
+      <select class="field-select" data-subfield="type">
+        <option value="sample">Sample</option>
+        <option value="overview">Overview</option>
+        <option value="course">Course</option>
+        <option value="resource" selected>Resource</option>
+        <option value="podcast">Podcast</option>
+        <option value="article">Article</option>
+      </select>
+      <label class="link-toggle"><input type="checkbox" data-subfield="visible" checked> Show</label>
       <button class="btn btn-ghost" onclick="this.closest('.link-row').remove()" title="Remove">✕</button>`;
     list.appendChild(row);
     row.querySelector('input').focus();
@@ -935,22 +1010,42 @@
   function collectContent() {
     const offerings = [];
     document.querySelectorAll('#offerings-list .editor-card').forEach((card, idx) => {
-      const links = [];
-      card.querySelectorAll('[data-field="links"] .link-row').forEach(row => {
-        links.push({
-          label: row.querySelector('[data-subfield="label"]').value.trim(),
-          url: row.querySelector('[data-subfield="url"]').value.trim(),
+      const cardActions = [];
+      card.querySelectorAll('[data-field="cardActions"] .link-row').forEach(row => {
+        const label = row.querySelector('[data-subfield="label"]').value.trim();
+        const url = row.querySelector('[data-subfield="url"]').value.trim();
+        if (!label && !url) return;
+        cardActions.push({
+          label,
+          url,
+          type: row.querySelector('[data-subfield="type"]').value,
+          visible: row.querySelector('[data-subfield="visible"]').checked,
         });
       });
+      const links = cardActions
+        .filter(action => action.label && action.url)
+        .map(action => ({ label: action.label, url: action.url }));
+      const frontTitle = card.querySelector('[data-field="frontTitle"]').value.trim();
+      const frontDescription = card.querySelector('[data-field="frontDescription"]').value.trim();
+      const backHeading = card.querySelector('[data-field="backHeading"]').value.trim();
+      const backDescription = card.querySelector('[data-field="backDescription"]').value.trim();
       offerings.push({
         id: card.dataset.id,
-        title: card.querySelector('[data-field="title"]').value.trim(),
-        blurb: card.querySelector('[data-field="blurb"]').value.trim(),
-        description: card.querySelector('[data-field="description"]').value.trim(),
+        title: frontTitle,
+        frontTitle,
+        tagline: frontDescription,
+        blurb: frontDescription,
+        frontDescription,
+        description: backDescription,
+        backHeading: backHeading || frontTitle,
+        backDescription,
         links,
+        cardActions,
+        useFlipInteraction: card.querySelector('[data-field="useFlipInteraction"]').checked,
         icon: card.querySelector('[data-field="icon"]').value,
         iconColor: card.querySelector('[data-field="iconColor"]').value,
         imageUrl: card.dataset.imageUrl || '',
+        frontImageUrl: card.dataset.imageUrl || '',
         visible: card.querySelector('[data-field="visible"]').checked,
         order: idx + 1,
       });
