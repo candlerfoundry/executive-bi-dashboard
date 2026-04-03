@@ -275,16 +275,16 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .tc-bio { font-size:0.85rem; color:var(--blue); line-height:1.6; text-align:left; margin-top:12px; }
 /* ═══ MISSION & OFFERINGS TAB ═══ */
 .mission-page {
-  --mission-shell-max: 1720px;
-  --mission-gutter: clamp(24px, 3.2vw, 64px);
-  --mission-section-gap: clamp(22px, 2vw, 34px);
-  --mission-intro-col: clamp(240px, 19vw, 320px);
+  --mission-shell-max: 1840px;
+  --mission-gutter: clamp(16px, 2vw, 40px);
+  --mission-section-gap: clamp(18px, 1.6vw, 28px);
+  --mission-intro-col: clamp(220px, 14vw, 280px);
   --mission-hero-min: clamp(380px, 24vw, 460px);
   --mission-hero-text-max: clamp(560px, 42vw, 760px);
   --mission-card-min: clamp(300px, 19vw, 340px);
   --mission-card-pad: clamp(22px, 1.8vw, 32px);
-  --mission-card-art-lg: clamp(160px, 13vw, 220px);
-  --mission-card-art-sm: clamp(132px, 10vw, 180px);
+  --mission-card-art-lg: clamp(130px, 9vw, 164px);
+  --mission-card-art-sm: clamp(110px, 8vw, 144px);
   background:#fbf8f3;
 }
 .mission-bar { position:relative; background:linear-gradient(180deg,#fffdf8 0%,#fbf8f3 100%); overflow:hidden; }
@@ -299,14 +299,14 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .mission-paths, .mission-path-pill { display:none; }
 .mission-hero-visual { min-height:var(--mission-hero-min); }
 .mission-shell { width:min(100%, var(--mission-shell-max)); margin:0 auto; padding:0 var(--mission-gutter) clamp(44px, 4vw, 64px); }
-.mission-section { display:grid; grid-template-columns:minmax(var(--mission-intro-col), 0.32fr) minmax(0, 1fr); gap:var(--mission-section-gap); align-items:stretch; padding:clamp(30px, 2.8vw, 44px) 0 clamp(38px, 3.2vw, 52px); border-top:1px solid rgba(30,37,48,0.08); }
+.mission-section { display:grid; grid-template-columns:minmax(var(--mission-intro-col), 0.24fr) minmax(0, 1fr); gap:var(--mission-section-gap); align-items:stretch; padding:clamp(30px, 2.8vw, 44px) 0 clamp(38px, 3.2vw, 52px); border-top:1px solid rgba(30,37,48,0.08); }
 .mission-section:last-child { padding-bottom:0; }
 .mission-section-head { display:flex; align-items:flex-start; gap:clamp(14px, 1.2vw, 18px); background:transparent; border:none; border-radius:0; padding:8px 8px 8px 0; box-shadow:none; min-height:100%; }
 .mission-section-icon { flex-shrink:0; color:#c84826; margin-top:2px; }
 .mission-section-title { font-size:clamp(1.45rem, 1rem + 1vw, 1.8rem); line-height:1.05; font-weight:700; letter-spacing:-0.05em; color:#1e2530; margin-bottom:clamp(14px, 1.4vw, 18px); text-wrap:balance; }
 .mission-section-rule { width:44px; height:3px; background:#c84826; border-radius:999px; margin-bottom:14px; }
-.mission-section-copy { font-size:clamp(0.8rem, 0.7rem + 0.24vw, 0.96rem); line-height:1.8; color:rgba(30,37,48,0.8); max-width:clamp(320px, 24vw, 380px); }
-#mission-ministry { margin:0 calc(-1 * var(--mission-gutter)); padding:clamp(38px, 3.2vw, 52px) var(--mission-gutter) clamp(42px, 3.5vw, 56px); border-top:none; background:#eef2f5; border-radius:0; }
+.mission-section-copy { font-size:clamp(0.8rem, 0.7rem + 0.24vw, 0.96rem); line-height:1.8; color:rgba(30,37,48,0.8); max-width:280px; }
+#mission-ministry { position:relative; margin:0 calc(-1 * var(--mission-gutter)); padding:clamp(38px, 3.2vw, 52px) var(--mission-gutter) clamp(42px, 3.5vw, 56px); border-top:none; background:linear-gradient(180deg,#d6ecf9 0%,#e8f4fb 100%); border-radius:0; box-shadow:inset 0 1px 0 rgba(30,37,48,0.06), inset 0 -1px 0 rgba(30,37,48,0.06); }
 #mission-ministry .mission-section-head { background:transparent; }
 #mission-public { border-top:none; padding-top:clamp(40px, 3.5vw, 56px); }
 .mission-page .offerings-grid { display:grid; gap:clamp(16px, 1.4vw, 24px); align-items:stretch; grid-auto-rows:1fr; }
@@ -331,14 +331,15 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .iq-dot.active { background: #c84826; }
 
 /* ═══ OFFERING CARDS ═══ */
-.mission-page .offering-flip { height:100%; }
-.mission-page .offering-flip-inner { display:grid; min-height:100%; height:100%; }
-.mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:var(--mission-card-min); }
-.mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.1); box-shadow:0 10px 22px rgba(30,37,48,0.08); overflow:hidden; position:relative; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease; }
+.mission-page .offering-flip { height:100%; perspective:1400px; cursor:pointer; outline:none; }
+.mission-page .offering-flip-inner { display:grid; min-height:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 0.55s cubic-bezier(0.2,0.8,0.2,1); }
+.mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner, .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner, .mission-page .offering-flip.is-flipped .offering-flip-inner { transform:rotateY(180deg); }
+.mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+.mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.16); box-shadow:0 10px 20px rgba(30,37,48,0.08), 0 2px 5px rgba(30,37,48,0.08); overflow:hidden; position:relative; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
 .mission-page .card-front::before { content:''; position:absolute; top:clamp(10px, 1vw, 16px); right:clamp(8px, 0.9vw, 14px); bottom:clamp(8px, 0.9vw, 12px); width:var(--mission-card-art-lg); background-image:var(--card-graphic,none); background-size:contain; background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:0.9; z-index:0; pointer-events:none; border-radius:inherit; }
 .mission-page .card-front::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,250,0.96) 0%, rgba(255,253,250,0.92) 46%, rgba(255,253,250,0.38) 72%, rgba(255,253,250,0.08) 100%); z-index:0; pointer-events:none; }
-.mission-page .offering-flip:hover .card-front { transform:translateY(-3px); box-shadow:0 24px 36px rgba(30,37,48,0.12); }
-.mission-page .card-back { display:none; }
+.mission-page .offering-flip:hover .card-front { border-color:rgba(30,37,48,0.24); box-shadow:0 24px 40px rgba(30,37,48,0.16), 0 8px 14px rgba(30,37,48,0.08); }
+.mission-page .card-back { transform:rotateY(180deg); background:#1e2530; border:1px solid rgba(30,37,48,0.22); box-shadow:0 20px 40px rgba(30,37,48,0.18), 0 8px 16px rgba(30,37,48,0.12); overflow:hidden; padding:0; }
 .mission-course-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
 .mission-course-grid .card-front::before { width:var(--mission-card-art-lg); }
 .mission-ministry-grid .card-front, .mission-public-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
@@ -346,17 +347,24 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .mission-page .cf-group { display:none; }
 .mission-page .cf-top { position:relative; z-index:1; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:clamp(14px, 1.2vw, 18px); }
 .mission-page .cf-icon { display:none; }
-.mission-page .cf-name { display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; font-size:clamp(1rem, 0.72rem + 0.65vw, 1.45rem); font-weight:700; line-height:1.08; letter-spacing:-0.05em; color:var(--blue); margin:0; max-width:100%; text-wrap:balance; }
+.mission-page .cf-name { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; font-size:clamp(1rem, 0.72rem + 0.65vw, 1.45rem); font-weight:700; line-height:1.08; letter-spacing:-0.05em; color:var(--blue); margin:0; max-width:100%; text-wrap:balance; }
 .mission-course-grid .cf-name { font-size:clamp(1.05rem, 0.78rem + 0.7vw, 1.5rem); }
-.mission-page .cf-tagline { position:relative; z-index:1; display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden; font-size:clamp(0.74rem, 0.64rem + 0.24vw, 0.94rem); font-weight:500; color:rgba(30,37,48,0.84); line-height:1.7; max-width:clamp(240px, 20vw, 320px); margin-bottom:clamp(20px, 1.6vw, 28px); }
+.mission-page .cf-tagline { position:relative; z-index:1; display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical; overflow:hidden; font-size:clamp(0.74rem, 0.64rem + 0.24vw, 0.94rem); font-weight:500; color:rgba(30,37,48,0.84); line-height:1.7; max-width:none; margin-bottom:clamp(20px, 1.6vw, 28px); }
 .mission-page .cf-hook { display:none; }
-.mission-page .cb-strip, .mission-page .cb-body, .mission-page .cb-hook, .mission-page .cb-icon, .mission-page .cb-name { display:none; }
-.mission-page .cb-links { position:relative; z-index:1; display:flex; flex-wrap:wrap; gap:10px; }
+.mission-page .cf-flip-hint { position:relative; z-index:1; margin-top:auto; font-size:0.64rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:rgba(200,72,38,0.8); }
+.mission-page .cb-strip { display:block; background:#c84826; padding:14px 20px 13px; font-size:0.66rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:#fafaf2; border-radius:12px 12px 0 0; }
+.mission-page .cb-body { display:flex; flex-direction:column; flex:1; min-height:0; padding:22px 22px 20px; }
+.mission-page .cb-hook { display:block; font-size:clamp(0.78rem, 0.68rem + 0.18vw, 0.9rem); line-height:1.7; color:rgba(250,250,242,0.9); margin-bottom:16px; }
+.mission-page .cb-icon, .mission-page .cb-name { display:none; }
+.mission-page .cb-links { position:relative; z-index:1; display:flex; flex-direction:column; align-items:flex-start; gap:10px; margin-top:auto; }
 .mission-page .cb-cta { display:inline-flex; align-items:center; gap:8px; background:#c84826; border:1px solid #c84826; color:#fafaf2; border-radius:999px; padding:clamp(9px, 0.8vw, 11px) clamp(16px, 1.4vw, 22px); font-size:clamp(0.64rem, 0.58rem + 0.12vw, 0.76rem); font-weight:700; text-align:center; text-decoration:none; transition:background 0.2s, color 0.2s, border-color 0.2s; }
 .mission-page .cb-cta::after { content:'›'; font-size:1rem; line-height:1; }
 .mission-page .cb-cta:hover { background:#c84826; border-color:#c84826; color:#fafaf2; }
 .mission-ministry-grid .cb-cta, .mission-public-grid .cb-cta { gap:8px; padding:clamp(9px, 0.8vw, 11px) clamp(16px, 1.4vw, 22px); font-size:clamp(0.64rem, 0.58rem + 0.12vw, 0.76rem); }
-.mission-page .cb-cta-tag { display:inline-flex; align-items:center; font-size:0.72rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:rgba(30,37,48,0.56); border:1px solid rgba(30,37,48,0.14); background:rgba(250,250,242,0.7); padding:10px 16px; border-radius:999px; }
+.mission-page .cb-cta-tag { display:inline-flex; align-items:center; font-size:0.72rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:rgba(250,250,242,0.76); border:1px solid rgba(250,250,242,0.16); background:rgba(250,250,242,0.08); padding:10px 16px; border-radius:999px; }
+.mission-page .offering-flip:focus-visible .card-front,
+.mission-page .offering-flip:focus-visible .card-back { outline:3px solid rgba(200,72,38,0.55); outline-offset:3px; }
+.mission-page .card-back .cb-links a { position:relative; z-index:3; }
 
 /* TAB: THEOED */
 #panel-theoed { padding-top:0; padding-bottom:0; background:#F5F0EB; }
@@ -1708,37 +1716,70 @@ var MISSION_CARD_GRAPHICS = {
 var MISSION_CARD_META = {
   'courses-in-community': {
     copy: '8-10 week courses facilitated by theologians and Candler alumni.',
-    cta: 'View Community Courses'
+    backCopy: 'Start with a free preview or browse current scholar-led offerings for congregations and learners.',
+    actions: [
+      { label: 'Browse Current Courses', url: 'https://candlerfoundry.emory.edu/courses', type: 'overview', visible: true },
+      { label: 'Explore Full Course Catalog', url: 'https://candlerfoundry.emory.edu/courses', type: 'course', visible: true }
+    ]
   },
   'on-demand-courses': {
     copy: 'Theology and faith formation delivered in an on-demand format.',
-    cta: 'Watch On-Demand Courses'
+    backCopy: 'Explore self-paced courses and start learning without waiting for a live cohort.',
+    actions: [
+      { label: 'Browse On-Demand Library', url: 'https://candlerfoundry.emory.edu/courses', type: 'course', visible: true },
+      { label: 'Read Course Overview', url: 'https://candlerfoundry.emory.edu/courses', type: 'overview', visible: true }
+    ]
   },
   'sunday-school-simplified': {
     copy: 'Engaging resources, no prep needed - designed by Candler educators.',
-    cta: 'Get Resources'
+    backCopy: 'Preview free Sunday School lessons and use ready-to-teach resources built for ministry leaders.',
+    actions: [
+      { label: 'Free Lesson 1', url: 'https://mailchi.mp/a585d9b4946a/new-sunday-school-just-got-even-better-17662962', type: 'sample', visible: true },
+      { label: 'Free Lesson 2', url: 'https://mailchi.mp/554205f24c25/new-sunday-school-just-got-even-better-17662317', type: 'sample', visible: true },
+      { label: 'Free Lesson 3', url: 'https://mailchi.mp/0c2d5266f9ea/new-sunday-school-just-got-even-better-17661845', type: 'sample', visible: true }
+    ]
   },
   '3-minute-bible': {
     copy: 'Concise video lessons that illuminate key themes of the Bible.',
-    cta: 'Watch Videos'
+    backCopy: 'Watch short free explainers that make biblical ideas approachable for teaching and discussion.',
+    actions: [
+      { label: 'Watch "What is a Covenant?"', url: 'https://youtu.be/vxyietk2YQE', type: 'sample', visible: true },
+      { label: 'Watch Mythical Language Video', url: 'https://youtu.be/jo5YMy0qHm0', type: 'sample', visible: true }
+    ]
   },
   'unstuck': {
     copy: 'Resources for vocation, spiritual discernment, and ministry leadership.',
-    cta: 'Explore Toolkits'
+    backCopy: 'Find practical tools and conversations for vocation, belonging, and discerning next steps.',
+    actions: [
+      { label: 'Watch Belonging & Purpose', url: 'https://youtu.be/lD8I40R9FQU', type: 'sample', visible: true },
+      { label: 'Explore Discernment Resources', url: 'https://youtu.be/lD8I40R9FQU', type: 'resource', visible: true }
+    ]
   },
   'scholars-blog': {
     copy: 'Timely reflections on faith, theology, and the church from Candler voices.',
-    cta: 'Visit the Blog'
+    backCopy: 'Read current reflections and thoughtful theological commentary in plain language.',
+    actions: [
+      { label: 'Read Scholar’s Blog', url: 'https://candlerfoundry.emory.edu/blog', type: 'article', visible: true }
+    ]
   },
   'theoed': {
     copy: 'Short talks that explore the Bible, theology, and faith for spiritually curious audiences.',
-    cta: 'Visit TheoEd Online'
+    backCopy: 'Sample TheoEd talks and discussion guides designed for curious public audiences.',
+    actions: [
+      { label: 'Browse TheoEd Talks', url: 'https://www.theoed.com/', type: 'overview', visible: true },
+      { label: 'Free Discussion Guides', url: 'https://www.theoed.com/discussionguides', type: 'resource', visible: true }
+    ]
   },
   'candler-in-conversation': {
     copy: 'Conversations with theologians, staff, and students from Candler School of Theology.',
-    cta: 'Listen to Our Podcast'
+    backCopy: 'Listen to conversations with Candler scholars, staff, and students on faith and public life.',
+    actions: [
+      { label: 'Listen to Podcast Episode', url: 'https://youtu.be/0aD-SAQaGMU', type: 'podcast', visible: true }
+    ]
   }
 };
+
+var missionCardInteractionsReady = false;
 
 function renderOfferings(offerings) {
   var grids = {
@@ -1754,16 +1795,27 @@ function renderOfferings(offerings) {
   visible.sort(function(a, b) { return (a.order || 99) - (b.order || 99); });
   visible.forEach(function(o, idx) {
     var slug = getOfferingSlug(o, idx);
-    var graphic = MISSION_CARD_GRAPHICS[slug] || CARD_GRAPHICS[idx] || CARD_GRAPHICS[idx % CARD_GRAPHICS.length];
+    var graphic = (o.frontImageUrl || o.imageUrl)
+      ? { url: o.frontImageUrl || o.imageUrl, pos: 'center right' }
+      : (MISSION_CARD_GRAPHICS[slug] || CARD_GRAPHICS[idx] || CARD_GRAPHICS[idx % CARD_GRAPHICS.length]);
     var meta = MISSION_CARD_META[slug] || {};
-    var primaryLink = (o.links && o.links.length) ? o.links[0] : null;
-    var ctaLabel = meta.cta || (primaryLink && primaryLink.label) || 'Learn More';
-    var linksHtml = primaryLink && primaryLink.url
-      ? '<div class="cb-links"><a class="cb-cta" href="' + primaryLink.url + '" target="_blank" rel="noopener">' + ctaLabel + '</a></div>'
-      : '';
-    var tagline = meta.copy || o.tagline || o.blurb || '';
+    var frontTitle = o.frontTitle || o.title || '';
+    var tagline = o.frontDescription || meta.copy || o.tagline || o.blurb || '';
+    var backHeading = o.backHeading || frontTitle;
+    var backCopy = o.backDescription || meta.backCopy || tagline;
+    var useFlip = o.useFlipInteraction !== false;
+    var actions = getOfferingActions(o, meta);
+    var frontCtaHtml = useFlip
+      ? '<div class="cf-flip-hint">Tap or hover to explore</div>'
+      : buildOfferingActionLinks(actions.slice(0, 1), 'front');
+    var backLinksHtml = buildOfferingActionLinks(actions, 'back');
     var flip = document.createElement('div');
-    flip.className = 'offering-flip';
+    flip.className = 'offering-flip' + (useFlip ? '' : ' no-flip');
+    flip.tabIndex = 0;
+    flip.setAttribute('role', 'button');
+    flip.setAttribute('aria-label', (useFlip ? 'Flip ' : 'Open ') + frontTitle + ' card');
+    flip.setAttribute('aria-expanded', 'false');
+    flip.dataset.flipEnabled = useFlip ? 'true' : 'false';
     flip.style.setProperty('--card-graphic', 'url("' + graphic.url + '")');
     flip.style.setProperty('--card-bg-pos', graphic.pos);
     flip.innerHTML =
@@ -1771,24 +1823,25 @@ function renderOfferings(offerings) {
         '<div class="card-front">' +
           '<div class="cf-group">' + getOfferingGroupLabel(o, idx) + '</div>' +
           '<div class="cf-top">' +
-            '<div class="cf-name">' + o.title + '</div>' +
+            '<div class="cf-name">' + frontTitle + '</div>' +
             '<div class="cf-icon">' + getIconSVG(o.icon, o.iconColor) + '</div>' +
           '</div>' +
           '<div class="cf-tagline">' + tagline + '</div>' +
           '<div class="cf-hook">' + (CARD_HOOKS[idx] || '') + '</div>' +
-          linksHtml +
+          frontCtaHtml +
         '</div>' +
         '<div class="card-back">' +
-          '<div class="cb-strip">' + o.title + '</div>' +
+          '<div class="cb-strip">' + backHeading + '</div>' +
           '<div class="cb-body">' +
-            '<div class="cb-hook">' + (CARD_HOOKS[idx] || '') + '</div>' +
+            '<div class="cb-hook">' + backCopy + '</div>' +
             '<div class="cb-icon">' + getIconSVG(o.icon, '#c84826') + '</div>' +
-            linksHtml +
+            backLinksHtml +
           '</div>' +
         '</div>' +
       '</div>';
     grids[MISSION_SECTION_BUCKETS[slug] || 'ministry'].appendChild(flip);
   });
+  initMissionCardInteractions();
 }
 
 function getOfferingSlug(offering, idx) {
@@ -1806,6 +1859,77 @@ function getOfferingGroupLabel(offering, idx) {
   if (source.indexOf('theoed') !== -1 || source.indexOf('3-minute') !== -1 || source.indexOf('conversation') !== -1) return 'Talks and media';
   if (source.indexOf('blog') !== -1 || source.indexOf('unstuck') !== -1) return 'Tools and reflection';
   return idx < 2 ? 'Guided courses' : 'Tools and reflection';
+}
+
+function getOfferingActions(offering, meta) {
+  var source = (offering && offering.cardActions && offering.cardActions.length)
+    ? offering.cardActions
+    : ((meta && meta.actions && meta.actions.length) ? meta.actions : ((offering && offering.links) || []));
+  return source
+    .filter(function(action) { return action && action.visible !== false && action.url && action.label; })
+    .slice(0, 4)
+    .map(function(action) {
+      return {
+        label: action.label,
+        url: action.url,
+        type: action.type || 'resource'
+      };
+    });
+}
+
+function buildOfferingActionLinks(actions, mode) {
+  if (!actions.length) {
+    return mode === 'back'
+      ? '<div class="cb-links"><span class="cb-cta-tag">No links yet</span></div>'
+      : '';
+  }
+  return '<div class="cb-links">' + actions.map(function(action) {
+    return '<a class="cb-cta" href="' + action.url + '" target="_blank" rel="noopener" data-action-type="' + action.type + '">' + action.label + '</a>';
+  }).join('') + '</div>';
+}
+
+function initMissionCardInteractions() {
+  if (missionCardInteractionsReady) return;
+  missionCardInteractionsReady = true;
+  var missionPanel = document.getElementById('panel-whoweare');
+  if (!missionPanel) return;
+  var canHover = window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  function closeOtherCards(currentCard) {
+    missionPanel.querySelectorAll('.offering-flip.is-flipped').forEach(function(card) {
+      if (card !== currentCard) {
+        card.classList.remove('is-flipped');
+        card.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  missionPanel.addEventListener('click', function(event) {
+    if (event.target.closest('.cb-cta')) return;
+    var card = event.target.closest('.offering-flip');
+    if (!card || card.dataset.flipEnabled !== 'true') return;
+    if (canHover && !card.classList.contains('is-flipped')) return;
+    event.preventDefault();
+    var isOpen = card.classList.toggle('is-flipped');
+    card.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (isOpen) closeOtherCards(card);
+  });
+
+  missionPanel.addEventListener('keydown', function(event) {
+    if (event.target.closest('.cb-cta')) return;
+    var card = event.target.closest('.offering-flip');
+    if (!card || card.dataset.flipEnabled !== 'true') return;
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    var isOpen = card.classList.toggle('is-flipped');
+    card.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    if (isOpen) closeOtherCards(card);
+  });
+
+  document.addEventListener('click', function(event) {
+    if (event.target.closest('#panel-whoweare .offering-flip')) return;
+    closeOtherCards(null);
+  });
 }
 
 function loadContent() {

@@ -3,109 +3,191 @@
     {
       "id": "courses-in-community",
       "title": "Courses in the Community",
+      "frontTitle": "Courses in the Community",
       "tagline": "Brings inexpensive, scholar-led courses to congregations and learners across the world.",
       "blurb": "Brings inexpensive, scholar-led courses to congregations and learners across the world.",
+      "frontDescription": "8-10 week courses facilitated by theologians and Candler alumni.",
+      "backHeading": "Sample or browse community courses",
+      "backDescription": "Start with a free preview or browse current scholar-led offerings for congregations and learners.",
       "links": [
         { "label": "Browse our current courses", "url": "https://candlerfoundry.emory.edu/courses" }
       ],
+      "cardActions": [
+        { "label": "Browse Current Courses", "url": "https://candlerfoundry.emory.edu/courses", "type": "overview", "visible": true },
+        { "label": "Explore Full Course Catalog", "url": "https://candlerfoundry.emory.edu/courses", "type": "course", "visible": true }
+      ],
+      "useFlipInteraction": true,
       "icon": "compass",
       "iconColor": "#c84826",
+      "frontImageUrl": "",
       "visible": true,
       "order": 1
     },
     {
       "id": "on-demand-courses",
       "title": "On-Demand Courses",
+      "frontTitle": "On-Demand Courses",
       "tagline": "Allows curious learners to access theology courses anywhere, anytime.",
       "blurb": "Allows curious learners to access theology courses anywhere, anytime.",
+      "frontDescription": "Theology and faith formation delivered in an on-demand format.",
+      "backHeading": "Explore self-paced learning",
+      "backDescription": "Browse on-demand courses and start learning without waiting for a live cohort.",
       "links": [
         { "label": "Browse our library", "url": "https://candlerfoundry.emory.edu/courses" }
       ],
+      "cardActions": [
+        { "label": "Browse On-Demand Library", "url": "https://candlerfoundry.emory.edu/courses", "type": "course", "visible": true },
+        { "label": "Read Course Overview", "url": "https://candlerfoundry.emory.edu/courses", "type": "overview", "visible": true }
+      ],
+      "useFlipInteraction": true,
       "icon": "play",
       "iconColor": "#c84826",
+      "frontImageUrl": "",
       "visible": true,
       "order": 2
     },
     {
       "id": "theoed",
       "title": "TheoEd",
+      "frontTitle": "TheoEd",
       "tagline": "A faith-based speaker series featuring TED-style talks on theology, Bible, and spirituality.",
       "blurb": "A faith-based speaker series featuring TED-style talks on theology, Bible, and spirituality.",
+      "frontDescription": "Short talks that explore the Bible, theology, and faith for spiritually curious audiences.",
+      "backHeading": "Sample TheoEd talks and guides",
+      "backDescription": "Browse talks and discussion guides designed for spiritually curious public audiences.",
       "links": [
         { "label": "Browse our library of talks", "url": "https://www.theoed.com/" },
         { "label": "View Free Discussion Guides", "url": "https://www.theoed.com/discussionguides" }
       ],
+      "cardActions": [
+        { "label": "Browse TheoEd Talks", "url": "https://www.theoed.com/", "type": "overview", "visible": true },
+        { "label": "Free Discussion Guides", "url": "https://www.theoed.com/discussionguides", "type": "resource", "visible": true }
+      ],
+      "useFlipInteraction": true,
       "icon": "mic",
       "iconColor": "#c84826",
+      "frontImageUrl": "",
       "visible": true,
       "order": 3
     },
     {
       "id": "sunday-school-simplified",
       "title": "Sunday School Simplified",
+      "frontTitle": "Sunday School Simplified",
       "tagline": "Easy, no-prep Bible study and Sunday School lessons.",
       "blurb": "Easy, no-prep Bible study and Sunday School lessons.",
+      "frontDescription": "Engaging resources, no prep needed - designed by Candler educators.",
+      "backHeading": "Preview free Sunday School lessons",
+      "backDescription": "Use ready-to-teach resources built for Sunday school teachers and ministry leaders.",
       "links": [
         { "label": "Free Lesson 1", "url": "https://mailchi.mp/a585d9b4946a/new-sunday-school-just-got-even-better-17662962" },
         { "label": "Free Lesson 2", "url": "https://mailchi.mp/554205f24c25/new-sunday-school-just-got-even-better-17662317" },
         { "label": "Free Lesson 3", "url": "https://mailchi.mp/0c2d5266f9ea/new-sunday-school-just-got-even-better-17661845" },
         { "label": "Free Lesson 4", "url": "https://mailchi.mp/fee3c9136421/new-sunday-school-just-got-even-better-17661356" }
       ],
+      "cardActions": [
+        { "label": "Free Lesson 1", "url": "https://mailchi.mp/a585d9b4946a/new-sunday-school-just-got-even-better-17662962", "type": "sample", "visible": true },
+        { "label": "Free Lesson 2", "url": "https://mailchi.mp/554205f24c25/new-sunday-school-just-got-even-better-17662317", "type": "sample", "visible": true },
+        { "label": "Free Lesson 3", "url": "https://mailchi.mp/0c2d5266f9ea/new-sunday-school-just-got-even-better-17661845", "type": "sample", "visible": true },
+        { "label": "Get Resources", "url": "https://candlerfoundry.emory.edu/courses", "type": "resource", "visible": true }
+      ],
+      "useFlipInteraction": true,
       "icon": "book",
       "iconColor": "#c84826",
+      "frontImageUrl": "",
       "visible": true,
       "order": 4
     },
     {
       "id": "3-minute-bible",
       "title": "3-Minute Bible",
+      "frontTitle": "3-Minute Bible",
       "tagline": "Bite-sized videos that simplify and explain the Bible.",
       "blurb": "Bite-sized videos that simplify and explain the Bible.",
+      "frontDescription": "Concise video lessons that illuminate key themes of the Bible.",
+      "backHeading": "Watch short free explainers",
+      "backDescription": "Sample short videos that make biblical ideas approachable for teaching and discussion.",
       "links": [
         { "label": "What is a Covenant?", "url": "https://youtu.be/vxyietk2YQE" },
         { "label": "How does the Bible use mythical language?", "url": "https://youtu.be/jo5YMy0qHm0" }
       ],
+      "cardActions": [
+        { "label": "Watch What Is a Covenant?", "url": "https://youtu.be/vxyietk2YQE", "type": "sample", "visible": true },
+        { "label": "Watch Mythical Language Video", "url": "https://youtu.be/jo5YMy0qHm0", "type": "sample", "visible": true }
+      ],
+      "useFlipInteraction": true,
       "icon": "3mb",
       "iconColor": "#c84826",
+      "frontImageUrl": "",
       "visible": true,
       "order": 5
     },
     {
       "id": "candler-in-conversation",
       "title": "Candler in Conversation",
+      "frontTitle": "Candler in Conversation",
       "tagline": "Candler School of Theology\u2019s flagship podcast, featuring Candler\u2019s best and brightest scholars, staff, and students.",
       "blurb": "Candler School of Theology\u2019s flagship podcast, featuring Candler\u2019s best and brightest scholars, staff, and students.",
+      "frontDescription": "Conversations with theologians, staff, and students from Candler School of Theology.",
+      "backHeading": "Listen to Candler in Conversation",
+      "backDescription": "Sample conversations with Candler scholars, staff, and students on faith and public life.",
       "links": [
         { "label": "How Can We Make the Bible Come Alive?", "url": "https://youtu.be/0aD-SAQaGMU" }
       ],
+      "cardActions": [
+        { "label": "Listen to Podcast Episode", "url": "https://youtu.be/0aD-SAQaGMU", "type": "podcast", "visible": true },
+        { "label": "Explore More Episodes", "url": "https://candlerfoundry.emory.edu/", "type": "overview", "visible": true }
+      ],
+      "useFlipInteraction": true,
       "icon": "broadcast",
       "iconColor": "#c84826",
+      "frontImageUrl": "",
       "visible": true,
       "order": 6
     },
     {
       "id": "scholars-blog",
       "title": "Scholar\u2019s Blog",
+      "frontTitle": "Scholar\u2019s Blog",
       "tagline": "Brings a faithful lens to current events and the Bible in plain English.",
       "blurb": "Brings a faithful lens to current events and the Bible in plain English.",
+      "frontDescription": "Timely reflections on faith, theology, and the church from Candler voices.",
+      "backHeading": "Read current reflections",
+      "backDescription": "Browse thoughtful theological commentary and fresh articles from Candler voices.",
       "links": [
         { "label": "Visit the blog", "url": "https://candlerfoundry.emory.edu/blog" }
       ],
+      "cardActions": [
+        { "label": "Read Scholar's Blog", "url": "https://candlerfoundry.emory.edu/blog", "type": "article", "visible": true },
+        { "label": "Explore Recent Articles", "url": "https://candlerfoundry.emory.edu/blog", "type": "overview", "visible": true }
+      ],
+      "useFlipInteraction": true,
       "icon": "quill",
       "iconColor": "#c84826",
+      "frontImageUrl": "",
       "visible": true,
       "order": 7
     },
     {
       "id": "unstuck",
       "title": "Unstuck",
+      "frontTitle": "Unstuck",
       "tagline": "Videos and other resources to assist in discerning vocation, life, and ministry.",
       "blurb": "Videos and other resources to assist in discerning vocation, life, and ministry.",
+      "frontDescription": "Resources for vocation, spiritual discernment, and ministry leadership.",
+      "backHeading": "Explore vocation resources",
+      "backDescription": "Watch practical tools and conversations for vocation, belonging, and discerning next steps.",
       "links": [
         { "label": "How can I find belonging and purpose?", "url": "https://youtu.be/lD8I40R9FQU" }
       ],
+      "cardActions": [
+        { "label": "Watch Belonging and Purpose", "url": "https://youtu.be/lD8I40R9FQU", "type": "sample", "visible": true },
+        { "label": "Explore Discernment Resources", "url": "https://youtu.be/lD8I40R9FQU", "type": "resource", "visible": true }
+      ],
+      "useFlipInteraction": true,
       "icon": "compass",
       "iconColor": "#c84826",
+      "frontImageUrl": "",
       "visible": true,
       "order": 8
     }
