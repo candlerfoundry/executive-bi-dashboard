@@ -31,6 +31,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .header-eyebrow { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(250,250,242,0.6); margin-bottom: 3px; }
 .header-main { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); }
 .header-year { font-size: 1rem; font-weight: 600; letter-spacing: 0.15em; color: var(--orange); }
+.header-actions { display:flex; align-items:center; gap:16px; position:relative; z-index:1; }
+.dashboard-publish { border:none; border-radius:999px; background:#fafaf2; color:#1e2530; padding:10px 16px; font-size:0.7rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; cursor:pointer; transition:transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease; box-shadow:0 10px 22px rgba(0,0,0,0.14); }
+.dashboard-publish:hover { transform:translateY(-1px); }
+.dashboard-publish[disabled] { opacity:0.72; cursor:progress; }
 
 /* ═══ SECTION: NAV TABS ═══ */
 .nav-tabs { background: var(--blue); display: flex; justify-content: center; padding: 0 32px; border-bottom: 1px solid rgba(250,250,242,0.08); }
@@ -292,10 +296,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .ci-story-panel-overlay { position:absolute; inset:0; background:var(--ci-panel-overlay, transparent); }
   .ci-story-panel-kicker { font-size:0.62rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; opacity:0.72; }
   .ci-story-panel-headline { font-size:var(--ci-panel-headline-size, var(--ci-card-headline-size-local)); line-height:0.95; letter-spacing:-0.045em; font-weight:700; text-wrap:balance; }
-  .ci-story-panel-quote-wrap { position:relative; display:grid; gap:10px; padding-top:28px; }
+  .ci-story-panel-quote-wrap { position:relative; display:grid; gap:10px; padding-top:var(--ci-panel-quote-padding-top, 16px); }
   .ci-story-panel-quote-mark { font-family:'Fraunces', serif; font-size:var(--ci-panel-quote-mark-size, 5.2rem); line-height:0.72; font-weight:600; color:var(--ci-panel-quote-mark-color, currentColor); opacity:0.22; transform:rotate(var(--ci-panel-quote-mark-rotate, 0deg)); transform-origin:left top; }
-  .ci-story-panel-quote-mark.is-corner { position:absolute; top:8px; left:-2px; }
-  .ci-story-panel-quote { font-size:var(--ci-panel-quote-size, var(--ci-card-quote-size-local)); line-height:1.22; font-weight:600; letter-spacing:-0.024em; max-width:12ch; }
+  .ci-story-panel-quote-mark.is-corner { position:absolute; top:var(--ci-panel-quote-mark-offset, 8px); left:-2px; }
+  .ci-story-panel-quote { font-size:var(--ci-panel-quote-size, var(--ci-card-quote-size-local)); line-height:1.22; font-weight:600; letter-spacing:-0.024em; max-width:var(--ci-panel-quote-width, 18ch); }
 .ci-story-panel-copy { font-size:var(--ci-panel-copy-size, 0.88rem); line-height:1.6; opacity:0.92; max-width:32ch; }
 .ci-story-panel-person { display:grid; gap:2px; margin-top:auto; }
 .ci-story-panel-name { font-size:var(--ci-panel-name-size, var(--ci-card-name-size-local)); font-weight:700; letter-spacing:-0.02em; }
@@ -575,10 +579,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 #mission-editor-hero-headline,
 #mission-editor-hero-body { min-height:132px; }
 #impact-editor-panel-headline,
-#impact-editor-panel-quote,
 #impact-editor-panel-copy,
 #mission-editor-card-description,
 #mission-editor-card-back-description { min-height:168px; font-size:0.74rem; line-height:1.6; }
+#impact-editor-panel-quote { min-height:220px; font-size:0.86rem; line-height:1.55; }
 .impact-editor-card-copy-stack { display:grid; gap:12px; }
 .editor-field input[type="range"] { width:100%; accent-color:#c84826; }
 .editor-inline-meta { display:flex; justify-content:space-between; gap:12px; font-size:0.68rem; color:rgba(30,37,48,0.55); }
@@ -590,7 +594,6 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .page-editor-apply, .page-editor-reset { flex:1; border-radius:999px; padding:13px 18px; font-size:0.74rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; }
 .page-editor-apply { border:none; background:#c84826; color:#fafaf2; }
 .page-editor-reset { border:1px solid rgba(30,37,48,0.16); background:#ffffff; color:#1e2530; }
-.page-editor-publish { flex:1; border:none; background:#1e2530; color:#fafaf2; border-radius:999px; padding:13px 18px; font-size:0.74rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; }
 .page-editor-card-meta { font-size:0.68rem; color:rgba(30,37,48,0.56); margin-top:-4px; margin-bottom:10px; }
 
 /* TAB: THEOED */
@@ -687,9 +690,11 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     --mission-card-art-lg: 122px;
     --mission-card-art-sm: 122px;
   }
-  .header { padding:10px 20px; }
-  .header-logo-img { height: 40px; }
-  .section-header { padding:32px 24px 24px; }
+    .header { padding:10px 20px; }
+    .header-logo-img { height: 40px; }
+    .header-actions { gap:10px; }
+    .dashboard-publish { padding:9px 12px; letter-spacing:0.12em; font-size:0.62rem; }
+    .section-header { padding:32px 24px 24px; }
   .people-body,.stories-body { padding:28px 20px; }
   .numreach-grid { grid-template-columns:1fr; padding:28px 20px; gap:16px; }
   .nr-block-full { grid-column:1; }
@@ -765,7 +770,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     <div class="header-eyebrow">Impact Dashboard</div>
     <div class="header-main">Candler Foundry</div>
   </div>
-  <div class="header-year">2025 – 2026</div>
+  <div class="header-actions">
+    <button class="dashboard-publish" id="dashboard-publish" type="button">Publish to Main</button>
+    <div class="header-year">2025 – 2026</div>
+  </div>
   <img class="header-watermark" src="https://www.dropbox.com/scl/fi/604csuzkqfpwcotrqojet/Candler-Foundry-Logo-Solid-Orange-Circular.jpg?rlkey=ucalm6cxmsf3kmuvii0gdfgf2&st=y07mvpyh&dl=1" alt="">
 </header>
 
@@ -1347,29 +1355,26 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
                   <label class="editor-label" for="impact-editor-panel-quote">Panel quote / text</label>
                   <textarea id="impact-editor-panel-quote"></textarea>
                 </div>
-                <div class="editor-field">
-                  <label class="editor-label" for="impact-editor-panel-copy">Panel supporting copy</label>
-                  <textarea id="impact-editor-panel-copy"></textarea>
+                <div class="editor-grid-3">
+                  <div class="editor-field">
+                    <label class="editor-label" for="impact-editor-panel-quote-size">Quote font size</label>
+                    <input id="impact-editor-panel-quote-size" type="range" min="0.8" max="1.9" step="0.02">
+                    <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-panel-quote-size-value"></span></div>
+                  </div>
+                  <div class="editor-field">
+                    <label class="editor-label" for="impact-editor-panel-quote-width">Quote width</label>
+                    <input id="impact-editor-panel-quote-width" type="range" min="10" max="28" step="1">
+                    <div class="editor-inline-meta"><span>Narrower</span><span id="impact-editor-panel-quote-width-value"></span></div>
+                  </div>
+                  <div class="editor-field">
+                    <label class="editor-label" for="impact-editor-panel-quote-padding-top">Quote top padding</label>
+                    <input id="impact-editor-panel-quote-padding-top" type="range" min="0" max="48" step="2">
+                    <div class="editor-inline-meta"><span>Tighter</span><span id="impact-editor-panel-quote-padding-top-value"></span></div>
+                  </div>
                 </div>
               </div>
               <div class="editor-grid-2">
                 <div class="editor-field">
-                  <label class="editor-label" for="impact-editor-panel-kicker">Panel label</label>
-                  <input id="impact-editor-panel-kicker" type="text">
-                </div>
-            </div>
-            <div class="editor-grid-2">
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-name">Panel name</label>
-                <input id="impact-editor-panel-name" type="text">
-              </div>
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-role">Panel role</label>
-                <input id="impact-editor-panel-role" type="text">
-              </div>
-            </div>
-            <div class="editor-grid-2">
-              <div class="editor-field">
                 <label class="editor-label" for="impact-editor-panel-image-fit">Image fit</label>
                 <select id="impact-editor-panel-image-fit">
                   <option value="contain">Contain</option>
@@ -1398,21 +1403,17 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
                 <div class="editor-inline-meta"><span>None</span><span id="impact-editor-panel-overlay-opacity-value"></span></div>
               </div>
             </div>
-            <div class="editor-grid-2">
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-quote-mark">Quotation mark style</label>
-                <select id="impact-editor-panel-quote-mark">
-                  <option value="none">None</option>
-                  <option value="open">“</option>
-                  <option value="double">""</option>
-                  <option value="custom">Custom character</option>
-                </select>
+              <div class="editor-grid-2">
+                <div class="editor-field">
+                  <label class="editor-label" for="impact-editor-panel-quote-mark">Quotation mark style</label>
+                  <select id="impact-editor-panel-quote-mark">
+                    <option value="none">None</option>
+                    <option value="open">“</option>
+                    <option value="double">""</option>
+                  </select>
+                </div>
+                <div></div>
               </div>
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-quote-mark-custom">Custom mark</label>
-                <input id="impact-editor-panel-quote-mark-custom" type="text" maxlength="3">
-              </div>
-            </div>
             <div class="editor-grid-2">
               <div class="editor-field">
                 <label class="editor-label" for="impact-editor-panel-quote-mark-position">Mark position</label>
@@ -1475,41 +1476,25 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
                 <input id="impact-editor-panel-ink" type="color">
               </div>
             </div>
-            <div class="editor-grid-2">
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-headline-size">Panel headline size</label>
-                <input id="impact-editor-panel-headline-size" type="range" min="1" max="2.8" step="0.05">
-                <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-panel-headline-size-value"></span></div>
+              <div class="editor-grid-2">
+                <div class="editor-field">
+                  <label class="editor-label" for="impact-editor-panel-headline-size">Panel headline size</label>
+                  <input id="impact-editor-panel-headline-size" type="range" min="1" max="2.8" step="0.05">
+                  <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-panel-headline-size-value"></span></div>
+                </div>
+                <div class="editor-field">
+                  <label class="editor-label" for="impact-editor-panel-quote-mark-size">Quote mark size</label>
+                  <input id="impact-editor-panel-quote-mark-size" type="range" min="1.2" max="5.5" step="0.1">
+                  <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-panel-quote-mark-size-value"></span></div>
+                </div>
               </div>
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-quote-size">Panel quote size</label>
-                <input id="impact-editor-panel-quote-size" type="range" min="0.8" max="1.9" step="0.02">
-                <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-panel-quote-size-value"></span></div>
+              <div class="editor-grid-2">
+                <div class="editor-field">
+                  <label class="editor-label" for="impact-editor-panel-quote-mark-color">Quote mark color</label>
+                  <input id="impact-editor-panel-quote-mark-color" type="color">
+                </div>
+                <div></div>
               </div>
-            </div>
-            <div class="editor-grid-2">
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-copy-size">Panel copy size</label>
-                <input id="impact-editor-panel-copy-size" type="range" min="0.72" max="1.4" step="0.02">
-                <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-panel-copy-size-value"></span></div>
-              </div>
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-name-size">Panel name size</label>
-                <input id="impact-editor-panel-name-size" type="range" min="0.72" max="1.35" step="0.02">
-                <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-panel-name-size-value"></span></div>
-              </div>
-            </div>
-            <div class="editor-grid-2">
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-quote-mark-size">Quote mark size</label>
-                <input id="impact-editor-panel-quote-mark-size" type="range" min="1.2" max="5.5" step="0.1">
-                <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-panel-quote-mark-size-value"></span></div>
-              </div>
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-quote-mark-color">Quote mark color</label>
-                <input id="impact-editor-panel-quote-mark-color" type="color">
-              </div>
-            </div>
             <div class="impact-editor-media-actions">
               <button class="impact-editor-secondary" id="impact-editor-panel-move-prev" type="button">Move Earlier</button>
               <button class="impact-editor-secondary" id="impact-editor-panel-move-next" type="button">Move Later</button>
@@ -1646,11 +1631,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
       </div>
 
-      <div class="page-editor-actions">
-        <button class="page-editor-reset" id="impact-editor-reset" type="button">Reset to Default</button>
-        <button class="page-editor-apply" id="impact-editor-apply" type="button">Save Changes in Browser</button>
-        <button class="page-editor-publish" id="impact-editor-publish" type="button">Publish to Main</button>
-      </div>
+        <div class="page-editor-actions">
+          <button class="page-editor-reset" id="impact-editor-reset" type="button">Reset to Default</button>
+          <button class="page-editor-apply" id="impact-editor-apply" type="button">Save Changes in Browser</button>
+        </div>
     </aside>
 
     <section class="ci-story-hero">
@@ -2086,7 +2070,6 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     <div class="page-editor-actions">
       <button class="page-editor-reset" id="mission-editor-reset" type="button">Reset to Default</button>
       <button class="page-editor-apply" id="mission-editor-apply" type="button">Save Changes in Browser</button>
-      <button class="page-editor-publish" id="mission-editor-publish" type="button">Publish to Main</button>
     </div>
   </aside>
 
@@ -2720,6 +2703,7 @@ var impactEditorRuntime = {
   activePanel: 'page',
   publishedConfig: null
 };
+window.impactEditorRuntime = impactEditorRuntime;
 
 function impactClone(value) {
   return value == null ? value : JSON.parse(JSON.stringify(value));
@@ -2804,6 +2788,53 @@ window.pageEditorPublishConfig = async function(options) {
   }
   return data;
 };
+
+window.publishDashboardEdits = async function() {
+  var files = [];
+  if (window.missionEditorBridge && window.missionEditorBridge.getDraftConfig()) {
+    files.push({
+      path: 'assets/page-config/mission-page.json',
+      content: window.missionEditorBridge.getDraftConfig()
+    });
+  }
+  if (window.impactEditorBridge && window.impactEditorBridge.getDraftConfig()) {
+    files.push({
+      path: 'assets/page-config/candler-impact.json',
+      content: window.impactEditorBridge.getDraftConfig()
+    });
+  }
+  if (!files.length) throw new Error('No editable page drafts are ready to publish');
+  return await window.pageEditorPublishConfig({
+    commitMessage: 'Publish dashboard editor updates',
+    files: files
+  });
+};
+
+(function bindDashboardPublishButton() {
+  var button = document.getElementById('dashboard-publish');
+  if (!button || button.dataset.bound === 'true') return;
+  button.dataset.bound = 'true';
+  button.addEventListener('click', async function() {
+    if (!window.confirm('Publish the current Mission and Candler Impact drafts to main?')) return;
+    var original = button.textContent;
+    button.disabled = true;
+    button.textContent = 'Publishing…';
+    try {
+      await window.publishDashboardEdits();
+      if (window.missionEditorBridge) window.missionEditorBridge.markPublished('Published to main');
+      if (window.impactEditorBridge) window.impactEditorBridge.markPublished('Published to main');
+      button.textContent = 'Published';
+      setTimeout(function() {
+        button.disabled = false;
+        button.textContent = original;
+      }, 1800);
+    } catch (err) {
+      button.disabled = false;
+      button.textContent = original;
+      window.alert('Publish failed: ' + err.message);
+    }
+  });
+})();
 
 window.attachPageEditorShellBehavior = function(options) {
   if (!options || !options.shell || options.shell.dataset.editorEnhanced === 'true') return options && options.api ? options.api : null;
@@ -3044,6 +3075,19 @@ async function impactPublishConfig() {
   if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('impact-editor-shell'), 'Published to main');
 }
 
+window.impactEditorBridge = {
+  getDraftConfig: function() {
+    return impactEditorRuntime.config ? impactClone(impactEditorRuntime.config) : null;
+  },
+  markPublished: function(message) {
+    if (!impactEditorRuntime.config) return;
+    impactSetStoredConfig(impactEditorRuntime.config);
+    impactEditorRuntime.publishedConfig = impactClone(impactEditorRuntime.config);
+    impactSetStatus(message || 'Published to main', true);
+    if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('impact-editor-shell'), message || 'Published to main');
+  }
+};
+
 function impactFindRow(rowId) {
   return CI_STORY_PAGE.rows.find(function(item) { return item.id === rowId; }) || null;
 }
@@ -3164,20 +3208,16 @@ function impactUpdatePanelTypeVisibility(selectedPanel) {
   var type = selectedPanel && selectedPanel.type ? selectedPanel.type : 'text';
   var isImage = type === 'image' || type === 'profile';
   var isQuote = type === 'quote';
-  [
-    ['impact-editor-panel-headline', false],
-    ['impact-editor-panel-copy', false],
-    ['impact-editor-panel-name', type === 'quote'],
-    ['impact-editor-panel-role', type === 'quote'],
-    ['impact-editor-panel-image-fit', !isImage],
-    ['impact-editor-panel-image-position', !isImage],
-    ['impact-editor-panel-image-upload', !isImage],
-    ['impact-editor-panel-overlay-opacity', !isImage],
-    ['impact-editor-panel-quote-mark', !(isQuote || type === 'text')],
-    ['impact-editor-panel-quote-mark-custom', !(isQuote || type === 'text')],
-    ['impact-editor-panel-quote-mark-position', !(isQuote || type === 'text')],
-    ['impact-editor-panel-quote-mark-rotate', !(isQuote || type === 'text')],
-    ['impact-editor-panel-quote-mark-size', !(isQuote || type === 'text')],
+    [
+      ['impact-editor-panel-headline', false],
+      ['impact-editor-panel-image-fit', !isImage],
+      ['impact-editor-panel-image-position', !isImage],
+      ['impact-editor-panel-image-upload', !isImage],
+      ['impact-editor-panel-overlay-opacity', !isImage],
+      ['impact-editor-panel-quote-mark', !(isQuote || type === 'text')],
+      ['impact-editor-panel-quote-mark-position', !(isQuote || type === 'text')],
+      ['impact-editor-panel-quote-mark-rotate', !(isQuote || type === 'text')],
+      ['impact-editor-panel-quote-mark-size', !(isQuote || type === 'text')],
     ['impact-editor-panel-quote-mark-color', !(isQuote || type === 'text')]
   ].forEach(function(tuple) {
     var field = document.getElementById(tuple[0]);
@@ -3260,7 +3300,6 @@ function impactNormalizeQuoteMark(panel) {
   if (panel.quoteMark === 'none') return '';
   if (panel.quoteMark === 'open') return '“';
   if (panel.quoteMark === 'double') return '""';
-  if (panel.quoteMark === 'custom') return panel.quoteMarkCustom || '';
   if (panel.quoteMark) return panel.quoteMark;
   return panel.type === 'quote' ? '“' : '';
 }
@@ -3288,15 +3327,16 @@ function impactBuildDefaultPanels(story) {
       fillMode: 'solid',
       backgroundSecondary: story.accent || '#c84826',
       gradientAngle: 135,
-      justify: 'center',
-      align: 'flex-start',
-      headlineSize: story.headlineSize || impactEditorRuntime.config.typography.cardHeadlineSize,
-      quoteSize: story.quoteSize || impactEditorRuntime.config.typography.quoteSize,
-      copySize: 0.88,
-      nameSize: story.nameSize || impactEditorRuntime.config.typography.nameSize,
-      quoteMark: 'open',
-      quoteMarkCustom: '',
-      quoteMarkPosition: 'corner',
+        justify: 'center',
+        align: 'flex-start',
+        headlineSize: story.headlineSize || impactEditorRuntime.config.typography.cardHeadlineSize,
+        quoteSize: story.quoteSize || impactEditorRuntime.config.typography.quoteSize,
+        quoteWidth: 18,
+        quotePaddingTop: 16,
+        copySize: 0.88,
+        nameSize: story.nameSize || impactEditorRuntime.config.typography.nameSize,
+        quoteMark: 'open',
+        quoteMarkPosition: 'corner',
       quoteMarkRotate: 0,
       quoteMarkSize: 5.2,
       quoteMarkColor: story.accentInk || '#ffffff',
@@ -3323,15 +3363,16 @@ function impactBuildDefaultPanels(story) {
       fillMode: 'solid',
       backgroundSecondary: story.surface || '#2e3a4a',
       gradientAngle: 135,
-      justify: 'flex-end',
-      align: 'stretch',
-      headlineSize: story.headlineSize || impactEditorRuntime.config.typography.cardHeadlineSize,
-      quoteSize: story.quoteSize || impactEditorRuntime.config.typography.quoteSize,
-      copySize: 0.88,
-      nameSize: story.nameSize || impactEditorRuntime.config.typography.nameSize,
-      quoteMark: 'none',
-      quoteMarkCustom: '',
-      quoteMarkPosition: 'inline',
+        justify: 'flex-end',
+        align: 'stretch',
+        headlineSize: story.headlineSize || impactEditorRuntime.config.typography.cardHeadlineSize,
+        quoteSize: story.quoteSize || impactEditorRuntime.config.typography.quoteSize,
+        quoteWidth: 18,
+        quotePaddingTop: 16,
+        copySize: 0.88,
+        nameSize: story.nameSize || impactEditorRuntime.config.typography.nameSize,
+        quoteMark: 'none',
+        quoteMarkPosition: 'inline',
       quoteMarkRotate: 0,
       quoteMarkSize: 2.8,
       quoteMarkColor: story.ink || '#ffffff',
@@ -3368,8 +3409,7 @@ function impactBuildDefaultBackPanels(story) {
       imagePosition: 'center center',
       overlayOpacity: 0,
       quoteMark: 'none',
-      quoteMarkCustom: '',
-      quoteMarkPosition: 'inline',
+        quoteMarkPosition: 'inline',
       quoteMarkRotate: 0,
       quoteMarkSize: 2.8,
       quoteMarkColor: story.ink || '#ffffff',
@@ -3430,8 +3470,7 @@ function impactHydratePanels(story, face) {
       imagePosition: 'center center',
       overlayOpacity: 0,
       quoteMark: 'none',
-      quoteMarkCustom: '',
-      quoteMarkPosition: 'inline',
+        quoteMarkPosition: 'inline',
       quoteMarkRotate: 0,
       quoteMarkSize: 2.8,
       quoteMarkColor: story.ink || '#ffffff',
@@ -3460,6 +3499,9 @@ function impactCreatePanelMarkup(panel, story, face) {
   panelEl.style.setProperty('--ci-panel-text-align', panel.textAlign || 'left');
   panelEl.style.setProperty('--ci-panel-headline-size', ((panel.headlineSize || story.headlineSize || impactEditorRuntime.config.typography.cardHeadlineSize || 1.8)) + 'rem');
   panelEl.style.setProperty('--ci-panel-quote-size', ((panel.quoteSize || story.quoteSize || impactEditorRuntime.config.typography.quoteSize || 1.28)) + 'rem');
+  panelEl.style.setProperty('--ci-panel-quote-width', ((panel.quoteWidth || 18)) + 'ch');
+  panelEl.style.setProperty('--ci-panel-quote-padding-top', ((panel.quotePaddingTop != null ? panel.quotePaddingTop : 16)) + 'px');
+  panelEl.style.setProperty('--ci-panel-quote-mark-offset', (((panel.quotePaddingTop != null ? panel.quotePaddingTop : 16) > 8 ? (panel.quotePaddingTop - 8) : 0)) + 'px');
   panelEl.style.setProperty('--ci-panel-copy-size', ((panel.copySize || 0.88)) + 'rem');
   panelEl.style.setProperty('--ci-panel-name-size', ((panel.nameSize || story.nameSize || impactEditorRuntime.config.typography.nameSize || 0.9)) + 'rem');
   panelEl.style.setProperty('--ci-panel-quote-mark-rotate', (panel.quoteMarkRotate || 0) + 'deg');
@@ -3806,25 +3848,20 @@ function impactPopulateCardEditor() {
     document.getElementById('impact-editor-panel-type').value = selectedPanel.type || 'quote';
     document.getElementById('impact-editor-panel-basis').value = Number(selectedPanel.basis || 50);
     document.getElementById('impact-editor-panel-basis-value').textContent = impactFormatPercent(selectedPanel.basis || 50);
-    document.getElementById('impact-editor-panel-font-family').value = selectedPanel.fontFamily || story.fontFamily || impactEditorRuntime.config.typography.fontFamily;
-    document.getElementById('impact-editor-panel-text-align').value = selectedPanel.textAlign || 'left';
-    document.getElementById('impact-editor-panel-justify').value = selectedPanel.justify || (selectedPanel.type === 'quote' ? 'flex-end' : 'flex-start');
-    document.getElementById('impact-editor-panel-align').value = selectedPanel.align || (selectedPanel.type === 'quote' ? 'flex-start' : 'stretch');
-    document.getElementById('impact-editor-panel-headline').value = selectedPanel.headline || '';
-    document.getElementById('impact-editor-panel-quote').value = selectedPanel.quote || '';
-    document.getElementById('impact-editor-panel-copy').value = selectedPanel.copy || '';
-    document.getElementById('impact-editor-panel-kicker').value = selectedPanel.kicker || '';
-    document.getElementById('impact-editor-panel-name').value = selectedPanel.name || '';
-    document.getElementById('impact-editor-panel-role').value = selectedPanel.role || '';
-    document.getElementById('impact-editor-panel-image-fit').value = selectedPanel.imageFit || 'contain';
-    document.getElementById('impact-editor-panel-image-position').value = selectedPanel.imagePosition || 'center center';
-    document.getElementById('impact-editor-panel-overlay-opacity').value = Number(selectedPanel.overlayOpacity || 0);
-    document.getElementById('impact-editor-panel-overlay-opacity-value').textContent = Number(selectedPanel.overlayOpacity || 0) + '%';
-    document.getElementById('impact-editor-panel-quote-mark').value = (selectedPanel.quoteMark === '“' ? 'open' : (selectedPanel.quoteMark === '""' ? 'double' : (selectedPanel.quoteMark || 'none')));
-    document.getElementById('impact-editor-panel-quote-mark-custom').value = selectedPanel.quoteMarkCustom || '';
-    document.getElementById('impact-editor-panel-quote-mark-position').value = selectedPanel.quoteMarkPosition || 'inline';
-    document.getElementById('impact-editor-panel-quote-mark-rotate').value = Number(selectedPanel.quoteMarkRotate || 0);
-    document.getElementById('impact-editor-panel-quote-mark-rotate-value').textContent = Number(selectedPanel.quoteMarkRotate || 0) + 'deg';
+      document.getElementById('impact-editor-panel-font-family').value = selectedPanel.fontFamily || story.fontFamily || impactEditorRuntime.config.typography.fontFamily;
+      document.getElementById('impact-editor-panel-text-align').value = selectedPanel.textAlign || 'left';
+      document.getElementById('impact-editor-panel-justify').value = selectedPanel.justify || (selectedPanel.type === 'quote' ? 'flex-end' : 'flex-start');
+      document.getElementById('impact-editor-panel-align').value = selectedPanel.align || (selectedPanel.type === 'quote' ? 'flex-start' : 'stretch');
+      document.getElementById('impact-editor-panel-headline').value = selectedPanel.headline || '';
+      document.getElementById('impact-editor-panel-quote').value = selectedPanel.quote || '';
+      document.getElementById('impact-editor-panel-image-fit').value = selectedPanel.imageFit || 'contain';
+      document.getElementById('impact-editor-panel-image-position').value = selectedPanel.imagePosition || 'center center';
+      document.getElementById('impact-editor-panel-overlay-opacity').value = Number(selectedPanel.overlayOpacity || 0);
+      document.getElementById('impact-editor-panel-overlay-opacity-value').textContent = Number(selectedPanel.overlayOpacity || 0) + '%';
+      document.getElementById('impact-editor-panel-quote-mark').value = (selectedPanel.quoteMark === '“' ? 'open' : (selectedPanel.quoteMark === '""' ? 'double' : (selectedPanel.quoteMark || 'none')));
+      document.getElementById('impact-editor-panel-quote-mark-position').value = selectedPanel.quoteMarkPosition || 'inline';
+      document.getElementById('impact-editor-panel-quote-mark-rotate').value = Number(selectedPanel.quoteMarkRotate || 0);
+      document.getElementById('impact-editor-panel-quote-mark-rotate-value').textContent = Number(selectedPanel.quoteMarkRotate || 0) + 'deg';
     document.getElementById('impact-editor-panel-fill-mode').value = selectedPanel.fillMode || 'solid';
     document.getElementById('impact-editor-panel-gradient-angle').value = Number(selectedPanel.gradientAngle || 135);
     document.getElementById('impact-editor-panel-gradient-angle-value').textContent = Number(selectedPanel.gradientAngle || 135) + 'deg';
@@ -3833,15 +3870,15 @@ function impactPopulateCardEditor() {
     document.getElementById('impact-editor-panel-ink').value = selectedPanel.ink || '#ffffff';
     document.getElementById('impact-editor-panel-headline-size').value = Number(selectedPanel.headlineSize || story.headlineSize || impactEditorRuntime.config.typography.cardHeadlineSize || 1.8);
     document.getElementById('impact-editor-panel-headline-size-value').textContent = impactFormatRem(document.getElementById('impact-editor-panel-headline-size').value);
-    document.getElementById('impact-editor-panel-quote-size').value = Number(selectedPanel.quoteSize || story.quoteSize || impactEditorRuntime.config.typography.quoteSize || 1.28);
-    document.getElementById('impact-editor-panel-quote-size-value').textContent = impactFormatRem(document.getElementById('impact-editor-panel-quote-size').value);
-    document.getElementById('impact-editor-panel-copy-size').value = Number(selectedPanel.copySize || 0.88);
-    document.getElementById('impact-editor-panel-copy-size-value').textContent = impactFormatRem(document.getElementById('impact-editor-panel-copy-size').value);
-    document.getElementById('impact-editor-panel-name-size').value = Number(selectedPanel.nameSize || story.nameSize || impactEditorRuntime.config.typography.nameSize || 0.9);
-    document.getElementById('impact-editor-panel-name-size-value').textContent = impactFormatRem(document.getElementById('impact-editor-panel-name-size').value);
-    document.getElementById('impact-editor-panel-quote-mark-size').value = Number(selectedPanel.quoteMarkSize || 2.8);
-    document.getElementById('impact-editor-panel-quote-mark-size-value').textContent = impactFormatRem(document.getElementById('impact-editor-panel-quote-mark-size').value);
-    document.getElementById('impact-editor-panel-quote-mark-color').value = selectedPanel.quoteMarkColor || selectedPanel.ink || '#ffffff';
+      document.getElementById('impact-editor-panel-quote-size').value = Number(selectedPanel.quoteSize || story.quoteSize || impactEditorRuntime.config.typography.quoteSize || 1.28);
+      document.getElementById('impact-editor-panel-quote-size-value').textContent = impactFormatRem(document.getElementById('impact-editor-panel-quote-size').value);
+      document.getElementById('impact-editor-panel-quote-width').value = Number(selectedPanel.quoteWidth || 18);
+      document.getElementById('impact-editor-panel-quote-width-value').textContent = Math.round(Number(selectedPanel.quoteWidth || 18)) + 'ch';
+      document.getElementById('impact-editor-panel-quote-padding-top').value = Number(selectedPanel.quotePaddingTop != null ? selectedPanel.quotePaddingTop : 16);
+      document.getElementById('impact-editor-panel-quote-padding-top-value').textContent = Math.round(Number(selectedPanel.quotePaddingTop != null ? selectedPanel.quotePaddingTop : 16)) + 'px';
+      document.getElementById('impact-editor-panel-quote-mark-size').value = Number(selectedPanel.quoteMarkSize || 2.8);
+      document.getElementById('impact-editor-panel-quote-mark-size-value').textContent = impactFormatRem(document.getElementById('impact-editor-panel-quote-mark-size').value);
+      document.getElementById('impact-editor-panel-quote-mark-color').value = selectedPanel.quoteMarkColor || selectedPanel.ink || '#ffffff';
     impactUpdateSwatchSelection('impact-editor-panel-bg-swatches', document.getElementById('impact-editor-panel-bg').value);
     impactUpdateSwatchSelection('impact-editor-panel-bg-secondary-swatches', document.getElementById('impact-editor-panel-bg-secondary').value);
     impactUpdateSwatchSelection('impact-editor-panel-ink-swatches', document.getElementById('impact-editor-panel-ink').value);
@@ -4055,12 +4092,12 @@ function impactBindEditor() {
       document.getElementById(tuple[1] + '-value').textContent = tuple[2](event.target.value);
     });
   });
-  [['type','impact-editor-panel-type'],['fontFamily','impact-editor-panel-font-family'],['textAlign','impact-editor-panel-text-align'],['justify','impact-editor-panel-justify'],['align','impact-editor-panel-align'],['headline','impact-editor-panel-headline'],['quote','impact-editor-panel-quote'],['copy','impact-editor-panel-copy'],['kicker','impact-editor-panel-kicker'],['name','impact-editor-panel-name'],['role','impact-editor-panel-role'],['imageFit','impact-editor-panel-image-fit'],['imagePosition','impact-editor-panel-image-position'],['background','impact-editor-panel-bg'],['backgroundSecondary','impact-editor-panel-bg-secondary'],['ink','impact-editor-panel-ink'],['fillMode','impact-editor-panel-fill-mode'],['quoteMark','impact-editor-panel-quote-mark'],['quoteMarkCustom','impact-editor-panel-quote-mark-custom'],['quoteMarkPosition','impact-editor-panel-quote-mark-position'],['quoteMarkColor','impact-editor-panel-quote-mark-color']].forEach(function(pair) {
+  [['type','impact-editor-panel-type'],['fontFamily','impact-editor-panel-font-family'],['textAlign','impact-editor-panel-text-align'],['justify','impact-editor-panel-justify'],['align','impact-editor-panel-align'],['headline','impact-editor-panel-headline'],['quote','impact-editor-panel-quote'],['imageFit','impact-editor-panel-image-fit'],['imagePosition','impact-editor-panel-image-position'],['background','impact-editor-panel-bg'],['backgroundSecondary','impact-editor-panel-bg-secondary'],['ink','impact-editor-panel-ink'],['fillMode','impact-editor-panel-fill-mode'],['quoteMark','impact-editor-panel-quote-mark'],['quoteMarkPosition','impact-editor-panel-quote-mark-position'],['quoteMarkColor','impact-editor-panel-quote-mark-color']].forEach(function(pair) {
     document.getElementById(pair[1]).addEventListener('input', function(event) {
       updatePanelField(pair[0], event.target.value);
     });
   });
-  [['basis','impact-editor-panel-basis', impactFormatPercent],['quoteMarkRotate','impact-editor-panel-quote-mark-rotate', function(v) { return Number(v) + 'deg'; }],['overlayOpacity','impact-editor-panel-overlay-opacity', function(v) { return Number(v) + '%'; }],['gradientAngle','impact-editor-panel-gradient-angle', function(v) { return Number(v) + 'deg'; }],['headlineSize','impact-editor-panel-headline-size', impactFormatRem],['quoteSize','impact-editor-panel-quote-size', impactFormatRem],['copySize','impact-editor-panel-copy-size', impactFormatRem],['nameSize','impact-editor-panel-name-size', impactFormatRem],['quoteMarkSize','impact-editor-panel-quote-mark-size', impactFormatRem]].forEach(function(tuple) {
+  [['basis','impact-editor-panel-basis', impactFormatPercent],['quoteMarkRotate','impact-editor-panel-quote-mark-rotate', function(v) { return Number(v) + 'deg'; }],['overlayOpacity','impact-editor-panel-overlay-opacity', function(v) { return Number(v) + '%'; }],['gradientAngle','impact-editor-panel-gradient-angle', function(v) { return Number(v) + 'deg'; }],['headlineSize','impact-editor-panel-headline-size', impactFormatRem],['quoteSize','impact-editor-panel-quote-size', impactFormatRem],['quoteWidth','impact-editor-panel-quote-width', function(v) { return Math.round(Number(v)) + 'ch'; }],['quotePaddingTop','impact-editor-panel-quote-padding-top', function(v) { return Math.round(Number(v)) + 'px'; }],['quoteMarkSize','impact-editor-panel-quote-mark-size', impactFormatRem]].forEach(function(tuple) {
     document.getElementById(tuple[1]).addEventListener('input', function(event) {
       updatePanelField(tuple[0], Number(event.target.value));
       document.getElementById(tuple[1] + '-value').textContent = tuple[2](event.target.value);
@@ -4164,16 +4201,18 @@ function impactBindEditor() {
       copy: 'Panel copy goes here.',
       imageFit: 'contain',
       imagePosition: 'center center',
-      overlayOpacity: 0,
-      quoteMark: 'none',
-      quoteMarkPosition: 'inline',
-      quoteMarkRotate: 0,
-      quoteMarkSize: 2.8,
-      quoteMarkColor: '#fafaf2',
-      headlineSize: impactEditorRuntime.config.typography.cardHeadlineSize,
-      quoteSize: impactEditorRuntime.config.typography.quoteSize,
-      copySize: 0.88,
-      nameSize: impactEditorRuntime.config.typography.nameSize,
+        overlayOpacity: 0,
+        quoteMark: 'none',
+        quoteMarkPosition: 'inline',
+        quoteMarkRotate: 0,
+        quoteMarkSize: 2.8,
+        quoteMarkColor: '#fafaf2',
+        headlineSize: impactEditorRuntime.config.typography.cardHeadlineSize,
+        quoteSize: impactEditorRuntime.config.typography.quoteSize,
+        quoteWidth: 18,
+        quotePaddingTop: 16,
+        copySize: 0.88,
+        nameSize: impactEditorRuntime.config.typography.nameSize,
       order: maxOrder + 1,
       hidden: false
     };
@@ -4219,12 +4258,6 @@ function impactBindEditor() {
 
   document.getElementById('impact-editor-apply').addEventListener('click', function() {
     impactSaveConfig('Changes saved in browser');
-  });
-  document.getElementById('impact-editor-publish').addEventListener('click', function() {
-    impactPublishConfig().catch(function(err) {
-      impactSetStatus('Publish failed: ' + err.message, false);
-      if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Publish failed');
-    });
   });
   document.getElementById('impact-editor-reset').addEventListener('click', function() {
     impactClearStoredConfig();

@@ -482,9 +482,9 @@
     if (window.pageEditorShowToast) window.pageEditorShowToast(runtime.ui.shell, message || 'Changes saved in browser');
   }
 
-  async function publishDraft() {
-    if (!window.confirm('Publish the current Mission draft to main?')) return;
-    updateStatus('Publishing to main…');
+    async function publishDraft() {
+      if (!window.confirm('Publish the current Mission draft to main?')) return;
+      updateStatus('Publishing to main…');
     await window.pageEditorPublishConfig({
       commitMessage: 'Publish Mission editor updates',
       files: [
@@ -496,8 +496,20 @@
     });
     runtime.publishedConfig = deepClone(runtime.draftConfig);
     setStoredConfig(runtime.publishedConfig);
-    notifySaved('Published to main');
-  }
+      notifySaved('Published to main');
+    }
+
+    window.missionEditorBridge = {
+      getDraftConfig: function() {
+        return runtime.draftConfig ? deepClone(runtime.draftConfig) : null;
+      },
+      markPublished: function(message) {
+        if (!runtime.draftConfig) return;
+        runtime.publishedConfig = deepClone(runtime.draftConfig);
+        setStoredConfig(runtime.publishedConfig);
+        notifySaved(message || 'Published to main');
+      }
+    };
 
   function openEditor() {
     runtime.ui.shell.removeAttribute('hidden');
@@ -869,13 +881,12 @@
       cardVisible: document.getElementById('mission-editor-card-visible'),
       cardBackBg: document.getElementById('mission-editor-card-back-bg'),
       cardBackStrip: document.getElementById('mission-editor-card-back-strip'),
-      cardBackTextColor: document.getElementById('mission-editor-card-back-text-color'),
-      cardButtonBg: document.getElementById('mission-editor-card-button-bg'),
-      cardButtonText: document.getElementById('mission-editor-card-button-text'),
-      apply: document.getElementById('mission-editor-apply'),
-      reset: document.getElementById('mission-editor-reset'),
-      publish: document.getElementById('mission-editor-publish')
-    };
+        cardBackTextColor: document.getElementById('mission-editor-card-back-text-color'),
+        cardButtonBg: document.getElementById('mission-editor-card-button-bg'),
+        cardButtonText: document.getElementById('mission-editor-card-button-text'),
+        apply: document.getElementById('mission-editor-apply'),
+        reset: document.getElementById('mission-editor-reset')
+      };
 
     populateHeroImages();
     populateCardArtworkOptions();
@@ -1100,16 +1111,9 @@
       window.renderOfferings(runtime.baseOfferings);
       notifySaved('Reset to default preview');
     });
-    runtime.ui.publish.addEventListener('click', function() {
-      publishDraft().catch(function(err) {
-        updateStatus('Publish failed: ' + err.message);
-        if (window.pageEditorShowToast) window.pageEditorShowToast(runtime.ui.shell, 'Publish failed');
-      });
-    });
-
-    runtime.controlsReady = true;
-    syncEditorFromState();
-  }
+      runtime.controlsReady = true;
+      syncEditorFromState();
+    }
 
   async function initializeMissionEditor(data) {
     var missionData = data || {};
