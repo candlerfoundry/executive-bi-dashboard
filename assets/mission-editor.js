@@ -394,6 +394,7 @@
       flip.setAttribute('aria-expanded', 'false');
       flip.dataset.flipEnabled = useFlip ? 'true' : 'false';
       flip.dataset.cardId = slug;
+      flip.classList.toggle('is-edit-selected', runtime.activeCardId === slug);
       if (runtime.activeCardId === slug && runtime.activeCardPreviewFace === 'back' && useFlip) {
         flip.classList.add('is-flipped');
         flip.setAttribute('aria-expanded', 'true');
@@ -432,6 +433,12 @@
             '</div>' +
           '</div>' +
         '</div>';
+      flip.addEventListener('click', function(event) {
+        if (event.target.closest('.cb-cta')) return;
+        event.preventDefault();
+        event.stopPropagation();
+        selectCardFromCanvas(slug, flip.classList.contains('is-flipped') ? 'back' : 'front');
+      }, true);
       (grids[runtime.currentState.sectionMap[slug] || 'ministry'] || grids.ministry).appendChild(flip);
     });
 
@@ -458,9 +465,46 @@
     return JSON.stringify(runtime.draftConfig) !== JSON.stringify(runtime.publishedConfig);
   }
 
-  function updateStatus() {
+  function updateStatus(savedMessage) {
     if (!runtime.controlsReady) return;
-    runtime.ui.status.textContent = hasDraftChanges() ? 'Live draft preview active' : 'Saved browser version loaded';
+    runtime.ui.status.textContent = savedMessage || (hasDraftChanges() ? 'Live draft preview active' : 'Saved browser version loaded');
+    runtime.ui.status.classList.toggle('is-saved', !hasDraftChanges() || !!savedMessage);
+  }
+
+  function notifySaved(message) {
+    updateStatus(message || 'Changes saved in browser');
+    if (window.pageEditorShowToast) window.pageEditorShowToast(runtime.ui.shell, message || 'Changes saved in browser');
+  }
+
+  function openEditor() {
+    runtime.ui.shell.removeAttribute('hidden');
+    runtime.ui.toggle.setAttribute('aria-expanded', 'true');
+  }
+
+  function closeEditor(forceDiscard) {
+    if (!forceDiscard && hasDraftChanges()) {
+      if (window.confirm('Save your Mission edits before closing? Click OK to save. Click Cancel for more options.')) {
+        runtime.publishedConfig = deepClone(runtime.draftConfig);
+        setStoredConfig(runtime.publishedConfig);
+        notifySaved('Changes saved in browser');
+      } else {
+        if (!window.confirm('Discard unsaved Mission edits and close the editor?')) return false;
+        runtime.draftConfig = deepClone(runtime.publishedConfig);
+        window.renderOfferings(runtime.baseOfferings);
+      }
+    }
+    runtime.ui.shell.setAttribute('hidden', '');
+    runtime.ui.toggle.setAttribute('aria-expanded', 'false');
+    return true;
+  }
+
+  function selectCardFromCanvas(cardId, face) {
+    runtime.activeCardId = cardId;
+    runtime.activeCardPreviewFace = face || 'front';
+    if (runtime.controlsReady) {
+      openEditor();
+      syncEditorFromState();
+    }
   }
 
   function populateHeroImages() {
@@ -812,15 +856,18 @@
     populateHeroImages();
     populateCardArtworkOptions();
 
+    if (window.attachPageEditorShellBehavior) {
+      window.attachPageEditorShellBehavior({
+        shell: runtime.ui.shell,
+        toggle: runtime.ui.toggle,
+        close: runtime.ui.close,
+        header: runtime.ui.shell.querySelector('.page-editor-header'),
+        onCloseRequest: closeEditor
+      });
+    }
     runtime.ui.toggle.addEventListener('click', function() {
-      var open = runtime.ui.shell.hasAttribute('hidden');
-      if (open) runtime.ui.shell.removeAttribute('hidden');
-      else runtime.ui.shell.setAttribute('hidden', '');
-      runtime.ui.toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-    runtime.ui.close.addEventListener('click', function() {
-      runtime.ui.shell.setAttribute('hidden', '');
-      runtime.ui.toggle.setAttribute('aria-expanded', 'false');
+      if (runtime.ui.shell.hasAttribute('hidden')) openEditor();
+      else closeEditor();
     });
 
     bindLiveInput(runtime.ui.heroHeadline, function() {
@@ -932,6 +979,7 @@
     runtime.ui.cardSelect.addEventListener('change', function() {
       runtime.activeCardId = runtime.ui.cardSelect.value;
       runtime.activeCardPreviewFace = 'front';
+      openEditor();
       syncEditorFromState();
     });
     runtime.ui.cardArtwork.addEventListener('change', function() {
@@ -1018,13 +1066,14 @@
     runtime.ui.apply.addEventListener('click', function() {
       runtime.publishedConfig = deepClone(runtime.draftConfig);
       setStoredConfig(runtime.publishedConfig);
-      updateStatus();
+      notifySaved('Changes saved in browser');
     });
     runtime.ui.reset.addEventListener('click', function() {
       clearStoredConfig();
       runtime.publishedConfig = deepClone(runtime.defaultConfig);
       runtime.draftConfig = deepClone(runtime.defaultConfig);
       window.renderOfferings(runtime.baseOfferings);
+      notifySaved('Reset to default preview');
     });
 
     runtime.controlsReady = true;

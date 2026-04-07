@@ -203,6 +203,11 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --ci-font-family:'Montserrat', sans-serif;
   --ci-hero-headline-size: clamp(1.8rem, 1.35rem + 1.25vw, 2.65rem);
   --ci-hero-body-size: 0.96rem;
+  --ci-hero-image-url: url('/assets/Graphic_1.png');
+  --ci-hero-image-position: center right;
+  --ci-hero-image-size: cover;
+  --ci-hero-image-opacity: 0.26;
+  --ci-hero-copy-offset: 0px;
   --ci-row-title-size: clamp(1.45rem, 1.1rem + 0.9vw, 2rem);
   --ci-row-copy-size: 0.88rem;
   --ci-card-headline-size: clamp(1.32rem, 1.08rem + 0.64vw, 1.8rem);
@@ -218,10 +223,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .ci-story-page { width:min(100%, var(--ci-shell-max)); margin:0 auto; padding:18px var(--ci-gutter) 48px; }
 .ci-editor-launch { display:flex; justify-content:flex-end; margin:0 0 14px; }
 .ci-story-hero { position:relative; overflow:hidden; border-radius:26px; background:#fffdf8; box-shadow:0 14px 28px rgba(30,37,48,0.08); margin-bottom:28px; min-height:328px; }
-.ci-story-hero::before { content:''; position:absolute; inset:0; background:url('/assets/Graphic_1.png') center right / cover no-repeat; opacity:0.26; pointer-events:none; }
+.ci-story-hero::before { content:''; position:absolute; inset:0; background-image:var(--ci-hero-image-url); background-position:var(--ci-hero-image-position); background-size:var(--ci-hero-image-size); background-repeat:no-repeat; opacity:var(--ci-hero-image-opacity); pointer-events:none; }
 .ci-story-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.94) 0%, rgba(255,253,248,0.88) 22%, rgba(255,253,248,0.72) 48%, rgba(255,253,248,0.42) 72%, rgba(255,253,248,0.18) 100%); pointer-events:none; }
-.ci-story-hero-inner { position:relative; z-index:1; min-height:328px; padding:34px 34px 30px; display:flex; align-items:flex-end; }
-.ci-hero-copy { max-width:860px; }
+.ci-story-hero-inner { position:relative; z-index:1; min-height:328px; padding:34px 34px 30px; display:flex; align-items:stretch; }
+.ci-hero-copy { max-width:860px; min-height:100%; display:flex; align-items:center; transform:translateY(var(--ci-hero-copy-offset)); }
 .ci-kicker,
 .ci-hero-body,
 .ci-hero-jumps { display:none !important; }
@@ -489,6 +494,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .mission-page .offering-flip { height:100%; perspective:1400px; cursor:pointer; outline:none; }
 .mission-page .offering-flip-inner { display:grid; min-height:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 0.55s cubic-bezier(0.2,0.8,0.2,1); }
 .mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner, .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner, .mission-page .offering-flip.is-flipped .offering-flip-inner { transform:rotateY(180deg); }
+.mission-page .offering-flip.is-edit-selected .card-front,
+.mission-page .offering-flip.is-edit-selected .card-back { outline:3px solid rgba(200,72,38,0.4); outline-offset:3px; }
 .mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
 .mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.16); box-shadow:0 10px 20px rgba(30,37,48,0.08), 0 2px 5px rgba(30,37,48,0.08); overflow:hidden; position:relative; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
 .mission-page .card-front::before { content:''; position:absolute; top:clamp(10px, 1vw, 16px); right:clamp(8px, 0.9vw, 14px); bottom:clamp(8px, 0.9vw, 12px); width:var(--mission-card-art-lg); background-image:var(--card-graphic,none); background-size:var(--card-graphic-size,contain); background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:var(--card-graphic-opacity,0.9); z-index:0; pointer-events:none; border-radius:inherit; transform:scale(var(--card-graphic-scale,1)); transform-origin:center right; }
@@ -526,17 +533,34 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .page-editor-launch { position:sticky; top:140px; z-index:40; display:flex; justify-content:flex-end; width:min(100%, var(--mission-shell-max)); margin:0 auto; padding:18px var(--mission-gutter) 0; pointer-events:none; }
 .page-editor-toggle { pointer-events:auto; border:none; border-radius:999px; background:#1e2530; color:#fafaf2; padding:12px 18px; font-size:0.72rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; box-shadow:0 18px 36px rgba(30,37,48,0.16); cursor:pointer; transition:transform 0.2s ease, box-shadow 0.2s ease; }
 .page-editor-toggle:hover { transform:translateY(-1px); box-shadow:0 22px 40px rgba(30,37,48,0.2); }
-.page-editor-shell { position:fixed; top:124px; right:24px; width:min(420px, calc(100vw - 32px)); max-height:calc(100vh - 148px); overflow:auto; z-index:500; background:rgba(255,253,248,0.98); border:1px solid rgba(30,37,48,0.12); border-radius:24px; box-shadow:0 30px 80px rgba(30,37,48,0.24); backdrop-filter:blur(16px); padding:22px 22px 20px; }
-.page-editor-shell[hidden] { display:none; }
-.page-editor-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:18px; }
+.page-editor-shell { position:fixed; top:124px; right:24px; width:min(420px, calc(100vw - 32px)); max-height:calc(100vh - 148px); overflow:auto; z-index:500; background:rgba(255,253,248,0.98); border:1px solid rgba(30,37,48,0.12); border-radius:24px; box-shadow:0 30px 80px rgba(30,37,48,0.24); backdrop-filter:blur(16px); padding:22px 22px 20px; overscroll-behavior:contain; }
+.page-editor-shell.is-expanded { width:min(720px, calc(100vw - 32px)); }
+  .page-editor-shell[hidden] { display:none; }
+.page-editor-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:18px; cursor:move; user-select:none; }
+.page-editor-header > div:first-child { pointer-events:none; }
+.page-editor-header > div:first-child * { pointer-events:none; }
+.page-editor-header-actions { display:flex; align-items:center; gap:6px; flex-shrink:0; }
+.page-editor-mini-btn { border:1px solid rgba(30,37,48,0.12); background:#ffffff; color:#1e2530; border-radius:999px; padding:7px 10px; font:inherit; font-size:0.68rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; cursor:pointer; }
 .page-editor-title { font-size:1.15rem; font-weight:700; color:#1e2530; margin-bottom:6px; }
 .page-editor-note { font-size:0.74rem; line-height:1.6; color:rgba(30,37,48,0.62); max-width:250px; }
 .page-editor-close { border:none; background:transparent; color:#1e2530; font-size:1.6rem; line-height:1; padding:4px; cursor:pointer; }
 .page-editor-status { display:inline-flex; align-items:center; gap:8px; font-size:0.66rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#c84826; background:rgba(200,72,38,0.08); border:1px solid rgba(200,72,38,0.15); border-radius:999px; padding:8px 12px; margin-bottom:16px; }
 .page-editor-status::before { content:''; width:8px; height:8px; border-radius:50%; background:#c84826; }
+.page-editor-status.is-saved { color:#1f6b4f; background:rgba(31,107,79,0.1); border-color:rgba(31,107,79,0.18); }
+.page-editor-status.is-saved::before { background:#1f6b4f; }
+.page-editor-toast { position:sticky; bottom:10px; margin-top:14px; margin-left:auto; width:max-content; max-width:100%; background:#1e2530; color:#fafaf2; border-radius:999px; padding:10px 14px; font-size:0.72rem; font-weight:700; letter-spacing:0.08em; box-shadow:0 14px 28px rgba(30,37,48,0.18); opacity:0; transform:translateY(10px); transition:opacity 0.2s ease, transform 0.2s ease; pointer-events:none; }
+.page-editor-toast.is-visible { opacity:1; transform:translateY(0); }
 .page-editor-group { border:1px solid rgba(30,37,48,0.08); border-radius:18px; background:#ffffff; padding:16px; margin-bottom:14px; }
-.page-editor-group h4 { font-size:0.8rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:#1e2530; margin-bottom:14px; }
-.editor-field { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+.page-editor-group h4,
+.impact-editor-block h5 { display:flex; align-items:center; justify-content:space-between; gap:10px; font-weight:700; color:#1e2530; cursor:pointer; }
+.page-editor-group h4 { font-size:0.8rem; letter-spacing:0.16em; text-transform:uppercase; margin-bottom:14px; }
+.impact-editor-block h5 { margin-bottom:0; }
+.editor-collapse-toggle { border:none; background:transparent; color:rgba(30,37,48,0.54); font:inherit; font-size:0.9rem; line-height:1; cursor:pointer; padding:0; }
+.page-editor-group.is-collapsed > :not(h4),
+.impact-editor-block.is-collapsed > :not(h5) { display:none !important; }
+.page-editor-group.is-collapsed h4,
+.impact-editor-block.is-collapsed h5 { margin-bottom:0; }
+  .editor-field { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
 .editor-field:last-child { margin-bottom:0; }
 .editor-grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
 .editor-grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
@@ -545,7 +569,17 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .editor-field input[type="number"],
 .editor-field textarea,
 .editor-field select { width:100%; border:1px solid rgba(30,37,48,0.14); border-radius:12px; background:#fffdf8; color:#1e2530; padding:12px 13px; font:inherit; font-size:0.78rem; line-height:1.5; }
-.editor-field textarea { min-height:88px; resize:vertical; }
+.editor-field textarea { min-height:116px; resize:vertical; scroll-behavior:auto; overscroll-behavior:contain; }
+#impact-editor-hero-headline,
+#impact-editor-hero-body,
+#mission-editor-hero-headline,
+#mission-editor-hero-body { min-height:132px; }
+#impact-editor-panel-headline,
+#impact-editor-panel-quote,
+#impact-editor-panel-copy,
+#mission-editor-card-description,
+#mission-editor-card-back-description { min-height:168px; font-size:0.74rem; line-height:1.6; }
+.impact-editor-card-copy-stack { display:grid; gap:12px; }
 .editor-field input[type="range"] { width:100%; accent-color:#c84826; }
 .editor-inline-meta { display:flex; justify-content:space-between; gap:12px; font-size:0.68rem; color:rgba(30,37,48,0.55); }
 .editor-checkbox { display:flex; align-items:center; justify-content:space-between; gap:12px; border:1px solid rgba(30,37,48,0.08); border-radius:14px; padding:12px 14px; background:#fffdf8; margin-bottom:10px; }
@@ -1017,21 +1051,53 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
 
       <div class="impact-editor-panel" data-impact-panel="page">
-      <div class="page-editor-group">
-        <h4>Hero</h4>
-        <div class="editor-field">
-          <label class="editor-label" for="impact-editor-hero-kicker">Eyebrow</label>
-          <input id="impact-editor-hero-kicker" type="text">
+        <div class="page-editor-group">
+          <h4>Hero</h4>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-editor-hero-kicker">Eyebrow</label>
+            <input id="impact-editor-hero-kicker" type="text">
         </div>
         <div class="editor-field">
           <label class="editor-label" for="impact-editor-hero-headline">Headline</label>
           <textarea id="impact-editor-hero-headline"></textarea>
         </div>
-        <div class="editor-field">
-          <label class="editor-label" for="impact-editor-hero-body">Subtext</label>
-          <textarea id="impact-editor-hero-body"></textarea>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-editor-hero-body">Subtext</label>
+            <textarea id="impact-editor-hero-body"></textarea>
+          </div>
+          <div class="editor-grid-2">
+            <div class="editor-field">
+              <label class="editor-label" for="impact-editor-hero-image">Hero artwork</label>
+              <select id="impact-editor-hero-image">
+                <option value="/assets/Graphic_1.png">Foundry illustration</option>
+                <option value="/assets/Graphic_2.png">Alternate illustration</option>
+                <option value="/assets/Graphic Vignettes/homepage-tablet-standing-seated.png">Tablet vignette</option>
+                <option value="/assets/Graphic Vignettes/homepage-presenter-audience.png">Audience vignette</option>
+              </select>
+            </div>
+            <div class="editor-field">
+              <label class="editor-label" for="impact-editor-hero-image-position">Artwork position</label>
+              <select id="impact-editor-hero-image-position">
+                <option value="left center">Left</option>
+                <option value="center center">Center</option>
+                <option value="center right">Right</option>
+                <option value="right bottom">Right bottom</option>
+              </select>
+            </div>
+          </div>
+          <div class="editor-grid-2">
+            <div class="editor-field">
+              <label class="editor-label" for="impact-editor-hero-image-opacity">Artwork visibility</label>
+              <input id="impact-editor-hero-image-opacity" type="range" min="0" max="0.65" step="0.01">
+              <div class="editor-inline-meta"><span>Fainter</span><span id="impact-editor-hero-image-opacity-value"></span></div>
+            </div>
+            <div class="editor-field">
+              <label class="editor-label" for="impact-editor-hero-offset-y">Headline vertical position</label>
+              <input id="impact-editor-hero-offset-y" type="range" min="-120" max="120" step="2">
+              <div class="editor-inline-meta"><span>Higher</span><span id="impact-editor-hero-offset-y-value"></span></div>
+            </div>
+          </div>
         </div>
-      </div>
 
       <div class="page-editor-group">
         <h4>Layout</h4>
@@ -1271,25 +1337,25 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
                 </select>
               </div>
             </div>
-            <div class="editor-grid-2">
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-headline">Panel headline</label>
-                <textarea id="impact-editor-panel-headline"></textarea>
+              <div class="impact-editor-card-copy-stack">
+                <div class="editor-field">
+                  <label class="editor-label" for="impact-editor-panel-headline">Panel headline</label>
+                  <textarea id="impact-editor-panel-headline"></textarea>
+                </div>
+                <div class="editor-field">
+                  <label class="editor-label" for="impact-editor-panel-quote">Panel quote / text</label>
+                  <textarea id="impact-editor-panel-quote"></textarea>
+                </div>
+                <div class="editor-field">
+                  <label class="editor-label" for="impact-editor-panel-copy">Panel supporting copy</label>
+                  <textarea id="impact-editor-panel-copy"></textarea>
+                </div>
               </div>
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-quote">Panel quote / text</label>
-                <textarea id="impact-editor-panel-quote"></textarea>
-              </div>
-            </div>
-            <div class="editor-grid-2">
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-copy">Panel supporting copy</label>
-                <textarea id="impact-editor-panel-copy"></textarea>
-              </div>
-              <div class="editor-field">
-                <label class="editor-label" for="impact-editor-panel-kicker">Panel label</label>
-                <input id="impact-editor-panel-kicker" type="text">
-              </div>
+              <div class="editor-grid-2">
+                <div class="editor-field">
+                  <label class="editor-label" for="impact-editor-panel-kicker">Panel label</label>
+                  <input id="impact-editor-panel-kicker" type="text">
+                </div>
             </div>
             <div class="editor-grid-2">
               <div class="editor-field">
@@ -2601,7 +2667,11 @@ var IMPACT_EDITOR_DEFAULTS = {
   hero: {
     kicker: '',
     headline: 'The Foundry strengthens Candler from the inside out, providing faculty, students, and alumni with the resources and opportunities that allow teaching and preaching ministries to thrive.',
-    body: ''
+    body: '',
+    image: '/assets/Graphic_1.png',
+    imagePosition: 'center right',
+    imageOpacity: 0.26,
+    offsetY: 0
   },
   layout: {
     cardGap: 18,
@@ -2687,6 +2757,127 @@ function impactClearStoredConfig() {
   } catch (err) {}
 }
 
+window.pageEditorShowToast = function(shell, message) {
+  if (!shell) return;
+  var toast = shell.querySelector('.page-editor-toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.className = 'page-editor-toast';
+    shell.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.add('is-visible');
+  clearTimeout(toast._hideTimer);
+  toast._hideTimer = setTimeout(function() {
+    toast.classList.remove('is-visible');
+  }, 2200);
+};
+
+window.attachPageEditorShellBehavior = function(options) {
+  if (!options || !options.shell || options.shell.dataset.editorEnhanced === 'true') return options && options.api ? options.api : null;
+  var shell = options.shell;
+  var toggle = options.toggle;
+  var header = options.header || shell.querySelector('.page-editor-header');
+  var closeBtn = options.close;
+  var onCloseRequest = options.onCloseRequest || function() { return true; };
+  shell.dataset.editorEnhanced = 'true';
+
+  if (header && !header.querySelector('.page-editor-header-actions')) {
+    var headerActions = document.createElement('div');
+    headerActions.className = 'page-editor-header-actions';
+    var expandBtn = document.createElement('button');
+    expandBtn.type = 'button';
+    expandBtn.className = 'page-editor-mini-btn';
+    expandBtn.textContent = 'Expand';
+    var resetBtn = document.createElement('button');
+    resetBtn.type = 'button';
+    resetBtn.className = 'page-editor-mini-btn';
+    resetBtn.textContent = 'Reset';
+    headerActions.appendChild(expandBtn);
+    headerActions.appendChild(resetBtn);
+    if (closeBtn) headerActions.appendChild(closeBtn);
+    header.appendChild(headerActions);
+    expandBtn.addEventListener('click', function(event) {
+      event.stopPropagation();
+      shell.classList.toggle('is-expanded');
+      expandBtn.textContent = shell.classList.contains('is-expanded') ? 'Shrink' : 'Expand';
+    });
+    resetBtn.addEventListener('click', function(event) {
+      event.stopPropagation();
+      shell.style.top = '124px';
+      shell.style.left = '';
+      shell.style.right = '24px';
+    });
+  }
+
+  var dragState = null;
+  function stopDrag() {
+    dragState = null;
+    document.body.style.userSelect = '';
+  }
+  function onPointerMove(event) {
+    if (!dragState) return;
+    var nextLeft = Math.min(Math.max(12, dragState.startLeft + (event.clientX - dragState.startX)), window.innerWidth - shell.offsetWidth - 12);
+    var nextTop = Math.min(Math.max(12, dragState.startTop + (event.clientY - dragState.startY)), window.innerHeight - 80);
+    shell.style.left = nextLeft + 'px';
+    shell.style.right = 'auto';
+    shell.style.top = nextTop + 'px';
+  }
+  if (header) {
+    header.addEventListener('pointerdown', function(event) {
+      if (event.target.closest('button, input, select, textarea, label, a')) return;
+      dragState = {
+        startX: event.clientX,
+        startY: event.clientY,
+        startLeft: shell.getBoundingClientRect().left,
+        startTop: shell.getBoundingClientRect().top
+      };
+      document.body.style.userSelect = 'none';
+    });
+  }
+  document.addEventListener('pointermove', onPointerMove);
+  document.addEventListener('pointerup', stopDrag);
+
+  function requestClose() {
+    return onCloseRequest() !== false;
+  }
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function(event) {
+      event.preventDefault();
+      requestClose();
+    });
+  }
+  document.addEventListener('mousedown', function(event) {
+    if (shell.hidden) return;
+    if (shell.contains(event.target)) return;
+    if (toggle && toggle.contains(event.target)) return;
+    requestClose();
+  });
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && !shell.hidden) requestClose();
+  });
+
+  shell.querySelectorAll('.page-editor-group h4, .impact-editor-block h5').forEach(function(heading) {
+    if (heading.querySelector('.editor-collapse-toggle')) return;
+    var parent = heading.closest('.page-editor-group, .impact-editor-block');
+    if (!parent) return;
+    var toggleBtn = document.createElement('button');
+    toggleBtn.type = 'button';
+    toggleBtn.className = 'editor-collapse-toggle';
+    toggleBtn.textContent = '−';
+    heading.appendChild(toggleBtn);
+    heading.addEventListener('click', function(event) {
+      if (event.target.closest('button') && event.target !== toggleBtn) return;
+      parent.classList.toggle('is-collapsed');
+      toggleBtn.textContent = parent.classList.contains('is-collapsed') ? '+' : '−';
+    });
+  });
+
+  return {
+    requestClose: requestClose
+  };
+};
+
 function impactGetStoryKey(rowId, index) {
   return rowId + '--' + index;
 }
@@ -2713,6 +2904,10 @@ function impactApplyCssVars(config) {
   panel.style.setProperty('--ci-card-quote-size', (config.typography.quoteSize || 1.28) + 'rem');
   panel.style.setProperty('--ci-card-support-size', (config.typography.supportSize || 0.96) + 'rem');
   panel.style.setProperty('--ci-card-name-size', (config.typography.nameSize || 0.9) + 'rem');
+  panel.style.setProperty('--ci-hero-image-url', 'url("' + ((config.hero && config.hero.image) || '/assets/Graphic_1.png') + '")');
+  panel.style.setProperty('--ci-hero-image-position', (config.hero && config.hero.imagePosition) || 'center right');
+  panel.style.setProperty('--ci-hero-image-opacity', String((config.hero && config.hero.imageOpacity) != null ? config.hero.imageOpacity : 0.26));
+  panel.style.setProperty('--ci-hero-copy-offset', (((config.hero && config.hero.offsetY) || 0)) + 'px');
 }
 
 function impactApplyHero(config) {
@@ -2763,6 +2958,33 @@ function impactFormatPercent(value) {
 
 function impactFormatRem(value) {
   return Number(value || 0).toFixed(2) + 'rem';
+}
+
+function impactHasDraftChanges() {
+  return JSON.stringify(impactEditorRuntime.config || {}) !== JSON.stringify(impactGetConfig());
+}
+
+function impactSetStatus(message, saved) {
+  var node = document.getElementById('impact-editor-status');
+  if (!node) return;
+  node.textContent = message;
+  node.classList.toggle('is-saved', !!saved);
+}
+
+function impactSaveConfig(message) {
+  impactSetStoredConfig(impactEditorRuntime.config);
+  impactSetStatus(message || 'Changes saved in browser', true);
+  if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('impact-editor-shell'), message || 'Changes saved in browser');
+}
+
+function impactRestoreSavedConfig() {
+  impactEditorRuntime.config = impactGetConfig();
+  impactEnsureSelection();
+  impactRenderAll();
+  impactPopulateEditorFields();
+  impactPopulateRowEditor();
+  impactPopulateCardEditor();
+  impactSetStatus('Saved browser version loaded', true);
 }
 
 function impactFindRow(rowId) {
@@ -3432,6 +3654,12 @@ function impactPopulateEditorFields() {
   document.getElementById('impact-editor-hero-kicker').value = hero.kicker || '';
   document.getElementById('impact-editor-hero-headline').value = hero.headline || '';
   document.getElementById('impact-editor-hero-body').value = hero.body || '';
+  document.getElementById('impact-editor-hero-image').value = hero.image || '/assets/Graphic_1.png';
+  document.getElementById('impact-editor-hero-image-position').value = hero.imagePosition || 'center right';
+  document.getElementById('impact-editor-hero-image-opacity').value = hero.imageOpacity != null ? hero.imageOpacity : 0.26;
+  document.getElementById('impact-editor-hero-image-opacity-value').textContent = impactFormatPercent((hero.imageOpacity != null ? hero.imageOpacity : 0.26));
+  document.getElementById('impact-editor-hero-offset-y').value = hero.offsetY || 0;
+  document.getElementById('impact-editor-hero-offset-y-value').textContent = ((hero.offsetY || 0) > 0 ? '+' : '') + (hero.offsetY || 0) + 'px';
   document.getElementById('impact-editor-card-gap').value = config.layout.cardGap;
   document.getElementById('impact-editor-card-gap-value').textContent = impactFormatPx(config.layout.cardGap);
   document.getElementById('impact-editor-card-height').value = config.layout.cardHeight;
@@ -3580,6 +3808,7 @@ function impactBindEditor() {
   var shell = document.getElementById('impact-editor-shell');
   var toggle = document.getElementById('impact-editor-toggle');
   var closeBtn = document.getElementById('impact-editor-close');
+  var header = shell.querySelector('.page-editor-header');
   function setOpen(open) {
     shell.hidden = !open;
     impactEditorRuntime.isOpen = !!open;
@@ -3587,8 +3816,29 @@ function impactBindEditor() {
     impactRefreshSelectionState();
   }
   impactEditorRuntime.setOpen = setOpen;
-  toggle.addEventListener('click', function() { setOpen(shell.hidden); });
-  closeBtn.addEventListener('click', function() { setOpen(false); });
+  function requestClose() {
+    if (!impactHasDraftChanges()) {
+      setOpen(false);
+      impactSetStatus('Saved browser version loaded', true);
+      return true;
+    }
+    if (window.confirm('Save your Candler Impact edits before closing? Click OK to save. Click Cancel for more options.')) {
+      impactSaveConfig('Changes saved in browser');
+      setOpen(false);
+      return true;
+    }
+    if (!window.confirm('Discard unsaved Candler Impact edits and close the editor?')) return false;
+    impactRestoreSavedConfig();
+    setOpen(false);
+    return true;
+  }
+  if (window.attachPageEditorShellBehavior) {
+    window.attachPageEditorShellBehavior({ shell: shell, toggle: toggle, close: closeBtn, header: header, onCloseRequest: requestClose });
+  }
+  toggle.addEventListener('click', function() {
+    if (shell.hidden) setOpen(true);
+    else requestClose();
+  });
   document.querySelectorAll('.impact-editor-face-pill[data-impact-face]').forEach(function(button) {
     button.addEventListener('click', function() {
       var select = document.getElementById('impact-editor-card-face');
@@ -3632,12 +3882,27 @@ function impactBindEditor() {
       impactPopulateEditorFields();
       impactPopulateRowEditor();
       impactPopulateCardEditor();
+      impactSetStatus('Live draft preview active', false);
     });
   }
 
   onInput('impact-editor-hero-kicker', ['hero', 'kicker']);
   onInput('impact-editor-hero-headline', ['hero', 'headline']);
   onInput('impact-editor-hero-body', ['hero', 'body']);
+  document.getElementById('impact-editor-hero-image').addEventListener('input', function(event) {
+    impactEditorRuntime.config.hero.image = event.target.value;
+    impactRenderAll();
+    impactPopulateEditorFields();
+    impactSetStatus('Live draft preview active', false);
+  });
+  document.getElementById('impact-editor-hero-image-position').addEventListener('input', function(event) {
+    impactEditorRuntime.config.hero.imagePosition = event.target.value;
+    impactRenderAll();
+    impactPopulateEditorFields();
+    impactSetStatus('Live draft preview active', false);
+  });
+  onInput('impact-editor-hero-image-opacity', ['hero', 'imageOpacity'], Number);
+  onInput('impact-editor-hero-offset-y', ['hero', 'offsetY'], Number);
   onInput('impact-editor-card-gap', ['layout', 'cardGap'], Number);
   onInput('impact-editor-card-height', ['layout', 'cardHeight'], Number);
   onInput('impact-editor-quote-width', ['layout', 'quotePanelWidth'], Number);
@@ -3657,6 +3922,7 @@ function impactBindEditor() {
     impactEditorRuntime.config.rows[rowId][field] = value;
     impactRenderAll();
     impactPopulateRowEditor();
+    impactSetStatus('Live draft preview active', false);
   }
 
   ['label', 'title', 'copy', 'meta'].forEach(function(field) {
@@ -3671,6 +3937,7 @@ function impactBindEditor() {
     impactEditorRuntime.config.cards[key][field] = value;
     impactRenderAll();
     impactPopulateCardEditor();
+    impactSetStatus('Live draft preview active', false);
   }
 
   function impactEnsureCardPanelsConfig(key) {
@@ -3690,6 +3957,7 @@ function impactBindEditor() {
     panelsConfig[panelId][field] = value;
     impactRenderAll();
     impactPopulateCardEditor();
+    impactSetStatus('Live draft preview active', false);
   }
 
   [['headline','impact-editor-card-headline'],['quote','impact-editor-card-quote'],['support','impact-editor-card-support'],['name','impact-editor-card-name'],['role','impact-editor-card-role'],['accent','impact-editor-card-accent'],['surface','impact-editor-card-surface'],['ink','impact-editor-card-ink'],['fontFamily','impact-editor-card-font-family']].forEach(function(pair) {
@@ -3786,6 +4054,7 @@ function impactBindEditor() {
     }
     impactRenderAll();
     impactPopulateCardEditor();
+    impactSetStatus('Live draft preview active', false);
   });
   var panelUploadInput = document.getElementById('impact-editor-panel-image-upload');
   panelUploadInput.addEventListener('change', function(event) {
@@ -3847,6 +4116,7 @@ function impactBindEditor() {
     impactEditorRuntime.selectedPanelId = prefix + nextIndex;
     impactRenderAll();
     impactPopulateCardEditor();
+    impactSetStatus('Live draft preview active', false);
   });
   document.getElementById('impact-editor-panel-remove').addEventListener('click', function() {
     var key = impactEditorRuntime.selectedCardKey;
@@ -3860,6 +4130,7 @@ function impactBindEditor() {
     impactEditorRuntime.selectedPanelId = remaining[0] ? remaining[0].id : null;
     impactRenderAll();
     impactPopulateCardEditor();
+    impactSetStatus('Live draft preview active', false);
   });
   [['impact-editor-panel-move-prev', -1], ['impact-editor-panel-move-next', 1]].forEach(function(tuple) {
     document.getElementById(tuple[0]).addEventListener('click', function() {
@@ -3878,12 +4149,12 @@ function impactBindEditor() {
       panelsConfig[other.id].order = current.order || idx + 1;
       impactRenderAll();
       impactPopulateCardEditor();
+      impactSetStatus('Live draft preview active', false);
     });
   });
 
   document.getElementById('impact-editor-apply').addEventListener('click', function() {
-    impactSetStoredConfig(impactEditorRuntime.config);
-    document.getElementById('impact-editor-status').textContent = 'Changes saved in browser';
+    impactSaveConfig('Changes saved in browser');
   });
   document.getElementById('impact-editor-reset').addEventListener('click', function() {
     impactClearStoredConfig();
@@ -3896,7 +4167,8 @@ function impactBindEditor() {
     impactPopulateEditorFields();
     impactPopulateRowEditor();
     impactPopulateCardEditor();
-    document.getElementById('impact-editor-status').textContent = 'Reset to default preview';
+    impactSetStatus('Reset to default preview', true);
+    if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Reset to default preview');
   });
 }
 
@@ -3911,6 +4183,7 @@ function initPeople() {
   impactPopulateEditorFields();
   impactPopulateRowEditor();
   impactPopulateCardEditor();
+  impactSetStatus('Saved browser version loaded', true);
 }
 
 function buildMap() { /* no-op: replaced by initNumbers */ }
