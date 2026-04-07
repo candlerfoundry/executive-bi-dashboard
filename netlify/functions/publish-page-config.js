@@ -76,6 +76,7 @@ exports.handler = async function(event) {
 
     const serialized = JSON.stringify(file.content || {}, null, 2);
     let sha;
+    let existingSerialized = null;
     const getRes = await fetch(
       `https://api.github.com/repos/${GITHUB_REPO}/contents/${safePath}?ref=${GITHUB_BRANCH}`,
       { headers: ghHeaders }
@@ -83,6 +84,9 @@ exports.handler = async function(event) {
     if (getRes.ok) {
       const existing = await getRes.json();
       sha = existing.sha;
+      if (existing.content) {
+        existingSerialized = Buffer.from(String(existing.content).replace(/\n/g, ''), 'base64').toString('utf8');
+      }
     } else if (getRes.status !== 404) {
       const errText = await getRes.text();
       return {
@@ -90,6 +94,11 @@ exports.handler = async function(event) {
         headers: CORS,
         body: JSON.stringify({ error: `GitHub GET failed (${getRes.status})`, detail: errText, path: safePath }),
       };
+    }
+
+    if (existingSerialized === serialized) {
+      results.push({ path: safePath, unchanged: true });
+      continue;
     }
 
     const putPayload = {

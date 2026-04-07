@@ -886,7 +886,8 @@
         toggle: runtime.ui.toggle,
         close: runtime.ui.close,
         header: runtime.ui.shell.querySelector('.page-editor-header'),
-        onCloseRequest: closeEditor
+        onCloseRequest: closeEditor,
+        ignoreOutsideSelector: '#panel-whoweare .offering-flip, #panel-whoweare .mission-section-head'
       });
     }
     runtime.ui.toggle.addEventListener('click', function() {
@@ -1091,12 +1092,6 @@
       runtime.publishedConfig = deepClone(runtime.draftConfig);
       setStoredConfig(runtime.publishedConfig);
       notifySaved('Changes saved in browser');
-      if (window.confirm('Draft saved. Publish this Mission draft to main now?')) {
-        publishDraft().catch(function(err) {
-          updateStatus('Publish failed: ' + err.message);
-          if (window.pageEditorShowToast) window.pageEditorShowToast(runtime.ui.shell, 'Publish failed');
-        });
-      }
     });
     runtime.ui.reset.addEventListener('click', function() {
       clearStoredConfig();

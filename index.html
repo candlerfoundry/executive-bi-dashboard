@@ -2812,6 +2812,7 @@ window.attachPageEditorShellBehavior = function(options) {
   var header = options.header || shell.querySelector('.page-editor-header');
   var closeBtn = options.close;
   var onCloseRequest = options.onCloseRequest || function() { return true; };
+  var ignoreOutsideSelector = options.ignoreOutsideSelector || '';
   shell.dataset.editorEnhanced = 'true';
 
   if (header && !header.querySelector('.page-editor-header-actions')) {
@@ -2879,12 +2880,13 @@ window.attachPageEditorShellBehavior = function(options) {
       requestClose();
     });
   }
-  document.addEventListener('mousedown', function(event) {
-    if (shell.hidden) return;
-    if (shell.contains(event.target)) return;
-    if (toggle && toggle.contains(event.target)) return;
-    requestClose();
-  });
+    document.addEventListener('mousedown', function(event) {
+      if (shell.hidden) return;
+      if (shell.contains(event.target)) return;
+      if (toggle && toggle.contains(event.target)) return;
+      if (ignoreOutsideSelector && event.target.closest(ignoreOutsideSelector)) return;
+      requestClose();
+    });
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape' && !shell.hidden) requestClose();
   });
@@ -3888,7 +3890,14 @@ function impactBindEditor() {
     return true;
   }
   if (window.attachPageEditorShellBehavior) {
-    window.attachPageEditorShellBehavior({ shell: shell, toggle: toggle, close: closeBtn, header: header, onCloseRequest: requestClose });
+    window.attachPageEditorShellBehavior({
+      shell: shell,
+      toggle: toggle,
+      close: closeBtn,
+      header: header,
+      onCloseRequest: requestClose,
+      ignoreOutsideSelector: '#panel-people .ci-story-card, #panel-people .ci-row-intro, #panel-people .ci-story-panel'
+    });
   }
   toggle.addEventListener('click', function() {
     if (shell.hidden) setOpen(true);
@@ -4210,12 +4219,6 @@ function impactBindEditor() {
 
   document.getElementById('impact-editor-apply').addEventListener('click', function() {
     impactSaveConfig('Changes saved in browser');
-    if (window.confirm('Draft saved. Publish this Candler Impact draft to main now?')) {
-      impactPublishConfig().catch(function(err) {
-        impactSetStatus('Publish failed: ' + err.message, false);
-        if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Publish failed');
-      });
-    }
   });
   document.getElementById('impact-editor-publish').addEventListener('click', function() {
     impactPublishConfig().catch(function(err) {
