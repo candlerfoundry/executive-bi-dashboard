@@ -202,8 +202,14 @@
     return config.cards[cardId];
   }
 
+  async function getPublishedConfig() {
+    if (!window.pageEditorFetchJson) return null;
+    return await window.pageEditorFetchJson('/assets/page-config/mission-page.json');
+  }
+
   function getEffectiveConfig(config) {
     var merged = deepClone(runtime.defaultConfig || DEFAULT_CONFIG);
+    if (runtime.publishedConfig) mergeDeep(merged, runtime.publishedConfig);
     if (config) mergeDeep(merged, config);
     return merged;
   }
@@ -474,6 +480,23 @@
   function notifySaved(message) {
     updateStatus(message || 'Changes saved in browser');
     if (window.pageEditorShowToast) window.pageEditorShowToast(runtime.ui.shell, message || 'Changes saved in browser');
+  }
+
+  async function publishDraft() {
+    if (!window.confirm('Publish the current Mission draft to main?')) return;
+    updateStatus('Publishing to main…');
+    await window.pageEditorPublishConfig({
+      commitMessage: 'Publish Mission editor updates',
+      files: [
+        {
+          path: 'assets/page-config/mission-page.json',
+          content: runtime.draftConfig
+        }
+      ]
+    });
+    runtime.publishedConfig = deepClone(runtime.draftConfig);
+    setStoredConfig(runtime.publishedConfig);
+    notifySaved('Published to main');
   }
 
   function openEditor() {
@@ -850,7 +873,8 @@
       cardButtonBg: document.getElementById('mission-editor-card-button-bg'),
       cardButtonText: document.getElementById('mission-editor-card-button-text'),
       apply: document.getElementById('mission-editor-apply'),
-      reset: document.getElementById('mission-editor-reset')
+      reset: document.getElementById('mission-editor-reset'),
+      publish: document.getElementById('mission-editor-publish')
     };
 
     populateHeroImages();
@@ -1067,6 +1091,12 @@
       runtime.publishedConfig = deepClone(runtime.draftConfig);
       setStoredConfig(runtime.publishedConfig);
       notifySaved('Changes saved in browser');
+      if (window.confirm('Draft saved. Publish this Mission draft to main now?')) {
+        publishDraft().catch(function(err) {
+          updateStatus('Publish failed: ' + err.message);
+          if (window.pageEditorShowToast) window.pageEditorShowToast(runtime.ui.shell, 'Publish failed');
+        });
+      }
     });
     runtime.ui.reset.addEventListener('click', function() {
       clearStoredConfig();
@@ -1075,17 +1105,24 @@
       window.renderOfferings(runtime.baseOfferings);
       notifySaved('Reset to default preview');
     });
+    runtime.ui.publish.addEventListener('click', function() {
+      publishDraft().catch(function(err) {
+        updateStatus('Publish failed: ' + err.message);
+        if (window.pageEditorShowToast) window.pageEditorShowToast(runtime.ui.shell, 'Publish failed');
+      });
+    });
 
     runtime.controlsReady = true;
     syncEditorFromState();
   }
 
-  function initializeMissionEditor(data) {
+  async function initializeMissionEditor(data) {
     var missionData = data || {};
     runtime.defaultConfig = deepClone(DEFAULT_CONFIG);
     if (missionData.pages && missionData.pages.mission) mergeDeep(runtime.defaultConfig, missionData.pages.mission);
-    runtime.publishedConfig = getEffectiveConfig(getStoredConfig());
-    runtime.draftConfig = deepClone(runtime.publishedConfig);
+    runtime.publishedConfig = await getPublishedConfig() || {};
+    runtime.draftConfig = getEffectiveConfig(runtime.publishedConfig);
+    mergeDeep(runtime.draftConfig, getStoredConfig() || {});
     runtime.baseOfferings = deepClone((missionData.offerings && missionData.offerings.length) ? missionData.offerings : (window.FALLBACK_OFFERINGS || []));
     window.renderOfferings(runtime.baseOfferings);
     initEditor();

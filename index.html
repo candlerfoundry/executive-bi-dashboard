@@ -590,6 +590,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .page-editor-apply, .page-editor-reset { flex:1; border-radius:999px; padding:13px 18px; font-size:0.74rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; }
 .page-editor-apply { border:none; background:#c84826; color:#fafaf2; }
 .page-editor-reset { border:1px solid rgba(30,37,48,0.16); background:#ffffff; color:#1e2530; }
+.page-editor-publish { flex:1; border:none; background:#1e2530; color:#fafaf2; border-radius:999px; padding:13px 18px; font-size:0.74rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; }
 .page-editor-card-meta { font-size:0.68rem; color:rgba(30,37,48,0.56); margin-top:-4px; margin-bottom:10px; }
 
 /* TAB: THEOED */
@@ -1648,6 +1649,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       <div class="page-editor-actions">
         <button class="page-editor-reset" id="impact-editor-reset" type="button">Reset to Default</button>
         <button class="page-editor-apply" id="impact-editor-apply" type="button">Save Changes in Browser</button>
+        <button class="page-editor-publish" id="impact-editor-publish" type="button">Publish to Main</button>
       </div>
     </aside>
 
@@ -2084,6 +2086,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     <div class="page-editor-actions">
       <button class="page-editor-reset" id="mission-editor-reset" type="button">Reset to Default</button>
       <button class="page-editor-apply" id="mission-editor-apply" type="button">Save Changes in Browser</button>
+      <button class="page-editor-publish" id="mission-editor-publish" type="button">Publish to Main</button>
     </div>
   </aside>
 
@@ -2714,7 +2717,8 @@ var impactEditorRuntime = {
   selectedFace: 'front',
   setOpen: null,
   isOpen: false,
-  activePanel: 'page'
+  activePanel: 'page',
+  publishedConfig: null
 };
 
 function impactClone(value) {
@@ -2771,6 +2775,34 @@ window.pageEditorShowToast = function(shell, message) {
   toast._hideTimer = setTimeout(function() {
     toast.classList.remove('is-visible');
   }, 2200);
+};
+
+window.pageEditorFetchJson = async function(path) {
+  try {
+    var response = await fetch(path + '?_=' + Date.now(), { cache: 'no-store' });
+    if (!response.ok) return null;
+    return await response.json();
+  } catch (err) {
+    return null;
+  }
+};
+
+window.pageEditorPublishConfig = async function(options) {
+  var response = await fetch('/.netlify/functions/publish-page-config', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      commitMessage: options.commitMessage,
+      files: options.files
+    })
+  });
+  var data = await response.json().catch(function() { return {}; });
+  if (!response.ok) {
+    throw new Error(data.error || 'Publish failed');
+  }
+  return data;
 };
 
 window.attachPageEditorShellBehavior = function(options) {
@@ -2884,6 +2916,7 @@ function impactGetStoryKey(rowId, index) {
 
 function impactGetConfig() {
   var config = impactClone(IMPACT_EDITOR_DEFAULTS);
+  impactMerge(config, impactEditorRuntime.publishedConfig || {});
   impactMerge(config, impactGetStoredConfig());
   return config;
 }
@@ -2985,6 +3018,28 @@ function impactRestoreSavedConfig() {
   impactPopulateRowEditor();
   impactPopulateCardEditor();
   impactSetStatus('Saved browser version loaded', true);
+}
+
+function impactPreparePublishPayload() {
+  return impactClone(impactEditorRuntime.config || {});
+}
+
+async function impactPublishConfig() {
+  if (!window.confirm('Publish the current Candler Impact draft to main?')) return;
+  impactSetStatus('Publishing to main…', false);
+  await window.pageEditorPublishConfig({
+    commitMessage: 'Publish Candler Impact editor updates',
+    files: [
+      {
+        path: 'assets/page-config/candler-impact.json',
+        content: impactPreparePublishPayload()
+      }
+    ]
+  });
+  impactSetStoredConfig(impactEditorRuntime.config);
+  impactEditorRuntime.publishedConfig = impactClone(impactEditorRuntime.config);
+  impactSetStatus('Published to main', true);
+  if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('impact-editor-shell'), 'Published to main');
 }
 
 function impactFindRow(rowId) {
@@ -4155,6 +4210,18 @@ function impactBindEditor() {
 
   document.getElementById('impact-editor-apply').addEventListener('click', function() {
     impactSaveConfig('Changes saved in browser');
+    if (window.confirm('Draft saved. Publish this Candler Impact draft to main now?')) {
+      impactPublishConfig().catch(function(err) {
+        impactSetStatus('Publish failed: ' + err.message, false);
+        if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Publish failed');
+      });
+    }
+  });
+  document.getElementById('impact-editor-publish').addEventListener('click', function() {
+    impactPublishConfig().catch(function(err) {
+      impactSetStatus('Publish failed: ' + err.message, false);
+      if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Publish failed');
+    });
   });
   document.getElementById('impact-editor-reset').addEventListener('click', function() {
     impactClearStoredConfig();
@@ -4172,9 +4239,10 @@ function impactBindEditor() {
   });
 }
 
-function initPeople() {
+async function initPeople() {
   if (peopleReady) return;
   peopleReady = true;
+  impactEditorRuntime.publishedConfig = await window.pageEditorFetchJson('/assets/page-config/candler-impact.json');
   impactEditorRuntime.config = impactGetConfig();
   impactEnsureSelection();
   impactRenderAll();
