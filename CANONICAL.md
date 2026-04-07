@@ -8,7 +8,7 @@ Read this before every session. Verify each section is intact before committing.
 ---
 
 ## 1. FACULTY LIST SOURCE (Candler Impact tab)
-**Rule:** The faculty grid is driven by headshot filenames in /assets/headshots/ ONLY.
+**Rule:** The faculty grid is driven by headshot filenames in /assets/faculty-staff-headshots/ ONLY.
 Airtable instructor names are NOT used to populate the grid — only to look up
 course counts per person after the grid is built.
 

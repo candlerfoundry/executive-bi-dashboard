@@ -201,5 +201,167 @@
   "byTheNumbers": {},
   "theoEd": {},
   "impactStories": {},
-  "reach": {}
+  "reach": {},
+  "pages": {
+    "mission": {
+      "content": {
+        "hero": {
+          "headline": "Connecting Candler\u2019s scholarship to the wider world",
+          "body": "Through courses, media, and practical resources, The Candler Foundry translates rigorous theological scholarship into learning that shapes congregations, leaders, and everyday faith."
+        }
+      },
+      "layout": {
+        "shellMax": 1680,
+        "heroTextMax": 700,
+        "heroMinHeight": 348,
+        "heroColumns": "1.05fr 0.95fr",
+        "heroTextAlign": "left",
+        "heroGap": 24,
+        "gutter": 28,
+        "sectionGap": 24,
+        "sectionSpacing": 42,
+        "cardGap": 20,
+        "communityColumns": 2,
+        "ministryColumns": 3,
+        "publicColumns": 3,
+        "cardMinHeight": 320
+      },
+      "visual": {
+        "heroImage": "/assets/Graphic_1.png",
+        "heroImagePosition": "center right",
+        "heroImageScale": 100,
+        "heroImageOpacity": 0.25,
+        "heroFadeStrength": 0.74
+      },
+      "typography": {
+        "headingFont": "'Montserrat', sans-serif",
+        "bodyFont": "'Montserrat', sans-serif",
+        "heroTitleSize": 3.75,
+        "bodySize": 1,
+        "heroBodyWidth": 620,
+        "heroBodyMinHeight": 0,
+        "sectionTitleSize": 1.8,
+        "sectionCopySize": 0.96,
+        "sectionCopyWidth": 280,
+        "sectionCopyMinHeight": 0,
+        "cardTitleSize": 1.45,
+        "cardBodySize": 0.94,
+        "cardFrontTextWidth": 260,
+        "cardFrontTextMinHeight": 0,
+        "cardBackTextWidth": 280,
+        "cardBackTextMinHeight": 0,
+        "buttonSize": 0.76
+      },
+      "sections": {
+        "community": {
+          "id": "community",
+          "title": "Extending Candler into communities",
+          "copy": "Bringing Candler\u2019s faculty, alumni, and scholarship into churches, classrooms, and homes around the world.",
+          "visible": true,
+          "order": 1
+        },
+        "ministry": {
+          "id": "ministry",
+          "title": "Equipping leaders and learners for everyday ministry",
+          "copy": "Practical tools shaped by Candler\u2019s scholarship to support teaching, preaching, and spiritual formation in real contexts.",
+          "visible": true,
+          "order": 2
+        },
+        "public": {
+          "id": "public",
+          "title": "Engaging the wider public in theological conversation",
+          "copy": "Creating accessible entry points for spiritual seekers and curious audiences to explore faith, meaning, and theology.",
+          "visible": true,
+          "order": 3
+        }
+      },
+      "cards": {
+        "courses-in-community": {
+          "section": "community",
+          "visible": true,
+          "order": 1,
+          "frontTitle": "Courses in the Community",
+          "frontDescription": "8-10 week courses facilitated by theologians and Candler alumni.",
+          "backHeading": "Courses in the Community",
+          "backDescription": "Start with a free preview or browse current scholar-led offerings for congregations and learners.",
+          "primaryActionLabel": "Browse Current Courses",
+          "backBackground": "#1e2530",
+          "backStripColor": "#c84826",
+          "backTextColor": "#fafaf2",
+          "buttonColor": "#c84826",
+          "buttonTextColor": "#fafaf2"
+        },
+        "on-demand-courses": {
+          "section": "community",
+          "visible": true,
+          "order": 2,
+          "frontTitle": "On-Demand Courses",
+          "frontDescription": "Theology and faith formation delivered in an on-demand format.",
+          "backHeading": "On-Demand Courses",
+          "backDescription": "Browse on-demand courses and start learning without waiting for a live cohort.",
+          "primaryActionLabel": "Browse On-Demand Library"
+        },
+        "sunday-school-simplified": {
+          "section": "ministry",
+          "visible": true,
+          "order": 1,
+          "frontTitle": "Sunday School Simplified",
+          "frontDescription": "Engaging resources, no prep needed - designed by Candler educators.",
+          "backHeading": "Sunday School Simplified",
+          "backDescription": "Preview free Sunday School lessons and use ready-to-teach resources built for ministry leaders.",
+          "primaryActionLabel": "Free Lesson 1"
+        },
+        "3-minute-bible": {
+          "section": "ministry",
+          "visible": true,
+          "order": 2,
+          "frontTitle": "3-Minute Bible",
+          "frontDescription": "Concise video lessons that illuminate key themes of the Bible.",
+          "backHeading": "3-Minute Bible",
+          "backDescription": "Watch short free explainers that make biblical ideas approachable for teaching and discussion.",
+          "primaryActionLabel": "Watch What Is a Covenant?"
+        },
+        "unstuck": {
+          "section": "ministry",
+          "visible": true,
+          "order": 3,
+          "frontTitle": "Unstuck",
+          "frontDescription": "Resources for vocation, spiritual discernment, and ministry leadership.",
+          "backHeading": "Unstuck",
+          "backDescription": "Find practical tools and conversations for vocation, belonging, and discerning next steps.",
+          "primaryActionLabel": "Watch Belonging & Purpose"
+        },
+        "scholars-blog": {
+          "section": "public",
+          "visible": true,
+          "order": 1,
+          "frontTitle": "Scholar\u2019s Blog",
+          "frontDescription": "Timely reflections on faith, theology, and the church from Candler voices.",
+          "backHeading": "Scholar\u2019s Blog",
+          "backDescription": "Read current reflections and thoughtful theological commentary in plain language.",
+          "primaryActionLabel": "Read Scholar\u2019s Blog"
+        },
+        "theoed": {
+          "section": "public",
+          "visible": true,
+          "order": 2,
+          "frontTitle": "TheoEd",
+          "frontDescription": "Short talks that explore the Bible, theology, and faith for spiritually curious audiences.",
+          "backHeading": "TheoEd",
+          "backDescription": "Sample TheoEd talks and discussion guides designed for curious public audiences.",
+          "primaryActionLabel": "Browse TheoEd Talks"
+        },
+        "candler-in-conversation": {
+          "section": "public",
+          "visible": true,
+          "order": 3,
+          "frontTitle": "Candler in Conversation",
+          "frontDescription": "Conversations with theologians, staff, and students from Candler School of Theology.",
+          "backHeading": "Candler in Conversation",
+          "backDescription": "Listen to conversations with Candler scholars, staff, and students on faith and public life.",
+          "primaryActionLabel": "Listen to Podcast Episode"
+        }
+      }
+    }
+  }
 }
