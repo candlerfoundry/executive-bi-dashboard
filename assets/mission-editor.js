@@ -11,6 +11,7 @@
       shellMax: 1680,
       heroTextMax: 700,
       heroMinHeight: 348,
+      heroOffsetY: 0,
       heroColumns: '1.05fr 0.95fr',
       heroTextAlign: 'left',
       heroGap: 24,
@@ -25,6 +26,8 @@
     visual: {
       heroImage: '/assets/Graphic_1.png',
       heroImagePosition: 'center right',
+      heroImageX: 78,
+      heroImageY: 50,
       heroImageScale: 100,
       heroImageOpacity: 0.25,
       heroFadeStrength: 0.74
@@ -36,6 +39,7 @@
       bodySize: 1,
       heroBodyWidth: 620,
       heroBodyMinHeight: 0,
+      heroTitleWidth: 700,
       sectionTitleSize: 1.8,
       sectionCopySize: 0.96,
       sectionCopyWidth: 280,
@@ -108,6 +112,7 @@
     orderSectionId: 'community',
     activeCardId: null,
     activeCardPreviewFace: 'front',
+    activeEditorScope: 'page',
     ui: {},
     controlsReady: false
   };
@@ -157,6 +162,20 @@
 
   function formatPercent(value) {
     return Math.round((Number(value) || 0) * 100) + '%';
+  }
+
+  function getAnchorPercent(anchor) {
+    switch (anchor) {
+      case 'left center':
+        return { x: 24, y: 50 };
+      case 'center center':
+        return { x: 50, y: 50 };
+      case 'right bottom':
+        return { x: 86, y: 82 };
+      case 'center right':
+      default:
+        return { x: 78, y: 50 };
+    }
   }
 
   function getStoredConfig() {
@@ -244,8 +263,13 @@
       card.backTextColor = overrides.backTextColor || offering.backTextColor || '';
       card.buttonColor = overrides.buttonColor || offering.buttonColor || '';
       card.buttonTextColor = overrides.buttonTextColor || offering.buttonTextColor || '';
+      card.frontTitleSize = overrides.frontTitleSize != null ? overrides.frontTitleSize : (offering.frontTitleSize != null ? offering.frontTitleSize : null);
+      card.frontBodySize = overrides.frontBodySize != null ? overrides.frontBodySize : (offering.frontBodySize != null ? offering.frontBodySize : null);
+      card.frontTextWidth = overrides.frontTextWidth != null ? overrides.frontTextWidth : (offering.frontTextWidth != null ? offering.frontTextWidth : null);
       card.frontGraphicUrl = overrides.frontGraphicUrl || offering.frontGraphicUrl || offering.imageUrl || '';
       card.frontGraphicPosition = overrides.frontGraphicPosition || offering.frontGraphicPosition || '';
+      card.frontGraphicShiftX = overrides.frontGraphicShiftX != null ? overrides.frontGraphicShiftX : (offering.frontGraphicShiftX != null ? offering.frontGraphicShiftX : 0);
+      card.frontGraphicShiftY = overrides.frontGraphicShiftY != null ? overrides.frontGraphicShiftY : (offering.frontGraphicShiftY != null ? offering.frontGraphicShiftY : 0);
       card.frontGraphicOpacity = overrides.frontGraphicOpacity != null ? overrides.frontGraphicOpacity : (offering.frontGraphicOpacity != null ? offering.frontGraphicOpacity : null);
       card.frontGraphicScale = overrides.frontGraphicScale != null ? overrides.frontGraphicScale : (offering.frontGraphicScale != null ? offering.frontGraphicScale : null);
       if (overrides.actions && overrides.actions.length) {
@@ -284,6 +308,7 @@
     panel.style.setProperty('--mission-hero-text-max', heroTextMax + 'px');
     panel.style.setProperty('--mission-hero-columns', state.config.layout.heroColumns || '1.05fr 0.95fr');
     panel.style.setProperty('--mission-hero-text-align', state.config.layout.heroTextAlign || 'left');
+    panel.style.setProperty('--mission-hero-copy-offset', clamp(state.config.layout.heroOffsetY, -120, 120, 0) + 'px');
     panel.style.setProperty('--mission-card-gap', clamp(state.config.layout.cardGap, 8, 40, 20) + 'px');
     panel.style.setProperty('--mission-section-spacing', clamp(state.config.layout.sectionSpacing, 18, 84, 42) + 'px');
     panel.style.setProperty('--mission-card-min', clamp(state.config.layout.cardMinHeight, 220, 420, 320) + 'px');
@@ -291,13 +316,14 @@
     panel.style.setProperty('--mission-ministry-columns', clamp(state.config.layout.ministryColumns, 1, 4, 3));
     panel.style.setProperty('--mission-public-columns', clamp(state.config.layout.publicColumns, 1, 4, 3));
     panel.style.setProperty('--mission-hero-image-url', 'url("' + (state.config.visual.heroImage || '/assets/Graphic_1.png') + '")');
-    panel.style.setProperty('--mission-hero-image-position', state.config.visual.heroImagePosition || 'center right');
+    panel.style.setProperty('--mission-hero-image-position', clamp(state.config.visual.heroImageX, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).x) + '% ' + clamp(state.config.visual.heroImageY, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).y) + '%');
     panel.style.setProperty('--mission-hero-image-size', clamp(state.config.visual.heroImageScale, 70, 170, 100) + '% auto');
     panel.style.setProperty('--mission-hero-image-opacity', clamp(state.config.visual.heroImageOpacity, 0, 0.65, 0.25));
     panel.style.setProperty('--mission-hero-overlay-gradient', computeOverlayGradient(state.config.visual.heroFadeStrength));
     panel.style.setProperty('--mission-heading-font', state.config.typography.headingFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-body-font', state.config.typography.bodyFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-hero-title-size', clamp(state.config.typography.heroTitleSize, 2.2, 4.8, 3.75) + 'rem');
+    panel.style.setProperty('--mission-hero-title-width', clamp(state.config.typography.heroTitleWidth, 320, 960, heroTextMax) + 'px');
     panel.style.setProperty('--mission-body-size', clamp(state.config.typography.bodySize, 0.75, 1.3, 1) + 'rem');
     panel.style.setProperty('--mission-hero-body-width', clamp(state.config.typography.heroBodyWidth, 320, 860, 620) + 'px');
     panel.style.setProperty('--mission-hero-body-min-height', clamp(state.config.typography.heroBodyMinHeight, 0, 220, 0) + 'px');
@@ -314,27 +340,27 @@
     panel.style.setProperty('--mission-button-size', clamp(state.config.typography.buttonSize, 0.58, 1, 0.76) + 'rem');
     if (bar) {
       bar.style.minHeight = heroMinHeight + 'px';
-      bar.style.height = heroMinHeight + 'px';
+      bar.style.height = '';
     }
     if (overlay) {
       overlay.style.minHeight = heroMinHeight + 'px';
-      overlay.style.height = heroMinHeight + 'px';
+      overlay.style.height = '';
     }
     if (grid) {
       grid.style.minHeight = heroMinHeight + 'px';
-      grid.style.height = heroMinHeight + 'px';
+      grid.style.height = '';
       grid.style.gridTemplateColumns = 'minmax(0,' + heroTextMax + 'px) minmax(0,1fr)';
     }
     if (visual) {
       visual.style.minHeight = heroMinHeight + 'px';
-      visual.style.height = heroMinHeight + 'px';
+      visual.style.height = '';
     }
     if (intro) {
       intro.style.width = heroTextMax + 'px';
       intro.style.maxWidth = heroTextMax + 'px';
       intro.style.flex = '0 0 ' + heroTextMax + 'px';
       intro.style.minHeight = heroMinHeight + 'px';
-      intro.style.height = heroMinHeight + 'px';
+      intro.style.height = '';
       if ((state.config.layout.heroTextAlign || 'left') === 'center') {
         intro.style.marginLeft = 'auto';
         intro.style.marginRight = 'auto';
@@ -411,8 +437,13 @@
       }
       if (offering.frontGraphicUrl) flip.style.setProperty('--card-graphic', 'url("' + offering.frontGraphicUrl + '")');
       if (offering.frontGraphicPosition) flip.style.setProperty('--card-bg-pos', offering.frontGraphicPosition);
+      if (offering.frontGraphicShiftX != null) flip.style.setProperty('--card-graphic-shift-x', offering.frontGraphicShiftX + 'px');
+      if (offering.frontGraphicShiftY != null) flip.style.setProperty('--card-graphic-shift-y', offering.frontGraphicShiftY + 'px');
       if (offering.frontGraphicOpacity != null) flip.style.setProperty('--card-graphic-opacity', offering.frontGraphicOpacity);
       if (offering.frontGraphicScale != null) flip.style.setProperty('--card-graphic-scale', offering.frontGraphicScale);
+      if (offering.frontTitleSize != null) flip.style.setProperty('--mission-card-title-size-local', offering.frontTitleSize + 'rem');
+      if (offering.frontBodySize != null) flip.style.setProperty('--mission-card-body-size-local', offering.frontBodySize + 'rem');
+      if (offering.frontTextWidth != null) flip.style.setProperty('--mission-card-front-text-width-local', offering.frontTextWidth + 'px');
       if (offering.backBackground) flip.style.setProperty('--mission-card-back-bg', offering.backBackground);
       if (offering.backStripColor) flip.style.setProperty('--mission-card-back-strip-bg', offering.backStripColor);
       if (offering.backTextColor) flip.style.setProperty('--mission-card-back-text', offering.backTextColor);
@@ -482,6 +513,20 @@
     if (window.pageEditorShowToast) window.pageEditorShowToast(runtime.ui.shell, message || 'Changes saved in browser');
   }
 
+  function syncEditorScopeVisibility() {
+    if (!runtime.ui.shell) return;
+    var scope = runtime.activeEditorScope || 'page';
+    var groups = runtime.ui.shell.querySelectorAll('[data-mission-editor-scope]');
+    groups.forEach(function(group) {
+      if (scope === 'page') {
+        group.hidden = false;
+        return;
+      }
+      var tokens = String(group.getAttribute('data-mission-editor-scope') || '').split(/\s+/).filter(Boolean);
+      group.hidden = tokens.indexOf(scope) === -1;
+    });
+  }
+
     async function publishDraft() {
       if (!window.confirm('Publish the current Mission draft to main?')) return;
       updateStatus('Publishing to main…');
@@ -511,9 +556,11 @@
       }
     };
 
-  function openEditor() {
+  function openEditor(scope) {
+    runtime.activeEditorScope = scope || runtime.activeEditorScope || 'page';
     runtime.ui.shell.removeAttribute('hidden');
     runtime.ui.toggle.setAttribute('aria-expanded', 'true');
+    syncEditorScopeVisibility();
   }
 
   function closeEditor(forceDiscard) {
@@ -537,7 +584,14 @@
     runtime.activeCardId = cardId;
     runtime.activeCardPreviewFace = face || 'front';
     if (runtime.controlsReady) {
-      openEditor();
+      openEditor('card');
+      syncEditorFromState();
+    }
+  }
+
+  function selectHeroFromCanvas() {
+    if (runtime.controlsReady) {
+      openEditor('hero');
       syncEditorFromState();
     }
   }
@@ -670,15 +724,19 @@
     runtime.ui.heroTextMaxValue.textContent = formatPx(runtime.ui.heroTextMax.value);
     runtime.ui.heroMinHeightValue.textContent = formatPx(runtime.ui.heroMinHeight.value);
     runtime.ui.heroGapValue.textContent = formatPx(runtime.ui.heroGap.value);
+    runtime.ui.heroOffsetYValue.textContent = formatPx(runtime.ui.heroOffsetY.value);
     runtime.ui.sectionSpacingValue.textContent = formatPx(runtime.ui.sectionSpacing.value);
     runtime.ui.cardGapValue.textContent = formatPx(runtime.ui.cardGap.value);
     runtime.ui.cardMinHeightValue.textContent = formatPx(runtime.ui.cardMinHeight.value);
     runtime.ui.heroImageScaleValue.textContent = Math.round(Number(runtime.ui.heroImageScale.value) || 0) + '%';
+    runtime.ui.heroImageXValue.textContent = Math.round(Number(runtime.ui.heroImageX.value) || 0) + '%';
+    runtime.ui.heroImageYValue.textContent = Math.round(Number(runtime.ui.heroImageY.value) || 0) + '%';
     runtime.ui.heroImageOpacityValue.textContent = formatPercent(runtime.ui.heroImageOpacity.value);
     runtime.ui.heroFadeStrengthValue.textContent = formatPercent(runtime.ui.heroFadeStrength.value);
     runtime.ui.heroTitleSizeValue.textContent = Number(runtime.ui.heroTitleSize.value).toFixed(2) + 'rem';
     runtime.ui.bodySizeValue.textContent = Number(runtime.ui.bodySize.value).toFixed(2) + 'rem';
     runtime.ui.heroBodyWidthValue.textContent = formatPx(runtime.ui.heroBodyWidth.value);
+    runtime.ui.heroTitleWidthValue.textContent = formatPx(runtime.ui.heroTitleWidth.value);
     runtime.ui.heroBodyHeightValue.textContent = formatPx(runtime.ui.heroBodyHeight.value);
     runtime.ui.sectionTitleSizeValue.textContent = Number(runtime.ui.sectionTitleSize.value).toFixed(2) + 'rem';
     runtime.ui.sectionCopySizeValue.textContent = Number(runtime.ui.sectionCopySize.value).toFixed(2) + 'rem';
@@ -693,6 +751,11 @@
     runtime.ui.buttonSizeValue.textContent = Number(runtime.ui.buttonSize.value).toFixed(2) + 'rem';
     runtime.ui.cardArtOpacityValue.textContent = formatPercent(runtime.ui.cardArtOpacity.value);
     runtime.ui.cardArtScaleValue.textContent = Number(runtime.ui.cardArtScale.value).toFixed(2) + 'x';
+    runtime.ui.cardTitleSizeLocalValue.textContent = Number(runtime.ui.cardTitleSizeLocal.value).toFixed(2) + 'rem';
+    runtime.ui.cardBodySizeLocalValue.textContent = Number(runtime.ui.cardBodySizeLocal.value).toFixed(2) + 'rem';
+    runtime.ui.cardFrontBoxWidthLocalValue.textContent = formatPx(runtime.ui.cardFrontBoxWidthLocal.value);
+    runtime.ui.cardArtShiftXValue.textContent = formatPx(runtime.ui.cardArtShiftX.value);
+    runtime.ui.cardArtShiftYValue.textContent = formatPx(runtime.ui.cardArtShiftY.value);
   }
 
   function syncEditorFromState() {
@@ -721,6 +784,7 @@
     runtime.ui.heroTextMax.value = clamp(config.layout.heroTextMax, 420, 960, 700);
     runtime.ui.heroMinHeight.value = clamp(config.layout.heroMinHeight, 240, 520, 348);
     runtime.ui.heroGap.value = clamp(config.layout.heroGap, 8, 72, 24);
+    runtime.ui.heroOffsetY.value = clamp(config.layout.heroOffsetY, -120, 120, 0);
     runtime.ui.sectionSpacing.value = clamp(config.layout.sectionSpacing, 18, 84, 42);
     runtime.ui.cardGap.value = clamp(config.layout.cardGap, 8, 40, 20);
     runtime.ui.cardMinHeight.value = clamp(config.layout.cardMinHeight, 220, 420, 320);
@@ -731,6 +795,8 @@
     runtime.ui.publicColumns.value = String(clamp(config.layout.publicColumns, 1, 4, 3));
     runtime.ui.heroImage.value = config.visual.heroImage || '/assets/Graphic_1.png';
     runtime.ui.heroImagePosition.value = config.visual.heroImagePosition || 'center right';
+    runtime.ui.heroImageX.value = clamp(config.visual.heroImageX, 0, 100, getAnchorPercent(config.visual.heroImagePosition).x);
+    runtime.ui.heroImageY.value = clamp(config.visual.heroImageY, 0, 100, getAnchorPercent(config.visual.heroImagePosition).y);
     runtime.ui.heroImageScale.value = clamp(config.visual.heroImageScale, 70, 170, 100);
     runtime.ui.heroImageOpacity.value = clamp(config.visual.heroImageOpacity, 0, 0.65, 0.25);
     runtime.ui.heroFadeStrength.value = clamp(config.visual.heroFadeStrength, 0.2, 0.98, 0.74);
@@ -739,6 +805,7 @@
     runtime.ui.heroTitleSize.value = clamp(config.typography.heroTitleSize, 2.2, 4.8, 3.75);
     runtime.ui.bodySize.value = clamp(config.typography.bodySize, 0.75, 1.3, 1);
     runtime.ui.heroBodyWidth.value = clamp(config.typography.heroBodyWidth, 320, 860, 620);
+    runtime.ui.heroTitleWidth.value = clamp(config.typography.heroTitleWidth, 320, 960, clamp(config.layout.heroTextMax, 420, 960, 700));
     runtime.ui.heroBodyHeight.value = clamp(config.typography.heroBodyMinHeight, 0, 220, 0);
     runtime.ui.sectionTitleSize.value = clamp(config.typography.sectionTitleSize, 1.1, 2.4, 1.8);
     runtime.ui.sectionCopySize.value = clamp(config.typography.sectionCopySize, 0.72, 1.3, 0.96);
@@ -759,6 +826,11 @@
       runtime.ui.cardDescription.value = card.frontDescription || '';
       runtime.ui.cardArtwork.value = card.frontGraphicUrl || ((window.MISSION_CARD_GRAPHICS && window.MISSION_CARD_GRAPHICS[runtime.activeCardId] && window.MISSION_CARD_GRAPHICS[runtime.activeCardId].url) || CARD_ART_OPTIONS[0].value);
       runtime.ui.cardArtPosition.value = card.frontGraphicPosition || ((window.MISSION_CARD_GRAPHICS && window.MISSION_CARD_GRAPHICS[runtime.activeCardId] && window.MISSION_CARD_GRAPHICS[runtime.activeCardId].pos) || 'center right');
+      runtime.ui.cardTitleSizeLocal.value = clamp(card.frontTitleSize, 0.9, 1.9, clamp(config.typography.cardTitleSize, 0.9, 1.8, 1.45));
+      runtime.ui.cardBodySizeLocal.value = clamp(card.frontBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
+      runtime.ui.cardFrontBoxWidthLocal.value = clamp(card.frontTextWidth, 180, 420, clamp(config.typography.cardFrontTextWidth, 140, 420, 260));
+      runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -180, 180, 0);
+      runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -180, 180, 0);
       runtime.ui.cardArtOpacity.value = card.frontGraphicOpacity != null ? card.frontGraphicOpacity : 0.9;
       runtime.ui.cardArtScale.value = card.frontGraphicScale != null ? card.frontGraphicScale : 1;
       runtime.ui.cardBackTitle.value = card.backHeading || '';
@@ -775,6 +847,7 @@
     }
 
     updateRangeLabels();
+    syncEditorScopeVisibility();
     updateStatus();
   }
 
@@ -808,6 +881,8 @@
       heroMinHeightValue: document.getElementById('mission-editor-hero-min-height-value'),
       heroGap: document.getElementById('mission-editor-hero-gap'),
       heroGapValue: document.getElementById('mission-editor-hero-gap-value'),
+      heroOffsetY: document.getElementById('mission-editor-hero-offset-y'),
+      heroOffsetYValue: document.getElementById('mission-editor-hero-offset-y-value'),
       sectionSpacing: document.getElementById('mission-editor-section-spacing'),
       sectionSpacingValue: document.getElementById('mission-editor-section-spacing-value'),
       cardGap: document.getElementById('mission-editor-card-gap'),
@@ -821,6 +896,10 @@
       publicColumns: document.getElementById('mission-editor-public-columns'),
       heroImage: document.getElementById('mission-editor-hero-image'),
       heroImagePosition: document.getElementById('mission-editor-hero-image-position'),
+      heroImageX: document.getElementById('mission-editor-hero-image-x'),
+      heroImageXValue: document.getElementById('mission-editor-hero-image-x-value'),
+      heroImageY: document.getElementById('mission-editor-hero-image-y'),
+      heroImageYValue: document.getElementById('mission-editor-hero-image-y-value'),
       heroImageScale: document.getElementById('mission-editor-hero-image-scale'),
       heroImageScaleValue: document.getElementById('mission-editor-hero-image-scale-value'),
       heroImageOpacity: document.getElementById('mission-editor-hero-image-opacity'),
@@ -835,6 +914,8 @@
       bodySizeValue: document.getElementById('mission-editor-body-size-value'),
       heroBodyWidth: document.getElementById('mission-editor-hero-body-width'),
       heroBodyWidthValue: document.getElementById('mission-editor-hero-body-width-value'),
+      heroTitleWidth: document.getElementById('mission-editor-hero-title-width'),
+      heroTitleWidthValue: document.getElementById('mission-editor-hero-title-width-value'),
       heroBodyHeight: document.getElementById('mission-editor-hero-body-height'),
       heroBodyHeightValue: document.getElementById('mission-editor-hero-body-height-value'),
       sectionTitleSize: document.getElementById('mission-editor-section-title-size'),
@@ -866,8 +947,18 @@
       cardMeta: document.getElementById('mission-editor-card-meta'),
       cardTitle: document.getElementById('mission-editor-card-title'),
       cardDescription: document.getElementById('mission-editor-card-description'),
+      cardTitleSizeLocal: document.getElementById('mission-editor-card-title-size-local'),
+      cardTitleSizeLocalValue: document.getElementById('mission-editor-card-title-size-local-value'),
+      cardBodySizeLocal: document.getElementById('mission-editor-card-body-size-local'),
+      cardBodySizeLocalValue: document.getElementById('mission-editor-card-body-size-local-value'),
+      cardFrontBoxWidthLocal: document.getElementById('mission-editor-card-front-box-width-local'),
+      cardFrontBoxWidthLocalValue: document.getElementById('mission-editor-card-front-box-width-local-value'),
       cardArtwork: document.getElementById('mission-editor-card-artwork'),
       cardArtPosition: document.getElementById('mission-editor-card-art-position'),
+      cardArtShiftX: document.getElementById('mission-editor-card-art-shift-x'),
+      cardArtShiftXValue: document.getElementById('mission-editor-card-art-shift-x-value'),
+      cardArtShiftY: document.getElementById('mission-editor-card-art-shift-y'),
+      cardArtShiftYValue: document.getElementById('mission-editor-card-art-shift-y-value'),
       cardArtOpacity: document.getElementById('mission-editor-card-art-opacity'),
       cardArtOpacityValue: document.getElementById('mission-editor-card-art-opacity-value'),
       cardArtScale: document.getElementById('mission-editor-card-art-scale'),
@@ -898,13 +989,21 @@
         close: runtime.ui.close,
         header: runtime.ui.shell.querySelector('.page-editor-header'),
         onCloseRequest: closeEditor,
-        ignoreOutsideSelector: '#panel-whoweare .offering-flip, #panel-whoweare .mission-section-head'
+        ignoreOutsideSelector: '#panel-whoweare .offering-flip, #panel-whoweare .mission-section-head, #panel-whoweare .mission-bar'
       });
     }
     runtime.ui.toggle.addEventListener('click', function() {
-      if (runtime.ui.shell.hasAttribute('hidden')) openEditor();
+      if (runtime.ui.shell.hasAttribute('hidden')) openEditor('page');
       else closeEditor();
     });
+
+    var heroCanvas = document.querySelector('#panel-whoweare .mission-bar');
+    if (heroCanvas) {
+      heroCanvas.addEventListener('click', function(event) {
+        if (event.target.closest('#mission-editor-shell, #mission-editor-toggle')) return;
+        selectHeroFromCanvas();
+      });
+    }
 
     bindLiveInput(runtime.ui.heroHeadline, function() {
       runtime.draftConfig.content.hero.headline = runtime.ui.heroHeadline.value;
@@ -943,6 +1042,7 @@
       ['heroTextMax', 'heroTextMax'],
       ['heroMinHeight', 'heroMinHeight'],
       ['heroGap', 'heroGap'],
+      ['heroOffsetY', 'heroOffsetY'],
       ['sectionSpacing', 'sectionSpacing'],
       ['cardGap', 'cardGap'],
       ['cardMinHeight', 'cardMinHeight']
@@ -963,12 +1063,25 @@
           publicColumns: 'publicColumns'
         };
         if (key === 'heroImage') runtime.draftConfig.visual.heroImage = runtime.ui.heroImage.value;
-        else if (key === 'heroImagePosition') runtime.draftConfig.visual.heroImagePosition = runtime.ui.heroImagePosition.value;
+        else if (key === 'heroImagePosition') {
+          var preset = getAnchorPercent(runtime.ui.heroImagePosition.value);
+          runtime.draftConfig.visual.heroImagePosition = runtime.ui.heroImagePosition.value;
+          runtime.draftConfig.visual.heroImageX = preset.x;
+          runtime.draftConfig.visual.heroImageY = preset.y;
+        }
         else if (key === 'headingFont') runtime.draftConfig.typography.headingFont = runtime.ui.headingFont.value;
         else if (key === 'bodyFont') runtime.draftConfig.typography.bodyFont = runtime.ui.bodyFont.value;
         else runtime.draftConfig.layout[map[key]] = key.indexOf('Columns') !== -1 ? Number(runtime.ui[key].value) : runtime.ui[key].value;
         window.renderOfferings(runtime.baseOfferings);
       });
+    });
+    bindLiveInput(runtime.ui.heroImageX, function() {
+      runtime.draftConfig.visual.heroImageX = Number(runtime.ui.heroImageX.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.heroImageY, function() {
+      runtime.draftConfig.visual.heroImageY = Number(runtime.ui.heroImageY.value);
+      window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.heroImageScale, function() {
       runtime.draftConfig.visual.heroImageScale = Number(runtime.ui.heroImageScale.value);
@@ -986,6 +1099,7 @@
       ['heroTitleSize', 'heroTitleSize'],
       ['bodySize', 'bodySize'],
       ['heroBodyWidth', 'heroBodyWidth'],
+      ['heroTitleWidth', 'heroTitleWidth'],
       ['heroBodyHeight', 'heroBodyMinHeight'],
       ['sectionTitleSize', 'sectionTitleSize'],
       ['sectionCopySize', 'sectionCopySize'],
@@ -1015,7 +1129,7 @@
     runtime.ui.cardSelect.addEventListener('change', function() {
       runtime.activeCardId = runtime.ui.cardSelect.value;
       runtime.activeCardPreviewFace = 'front';
-      openEditor();
+      openEditor('card');
       syncEditorFromState();
     });
     runtime.ui.cardArtwork.addEventListener('change', function() {
@@ -1040,6 +1154,36 @@
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
       card.frontGraphicScale = Number(runtime.ui.cardArtScale.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardTitleSizeLocal, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontTitleSize = Number(runtime.ui.cardTitleSizeLocal.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardBodySizeLocal, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontBodySize = Number(runtime.ui.cardBodySizeLocal.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardFrontBoxWidthLocal, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontTextWidth = Number(runtime.ui.cardFrontBoxWidthLocal.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtShiftX, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicShiftX = Number(runtime.ui.cardArtShiftX.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtShiftY, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicShiftY = Number(runtime.ui.cardArtShiftY.value);
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardTitle, function() {
