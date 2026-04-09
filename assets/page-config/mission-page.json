@@ -2,17 +2,18 @@
   "content": {
     "hero": {
       "headline": "Connecting Candler’s scholarship to the wider world",
-      "body": "Through courses, media, and practical resources, The Candler Foundry translates rigorous theological scholarship into learning that shapes congregations, leaders, and everyday faith."
+      "body": "The Candler Foundry serves as the \"front door\" to Candler School of Theology, offering courses and resources that translate rigorous theological scholarship into practical resources for ministry and learning."
     }
   },
   "layout": {
     "shellMax": 1780,
     "heroTextMax": 960,
-    "heroMinHeight": 520,
+    "heroMinHeight": 340,
+    "heroOffsetY": 0,
     "heroColumns": "1.05fr 0.95fr",
     "heroTextAlign": "left",
-    "heroGap": 24,
-    "gutter": 28,
+    "heroGap": 28,
+    "gutter": 18,
     "sectionSpacing": 42,
     "cardGap": 20,
     "communityColumns": 2,
@@ -24,18 +25,21 @@
   "visual": {
     "heroImage": "/assets/Graphic_1.png",
     "heroImagePosition": "center right",
-    "heroImageScale": 100,
+    "heroImageX": 78,
+    "heroImageY": 44,
+    "heroImageScale": 104,
     "heroImageOpacity": 0.49,
     "heroFadeStrength": 0.74
   },
   "typography": {
     "headingFont": "'Montserrat', sans-serif",
     "bodyFont": "'Montserrat', sans-serif",
-    "heroTitleSize": 3.75,
+    "heroTitleSize": 3.2,
     "bodySize": 1,
-    "heroBodyWidth": 620,
+    "heroBodyWidth": 680,
     "heroBodyMinHeight": 0,
-    "sectionTitleSize": 1.7,
+    "heroTitleWidth": 700,
+    "sectionTitleSize": 1.65,
     "sectionCopySize": 0.96,
     "sectionCopyWidth": 280,
     "sectionCopyMinHeight": 0,
@@ -97,7 +101,7 @@
       "backHeading": "On-Demand Courses",
       "backDescription": "Asynchronous, pre-recorded Bible & theology courses for groups & individuals.",
       "primaryActionLabel": "Browse On-Demand Library",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-side-reader.png",
+      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-1-reader-presenter.png",
       "frontGraphicScale": 1.6
     },
     "sunday-school-simplified": {
@@ -109,8 +113,10 @@
       "backHeading": "Sunday School Simplified",
       "backDescription": "Easy, no-prep Sunday School & Bible study lessons.",
       "primaryActionLabel": "Free Lesson 1",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-side-reader.png",
-      "frontGraphicScale": 1.2
+      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-booktop-pair.png",
+      "frontGraphicScale": 1.6,
+      "frontGraphicOpacity": 0.73,
+      "frontGraphicShiftX": 38
     },
     "3-minute-bible": {
       "section": "ministry",
@@ -133,7 +139,10 @@
       "backHeading": "Unstuck",
       "backDescription": "Video resources for vocational and spiritual discernment.",
       "primaryActionLabel": "Watch Belonging & Purpose",
-      "frontGraphicScale": 1.32
+      "frontGraphicScale": 1.6,
+      "frontGraphicUrl": "/assets/Graphic Vignettes/homepage-tablet-standing-seated.png",
+      "frontGraphicShiftX": 58,
+      "frontGraphicShiftY": -10
     },
     "scholars-blog": {
       "section": "public",
@@ -153,7 +162,11 @@
       "frontDescription": "Short talks that explore the Bible, theology, and faith for spiritually curious audiences.",
       "backHeading": "TheoEd",
       "backDescription": "TED-style talks on theology, spirituality, & faith. Free discussion guides.",
-      "primaryActionLabel": "Browse TheoEd Talks"
+      "primaryActionLabel": "Browse TheoEd Talks",
+      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-side-reader.png",
+      "frontGraphicScale": 1.58,
+      "frontGraphicShiftX": 86,
+      "frontGraphicShiftY": -30
     },
     "candler-in-conversation": {
       "section": "public",
@@ -165,7 +178,7 @@
       "backDescription": "Candler's flagship podcast, hosted & produced by The Foundry.",
       "primaryActionLabel": "Listen to Podcast Episode",
       "frontGraphicScale": 1.22,
-      "frontGraphicUrl": "/assets/Graphic Vignettes/homepage-tablet-standing-seated.png",
+      "frontGraphicUrl": "/assets/Graphic Vignettes/homepage-presenter-audience.png",
       "frontGraphicPosition": "center right"
     }
   }
