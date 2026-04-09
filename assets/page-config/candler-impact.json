@@ -1,1 +1,48 @@
-{}
+{
+  "hero": {
+    "kicker": "",
+    "headline": "The Foundry strengthens Candler from the inside out",
+    "body": "",
+    "image": "/assets/Graphic_1.png",
+    "imagePosition": "center right",
+    "imageOpacity": 0.65,
+    "offsetY": 8
+  },
+  "layout": {
+    "cardGap": 18,
+    "cardHeight": 344,
+    "quotePanelWidth": 54,
+    "portraitScale": 0.86
+  },
+  "typography": {
+    "fontFamily": "'Montserrat', sans-serif",
+    "heroSize": 2.65,
+    "heroBodySize": 0.96,
+    "rowTitleSize": 2.05,
+    "rowCopySize": 0.88,
+    "cardHeadlineSize": 1.8,
+    "quoteSize": 1.28,
+    "supportSize": 0.96,
+    "nameSize": 0.9
+  },
+  "rows": {},
+  "cards": {
+    "faculty-stories--0": {
+      "panels": {
+        "panel-1": {
+          "quote": "The Foundry sets Candler apart from other theological schools by showing prospective students a new way of imagining public theology.",
+          "role": "",
+          "quoteMarkCustom": "",
+          "basis": 59,
+          "headline": "",
+          "fontFamily": "'Montserrat', sans-serif",
+          "quoteMarkSize": 5.3
+        },
+        "panel-2": {
+          "basis": 46,
+          "quote": "The Foundry's unique ministry helps set Candler apart from other schools."
+        }
+      }
+    }
+  }
+}
