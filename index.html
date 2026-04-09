@@ -23,28 +23,28 @@ h2, h3 { letter-spacing: -0.5px; }
 body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: var(--blue); min-height: 100vh; overflow-x: hidden; }
 
 /* ═══ SECTION: HEADER ═══ */
-.header { background: var(--blue); padding: 10px 28px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--orange); }
-.header-logo { display: flex; align-items: center; }
+.header { background: var(--blue); padding: 10px 32px; display: grid; grid-template-columns: minmax(220px,1fr) auto minmax(220px,1fr); align-items: center; gap: 18px; position: sticky; top: 0; z-index: 100; border-bottom: 2px solid var(--orange); }
+.header-logo { display: flex; align-items: center; justify-self: start; }
 .header-logo-img { height: 52px; width: auto; display: block; }
-.header-watermark { position: absolute; right: 28px; top: 50%; transform: translateY(-50%); height: 60px; opacity: 0.08; pointer-events: none; z-index: 0; }
-.header-center { text-align: center; }
+.header-center { text-align: center; justify-self: center; }
 .header-eyebrow { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(250,250,242,0.6); margin-bottom: 3px; }
 .header-main { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); }
-.header-year { font-size: 1rem; font-weight: 600; letter-spacing: 0.15em; color: var(--orange); }
-.header-actions { display:flex; align-items:center; gap:16px; position:relative; z-index:1; }
+.header-year { font-size: 1rem; font-weight: 600; letter-spacing: 0.15em; color: var(--orange); justify-self: end; }
+.header-actions { display:flex; align-items:center; justify-content:flex-end; gap:16px; }
 .dashboard-publish { border:none; border-radius:999px; background:#fafaf2; color:#1e2530; padding:10px 16px; font-size:0.7rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; cursor:pointer; transition:transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease; box-shadow:0 10px 22px rgba(0,0,0,0.14); }
 .dashboard-publish:hover { transform:translateY(-1px); }
 .dashboard-publish[disabled] { opacity:0.72; cursor:progress; }
+.dashboard-publish--nav { padding:7px 12px; font-size:0.5rem; letter-spacing:0.14em; box-shadow:0 8px 18px rgba(0,0,0,0.14); margin-left: 12px; }
 
 /* ═══ SECTION: NAV TABS ═══ */
-.nav-tabs { background: var(--blue); display: flex; justify-content: center; padding: 0 28px; border-bottom: 1px solid rgba(250,250,242,0.08); }
+.nav-tabs { background: var(--blue); display: flex; justify-content: center; align-items:center; gap: 2px; padding: 0 32px; border-bottom: 1px solid rgba(250,250,242,0.08); }
 .nav-tab { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,250,242,0.7); padding: 17px 24px; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; opacity: 0.7; }
 .nav-tab:hover { color: var(--cream); border-bottom-color: rgba(200,72,38,0.35); opacity: 1.0; }
 .nav-tab.active { color: var(--cream); border-bottom-color: var(--orange); opacity: 1.0; }
 
 /* PANELS */
 .panel { display: none; }
-.panel.active { display: block; width: 100%; animation: fadeUp 0.35s ease; padding-top: 10px; padding-bottom: 10px; min-height: calc(100vh - 125px); }
+.panel.active { display: block; width: 100%; animation: fadeUp 0.35s ease; padding-top: 0; padding-bottom: 0; min-height: calc(100vh - 125px); }
 @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 /* ═══ SECTION: TYPOGRAPHY ═══ */
@@ -122,13 +122,32 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 #nr-map-container { width:100%; }
 
 /* Growth and Reach — Hero Banner */
-.gr-hero { background-image:url('/assets/Graphic_2.png'); background-size:cover; background-position:center; position:relative; min-height:240px; display:flex; align-items:center; justify-content:center; }
-.gr-hero-overlay { position:absolute; inset:0; background:rgba(26,37,48,0.72); }
-.gr-hero-content { position:relative; z-index:1; text-align:center; padding:48px 32px; }
-.gr-hero-title { font-size:36px; font-weight:700; color:#ffffff; letter-spacing:-0.5px; margin:0 0 14px; font-family:'Montserrat',sans-serif; }
-.gr-hero-subtitle { font-size:17px; font-weight:400; color:#ffffff; max-width:700px; margin:0 auto; line-height:1.7; font-family:'Montserrat',sans-serif; }
+.gr-page {
+  --gr-shell-max: 1680px;
+  --gr-gutter: clamp(20px, 2.4vw, 40px);
+  --gr-hero-min: 360px;
+  --gr-hero-copy-max: 760px;
+  --gr-hero-title-size: clamp(2.5rem, 2rem + 2.5vw, 4.2rem);
+  --gr-hero-body-size: 1rem;
+  --gr-hero-copy-offset-x: 0px;
+  --gr-hero-copy-offset-y: 0px;
+  --gr-hero-title-gap: 18px;
+  --gr-hero-art-width: 420px;
+  --gr-hero-art-offset-x: -20px;
+  --gr-hero-art-offset-y: 0px;
+  --gr-hero-art-opacity: 0.22;
+}
+.gr-editor-launch { position:absolute; top:96px; right:var(--gr-gutter); z-index:4; display:flex; justify-content:flex-end; }
+.gr-shell { width:min(100%, var(--gr-shell-max)); margin:0 auto; padding:0 var(--gr-gutter); }
+.gr-hero { position:relative; min-height:var(--gr-hero-min); overflow:hidden; background:#fffdf8; }
+.gr-hero::before { content:''; position:absolute; inset:0; background-image:var(--gr-hero-image-url, url('/assets/Graphic_3_growth.png')); background-size:var(--gr-hero-art-width) auto; background-position:calc(100% + var(--gr-hero-art-offset-x)) calc(50% + var(--gr-hero-art-offset-y)); background-repeat:no-repeat; opacity:var(--gr-hero-art-opacity); pointer-events:none; }
+.gr-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.94) 0%, rgba(255,253,248,0.88) 20%, rgba(255,253,248,0.72) 48%, rgba(255,253,248,0.42) 76%, rgba(255,253,248,0.18) 100%); pointer-events:none; }
+.gr-hero-content { position:relative; z-index:1; width:min(100%, var(--gr-shell-max)); min-height:var(--gr-hero-min); margin:0 auto; padding:0 var(--gr-gutter); display:flex; align-items:center; }
+.gr-hero-copy { max-width:var(--gr-hero-copy-max); transform:translate(var(--gr-hero-copy-offset-x), var(--gr-hero-copy-offset-y)); }
+.gr-hero-title { font-size:var(--gr-hero-title-size); line-height:0.96; font-weight:700; color:#1e2530; letter-spacing:-0.05em; margin:0 0 var(--gr-hero-title-gap); font-family:'Montserrat',sans-serif; text-wrap:balance; }
+.gr-hero-subtitle { font-size:var(--gr-hero-body-size); font-weight:500; color:rgba(30,37,48,0.84); max-width:720px; margin:0; line-height:1.7; font-family:'Montserrat',sans-serif; }
 /* Growth and Reach — Row 1: Journey Timeline */
-.gr-timeline-row { background:#1e2530; padding:48px 60px; }
+.gr-timeline-row { background:#1e2530; padding:48px 0; }
 .gr-eyebrow { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:2.5px; color:#c84826; margin-bottom:14px; font-family:'Montserrat',sans-serif; }
 .gr-row-title { font-size:22px; font-weight:700; color:#fafaf2; margin:0 0 32px; font-family:'Montserrat',sans-serif; }
 .gr-timeline { position:relative; display:flex; justify-content:space-between; align-items:flex-start; padding-top:20px; }
@@ -138,7 +157,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .gr-tnode-year { font-size:16px; font-weight:700; color:#c84826; font-family:'Montserrat',sans-serif; margin-bottom:8px; }
 .gr-tnode-desc { font-size:14px; font-weight:400; color:#fafaf2; text-align:center; max-width:160px; line-height:1.5; font-family:'Montserrat',sans-serif; }
 /* Growth and Reach — Row 2: Stats + Map */
-.gr-stats-map-row { background:#fafaf2; padding:48px 60px; display:flex; gap:40px; align-items:flex-start; }
+.gr-stats-map-row { background:#fafaf2; padding:48px 0; display:flex; gap:40px; align-items:flex-start; }
+.gr-shell-split { display:flex; gap:40px; align-items:flex-start; }
 .gr-stats-col { width:40%; flex-shrink:0; }
 .gr-map-col { flex:1; min-width:0; }
 .gr-sc-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
@@ -159,7 +179,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .gr-map-tooltip { position:fixed; background:#fff; color:#1e2530; font-size:13px; font-family:'Montserrat',sans-serif; padding:6px 12px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.18); pointer-events:none; opacity:0; transition:opacity 0.15s; z-index:9999; white-space:nowrap; }
 .gr-map-tooltip.show { opacity:1; }
 /* Growth and Reach — Row 3: Denom + Cities */
-.gr-denom-cities-row { background:#1e2530; padding:48px 60px; display:flex; gap:40px; }
+.gr-denom-cities-row { background:#1e2530; padding:48px 0; display:flex; gap:40px; }
 .gr-denom-col { flex:1; min-width:0; }
 .gr-cities-col { flex:1; min-width:0; }
 .gr-col-title { font-size:20px; font-weight:700; color:#fafaf2; margin:0 0 8px; font-family:'Montserrat',sans-serif; }
@@ -183,6 +203,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   .gr-tnode { align-items:flex-start; padding:0; }
   .gr-tnode-desc { text-align:left; max-width:none; }
   .gr-stats-map-row { flex-direction:column; }
+  .gr-shell-split { flex-direction:column; }
   .gr-stats-col { width:100%; }
   .gr-denom-cities-row { flex-direction:column; }
   .gr-sc-num { font-size:36px; }
@@ -205,12 +226,12 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --ci-card-shadow: 0 16px 34px rgba(30,37,48,0.08);
   --ci-card-shadow-hover: 0 22px 42px rgba(30,37,48,0.12);
   --ci-font-family:'Montserrat', sans-serif;
-  --ci-hero-headline-size: clamp(1.8rem, 1.35rem + 1.25vw, 2.65rem);
+  --ci-hero-headline-size: clamp(2.3rem, 1.95rem + 1.85vw, 3.8rem);
   --ci-hero-body-size: 0.96rem;
-  --ci-hero-image-url: url('/assets/Graphic_1.png');
-  --ci-hero-image-position: center right;
-  --ci-hero-image-size: cover;
-  --ci-hero-image-opacity: 0.26;
+  --ci-hero-image-url: url('/assets/Graphic_1_mission_impact.png');
+  --ci-hero-image-position: right center;
+  --ci-hero-image-size: auto 110%;
+  --ci-hero-image-opacity: 0.22;
   --ci-hero-copy-offset: 0px;
   --ci-row-title-size: clamp(1.45rem, 1.1rem + 0.9vw, 2rem);
   --ci-row-copy-size: 0.88rem;
@@ -224,17 +245,18 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   background:var(--iv);
   font-family:var(--ci-font-family);
 }
-.ci-story-page { width:min(100%, var(--ci-shell-max)); margin:0 auto; padding:18px var(--ci-gutter) 48px; }
-.ci-editor-launch { display:flex; justify-content:flex-end; margin:0 0 14px; }
-.ci-story-hero { position:relative; overflow:hidden; border-radius:26px; background:#fffdf8; box-shadow:0 14px 28px rgba(30,37,48,0.08); margin-bottom:28px; min-height:328px; }
+.ci-story-page { width:100%; margin:0 auto; padding:0 0 48px; position:relative; }
+.ci-editor-launch { position:absolute; top:18px; right:var(--ci-gutter); z-index:4; display:flex; justify-content:flex-end; margin:0; }
+.ci-story-page > #ci-story-rows { width:min(100%, var(--ci-shell-max)); margin:0 auto; padding:24px var(--ci-gutter) 0; }
+.ci-story-hero { position:relative; overflow:hidden; border-radius:0; background:#fffdf8; box-shadow:none; margin-bottom:0; min-height:360px; border-bottom:1px solid rgba(30,37,48,0.08); }
 .ci-story-hero::before { content:''; position:absolute; inset:0; background-image:var(--ci-hero-image-url); background-position:var(--ci-hero-image-position); background-size:var(--ci-hero-image-size); background-repeat:no-repeat; opacity:var(--ci-hero-image-opacity); pointer-events:none; }
 .ci-story-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.94) 0%, rgba(255,253,248,0.88) 22%, rgba(255,253,248,0.72) 48%, rgba(255,253,248,0.42) 72%, rgba(255,253,248,0.18) 100%); pointer-events:none; }
-.ci-story-hero-inner { position:relative; z-index:1; min-height:328px; padding:34px 34px 30px; display:flex; align-items:stretch; }
-.ci-hero-copy { max-width:860px; min-height:100%; display:flex; align-items:center; transform:translateY(var(--ci-hero-copy-offset)); }
+.ci-story-hero-inner { position:relative; z-index:1; width:min(100%, var(--ci-shell-max)); min-height:360px; margin:0 auto; padding:0 var(--ci-gutter); display:flex; align-items:stretch; }
+.ci-hero-copy { width:min(100%, 700px); max-width:700px; min-height:100%; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:0; transform:translateY(var(--ci-hero-copy-offset)); }
 .ci-kicker,
-.ci-hero-body,
 .ci-hero-jumps { display:none !important; }
-.ci-hero-headline { max-width:900px; font-size:var(--ci-hero-headline-size); line-height:0.98; letter-spacing:-0.05em; color:var(--nv); margin:0; text-wrap:balance; }
+.ci-hero-headline { width:min(100%, 700px); max-width:700px; font-size:var(--ci-hero-headline-size); line-height:0.98; letter-spacing:-0.05em; color:var(--nv); margin:0 0 clamp(16px, 1.5vw, 24px); text-wrap:balance; }
+.ci-hero-body { width:min(100%, 620px); max-width:620px; font-size:var(--ci-hero-body-size); line-height:1.7; color:rgba(30,37,48,0.86); font-weight:500; margin:0; }
 .ci-story-row { display:grid; grid-template-columns:minmax(210px, 0.25fr) minmax(0, 1fr); gap:22px; align-items:start; padding:24px 0; border-top:1px solid rgba(30,37,48,0.09); }
 .ci-story-row:first-of-type { border-top:none; padding-top:0; }
   .ci-row-intro { position:sticky; top:136px; align-self:start; padding:6px 10px 12px 0; cursor:pointer; }
@@ -418,7 +440,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --mission-community-columns: 2;
   --mission-ministry-columns: 3;
   --mission-public-columns: 3;
-  --mission-hero-image-url: url('/assets/Graphic_1.png');
+  --mission-hero-image-url: url('/assets/Graphic_1_mission_impact.png');
   --mission-hero-image-position: center right;
   --mission-hero-image-size: cover;
   --mission-hero-image-opacity: 0.25;
@@ -451,10 +473,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --mission-card-art-sm: clamp(110px, 8vw, 144px);
   background:#fbf8f3;
 }
-.mission-bar { position:relative; min-height:var(--mission-hero-min); background:linear-gradient(180deg,#fffdf8 0%,#fbf8f3 100%); overflow:hidden; }
+.mission-bar { position:relative; min-height:var(--mission-hero-min); background:#fffdf8; overflow:hidden; }
 .mission-bar::before { content:''; position:absolute; inset:0; background-image:var(--mission-hero-image-url); background-position:var(--mission-hero-image-position); background-size:var(--mission-hero-image-size); background-repeat:no-repeat; opacity:var(--mission-hero-image-opacity); pointer-events:none; }
 .mission-bar::after { content:''; position:absolute; inset:0; background:var(--mission-hero-overlay-gradient); pointer-events:none; }
-.mission-bar-overlay { position:relative; z-index:1; width:min(100%, var(--mission-shell-max)); min-height:var(--mission-hero-min); margin:0 auto; padding:clamp(24px, 2.8vw, 44px) var(--mission-gutter) 0; }
+.mission-bar-overlay { position:relative; z-index:1; width:min(100%, var(--mission-shell-max)); min-height:var(--mission-hero-min); margin:0 auto; padding:0 var(--mission-gutter) 0; }
 .mission-hero-grid { display:grid; grid-template-columns:var(--mission-hero-columns); align-items:center; gap:var(--mission-section-gap); min-height:var(--mission-hero-min); }
   .mission-intro-wrap { position:relative; z-index:2; width:min(100%, var(--mission-hero-text-max)); max-width:var(--mission-hero-text-max); min-height:var(--mission-hero-min); display:flex; flex-direction:column; justify-content:center; padding:clamp(22px, 2.2vw, 40px) 0 clamp(28px, 2.4vw, 44px); text-align:var(--mission-hero-text-align); transform:translateY(var(--mission-hero-copy-offset, 0px)); transition:transform 0.2s ease; }
   .mission-kicker { font-size:clamp(0.72rem, 0.62rem + 0.12vw, 0.8rem); font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#c84826; margin-bottom:clamp(14px, 1.4vw, 20px); }
@@ -473,6 +495,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 #mission-ministry { position:relative; margin:0 calc(-1 * var(--mission-gutter)); padding:clamp(38px, 3.2vw, 52px) var(--mission-gutter) clamp(42px, 3.5vw, 56px); border-top:none; background:linear-gradient(180deg,#d6ecf9 0%,#e8f4fb 100%); border-radius:0; box-shadow:inset 0 1px 0 rgba(30,37,48,0.06), inset 0 -1px 0 rgba(30,37,48,0.06); }
 #mission-ministry .mission-section-head { background:transparent; }
 #mission-public { border-top:none; padding-top:clamp(40px, 3.5vw, 56px); }
+#panel-whoweare { position:relative; }
 .mission-page .offerings-grid { display:grid; gap:var(--mission-card-gap); align-items:stretch; grid-auto-rows:1fr; }
 .mission-course-grid { grid-template-columns:repeat(var(--mission-community-columns),minmax(0,1fr)); }
 .mission-ministry-grid { grid-template-columns:repeat(var(--mission-ministry-columns),minmax(0,1fr)); }
@@ -534,7 +557,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .mission-page .is-hidden { display:none !important; }
 
 /* Shared editable-page shell */
-.page-editor-launch { position:sticky; top:140px; z-index:40; display:flex; justify-content:flex-end; width:min(100%, var(--mission-shell-max)); margin:0 auto; padding:18px var(--mission-gutter) 0; pointer-events:none; }
+.page-editor-launch { position:absolute; top:18px; left:50%; transform:translateX(-50%); z-index:40; display:flex; justify-content:flex-end; width:min(100%, var(--mission-shell-max)); margin:0 auto; padding:0 var(--mission-gutter); pointer-events:none; }
 .page-editor-toggle { pointer-events:auto; border:none; border-radius:999px; background:#1e2530; color:#fafaf2; padding:12px 18px; font-size:0.72rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; box-shadow:0 18px 36px rgba(30,37,48,0.16); cursor:pointer; transition:transform 0.2s ease, box-shadow 0.2s ease; }
 .page-editor-toggle:hover { transform:translateY(-1px); box-shadow:0 22px 40px rgba(30,37,48,0.2); }
 .page-editor-shell { position:fixed; top:124px; right:24px; width:min(420px, calc(100vw - 32px)); max-height:calc(100vh - 148px); overflow:auto; z-index:500; background:rgba(255,253,248,0.98); border:1px solid rgba(30,37,48,0.12); border-radius:24px; box-shadow:0 30px 80px rgba(30,37,48,0.24); backdrop-filter:blur(16px); padding:22px 22px 20px; overscroll-behavior:contain; }
@@ -690,10 +713,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     --mission-card-art-lg: 122px;
     --mission-card-art-sm: 122px;
   }
-    .header { padding:10px 20px; }
+    .header { padding:10px 20px; grid-template-columns:minmax(160px,1fr) auto auto; gap:12px; }
     .header-logo-img { height: 40px; }
-    .header-actions { gap:10px; }
     .dashboard-publish { padding:9px 12px; letter-spacing:0.12em; font-size:0.62rem; }
+    .dashboard-publish--nav { margin-left:6px; padding:6px 10px; font-size:0.46rem; }
     .section-header { padding:32px 24px 24px; }
   .people-body,.stories-body { padding:28px 20px; }
   .numreach-grid { grid-template-columns:1fr; padding:28px 20px; gap:16px; }
@@ -738,15 +761,15 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   .ci-story-quote-panel { min-height:52%; }
   .ci-story-portrait-panel { min-height:48%; }
   .impact-sidebar { min-height:auto; }
-  .page-editor-launch { top:116px; padding-top:14px; }
+  .page-editor-launch { top:14px; padding-top:0; }
   .page-editor-shell { top:104px; right:12px; left:12px; width:auto; max-height:calc(100vh - 118px); border-radius:20px; }
   .editor-grid-2, .editor-grid-3 { grid-template-columns:1fr; }
 }
 @media (max-width:600px) {
   .courses-grid { grid-template-columns:1fr; }
   #panel-people .section-header { padding:28px 18px 16px; }
-  .ci-story-page { padding:0 18px 36px; }
-  .ci-story-hero { border-radius:26px; margin-bottom:24px; }
+  .ci-story-page { padding:0 0 36px; }
+  .ci-story-hero { border-radius:0; margin-bottom:24px; }
   .ci-story-hero-inner { padding:24px 20px; }
   .ci-hero-headline { font-size:2rem; }
   .ci-hero-body { font-size:0.94rem; }
@@ -770,20 +793,17 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     <div class="header-eyebrow">Impact Dashboard</div>
     <div class="header-main">Candler Foundry</div>
   </div>
-  <div class="header-actions">
-    <button class="dashboard-publish" id="dashboard-publish" type="button">Publish to Main</button>
-    <div class="header-year">2025 – 2026</div>
-  </div>
-  <img class="header-watermark" src="https://www.dropbox.com/scl/fi/604csuzkqfpwcotrqojet/Candler-Foundry-Logo-Solid-Orange-Circular.jpg?rlkey=ucalm6cxmsf3kmuvii0gdfgf2&st=y07mvpyh&dl=1" alt="">
+  <div class="header-year">2025 – 2026</div>
 </header>
 
 <nav class="nav-tabs">
   <button class="nav-tab active" onclick="switchTab('whoweare',this)">Our Mission &amp; Offerings</button>
   <button class="nav-tab" onclick="switchTab('people',this)">Candler Impact</button>
-  <button class="nav-tab" onclick="switchTab('year',this)">This Year</button>
   <button class="nav-tab" onclick="switchTab('numreach',this)">Growth and Reach</button>
   <button class="nav-tab" onclick="switchTab('theoed',this)">TheoEd</button>
+  <button class="nav-tab" onclick="switchTab('year',this)">This Year</button>
   <button class="nav-tab" onclick="switchTab('ourteam',this)">Our Team</button>
+  <button class="dashboard-publish dashboard-publish--nav" id="dashboard-publish" type="button">Publish to Main</button>
 </nav>
 
 <!-- TAB 1: THIS YEAR -->
@@ -803,20 +823,161 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 </div>
 
 <!-- TAB: BY THE NUMBERS & REACH -->
-<div id="panel-numreach" class="panel">
+<div id="panel-numreach" class="panel gr-page">
+  <div class="gr-editor-launch">
+    <button class="page-editor-toggle" id="growth-editor-toggle" type="button" aria-expanded="false" aria-controls="growth-editor-shell">Edit Growth &amp; Reach</button>
+  </div>
+
+  <aside class="page-editor-shell" id="growth-editor-shell" hidden>
+    <div class="page-editor-header">
+      <div>
+        <div class="page-editor-title">Growth &amp; Reach Editor</div>
+        <p class="page-editor-note">Adjust the hero banner layout, artwork, copy placement, and typography. Changes preview live and save in this browser.</p>
+      </div>
+      <button class="page-editor-close" id="growth-editor-close" type="button" aria-label="Close Growth and Reach editor">&times;</button>
+    </div>
+    <div class="page-editor-status" id="growth-editor-status">Previewing draft edits</div>
+
+    <div class="page-editor-group">
+      <h4>Hero Content</h4>
+      <div class="editor-field">
+        <label class="editor-label" for="growth-editor-hero-title">Hero title</label>
+        <textarea id="growth-editor-hero-title"></textarea>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="growth-editor-hero-subtitle">Hero subtitle</label>
+        <textarea id="growth-editor-hero-subtitle"></textarea>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="growth-editor-hero-image">Hero artwork</label>
+        <select id="growth-editor-hero-image">
+          <option value="/assets/Graphic_3_growth.png">Book illustration</option>
+          <option value="/assets/Graphic_1_mission_impact.png">City illustration</option>
+          <option value="/assets/Graphic_2.png">Alternate illustration</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="page-editor-group">
+      <h4>Banner Layout</h4>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-shell-max">Banner width</label>
+          <input id="growth-editor-shell-max" type="range" min="1180" max="1880" step="20">
+          <div class="editor-inline-meta"><span>Narrower</span><span id="growth-editor-shell-max-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-hero-height">Banner height</label>
+          <input id="growth-editor-hero-height" type="range" min="260" max="560" step="4">
+          <div class="editor-inline-meta"><span>Shorter</span><span id="growth-editor-hero-height-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-copy-width">Text box width</label>
+          <input id="growth-editor-copy-width" type="range" min="360" max="980" step="10">
+          <div class="editor-inline-meta"><span>Narrower</span><span id="growth-editor-copy-width-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-title-gap">Title margin below</label>
+          <input id="growth-editor-title-gap" type="range" min="0" max="48" step="2">
+          <div class="editor-inline-meta"><span>Tighter</span><span id="growth-editor-title-gap-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-copy-offset-x">Text horizontal position</label>
+          <input id="growth-editor-copy-offset-x" type="range" min="-200" max="200" step="2">
+          <div class="editor-inline-meta"><span>Left</span><span id="growth-editor-copy-offset-x-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-copy-offset-y">Text vertical position</label>
+          <input id="growth-editor-copy-offset-y" type="range" min="-160" max="160" step="2">
+          <div class="editor-inline-meta"><span>Higher</span><span id="growth-editor-copy-offset-y-value"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-editor-group">
+      <h4>Artwork</h4>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-art-width">Graphic width</label>
+          <input id="growth-editor-art-width" type="range" min="220" max="980" step="10">
+          <div class="editor-inline-meta"><span>Smaller</span><span id="growth-editor-art-width-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-art-opacity">Graphic transparency</label>
+          <input id="growth-editor-art-opacity" type="range" min="0" max="0.6" step="0.01">
+          <div class="editor-inline-meta"><span>Fainter</span><span id="growth-editor-art-opacity-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-art-offset-x">Graphic horizontal position</label>
+          <input id="growth-editor-art-offset-x" type="range" min="-320" max="220" step="2">
+          <div class="editor-inline-meta"><span>Left</span><span id="growth-editor-art-offset-x-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-art-offset-y">Graphic vertical position</label>
+          <input id="growth-editor-art-offset-y" type="range" min="-220" max="220" step="2">
+          <div class="editor-inline-meta"><span>Higher</span><span id="growth-editor-art-offset-y-value"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-editor-group">
+      <h4>Typography</h4>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-font-family">Font family</label>
+          <select id="growth-editor-font-family">
+            <option value="'Montserrat', sans-serif">Montserrat</option>
+            <option value="'DM Sans', sans-serif">DM Sans</option>
+            <option value="'Newsreader', serif">Newsreader</option>
+            <option value="'Playfair Display', serif">Playfair Display</option>
+          </select>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-title-size">Title size</label>
+          <input id="growth-editor-title-size" type="range" min="1.8" max="4.8" step="0.05">
+          <div class="editor-inline-meta"><span>Smaller</span><span id="growth-editor-title-size-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-body-size">Subtitle size</label>
+          <input id="growth-editor-body-size" type="range" min="0.8" max="1.6" step="0.02">
+          <div class="editor-inline-meta"><span>Smaller</span><span id="growth-editor-body-size-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-gutter">Side padding</label>
+          <input id="growth-editor-gutter" type="range" min="12" max="72" step="2">
+          <div class="editor-inline-meta"><span>Tighter</span><span id="growth-editor-gutter-value"></span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-editor-actions">
+      <button class="page-editor-reset" id="growth-editor-reset" type="button">Reset to Default</button>
+      <button class="page-editor-apply" id="growth-editor-apply" type="button">Save Changes in Browser</button>
+    </div>
+  </aside>
 
   <!-- Hero Banner -->
   <div class="gr-hero">
-    <div class="gr-hero-overlay"></div>
     <div class="gr-hero-content">
-      <div class="gr-hero-title">Growth and Reach</div>
-      <p class="gr-hero-subtitle">Since its founding in 2018, The Candler Foundry has steadily grown from the ground up, now serving thousands of students worldwide through a multitude of learning modalities.</p>
+      <div class="gr-hero-copy">
+        <div class="gr-hero-title" id="growth-hero-title">Growth and Reach</div>
+        <p class="gr-hero-subtitle" id="growth-hero-subtitle">Since its founding in 2018, The Candler Foundry has grown from the ground up, extending Candler&rsquo;s scholarship through courses, media, and shared learning experiences that now reach thousands of participants.</p>
+      </div>
     </div>
   </div>
 
 
   <!-- Row 1: Journey Timeline -->
   <div class="gr-timeline-row">
+    <div class="gr-shell">
     <div class="gr-eyebrow">Our Journey</div>
     <div class="gr-row-title">Eight Years of Growing Impact</div>
     <div class="gr-timeline">
@@ -847,10 +1008,12 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         <div class="gr-tnode-desc">On-Demand courses and Sunday School Simplified launched</div>
       </div>
     </div>
+    </div>
   </div>
 
   <!-- Row 2: Stats Grid + US Map -->
   <div class="gr-stats-map-row">
+    <div class="gr-shell gr-shell-split">
     <div class="gr-stats-col">
       <div class="gr-sc-grid">
         <div class="gr-sc" data-val="4200" data-suffix="" data-prefix="">
@@ -966,10 +1129,12 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         <div class="gr-legend-item"><div class="gr-legend-swatch" style="background:#8b2800"></div><span class="gr-legend-label">200+</span></div>
       </div>
     </div>
+    </div>
   </div>
 
   <!-- Row 3: Faith Traditions + Partner Cities -->
   <div class="gr-denom-cities-row">
+    <div class="gr-shell gr-shell-split">
     <div class="gr-denom-col">
       <div class="gr-eyebrow">Faith Traditions</div>
       <div class="gr-col-title">Denominational Reach</div>
@@ -1032,9 +1197,9 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         <div class="gr-city-entry"><div class="gr-city-dot"></div><div class="gr-city-info"><span class="gr-city-name">Birmingham, AL</span><span class="gr-city-count">45+</span></div></div>
       </div>
     </div>
+    </div>
   </div>
-
-  </div>
+</div>
 
 <!-- TAB 3: CANDLER IMPACT -->
 <div id="panel-people" class="panel">
@@ -1077,7 +1242,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
             <div class="editor-field">
               <label class="editor-label" for="impact-editor-hero-image">Hero artwork</label>
               <select id="impact-editor-hero-image">
-                <option value="/assets/Graphic_1.png">Foundry illustration</option>
+                <option value="/assets/Graphic_1_mission_impact.png">Foundry illustration</option>
                 <option value="/assets/Graphic_2.png">Alternate illustration</option>
                 <option value="/assets/Graphic Vignettes/homepage-tablet-standing-seated.png">Tablet vignette</option>
                 <option value="/assets/Graphic Vignettes/homepage-presenter-audience.png">Audience vignette</option>
@@ -1639,7 +1804,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     <section class="ci-story-hero">
       <div class="ci-story-hero-inner">
         <div class="ci-hero-copy">
-          <h3 class="ci-hero-headline" id="ci-hero-headline">The Foundry strengthens Candler from the inside out, providing faculty, students, and alumni with the resources and opportunities that allow teaching and preaching ministries to thrive.</h3>
+          <h3 class="ci-hero-headline" id="ci-hero-headline">The Foundry strengthens Candler from the inside out</h3>
+          <p class="ci-hero-body" id="ci-hero-body">The Foundry provides faculty, students, and alumni with the resources and opportunities that allow teaching and preaching ministries to thrive.</p>
         </div>
       </div>
     </section>
@@ -2671,11 +2837,11 @@ var IMPACT_EDITOR_STORAGE_KEY = 'executive-bi-dashboard.pageConfig.candlerImpact
 var IMPACT_EDITOR_DEFAULTS = {
   hero: {
     kicker: '',
-    headline: 'The Foundry strengthens Candler from the inside out, providing faculty, students, and alumni with the resources and opportunities that allow teaching and preaching ministries to thrive.',
-    body: '',
-    image: '/assets/Graphic_1.png',
-    imagePosition: 'center right',
-    imageOpacity: 0.26,
+    headline: 'The Foundry strengthens Candler from the inside out',
+    body: 'The Foundry provides faculty, students, and alumni with the resources and opportunities that allow teaching and preaching ministries to thrive.',
+    image: '/assets/Graphic_1_mission_impact.png',
+    imagePosition: 'right center',
+    imageOpacity: 0.22,
     offsetY: 0
   },
   layout: {
@@ -2822,6 +2988,12 @@ window.publishDashboardEdits = async function() {
       content: window.impactEditorBridge.getDraftConfig()
     });
   }
+  if (window.growthEditorBridge && window.growthEditorBridge.getDraftConfig()) {
+    files.push({
+      path: 'assets/page-config/growth-reach.json',
+      content: window.growthEditorBridge.getDraftConfig()
+    });
+  }
   if (!files.length) throw new Error('No editable page drafts are ready to publish');
   return await window.pageEditorPublishConfig({
     commitMessage: 'Publish dashboard editor updates',
@@ -2834,7 +3006,7 @@ window.publishDashboardEdits = async function() {
   if (!button || button.dataset.bound === 'true') return;
   button.dataset.bound = 'true';
   button.addEventListener('click', async function() {
-    if (!window.confirm('Publish the current Mission and Candler Impact drafts to main?')) return;
+    if (!window.confirm('Publish the current Mission, Candler Impact, and Growth and Reach drafts to main?')) return;
     var original = button.textContent;
     button.disabled = true;
     button.textContent = 'Publishing…';
@@ -2842,6 +3014,7 @@ window.publishDashboardEdits = async function() {
       await window.publishDashboardEdits();
       if (window.missionEditorBridge) window.missionEditorBridge.markPublished('Published to main');
       if (window.impactEditorBridge) window.impactEditorBridge.markPublished('Published to main');
+      if (window.growthEditorBridge) window.growthEditorBridge.markPublished('Published to main');
       button.textContent = 'Published';
       setTimeout(function() {
         button.disabled = false;
@@ -2989,7 +3162,7 @@ function impactApplyCssVars(config) {
   panel.style.setProperty('--ci-card-quote-size', (config.typography.quoteSize || 1.28) + 'rem');
   panel.style.setProperty('--ci-card-support-size', (config.typography.supportSize || 0.96) + 'rem');
   panel.style.setProperty('--ci-card-name-size', (config.typography.nameSize || 0.9) + 'rem');
-  panel.style.setProperty('--ci-hero-image-url', 'url("' + ((config.hero && config.hero.image) || '/assets/Graphic_1.png') + '")');
+  panel.style.setProperty('--ci-hero-image-url', 'url("' + ((config.hero && config.hero.image) || '/assets/Graphic_1_mission_impact.png') + '")');
   panel.style.setProperty('--ci-hero-image-position', (config.hero && config.hero.imagePosition) || 'center right');
   panel.style.setProperty('--ci-hero-image-opacity', String((config.hero && config.hero.imageOpacity) != null ? config.hero.imageOpacity : 0.26));
   panel.style.setProperty('--ci-hero-copy-offset', (((config.hero && config.hero.offsetY) || 0)) + 'px');
@@ -2997,12 +3170,13 @@ function impactApplyCssVars(config) {
 
 function impactApplyHero(config) {
   var hero = config.hero || IMPACT_EDITOR_DEFAULTS.hero;
+  var heroDefaults = IMPACT_EDITOR_DEFAULTS.hero || {};
   var kicker = document.getElementById('ci-hero-kicker');
   var headline = document.getElementById('ci-hero-headline');
   var body = document.getElementById('ci-hero-body');
   if (kicker) kicker.textContent = hero.kicker || '';
-  if (headline) headline.textContent = hero.headline || '';
-  if (body) body.textContent = hero.body || '';
+  if (headline) headline.textContent = hero.headline || heroDefaults.headline || '';
+  if (body) body.textContent = hero.body || heroDefaults.body || '';
 }
 
 function impactHydrateStory(row, story, storyKey) {
@@ -3772,7 +3946,7 @@ function impactPopulateEditorFields() {
   document.getElementById('impact-editor-hero-kicker').value = hero.kicker || '';
   document.getElementById('impact-editor-hero-headline').value = hero.headline || '';
   document.getElementById('impact-editor-hero-body').value = hero.body || '';
-  document.getElementById('impact-editor-hero-image').value = hero.image || '/assets/Graphic_1.png';
+  document.getElementById('impact-editor-hero-image').value = hero.image || '/assets/Graphic_1_mission_impact.png';
   document.getElementById('impact-editor-hero-image-position').value = hero.imagePosition || 'center right';
   document.getElementById('impact-editor-hero-image-opacity').value = hero.imageOpacity != null ? hero.imageOpacity : 0.26;
   document.getElementById('impact-editor-hero-image-opacity-value').textContent = impactFormatPercent((hero.imageOpacity != null ? hero.imageOpacity : 0.26));
@@ -4311,7 +4485,292 @@ async function initPeople() {
 
 function buildMap() { /* no-op: replaced by initNumbers */ }
 var reachReady = false;
-function initReach() { /* no-op: functionality moved to initNumbers */ }
+var GROWTH_EDITOR_STORAGE_KEY = 'executive-bi-dashboard.pageConfig.growthReach.v1';
+var GROWTH_EDITOR_DEFAULTS = {
+  hero: {
+    title: 'Growth and Reach',
+    subtitle: 'Since its founding in 2018, The Candler Foundry has grown from the ground up, extending Candler’s scholarship through courses, media, and shared learning experiences that now reach thousands of participants.',
+    image: '/assets/Graphic_3_growth.png'
+  },
+  layout: {
+    shellMax: 1680,
+    gutter: 40,
+    heroHeight: 360,
+    copyWidth: 760,
+    copyOffsetX: 0,
+    copyOffsetY: 0,
+    titleGap: 18,
+    artWidth: 420,
+    artOffsetX: -20,
+    artOffsetY: 0,
+    artOpacity: 0.22
+  },
+  typography: {
+    fontFamily: "'Montserrat', sans-serif",
+    titleSize: 4.2,
+    bodySize: 1
+  }
+};
+var growthEditorRuntime = {
+  publishedConfig: null,
+  config: null,
+  isOpen: false,
+  controlsBound: false,
+  setOpen: null
+};
+window.growthEditorRuntime = growthEditorRuntime;
+
+function growthClone(value) {
+  return value == null ? value : JSON.parse(JSON.stringify(value));
+}
+
+function growthMerge(target, source) {
+  if (!source || typeof source !== 'object') return target;
+  Object.keys(source).forEach(function(key) {
+    var value = source[key];
+    if (Array.isArray(value)) {
+      target[key] = growthClone(value);
+    } else if (value && typeof value === 'object') {
+      if (!target[key] || typeof target[key] !== 'object' || Array.isArray(target[key])) target[key] = {};
+      growthMerge(target[key], value);
+    } else {
+      target[key] = value;
+    }
+  });
+  return target;
+}
+
+function growthGetStoredConfig() {
+  try {
+    var raw = localStorage.getItem(GROWTH_EDITOR_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (err) {
+    return null;
+  }
+}
+
+function growthSetStoredConfig(config) {
+  try {
+    localStorage.setItem(GROWTH_EDITOR_STORAGE_KEY, JSON.stringify(config || {}));
+  } catch (err) {}
+}
+
+function growthGetConfig() {
+  var config = growthClone(GROWTH_EDITOR_DEFAULTS);
+  growthMerge(config, growthEditorRuntime.publishedConfig || {});
+  growthMerge(config, growthGetStoredConfig());
+  return config;
+}
+
+function growthApplyConfig(config) {
+  var panel = document.getElementById('panel-numreach');
+  if (!panel) return;
+  panel.style.setProperty('--gr-hero-image-url', 'url("' + (((config.hero && config.hero.image) || GROWTH_EDITOR_DEFAULTS.hero.image)) + '")');
+  panel.style.setProperty('--gr-shell-max', (config.layout.shellMax || 1680) + 'px');
+  panel.style.setProperty('--gr-gutter', (config.layout.gutter || 40) + 'px');
+  panel.style.setProperty('--gr-hero-min', (config.layout.heroHeight || 360) + 'px');
+  panel.style.setProperty('--gr-hero-copy-max', (config.layout.copyWidth || 760) + 'px');
+  panel.style.setProperty('--gr-hero-copy-offset-x', (config.layout.copyOffsetX || 0) + 'px');
+  panel.style.setProperty('--gr-hero-copy-offset-y', (config.layout.copyOffsetY || 0) + 'px');
+  panel.style.setProperty('--gr-hero-title-gap', (config.layout.titleGap || 18) + 'px');
+  panel.style.setProperty('--gr-hero-art-width', (config.layout.artWidth || 420) + 'px');
+  panel.style.setProperty('--gr-hero-art-offset-x', (config.layout.artOffsetX || 0) + 'px');
+  panel.style.setProperty('--gr-hero-art-offset-y', (config.layout.artOffsetY || 0) + 'px');
+  panel.style.setProperty('--gr-hero-art-opacity', String((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22));
+  panel.style.setProperty('--gr-hero-title-size', (config.typography.titleSize || 4.2) + 'rem');
+  panel.style.setProperty('--gr-hero-body-size', (config.typography.bodySize || 1) + 'rem');
+  var font = config.typography.fontFamily || "'Montserrat', sans-serif";
+  var title = document.getElementById('growth-hero-title');
+  var subtitle = document.getElementById('growth-hero-subtitle');
+  var hero = document.querySelector('#panel-numreach .gr-hero');
+  if (title) {
+    title.textContent = (config.hero && config.hero.title) || GROWTH_EDITOR_DEFAULTS.hero.title;
+    title.style.fontFamily = font;
+  }
+  if (subtitle) {
+    subtitle.textContent = (config.hero && config.hero.subtitle) || GROWTH_EDITOR_DEFAULTS.hero.subtitle;
+    subtitle.style.fontFamily = font;
+  }
+  if (hero && config.hero && config.hero.image) {
+    hero.style.setProperty('--gr-hero-image-url-local', 'url("' + config.hero.image + '")');
+    hero.classList.add('has-editor-image');
+  }
+}
+
+function growthSetStatus(message, isSaved) {
+  var status = document.getElementById('growth-editor-status');
+  if (!status) return;
+  status.textContent = message;
+  status.classList.toggle('is-saved', !!isSaved);
+}
+
+function growthHasDraftChanges() {
+  return JSON.stringify(growthEditorRuntime.config || {}) !== JSON.stringify(growthGetConfig());
+}
+
+function growthSaveConfig(message) {
+  growthSetStoredConfig(growthEditorRuntime.config);
+  growthSetStatus(message || 'Changes saved in browser', true);
+  if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('growth-editor-shell'), message || 'Changes saved in browser');
+}
+
+function growthRestoreSavedConfig() {
+  growthEditorRuntime.config = growthGetConfig();
+  growthApplyConfig(growthEditorRuntime.config);
+  growthPopulateEditorFields();
+  growthSetStatus('Saved browser version loaded', true);
+}
+
+function growthPopulateEditorFields() {
+  var config = growthEditorRuntime.config;
+  if (!config) return;
+  document.getElementById('growth-editor-hero-title').value = config.hero.title || '';
+  document.getElementById('growth-editor-hero-subtitle').value = config.hero.subtitle || '';
+  document.getElementById('growth-editor-hero-image').value = config.hero.image || GROWTH_EDITOR_DEFAULTS.hero.image;
+  document.getElementById('growth-editor-shell-max').value = Number(config.layout.shellMax || 1680);
+  document.getElementById('growth-editor-hero-height').value = Number(config.layout.heroHeight || 360);
+  document.getElementById('growth-editor-copy-width').value = Number(config.layout.copyWidth || 760);
+  document.getElementById('growth-editor-title-gap').value = Number(config.layout.titleGap || 18);
+  document.getElementById('growth-editor-copy-offset-x').value = Number(config.layout.copyOffsetX || 0);
+  document.getElementById('growth-editor-copy-offset-y').value = Number(config.layout.copyOffsetY || 0);
+  document.getElementById('growth-editor-art-width').value = Number(config.layout.artWidth || 420);
+  document.getElementById('growth-editor-art-opacity').value = Number((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22);
+  document.getElementById('growth-editor-art-offset-x').value = Number(config.layout.artOffsetX || 0);
+  document.getElementById('growth-editor-art-offset-y').value = Number(config.layout.artOffsetY || 0);
+  document.getElementById('growth-editor-font-family').value = config.typography.fontFamily || "'Montserrat', sans-serif";
+  document.getElementById('growth-editor-title-size').value = Number(config.typography.titleSize || 4.2);
+  document.getElementById('growth-editor-body-size').value = Number(config.typography.bodySize || 1);
+  document.getElementById('growth-editor-gutter').value = Number(config.layout.gutter || 40);
+
+  document.getElementById('growth-editor-shell-max-value').textContent = Math.round(Number(config.layout.shellMax || 1680)) + 'px';
+  document.getElementById('growth-editor-hero-height-value').textContent = Math.round(Number(config.layout.heroHeight || 360)) + 'px';
+  document.getElementById('growth-editor-copy-width-value').textContent = Math.round(Number(config.layout.copyWidth || 760)) + 'px';
+  document.getElementById('growth-editor-title-gap-value').textContent = Math.round(Number(config.layout.titleGap || 18)) + 'px';
+  document.getElementById('growth-editor-copy-offset-x-value').textContent = Math.round(Number(config.layout.copyOffsetX || 0)) + 'px';
+  document.getElementById('growth-editor-copy-offset-y-value').textContent = Math.round(Number(config.layout.copyOffsetY || 0)) + 'px';
+  document.getElementById('growth-editor-art-width-value').textContent = Math.round(Number(config.layout.artWidth || 420)) + 'px';
+  document.getElementById('growth-editor-art-opacity-value').textContent = Math.round(Number((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22) * 100) + '%';
+  document.getElementById('growth-editor-art-offset-x-value').textContent = Math.round(Number(config.layout.artOffsetX || 0)) + 'px';
+  document.getElementById('growth-editor-art-offset-y-value').textContent = Math.round(Number(config.layout.artOffsetY || 0)) + 'px';
+  document.getElementById('growth-editor-title-size-value').textContent = Number(config.typography.titleSize || 4.2).toFixed(2) + 'rem';
+  document.getElementById('growth-editor-body-size-value').textContent = Number(config.typography.bodySize || 1).toFixed(2) + 'rem';
+  document.getElementById('growth-editor-gutter-value').textContent = Math.round(Number(config.layout.gutter || 40)) + 'px';
+}
+
+function growthBindEditor() {
+  if (growthEditorRuntime.controlsBound) return;
+  growthEditorRuntime.controlsBound = true;
+  var shell = document.getElementById('growth-editor-shell');
+  var toggle = document.getElementById('growth-editor-toggle');
+  var closeBtn = document.getElementById('growth-editor-close');
+  var header = shell.querySelector('.page-editor-header');
+
+  function setOpen(open) {
+    shell.hidden = !open;
+    growthEditorRuntime.isOpen = !!open;
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  growthEditorRuntime.setOpen = setOpen;
+
+  function requestClose() {
+    if (!growthHasDraftChanges()) {
+      setOpen(false);
+      growthSetStatus('Saved browser version loaded', true);
+      return true;
+    }
+    if (window.confirm('Save your Growth and Reach edits before closing? Click OK to save. Click Cancel for more options.')) {
+      growthSaveConfig('Changes saved in browser');
+      setOpen(false);
+      return true;
+    }
+    if (!window.confirm('Discard unsaved Growth and Reach edits and close the editor?')) return false;
+    growthRestoreSavedConfig();
+    setOpen(false);
+    return true;
+  }
+
+  if (window.attachPageEditorShellBehavior) {
+    window.attachPageEditorShellBehavior({
+      shell: shell,
+      toggle: toggle,
+      close: closeBtn,
+      header: header,
+      onCloseRequest: requestClose,
+      ignoreOutsideSelector: '#panel-numreach .gr-hero'
+    });
+  }
+
+  toggle.addEventListener('click', function() {
+    if (shell.hidden) setOpen(true);
+    else requestClose();
+  });
+
+  function bindInput(id, bucket, key, formatter) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      if (!growthEditorRuntime.config[bucket]) growthEditorRuntime.config[bucket] = {};
+      growthEditorRuntime.config[bucket][key] = formatter ? formatter(el.value) : el.value;
+      growthApplyConfig(growthEditorRuntime.config);
+      growthPopulateEditorFields();
+      growthSetStatus('Live draft preview active', false);
+    });
+  }
+
+  bindInput('growth-editor-hero-title', 'hero', 'title');
+  bindInput('growth-editor-hero-subtitle', 'hero', 'subtitle');
+  bindInput('growth-editor-hero-image', 'hero', 'image');
+  bindInput('growth-editor-shell-max', 'layout', 'shellMax', Number);
+  bindInput('growth-editor-hero-height', 'layout', 'heroHeight', Number);
+  bindInput('growth-editor-copy-width', 'layout', 'copyWidth', Number);
+  bindInput('growth-editor-title-gap', 'layout', 'titleGap', Number);
+  bindInput('growth-editor-copy-offset-x', 'layout', 'copyOffsetX', Number);
+  bindInput('growth-editor-copy-offset-y', 'layout', 'copyOffsetY', Number);
+  bindInput('growth-editor-art-width', 'layout', 'artWidth', Number);
+  bindInput('growth-editor-art-opacity', 'layout', 'artOpacity', Number);
+  bindInput('growth-editor-art-offset-x', 'layout', 'artOffsetX', Number);
+  bindInput('growth-editor-art-offset-y', 'layout', 'artOffsetY', Number);
+  bindInput('growth-editor-font-family', 'typography', 'fontFamily');
+  bindInput('growth-editor-title-size', 'typography', 'titleSize', Number);
+  bindInput('growth-editor-body-size', 'typography', 'bodySize', Number);
+  bindInput('growth-editor-gutter', 'layout', 'gutter', Number);
+
+  document.getElementById('growth-editor-apply').addEventListener('click', function() {
+    growthSaveConfig('Changes saved in browser');
+  });
+
+  document.getElementById('growth-editor-reset').addEventListener('click', function() {
+    growthEditorRuntime.config = growthClone(GROWTH_EDITOR_DEFAULTS);
+    growthApplyConfig(growthEditorRuntime.config);
+    growthPopulateEditorFields();
+    growthSetStatus('Reset to default preview', true);
+    if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Reset to default preview');
+  });
+}
+
+window.growthEditorBridge = {
+  getDraftConfig: function() {
+    return growthEditorRuntime.config ? growthClone(growthEditorRuntime.config) : null;
+  },
+  markPublished: function(message) {
+    if (!growthEditorRuntime.config) return;
+    growthSetStoredConfig(growthEditorRuntime.config);
+    growthEditorRuntime.publishedConfig = growthClone(growthEditorRuntime.config);
+    growthSetStatus(message || 'Published to main', true);
+    if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('growth-editor-shell'), message || 'Published to main');
+  }
+};
+
+async function initReach() {
+  if (reachReady) return;
+  reachReady = true;
+  growthEditorRuntime.publishedConfig = await window.pageEditorFetchJson('/assets/page-config/growth-reach.json');
+  growthEditorRuntime.config = growthGetConfig();
+  growthApplyConfig(growthEditorRuntime.config);
+  growthBindEditor();
+  growthPopulateEditorFields();
+  growthSetStatus('Saved browser version loaded', true);
+}
 var FALLBACK_OFFERINGS = [
   { title: 'Courses in the Community', tagline: 'Brings inexpensive, scholar-led courses to congregations and learners across the world.', blurb: '', icon: 'compass', iconColor: '#c84826', links: [{ label: 'Browse our current courses', url: 'https://candlerfoundry.emory.edu/courses' }], visible: true, order: 1 },
   { title: 'On-Demand Courses', tagline: 'Allows curious learners to access theology courses anywhere, anytime.', blurb: '', icon: 'play', iconColor: '#c84826', links: [{ label: 'Browse our library', url: 'https://candlerfoundry.emory.edu/courses' }], visible: true, order: 2 },
