@@ -106,7 +106,9 @@
     baseOfferings: [],
     defaultConfig: null,
     publishedConfig: null,
+    storedDraftConfig: null,
     draftConfig: null,
+    baselineConfig: null,
     currentState: null,
     activeSectionId: 'community',
     orderSectionId: 'community',
@@ -118,6 +120,10 @@
   };
 
   window.missionEditorRuntime = runtime;
+
+  function configsEqual(a, b) {
+    return JSON.stringify(a || {}) === JSON.stringify(b || {});
+  }
 
   function deepClone(value) {
     return value == null ? value : JSON.parse(JSON.stringify(value));
@@ -231,6 +237,22 @@
     if (runtime.publishedConfig) mergeDeep(merged, runtime.publishedConfig);
     if (config) mergeDeep(merged, config);
     return merged;
+  }
+
+  function loadPublishedDraft() {
+    runtime.draftConfig = getEffectiveConfig(runtime.publishedConfig);
+    runtime.baselineConfig = deepClone(runtime.draftConfig);
+  }
+
+  function restoreStoredDraft() {
+    loadPublishedDraft();
+    if (runtime.storedDraftConfig) mergeDeep(runtime.draftConfig, runtime.storedDraftConfig);
+    runtime.baselineConfig = deepClone(runtime.draftConfig);
+  }
+
+  function updateDraftNotice() {
+    if (!runtime.controlsReady || !runtime.ui.draftNotice) return;
+    runtime.ui.draftNotice.hidden = !runtime.storedDraftConfig;
   }
 
   function buildMissionState(offerings, config) {
@@ -499,13 +521,14 @@
   };
 
   function hasDraftChanges() {
-    return JSON.stringify(runtime.draftConfig) !== JSON.stringify(runtime.publishedConfig);
+    return !configsEqual(runtime.draftConfig, runtime.baselineConfig);
   }
 
   function updateStatus(savedMessage) {
     if (!runtime.controlsReady) return;
     runtime.ui.status.textContent = savedMessage || (hasDraftChanges() ? 'Live draft preview active' : 'Saved browser version loaded');
     runtime.ui.status.classList.toggle('is-saved', !hasDraftChanges() || !!savedMessage);
+    updateDraftNotice();
   }
 
   function notifySaved(message) {
@@ -540,7 +563,9 @@
       ]
     });
     runtime.publishedConfig = deepClone(runtime.draftConfig);
-    setStoredConfig(runtime.publishedConfig);
+    runtime.storedDraftConfig = null;
+    clearStoredConfig();
+    runtime.baselineConfig = deepClone(runtime.draftConfig);
       notifySaved('Published to main');
     }
 
@@ -551,7 +576,9 @@
       markPublished: function(message) {
         if (!runtime.draftConfig) return;
         runtime.publishedConfig = deepClone(runtime.draftConfig);
-        setStoredConfig(runtime.publishedConfig);
+        runtime.storedDraftConfig = null;
+        clearStoredConfig();
+        runtime.baselineConfig = deepClone(runtime.draftConfig);
         notifySaved(message || 'Published to main');
       }
     };
@@ -566,12 +593,13 @@
   function closeEditor(forceDiscard) {
     if (!forceDiscard && hasDraftChanges()) {
       if (window.confirm('Save your Mission edits before closing? Click OK to save. Click Cancel for more options.')) {
-        runtime.publishedConfig = deepClone(runtime.draftConfig);
-        setStoredConfig(runtime.publishedConfig);
+        runtime.storedDraftConfig = deepClone(runtime.draftConfig);
+        setStoredConfig(runtime.storedDraftConfig);
+        runtime.baselineConfig = deepClone(runtime.draftConfig);
         notifySaved('Changes saved in browser');
       } else {
         if (!window.confirm('Discard unsaved Mission edits and close the editor?')) return false;
-        runtime.draftConfig = deepClone(runtime.publishedConfig);
+        runtime.draftConfig = deepClone(runtime.baselineConfig);
         window.renderOfferings(runtime.baseOfferings);
       }
     }
@@ -863,6 +891,9 @@
       shell: document.getElementById('mission-editor-shell'),
       close: document.getElementById('mission-editor-close'),
       status: document.getElementById('mission-editor-status'),
+      draftNotice: document.getElementById('mission-editor-draft-notice'),
+      restoreDraft: document.getElementById('mission-editor-restore-draft'),
+      discardDraft: document.getElementById('mission-editor-discard-draft'),
       heroHeadline: document.getElementById('mission-editor-hero-headline'),
       heroBody: document.getElementById('mission-editor-hero-body'),
       sectionSelect: document.getElementById('mission-editor-section-select'),
@@ -1244,16 +1275,31 @@
       });
     });
     runtime.ui.apply.addEventListener('click', function() {
-      runtime.publishedConfig = deepClone(runtime.draftConfig);
-      setStoredConfig(runtime.publishedConfig);
+      runtime.storedDraftConfig = deepClone(runtime.draftConfig);
+      setStoredConfig(runtime.storedDraftConfig);
+      runtime.baselineConfig = deepClone(runtime.draftConfig);
       notifySaved('Changes saved in browser');
     });
     runtime.ui.reset.addEventListener('click', function() {
       clearStoredConfig();
-      runtime.publishedConfig = deepClone(runtime.defaultConfig);
+      runtime.storedDraftConfig = null;
       runtime.draftConfig = deepClone(runtime.defaultConfig);
+      runtime.baselineConfig = deepClone(runtime.draftConfig);
       window.renderOfferings(runtime.baseOfferings);
       notifySaved('Reset to default preview');
+    });
+    runtime.ui.restoreDraft.addEventListener('click', function() {
+      if (!runtime.storedDraftConfig) return;
+      restoreStoredDraft();
+      window.renderOfferings(runtime.baseOfferings);
+      notifySaved('Local draft restored');
+    });
+    runtime.ui.discardDraft.addEventListener('click', function() {
+      clearStoredConfig();
+      runtime.storedDraftConfig = null;
+      loadPublishedDraft();
+      window.renderOfferings(runtime.baseOfferings);
+      notifySaved('Local draft discarded');
     });
       runtime.controlsReady = true;
       syncEditorFromState();
@@ -1264,8 +1310,8 @@
     runtime.defaultConfig = deepClone(DEFAULT_CONFIG);
     if (missionData.pages && missionData.pages.mission) mergeDeep(runtime.defaultConfig, missionData.pages.mission);
     runtime.publishedConfig = await getPublishedConfig() || {};
-    runtime.draftConfig = getEffectiveConfig(runtime.publishedConfig);
-    mergeDeep(runtime.draftConfig, getStoredConfig() || {});
+    runtime.storedDraftConfig = getStoredConfig();
+    loadPublishedDraft();
     runtime.baseOfferings = deepClone((missionData.offerings && missionData.offerings.length) ? missionData.offerings : (window.FALLBACK_OFFERINGS || []));
     window.renderOfferings(runtime.baseOfferings);
     initEditor();

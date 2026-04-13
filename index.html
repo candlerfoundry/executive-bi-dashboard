@@ -575,6 +575,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .page-editor-status::before { content:''; width:8px; height:8px; border-radius:50%; background:#c84826; }
 .page-editor-status.is-saved { color:#1f6b4f; background:rgba(31,107,79,0.1); border-color:rgba(31,107,79,0.18); }
 .page-editor-status.is-saved::before { background:#1f6b4f; }
+.page-editor-draft-notice { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:12px 14px; margin:0 0 16px; border-radius:16px; background:rgba(30,37,48,0.05); border:1px solid rgba(30,37,48,0.1); }
+.page-editor-draft-copy { font-size:0.82rem; line-height:1.45; color:rgba(30,37,48,0.84); }
+.page-editor-draft-actions { display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end; }
+.page-editor-draft-actions .impact-editor-secondary { padding:9px 12px; font-size:0.74rem; border-radius:999px; }
 .page-editor-toast { position:sticky; bottom:10px; margin-top:14px; margin-left:auto; width:max-content; max-width:100%; background:#1e2530; color:#fafaf2; border-radius:999px; padding:10px 14px; font-size:0.72rem; font-weight:700; letter-spacing:0.08em; box-shadow:0 14px 28px rgba(30,37,48,0.18); opacity:0; transform:translateY(10px); transition:opacity 0.2s ease, transform 0.2s ease; pointer-events:none; }
 .page-editor-toast.is-visible { opacity:1; transform:translateY(0); }
 .page-editor-group { border:1px solid rgba(30,37,48,0.08); border-radius:18px; background:#ffffff; padding:16px; margin-bottom:14px; }
@@ -837,6 +841,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       <button class="page-editor-close" id="growth-editor-close" type="button" aria-label="Close Growth and Reach editor">&times;</button>
     </div>
     <div class="page-editor-status" id="growth-editor-status">Previewing draft edits</div>
+    <div class="page-editor-draft-notice" id="growth-editor-draft-notice" hidden>
+      <div class="page-editor-draft-copy">A local browser draft exists. Git-backed content is loaded by default.</div>
+      <div class="page-editor-draft-actions">
+        <button class="impact-editor-secondary" id="growth-editor-restore-draft" type="button">Restore Draft</button>
+        <button class="impact-editor-secondary" id="growth-editor-discard-draft" type="button">Discard Draft</button>
+      </div>
+    </div>
 
     <div class="page-editor-group">
       <h4>Hero Content</h4>
@@ -1217,6 +1228,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         <button class="page-editor-close" id="impact-editor-close" type="button" aria-label="Close Candler Impact editor">&times;</button>
       </div>
       <div class="page-editor-status" id="impact-editor-status">Previewing draft edits</div>
+      <div class="page-editor-draft-notice" id="impact-editor-draft-notice" hidden>
+        <div class="page-editor-draft-copy">A local browser draft exists. Git-backed content is loaded by default.</div>
+        <div class="page-editor-draft-actions">
+          <button class="impact-editor-secondary" id="impact-editor-restore-draft" type="button">Restore Draft</button>
+          <button class="impact-editor-secondary" id="impact-editor-discard-draft" type="button">Discard Draft</button>
+        </div>
+      </div>
       <div class="impact-editor-tabs" role="tablist" aria-label="Candler Impact editor sections">
         <button class="impact-editor-tab is-active" id="impact-editor-tab-page" type="button" data-impact-panel-target="page">Page</button>
         <button class="impact-editor-tab" id="impact-editor-tab-row" type="button" data-impact-panel-target="row">Row</button>
@@ -1829,6 +1847,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       <button class="page-editor-close" id="mission-editor-close" type="button" aria-label="Close Mission editor">&times;</button>
     </div>
     <div class="page-editor-status" id="mission-editor-status">Previewing draft edits</div>
+    <div class="page-editor-draft-notice" id="mission-editor-draft-notice" hidden>
+      <div class="page-editor-draft-copy">A local browser draft exists. Git-backed content is loaded by default.</div>
+      <div class="page-editor-draft-actions">
+        <button class="impact-editor-secondary" id="mission-editor-restore-draft" type="button">Restore Draft</button>
+        <button class="impact-editor-secondary" id="mission-editor-discard-draft" type="button">Discard Draft</button>
+      </div>
+    </div>
 
   <div class="page-editor-group" data-mission-editor-scope="hero">
     <h4>Content</h4>
@@ -2878,6 +2903,8 @@ var IMPACT_EDITOR_PALETTE = [
 
 var impactEditorRuntime = {
   config: null,
+  storedDraftConfig: null,
+  baselineConfig: null,
   controlsBound: false,
   selectedRowId: null,
   selectedCardKey: null,
@@ -2907,6 +2934,10 @@ function impactMerge(target, source) {
     }
   });
   return target;
+}
+
+function impactConfigsEqual(a, b) {
+  return JSON.stringify(a || {}) === JSON.stringify(b || {});
 }
 
 function impactGetStoredConfig() {
@@ -3142,8 +3173,24 @@ function impactGetStoryKey(rowId, index) {
 function impactGetConfig() {
   var config = impactClone(IMPACT_EDITOR_DEFAULTS);
   impactMerge(config, impactEditorRuntime.publishedConfig || {});
-  impactMerge(config, impactGetStoredConfig());
   return config;
+}
+
+function impactLoadPublishedDraft() {
+  impactEditorRuntime.config = impactGetConfig();
+  impactEditorRuntime.baselineConfig = impactClone(impactEditorRuntime.config);
+}
+
+function impactRestoreStoredDraft() {
+  impactLoadPublishedDraft();
+  impactMerge(impactEditorRuntime.config, impactEditorRuntime.storedDraftConfig || {});
+  impactEditorRuntime.baselineConfig = impactClone(impactEditorRuntime.config);
+}
+
+function impactUpdateDraftNotice() {
+  var notice = document.getElementById('impact-editor-draft-notice');
+  if (!notice) return;
+  notice.hidden = !impactEditorRuntime.storedDraftConfig;
 }
 
 function impactApplyCssVars(config) {
@@ -3220,7 +3267,7 @@ function impactFormatRem(value) {
 }
 
 function impactHasDraftChanges() {
-  return JSON.stringify(impactEditorRuntime.config || {}) !== JSON.stringify(impactGetConfig());
+  return !impactConfigsEqual(impactEditorRuntime.config, impactEditorRuntime.baselineConfig);
 }
 
 function impactSetStatus(message, saved) {
@@ -3228,16 +3275,19 @@ function impactSetStatus(message, saved) {
   if (!node) return;
   node.textContent = message;
   node.classList.toggle('is-saved', !!saved);
+  impactUpdateDraftNotice();
 }
 
 function impactSaveConfig(message) {
-  impactSetStoredConfig(impactEditorRuntime.config);
+  impactEditorRuntime.storedDraftConfig = impactClone(impactEditorRuntime.config);
+  impactSetStoredConfig(impactEditorRuntime.storedDraftConfig);
+  impactEditorRuntime.baselineConfig = impactClone(impactEditorRuntime.config);
   impactSetStatus(message || 'Changes saved in browser', true);
   if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('impact-editor-shell'), message || 'Changes saved in browser');
 }
 
 function impactRestoreSavedConfig() {
-  impactEditorRuntime.config = impactGetConfig();
+  impactEditorRuntime.config = impactClone(impactEditorRuntime.baselineConfig || impactGetConfig());
   impactEnsureSelection();
   impactRenderAll();
   impactPopulateEditorFields();
@@ -3262,8 +3312,10 @@ async function impactPublishConfig() {
       }
     ]
   });
-  impactSetStoredConfig(impactEditorRuntime.config);
   impactEditorRuntime.publishedConfig = impactClone(impactEditorRuntime.config);
+  impactEditorRuntime.storedDraftConfig = null;
+  impactClearStoredConfig();
+  impactEditorRuntime.baselineConfig = impactClone(impactEditorRuntime.config);
   impactSetStatus('Published to main', true);
   if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('impact-editor-shell'), 'Published to main');
 }
@@ -3274,8 +3326,10 @@ window.impactEditorBridge = {
   },
   markPublished: function(message) {
     if (!impactEditorRuntime.config) return;
-    impactSetStoredConfig(impactEditorRuntime.config);
     impactEditorRuntime.publishedConfig = impactClone(impactEditorRuntime.config);
+    impactEditorRuntime.storedDraftConfig = null;
+    impactClearStoredConfig();
+    impactEditorRuntime.baselineConfig = impactClone(impactEditorRuntime.config);
     impactSetStatus(message || 'Published to main', true);
     if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('impact-editor-shell'), message || 'Published to main');
   }
@@ -4133,6 +4187,27 @@ function impactBindEditor() {
     if (shell.hidden) setOpen(true);
     else requestClose();
   });
+  document.getElementById('impact-editor-restore-draft').addEventListener('click', function() {
+    if (!impactEditorRuntime.storedDraftConfig) return;
+    impactRestoreStoredDraft();
+    impactEnsureSelection();
+    impactRenderAll();
+    impactPopulateEditorFields();
+    impactPopulateRowEditor();
+    impactPopulateCardEditor();
+    impactSetStatus('Local draft restored', true);
+  });
+  document.getElementById('impact-editor-discard-draft').addEventListener('click', function() {
+    impactClearStoredConfig();
+    impactEditorRuntime.storedDraftConfig = null;
+    impactLoadPublishedDraft();
+    impactEnsureSelection();
+    impactRenderAll();
+    impactPopulateEditorFields();
+    impactPopulateRowEditor();
+    impactPopulateCardEditor();
+    impactSetStatus('Local draft discarded', true);
+  });
   document.querySelectorAll('.impact-editor-face-pill[data-impact-face]').forEach(function(button) {
     button.addEventListener('click', function() {
       var select = document.getElementById('impact-editor-card-face');
@@ -4454,7 +4529,9 @@ function impactBindEditor() {
   });
   document.getElementById('impact-editor-reset').addEventListener('click', function() {
     impactClearStoredConfig();
+    impactEditorRuntime.storedDraftConfig = null;
     impactEditorRuntime.config = impactClone(IMPACT_EDITOR_DEFAULTS);
+    impactEditorRuntime.baselineConfig = impactClone(impactEditorRuntime.config);
     impactEditorRuntime.selectedRowId = null;
     impactEditorRuntime.selectedCardKey = null;
     impactEditorRuntime.selectedPanelId = null;
@@ -4472,7 +4549,8 @@ async function initPeople() {
   if (peopleReady) return;
   peopleReady = true;
   impactEditorRuntime.publishedConfig = await window.pageEditorFetchJson('/assets/page-config/candler-impact.json');
-  impactEditorRuntime.config = impactGetConfig();
+  impactEditorRuntime.storedDraftConfig = impactGetStoredConfig();
+  impactLoadPublishedDraft();
   impactEnsureSelection();
   impactRenderAll();
   ciBindJumpLinks();
@@ -4513,6 +4591,8 @@ var GROWTH_EDITOR_DEFAULTS = {
 };
 var growthEditorRuntime = {
   publishedConfig: null,
+  storedDraftConfig: null,
+  baselineConfig: null,
   config: null,
   isOpen: false,
   controlsBound: false,
@@ -4555,11 +4635,37 @@ function growthSetStoredConfig(config) {
   } catch (err) {}
 }
 
+function growthConfigsEqual(a, b) {
+  return JSON.stringify(a || {}) === JSON.stringify(b || {});
+}
+
 function growthGetConfig() {
   var config = growthClone(GROWTH_EDITOR_DEFAULTS);
   growthMerge(config, growthEditorRuntime.publishedConfig || {});
-  growthMerge(config, growthGetStoredConfig());
   return config;
+}
+
+function growthLoadPublishedDraft() {
+  growthEditorRuntime.config = growthGetConfig();
+  growthEditorRuntime.baselineConfig = growthClone(growthEditorRuntime.config);
+}
+
+function growthRestoreStoredDraft() {
+  growthLoadPublishedDraft();
+  growthMerge(growthEditorRuntime.config, growthEditorRuntime.storedDraftConfig || {});
+  growthEditorRuntime.baselineConfig = growthClone(growthEditorRuntime.config);
+}
+
+function growthClearStoredConfig() {
+  try {
+    localStorage.removeItem(GROWTH_EDITOR_STORAGE_KEY);
+  } catch (err) {}
+}
+
+function growthUpdateDraftNotice() {
+  var notice = document.getElementById('growth-editor-draft-notice');
+  if (!notice) return;
+  notice.hidden = !growthEditorRuntime.storedDraftConfig;
 }
 
 function growthApplyConfig(config) {
@@ -4602,20 +4708,23 @@ function growthSetStatus(message, isSaved) {
   if (!status) return;
   status.textContent = message;
   status.classList.toggle('is-saved', !!isSaved);
+  growthUpdateDraftNotice();
 }
 
 function growthHasDraftChanges() {
-  return JSON.stringify(growthEditorRuntime.config || {}) !== JSON.stringify(growthGetConfig());
+  return !growthConfigsEqual(growthEditorRuntime.config, growthEditorRuntime.baselineConfig);
 }
 
 function growthSaveConfig(message) {
-  growthSetStoredConfig(growthEditorRuntime.config);
+  growthEditorRuntime.storedDraftConfig = growthClone(growthEditorRuntime.config);
+  growthSetStoredConfig(growthEditorRuntime.storedDraftConfig);
+  growthEditorRuntime.baselineConfig = growthClone(growthEditorRuntime.config);
   growthSetStatus(message || 'Changes saved in browser', true);
   if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('growth-editor-shell'), message || 'Changes saved in browser');
 }
 
 function growthRestoreSavedConfig() {
-  growthEditorRuntime.config = growthGetConfig();
+  growthEditorRuntime.config = growthClone(growthEditorRuntime.baselineConfig || growthGetConfig());
   growthApplyConfig(growthEditorRuntime.config);
   growthPopulateEditorFields();
   growthSetStatus('Saved browser version loaded', true);
@@ -4704,6 +4813,21 @@ function growthBindEditor() {
     if (shell.hidden) setOpen(true);
     else requestClose();
   });
+  document.getElementById('growth-editor-restore-draft').addEventListener('click', function() {
+    if (!growthEditorRuntime.storedDraftConfig) return;
+    growthRestoreStoredDraft();
+    growthApplyConfig(growthEditorRuntime.config);
+    growthPopulateEditorFields();
+    growthSetStatus('Local draft restored', true);
+  });
+  document.getElementById('growth-editor-discard-draft').addEventListener('click', function() {
+    growthClearStoredConfig();
+    growthEditorRuntime.storedDraftConfig = null;
+    growthLoadPublishedDraft();
+    growthApplyConfig(growthEditorRuntime.config);
+    growthPopulateEditorFields();
+    growthSetStatus('Local draft discarded', true);
+  });
 
   function bindInput(id, bucket, key, formatter) {
     var el = document.getElementById(id);
@@ -4741,6 +4865,9 @@ function growthBindEditor() {
 
   document.getElementById('growth-editor-reset').addEventListener('click', function() {
     growthEditorRuntime.config = growthClone(GROWTH_EDITOR_DEFAULTS);
+    growthEditorRuntime.storedDraftConfig = null;
+    growthClearStoredConfig();
+    growthEditorRuntime.baselineConfig = growthClone(growthEditorRuntime.config);
     growthApplyConfig(growthEditorRuntime.config);
     growthPopulateEditorFields();
     growthSetStatus('Reset to default preview', true);
@@ -4754,8 +4881,10 @@ window.growthEditorBridge = {
   },
   markPublished: function(message) {
     if (!growthEditorRuntime.config) return;
-    growthSetStoredConfig(growthEditorRuntime.config);
     growthEditorRuntime.publishedConfig = growthClone(growthEditorRuntime.config);
+    growthEditorRuntime.storedDraftConfig = null;
+    growthClearStoredConfig();
+    growthEditorRuntime.baselineConfig = growthClone(growthEditorRuntime.config);
     growthSetStatus(message || 'Published to main', true);
     if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('growth-editor-shell'), message || 'Published to main');
   }
@@ -4765,7 +4894,8 @@ async function initReach() {
   if (reachReady) return;
   reachReady = true;
   growthEditorRuntime.publishedConfig = await window.pageEditorFetchJson('/assets/page-config/growth-reach.json');
-  growthEditorRuntime.config = growthGetConfig();
+  growthEditorRuntime.storedDraftConfig = growthGetStoredConfig();
+  growthLoadPublishedDraft();
   growthApplyConfig(growthEditorRuntime.config);
   growthBindEditor();
   growthPopulateEditorFields();

@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-04-07
+Last updated: 2026-04-13
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -108,10 +108,33 @@ Expected behavior:
 
 ---
 
-## 8. PUBLISHED CONFIG SOURCE OF TRUTH
+## 8. GIT-FIRST LOAD BEHAVIOR
+**Rule:** Git-backed published content must be the default on page load.
+
+Expected behavior:
+- the page loads from the Git-backed JSON config first
+- a browser-saved draft must not auto-apply on refresh
+- if a local draft exists, show a visible notice in the editor
+- the notice must provide `Restore Draft` and `Discard Draft`
+- `Restore Draft` is the only action that should overlay browser-local draft content on top of the published config
+- `Discard Draft` must clear localStorage and keep the Git-backed version visible
+
+This behavior applies to:
+- `Our Mission & Offerings`
+- `Candler Impact`
+- `Growth and Reach`
+
+**Why:** GitHub is the source of truth. Refreshing the page after publish should show the published state unless the editor user explicitly asks to restore a local draft.
+
+**Regression risk:** Do not reintroduce auto-restore of localStorage drafts on page load.
+
+---
+
+## 9. PUBLISHED CONFIG SOURCE OF TRUTH
 **Rule:** Published editor-managed page state now lives in Git-backed JSON files:
 - [assets/page-config/mission-page.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/mission-page.json)
 - [assets/page-config/candler-impact.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/candler-impact.json)
+- [assets/page-config/growth-reach.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/growth-reach.json)
 
 Browser drafts may still live in localStorage, but Git-tracked published state comes from the JSON files above.
 
@@ -119,7 +142,7 @@ Browser drafts may still live in localStorage, but Git-tracked published state c
 
 ---
 
-## 9. NETLIFY PUBLISH BRIDGE
+## 10. NETLIFY PUBLISH BRIDGE
 **Rule:** Live publishing uses the Netlify function:
 - [netlify/functions/publish-page-config.js](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/netlify/functions/publish-page-config.js)
 
@@ -136,7 +159,7 @@ No-op publishes must return success, not failure, when the content is unchanged.
 
 ---
 
-## 10. FOUNDING YEAR
+## 11. FOUNDING YEAR
 **Rule:** The Candler Foundry was founded in 2018, not 2019.
 All references to the founding year must use 2018.
 TheoEd event years are not the founding year.
@@ -145,13 +168,13 @@ TheoEd event years are not the founding year.
 
 ---
 
-## 11. NO ITALICS
+## 12. NO ITALICS
 **Rule:** Global styling still avoids italic text treatments by default.
 Do not introduce decorative italics unless explicitly requested.
 
 ---
 
-## 12. GROWTH AND REACH - CANONICAL LAYOUT
+## 13. GROWTH AND REACH - CANONICAL LAYOUT
 **Rule:** Tab nav and panel id remain `numreach`. Tab button label: `Growth and Reach`. All `gr-` prefixed CSS classes.
 
 **Hero banner** (`.gr-hero`): background-image `url('/assets/Graphic_2.png')`, background-size cover, min-height 240px. Dark overlay `.gr-hero-overlay` rgba(26,37,48,0.72). Title 36px 700 white letter-spacing -0.5px. Subtitle 17px 400 white max-width 700px line-height 1.7. No eyebrow label.
