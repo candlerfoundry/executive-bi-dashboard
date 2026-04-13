@@ -1,12 +1,12 @@
 {
   "hero": {
     "kicker": "",
-    "headline": "The Foundry strengthens Candler from the inside out",
-    "body": "",
-    "image": "/assets/Graphic_1.png",
-    "imagePosition": "center right",
+    "headline": "Strengthening Candler from the Inside Out",
+    "body": "The Foundry provides faculty, students, and alumni with the resources and opportunities that allow teaching and preaching ministries to thrive.\n\n",
+    "image": "/assets/Graphic_2.png",
+    "imagePosition": "center center",
     "imageOpacity": 0.65,
-    "offsetY": 8
+    "offsetY": 10
   },
   "layout": {
     "cardGap": 18,
@@ -16,11 +16,11 @@
   },
   "typography": {
     "fontFamily": "'Montserrat', sans-serif",
-    "heroSize": 2.65,
+    "heroSize": 3.4,
     "heroBodySize": 0.96,
-    "rowTitleSize": 2.05,
+    "rowTitleSize": 2,
     "rowCopySize": 0.88,
-    "cardHeadlineSize": 1.8,
+    "cardHeadlineSize": 1.05,
     "quoteSize": 1.28,
     "supportSize": 0.96,
     "nameSize": 0.9
