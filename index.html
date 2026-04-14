@@ -138,13 +138,14 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --gr-hero-art-offset-x: -20px;
   --gr-hero-art-offset-y: 0px;
   --gr-hero-art-opacity: 0.22;
+  --gr-hero-art-clarity: 0;
   --gr-hero-fade-left: 48%;
   --gr-hero-fade-right: 10%;
 }
 .gr-editor-launch { position:absolute; top:96px; right:var(--gr-gutter); z-index:4; display:flex; justify-content:flex-end; }
 .gr-shell { width:min(100%, var(--gr-shell-max)); margin:0 auto; padding:0 var(--gr-gutter); }
 .gr-hero { position:relative; min-height:var(--gr-hero-min); overflow:hidden; background:#fffdf8; }
-.gr-hero::before { content:''; position:absolute; inset:0; background-image:var(--gr-hero-image-url, url('/assets/Graphic_3_growth.png')); background-size:var(--gr-hero-art-width) auto; background-position:calc(100% + var(--gr-hero-art-offset-x)) calc(50% + var(--gr-hero-art-offset-y)); background-repeat:no-repeat; opacity:var(--gr-hero-art-opacity); pointer-events:none; }
+.gr-hero::before { content:''; position:absolute; inset:0; background-image:var(--gr-hero-image-url, url('/assets/Graphic_3_growth.png')); background-size:var(--gr-hero-art-width) auto; background-position:calc(100% + var(--gr-hero-art-offset-x)) calc(50% + var(--gr-hero-art-offset-y)); background-repeat:no-repeat; opacity:var(--gr-hero-art-opacity); filter:saturate(calc(1 + (var(--gr-hero-art-clarity) * 0.006))) contrast(calc(1 + (var(--gr-hero-art-clarity) * 0.004))) drop-shadow(0 0 calc(var(--gr-hero-art-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; }
 .gr-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--gr-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--gr-hero-fade-left), rgba(255,253,248,0.08) calc(var(--gr-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--gr-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--gr-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
 .gr-hero-content { position:relative; z-index:1; width:min(100%, var(--gr-shell-max)); min-height:var(--gr-hero-min); margin:0 auto; padding:0 var(--gr-gutter); display:flex; align-items:center; }
 .gr-hero-copy { max-width:var(--gr-hero-copy-max); transform:translate(var(--gr-hero-copy-offset-x), var(--gr-hero-copy-offset-y)); }
@@ -236,6 +237,9 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --ci-hero-image-position: right center;
   --ci-hero-image-size: auto 110%;
   --ci-hero-image-opacity: 0.22;
+  --ci-hero-image-offset-x: 0px;
+  --ci-hero-image-offset-y: 0px;
+  --ci-hero-image-clarity: 0;
   --ci-hero-copy-offset: 0px;
   --ci-hero-copy-offset-x: 0px;
   --ci-hero-title-width: 700px;
@@ -257,9 +261,9 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 }
 .ci-story-page { width:100%; margin:0 auto; padding:0 0 48px; position:relative; }
 .ci-editor-launch { position:absolute; top:18px; right:var(--ci-gutter); z-index:4; display:flex; justify-content:flex-end; margin:0; }
-.ci-story-page > #ci-story-rows { width:min(100%, var(--ci-shell-max)); margin:0 auto; padding:24px var(--ci-gutter) 0; }
-.ci-story-hero { position:relative; overflow:hidden; border-radius:0; background:#fffdf8; box-shadow:none; margin-bottom:0; min-height:360px; border-bottom:1px solid rgba(30,37,48,0.08); }
-.ci-story-hero::before { content:''; position:absolute; inset:0; background-image:var(--ci-hero-image-url); background-position:var(--ci-hero-image-position); background-size:var(--ci-hero-image-size); background-repeat:no-repeat; opacity:var(--ci-hero-image-opacity); pointer-events:none; }
+.ci-story-page > #ci-story-rows { width:min(100%, var(--ci-shell-max)); margin:0 auto; padding:10px var(--ci-gutter) 0; }
+.ci-story-hero { position:relative; overflow:hidden; border-radius:0; background:#fffdf8; box-shadow:none; margin-bottom:22px; min-height:360px; border-bottom:1px solid rgba(30,37,48,0.14); }
+.ci-story-hero::before { content:''; position:absolute; inset:0; background-image:var(--ci-hero-image-url); background-position:var(--ci-hero-image-position); background-size:var(--ci-hero-image-size); background-repeat:no-repeat; opacity:var(--ci-hero-image-opacity); filter:saturate(calc(1 + (var(--ci-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--ci-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--ci-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translate(var(--ci-hero-image-offset-x), var(--ci-hero-image-offset-y)) translateZ(0); pointer-events:none; }
 .ci-story-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--ci-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--ci-hero-fade-left), rgba(255,253,248,0.08) calc(var(--ci-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--ci-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--ci-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
 .ci-story-hero-inner { position:relative; z-index:1; width:min(100%, var(--ci-shell-max)); min-height:360px; margin:0 auto; padding:0 var(--ci-gutter); display:flex; align-items:stretch; }
 .ci-hero-copy { width:min(100%, var(--ci-hero-title-width)); max-width:var(--ci-hero-title-width); min-height:100%; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:0; transform:translate(var(--ci-hero-copy-offset-x), var(--ci-hero-copy-offset)); }
@@ -454,6 +458,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --mission-hero-image-position: center right;
   --mission-hero-image-size: cover;
   --mission-hero-image-opacity: 0.25;
+  --mission-hero-image-clarity: 0;
   --mission-hero-overlay-gradient: linear-gradient(90deg, rgba(255,253,248,0.93) 0%, rgba(255,253,248,0.82) 18%, rgba(255,253,248,0.64) 38%, rgba(255,253,248,0.44) 58%, rgba(255,253,248,0.24) 78%, rgba(255,253,248,0.06) 100%);
   --mission-section-spacing: 42px;
   --mission-heading-font: 'Montserrat', sans-serif;
@@ -483,8 +488,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --mission-card-art-sm: clamp(110px, 8vw, 144px);
   background:#fbf8f3;
 }
-.mission-bar { position:relative; min-height:var(--mission-hero-min); background:#fffdf8; overflow:hidden; }
-.mission-bar::before { content:''; position:absolute; inset:0; background-image:var(--mission-hero-image-url); background-position:var(--mission-hero-image-position); background-size:var(--mission-hero-image-size); background-repeat:no-repeat; opacity:var(--mission-hero-image-opacity); pointer-events:none; }
+.mission-bar { position:relative; min-height:var(--mission-hero-min); background:#fffdf8; overflow:hidden; margin-bottom:22px; border-bottom:1px solid rgba(30,37,48,0.14); }
+.mission-bar::before { content:''; position:absolute; inset:0; background-image:var(--mission-hero-image-url); background-position:var(--mission-hero-image-position); background-size:var(--mission-hero-image-size); background-repeat:no-repeat; opacity:var(--mission-hero-image-opacity); filter:saturate(calc(1 + (var(--mission-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--mission-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--mission-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; }
 .mission-bar::after { content:''; position:absolute; inset:0; background:var(--mission-hero-overlay-gradient); pointer-events:none; }
 .mission-bar-overlay { position:relative; z-index:1; width:min(100%, var(--mission-shell-max)); min-height:var(--mission-hero-min); margin:0 auto; padding:0 var(--mission-gutter) 0; }
 .mission-hero-grid { display:grid; grid-template-columns:var(--mission-hero-columns); align-items:center; gap:var(--mission-section-gap); min-height:var(--mission-hero-min); }
@@ -532,7 +537,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .mission-page .offering-flip-inner { display:grid; min-height:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 0.55s cubic-bezier(0.2,0.8,0.2,1); }
 .mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner, .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner, .mission-page .offering-flip.is-flipped .offering-flip-inner { transform:rotateY(180deg); }
 .mission-page .offering-flip.is-edit-selected .card-front,
-.mission-page .offering-flip.is-edit-selected .card-back { outline:3px solid rgba(200,72,38,0.4); outline-offset:3px; }
+.mission-page .offering-flip.is-edit-selected .card-back { outline:none; box-shadow:0 0 0 2px rgba(30,37,48,0.08), 0 18px 36px rgba(30,37,48,0.12); }
 .mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
 .mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.16); box-shadow:0 10px 20px rgba(30,37,48,0.08), 0 2px 5px rgba(30,37,48,0.08); overflow:hidden; position:relative; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
   .mission-page .card-front::before { content:''; position:absolute; top:clamp(10px, 1vw, 16px); right:clamp(8px, 0.9vw, 14px); bottom:clamp(8px, 0.9vw, 12px); width:var(--mission-card-art-lg); background-image:var(--card-graphic,none); background-size:var(--card-graphic-size,contain); background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:var(--card-graphic-opacity,0.9); z-index:0; pointer-events:none; border-radius:inherit; transform:translate(var(--card-graphic-shift-x, 0px), var(--card-graphic-shift-y, 0px)) scale(var(--card-graphic-scale,1)); transform-origin:center right; }
@@ -591,6 +596,9 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .page-editor-draft-actions .impact-editor-secondary { padding:9px 12px; font-size:0.74rem; border-radius:999px; }
 .page-editor-toast { position:sticky; bottom:10px; margin-top:14px; margin-left:auto; width:max-content; max-width:100%; background:#1e2530; color:#fafaf2; border-radius:999px; padding:10px 14px; font-size:0.72rem; font-weight:700; letter-spacing:0.08em; box-shadow:0 14px 28px rgba(30,37,48,0.18); opacity:0; transform:translateY(10px); transition:opacity 0.2s ease, transform 0.2s ease; pointer-events:none; }
 .page-editor-toast.is-visible { opacity:1; transform:translateY(0); }
+.page-editor-drag-grip { position:sticky; bottom:84px; z-index:4; margin:8px 0 12px auto; display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:rgba(30,37,48,0.08); border:1px solid rgba(30,37,48,0.12); color:rgba(30,37,48,0.76); font-size:0.68rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; cursor:grab; user-select:none; }
+.page-editor-drag-grip::before { content:'⋮⋮'; letter-spacing:0.08em; font-size:0.9rem; line-height:1; }
+.page-editor-drag-grip:active { cursor:grabbing; }
 .page-editor-group { border:1px solid rgba(30,37,48,0.08); border-radius:18px; background:#ffffff; padding:16px; margin-bottom:14px; }
 .page-editor-group h4,
 .impact-editor-block h5 { display:flex; align-items:center; justify-content:space-between; gap:10px; font-weight:700; color:#1e2530; cursor:pointer; }
@@ -943,6 +951,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
           <label class="editor-label" for="growth-editor-art-opacity">Graphic transparency</label>
           <input id="growth-editor-art-opacity" type="range" min="0" max="0.6" step="0.01">
           <div class="editor-inline-meta"><span>Fainter</span><span id="growth-editor-art-opacity-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-art-clarity">Graphic sharpness</label>
+          <input id="growth-editor-art-clarity" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Softer</span><span id="growth-editor-art-clarity-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
@@ -1310,23 +1325,42 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
               </select>
             </div>
           </div>
-          <div class="editor-grid-2">
-            <div class="editor-field">
-              <label class="editor-label" for="impact-editor-hero-image-opacity">Artwork visibility</label>
-              <input id="impact-editor-hero-image-opacity" type="range" min="0" max="0.65" step="0.01">
-              <div class="editor-inline-meta"><span>Fainter</span><span id="impact-editor-hero-image-opacity-value"></span></div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="impact-editor-hero-image-opacity">Artwork visibility</label>
+          <input id="impact-editor-hero-image-opacity" type="range" min="0" max="0.65" step="0.01">
+          <div class="editor-inline-meta"><span>Fainter</span><span id="impact-editor-hero-image-opacity-value"></span></div>
             </div>
             <div class="editor-field">
-              <label class="editor-label" for="impact-editor-hero-image-scale">Artwork zoom</label>
-              <input id="impact-editor-hero-image-scale" type="range" min="70" max="230" step="2">
-              <div class="editor-inline-meta"><span>Wider</span><span id="impact-editor-hero-image-scale-value"></span></div>
-            </div>
-          </div>
-          <div class="editor-grid-2">
-            <div class="editor-field">
-              <label class="editor-label" for="impact-editor-hero-fade-left">Left fade</label>
-              <input id="impact-editor-hero-fade-left" type="range" min="0" max="100" step="1">
-              <div class="editor-inline-meta"><span>Less cover</span><span id="impact-editor-hero-fade-left-value"></span></div>
+          <label class="editor-label" for="impact-editor-hero-image-scale">Artwork zoom</label>
+          <input id="impact-editor-hero-image-scale" type="range" min="70" max="230" step="2">
+          <div class="editor-inline-meta"><span>Wider</span><span id="impact-editor-hero-image-scale-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="impact-editor-hero-image-offset-x">Artwork horizontal position</label>
+          <input id="impact-editor-hero-image-offset-x" type="range" min="-260" max="260" step="2">
+          <div class="editor-inline-meta"><span>Left</span><span id="impact-editor-hero-image-offset-x-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="impact-editor-hero-image-offset-y">Artwork vertical position</label>
+          <input id="impact-editor-hero-image-offset-y" type="range" min="-180" max="180" step="2">
+          <div class="editor-inline-meta"><span>Higher</span><span id="impact-editor-hero-image-offset-y-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="impact-editor-hero-image-clarity">Artwork sharpness</label>
+          <input id="impact-editor-hero-image-clarity" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Softer</span><span id="impact-editor-hero-image-clarity-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="impact-editor-hero-fade-left">Left fade</label>
+          <input id="impact-editor-hero-fade-left" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Less cover</span><span id="impact-editor-hero-fade-left-value"></span></div>
             </div>
             <div class="editor-field">
               <label class="editor-label" for="impact-editor-hero-fade-right">Right fade</label>
@@ -2139,6 +2173,11 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
           <label class="editor-label" for="mission-editor-hero-fade-right">Right fade</label>
           <input id="mission-editor-hero-fade-right" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Less cover</span><span id="mission-editor-hero-fade-right-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-hero-image-clarity">Artwork sharpness</label>
+          <input id="mission-editor-hero-image-clarity" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Softer</span><span id="mission-editor-hero-image-clarity-value"></span></div>
         </div>
       </div>
     </div>
@@ -2969,6 +3008,9 @@ var IMPACT_EDITOR_DEFAULTS = {
     imagePosition: 'right center',
     imageScale: 110,
     imageOpacity: 0.22,
+    imageOffsetX: 0,
+    imageOffsetY: 0,
+    imageClarity: 0,
     imageFadeLeft: 48,
     imageFadeRight: 10,
     offsetX: 0,
@@ -3205,7 +3247,28 @@ window.attachPageEditorShellBehavior = function(options) {
     });
   }
 
+  var grip = shell.querySelector('.page-editor-drag-grip');
+  if (!grip) {
+    grip = document.createElement('button');
+    grip.type = 'button';
+    grip.className = 'page-editor-drag-grip';
+    grip.textContent = 'Drag editor';
+    var actions = shell.querySelector('.page-editor-actions');
+    if (actions && actions.parentNode === shell) shell.insertBefore(grip, actions);
+    else shell.appendChild(grip);
+  }
+
   var dragState = null;
+  function beginDrag(event) {
+    if (event.target.closest('button, input, select, textarea, label, a') && !event.target.classList.contains('page-editor-drag-grip')) return;
+    dragState = {
+      startX: event.clientX,
+      startY: event.clientY,
+      startLeft: shell.getBoundingClientRect().left,
+      startTop: shell.getBoundingClientRect().top
+    };
+    document.body.style.userSelect = 'none';
+  }
   function stopDrag() {
     dragState = null;
     document.body.style.userSelect = '';
@@ -3220,14 +3283,13 @@ window.attachPageEditorShellBehavior = function(options) {
   }
   if (header) {
     header.addEventListener('pointerdown', function(event) {
-      if (event.target.closest('button, input, select, textarea, label, a')) return;
-      dragState = {
-        startX: event.clientX,
-        startY: event.clientY,
-        startLeft: shell.getBoundingClientRect().left,
-        startTop: shell.getBoundingClientRect().top
-      };
-      document.body.style.userSelect = 'none';
+      beginDrag(event);
+    });
+  }
+  if (grip) {
+    grip.addEventListener('pointerdown', function(event) {
+      event.preventDefault();
+      beginDrag(event);
     });
   }
   document.addEventListener('pointermove', onPointerMove);
@@ -3324,6 +3386,9 @@ function impactApplyCssVars(config) {
   panel.style.setProperty('--ci-hero-image-position', (config.hero && config.hero.imagePosition) || 'center right');
   panel.style.setProperty('--ci-hero-image-size', 'auto ' + (((config.hero && config.hero.imageScale) != null ? config.hero.imageScale : 110)) + '%');
   panel.style.setProperty('--ci-hero-image-opacity', String((config.hero && config.hero.imageOpacity) != null ? config.hero.imageOpacity : 0.26));
+  panel.style.setProperty('--ci-hero-image-offset-x', (((config.hero && config.hero.imageOffsetX) != null ? config.hero.imageOffsetX : 0)) + 'px');
+  panel.style.setProperty('--ci-hero-image-offset-y', (((config.hero && config.hero.imageOffsetY) != null ? config.hero.imageOffsetY : 0)) + 'px');
+  panel.style.setProperty('--ci-hero-image-clarity', String((config.hero && config.hero.imageClarity) != null ? config.hero.imageClarity : 0));
   panel.style.setProperty('--ci-hero-fade-left', (((config.hero && config.hero.imageFadeLeft) != null ? config.hero.imageFadeLeft : 48)) + '%');
   panel.style.setProperty('--ci-hero-fade-right', (((config.hero && config.hero.imageFadeRight) != null ? config.hero.imageFadeRight : 10)) + '%');
   panel.style.setProperty('--ci-hero-copy-offset-x', (((config.hero && config.hero.offsetX) || 0)) + 'px');
@@ -4121,6 +4186,12 @@ function impactPopulateEditorFields() {
   document.getElementById('impact-editor-hero-image-scale-value').textContent = Math.round(hero.imageScale != null ? hero.imageScale : 110) + '%';
   document.getElementById('impact-editor-hero-image-opacity').value = hero.imageOpacity != null ? hero.imageOpacity : 0.26;
   document.getElementById('impact-editor-hero-image-opacity-value').textContent = impactFormatPercent((hero.imageOpacity != null ? hero.imageOpacity : 0.26));
+  document.getElementById('impact-editor-hero-image-offset-x').value = hero.imageOffsetX != null ? hero.imageOffsetX : 0;
+  document.getElementById('impact-editor-hero-image-offset-x-value').textContent = ((hero.imageOffsetX != null ? hero.imageOffsetX : 0) > 0 ? '+' : '') + (hero.imageOffsetX != null ? hero.imageOffsetX : 0) + 'px';
+  document.getElementById('impact-editor-hero-image-offset-y').value = hero.imageOffsetY != null ? hero.imageOffsetY : 0;
+  document.getElementById('impact-editor-hero-image-offset-y-value').textContent = ((hero.imageOffsetY != null ? hero.imageOffsetY : 0) > 0 ? '+' : '') + (hero.imageOffsetY != null ? hero.imageOffsetY : 0) + 'px';
+  document.getElementById('impact-editor-hero-image-clarity').value = hero.imageClarity != null ? hero.imageClarity : 0;
+  document.getElementById('impact-editor-hero-image-clarity-value').textContent = Math.round(hero.imageClarity != null ? hero.imageClarity : 0) + '%';
   document.getElementById('impact-editor-hero-fade-left').value = hero.imageFadeLeft != null ? hero.imageFadeLeft : 48;
   document.getElementById('impact-editor-hero-fade-left-value').textContent = impactFormatPercent((hero.imageFadeLeft != null ? hero.imageFadeLeft : 48) / 100);
   document.getElementById('impact-editor-hero-fade-right').value = hero.imageFadeRight != null ? hero.imageFadeRight : 10;
@@ -4403,6 +4474,9 @@ function impactBindEditor() {
   });
   onInput('impact-editor-hero-image-scale', ['hero', 'imageScale'], Number);
   onInput('impact-editor-hero-image-opacity', ['hero', 'imageOpacity'], Number);
+  onInput('impact-editor-hero-image-offset-x', ['hero', 'imageOffsetX'], Number);
+  onInput('impact-editor-hero-image-offset-y', ['hero', 'imageOffsetY'], Number);
+  onInput('impact-editor-hero-image-clarity', ['hero', 'imageClarity'], Number);
   onInput('impact-editor-hero-fade-left', ['hero', 'imageFadeLeft'], Number);
   onInput('impact-editor-hero-fade-right', ['hero', 'imageFadeRight'], Number);
   onInput('impact-editor-hero-offset-x', ['hero', 'offsetX'], Number);
@@ -4723,6 +4797,7 @@ var GROWTH_EDITOR_DEFAULTS = {
     artOffsetX: -20,
     artOffsetY: 0,
     artOpacity: 0.22,
+    artClarity: 0,
     fadeLeft: 48,
     fadeRight: 10
   },
@@ -4828,6 +4903,7 @@ function growthApplyConfig(config) {
   panel.style.setProperty('--gr-hero-art-offset-x', (config.layout.artOffsetX || 0) + 'px');
   panel.style.setProperty('--gr-hero-art-offset-y', (config.layout.artOffsetY || 0) + 'px');
   panel.style.setProperty('--gr-hero-art-opacity', String((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22));
+  panel.style.setProperty('--gr-hero-art-clarity', String((config.layout.artClarity != null) ? config.layout.artClarity : 0));
   panel.style.setProperty('--gr-hero-fade-left', ((config.layout.fadeLeft != null) ? config.layout.fadeLeft : 48) + '%');
   panel.style.setProperty('--gr-hero-fade-right', ((config.layout.fadeRight != null) ? config.layout.fadeRight : 10) + '%');
   panel.style.setProperty('--gr-hero-title-size', (config.typography.titleSize || 4.2) + 'rem');
@@ -4893,6 +4969,7 @@ function growthPopulateEditorFields() {
   document.getElementById('growth-editor-copy-offset-y').value = Number(config.layout.copyOffsetY || 0);
   document.getElementById('growth-editor-art-width').value = Number(config.layout.artWidth || 420);
   document.getElementById('growth-editor-art-opacity').value = Number((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22);
+  document.getElementById('growth-editor-art-clarity').value = Number((config.layout.artClarity != null) ? config.layout.artClarity : 0);
   document.getElementById('growth-editor-fade-left').value = Number((config.layout.fadeLeft != null) ? config.layout.fadeLeft : 48);
   document.getElementById('growth-editor-fade-right').value = Number((config.layout.fadeRight != null) ? config.layout.fadeRight : 10);
   document.getElementById('growth-editor-art-offset-x').value = Number(config.layout.artOffsetX || 0);
@@ -4912,6 +4989,7 @@ function growthPopulateEditorFields() {
   document.getElementById('growth-editor-copy-offset-y-value').textContent = Math.round(Number(config.layout.copyOffsetY || 0)) + 'px';
   document.getElementById('growth-editor-art-width-value').textContent = Math.round(Number(config.layout.artWidth || 420)) + 'px';
   document.getElementById('growth-editor-art-opacity-value').textContent = Math.round(Number((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22) * 100) + '%';
+  document.getElementById('growth-editor-art-clarity-value').textContent = Math.round(Number((config.layout.artClarity != null) ? config.layout.artClarity : 0)) + '%';
   document.getElementById('growth-editor-fade-left-value').textContent = Math.round(Number((config.layout.fadeLeft != null) ? config.layout.fadeLeft : 48)) + '%';
   document.getElementById('growth-editor-fade-right-value').textContent = Math.round(Number((config.layout.fadeRight != null) ? config.layout.fadeRight : 10)) + '%';
   document.getElementById('growth-editor-art-offset-x-value').textContent = Math.round(Number(config.layout.artOffsetX || 0)) + 'px';
@@ -5009,6 +5087,7 @@ function growthBindEditor() {
   bindInput('growth-editor-copy-offset-y', 'layout', 'copyOffsetY', Number);
   bindInput('growth-editor-art-width', 'layout', 'artWidth', Number);
   bindInput('growth-editor-art-opacity', 'layout', 'artOpacity', Number);
+  bindInput('growth-editor-art-clarity', 'layout', 'artClarity', Number);
   bindInput('growth-editor-fade-left', 'layout', 'fadeLeft', Number);
   bindInput('growth-editor-fade-right', 'layout', 'fadeRight', Number);
   bindInput('growth-editor-art-offset-x', 'layout', 'artOffsetX', Number);

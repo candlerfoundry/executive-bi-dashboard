@@ -30,6 +30,7 @@
       heroImageY: 50,
       heroImageScale: 100,
       heroImageOpacity: 0.25,
+      heroImageClarity: 0,
       heroFadeStrength: 0.74,
       heroFadeLeft: 74,
       heroFadeRight: 8
@@ -344,6 +345,7 @@
     panel.style.setProperty('--mission-hero-image-position', clamp(state.config.visual.heroImageX, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).x) + '% ' + clamp(state.config.visual.heroImageY, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).y) + '%');
     panel.style.setProperty('--mission-hero-image-size', clamp(state.config.visual.heroImageScale, 70, 230, 100) + '% auto');
     panel.style.setProperty('--mission-hero-image-opacity', clamp(state.config.visual.heroImageOpacity, 0, 0.65, 0.25));
+    panel.style.setProperty('--mission-hero-image-clarity', clamp(state.config.visual.heroImageClarity, 0, 100, 0));
     panel.style.setProperty('--mission-hero-overlay-gradient', computeOverlayGradient(state.config.visual.heroFadeLeft, state.config.visual.heroFadeRight, state.config.visual.heroFadeStrength));
     panel.style.setProperty('--mission-heading-font', state.config.typography.headingFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-body-font', state.config.typography.bodyFont || "'Montserrat', sans-serif");
@@ -764,6 +766,7 @@
     runtime.ui.heroImageXValue.textContent = Math.round(Number(runtime.ui.heroImageX.value) || 0) + '%';
     runtime.ui.heroImageYValue.textContent = Math.round(Number(runtime.ui.heroImageY.value) || 0) + '%';
     runtime.ui.heroImageOpacityValue.textContent = formatPercent(runtime.ui.heroImageOpacity.value);
+    runtime.ui.heroImageClarityValue.textContent = Math.round(Number(runtime.ui.heroImageClarity.value) || 0) + '%';
     runtime.ui.heroFadeStrengthValue.textContent = formatPercent(runtime.ui.heroFadeStrength.value);
     runtime.ui.heroFadeLeftValue.textContent = formatPercent((Number(runtime.ui.heroFadeLeft.value) || 0) / 100);
     runtime.ui.heroFadeRightValue.textContent = formatPercent((Number(runtime.ui.heroFadeRight.value) || 0) / 100);
@@ -834,6 +837,7 @@
     runtime.ui.heroImageY.value = clamp(config.visual.heroImageY, 0, 100, getAnchorPercent(config.visual.heroImagePosition).y);
     runtime.ui.heroImageScale.value = clamp(config.visual.heroImageScale, 70, 230, 100);
     runtime.ui.heroImageOpacity.value = clamp(config.visual.heroImageOpacity, 0, 0.65, 0.25);
+    runtime.ui.heroImageClarity.value = clamp(config.visual.heroImageClarity, 0, 100, 0);
     runtime.ui.heroFadeStrength.value = clamp(config.visual.heroFadeStrength, 0.2, 0.98, 0.74);
     runtime.ui.heroFadeLeft.value = clamp(config.visual.heroFadeLeft, 0, 100, clamp((config.visual.heroFadeStrength != null ? config.visual.heroFadeStrength : 0.74) * 100, 20, 98, 74));
     runtime.ui.heroFadeRight.value = clamp(config.visual.heroFadeRight, 0, 100, 8);
@@ -945,6 +949,8 @@
       heroImageScaleValue: document.getElementById('mission-editor-hero-image-scale-value'),
       heroImageOpacity: document.getElementById('mission-editor-hero-image-opacity'),
       heroImageOpacityValue: document.getElementById('mission-editor-hero-image-opacity-value'),
+      heroImageClarity: document.getElementById('mission-editor-hero-image-clarity'),
+      heroImageClarityValue: document.getElementById('mission-editor-hero-image-clarity-value'),
       heroFadeStrength: document.getElementById('mission-editor-hero-fade-strength'),
       heroFadeStrengthValue: document.getElementById('mission-editor-hero-fade-strength-value'),
       heroFadeLeft: document.getElementById('mission-editor-hero-fade-left'),
@@ -1136,6 +1142,10 @@
     });
     bindLiveInput(runtime.ui.heroImageOpacity, function() {
       runtime.draftConfig.visual.heroImageOpacity = Number(runtime.ui.heroImageOpacity.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.heroImageClarity, function() {
+      runtime.draftConfig.visual.heroImageClarity = Number(runtime.ui.heroImageClarity.value);
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.heroFadeStrength, function() {
