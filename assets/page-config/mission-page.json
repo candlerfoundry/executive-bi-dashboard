@@ -2,7 +2,7 @@
   "content": {
     "hero": {
       "headline": "Theological Education for Everyone.",
-      "body": "The Candler Foundry makes in-depth theological learning available outside of Candler's degree programs and designed for the broader public. "
+      "body": "The Candler Foundry aims to bring the best of Candler's scholarship and teaching into churches, communities, and homes across the country."
     }
   },
   "layout": {
@@ -58,14 +58,14 @@
     "community": {
       "id": "community",
       "title": "Making seminary an away game.",
-      "copy": "Bringing the best of Candler's scholarship and teaching into churches, communities, and homes across the country. ",
+      "copy": "In-depth courses designed for church goers, lay leaders, pastors, and those just curious about faith. ",
       "visible": true,
       "order": 1
     },
     "ministry": {
       "id": "ministry",
-      "title": "Equipping leaders and learners for everyday ministry",
-      "copy": "Practical tools shaped by Candler’s scholarship to support teaching, preaching, and spiritual formation in real contexts.",
+      "title": "Equipping leaders and learners for everyday discipleship.",
+      "copy": "Practical tools shaped by Candler’s scholarship to support teaching, learning, and spiritual formation in real contexts.",
       "visible": true,
       "order": 2
     },
