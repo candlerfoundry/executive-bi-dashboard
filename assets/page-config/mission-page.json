@@ -1,8 +1,8 @@
 {
   "content": {
     "hero": {
-      "headline": "Making Theological Education Accessible for Everyone",
-      "body": "The Candler Foundry aims to bring the best of Candler's scholarship and teaching into churches, communities, and homes around the world."
+      "headline": "Theological Education for Everyone.",
+      "body": "The Candler Foundry makes in-depth theological learning available outside of Candler's degree programs and designed for the broader public. "
     }
   },
   "layout": {
@@ -57,8 +57,8 @@
   "sections": {
     "community": {
       "id": "community",
-      "title": "Extending Candler into communities",
-      "copy": "Bringing the best of Candler's scholarship into churches, communities, and homes around the world.",
+      "title": "Making seminary an away game.",
+      "copy": "Bringing the best of Candler's scholarship and teaching into churches, communities, and homes across the country. ",
       "visible": true,
       "order": 1
     },
