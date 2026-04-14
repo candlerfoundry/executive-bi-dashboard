@@ -129,6 +129,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --gr-hero-copy-max: 760px;
   --gr-hero-title-size: clamp(2.5rem, 2rem + 2.5vw, 4.2rem);
   --gr-hero-body-size: 1rem;
+  --gr-hero-title-width: 760px;
+  --gr-hero-body-width: 720px;
   --gr-hero-copy-offset-x: 0px;
   --gr-hero-copy-offset-y: 0px;
   --gr-hero-title-gap: 18px;
@@ -136,16 +138,18 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --gr-hero-art-offset-x: -20px;
   --gr-hero-art-offset-y: 0px;
   --gr-hero-art-opacity: 0.22;
+  --gr-hero-fade-left: 48%;
+  --gr-hero-fade-right: 10%;
 }
 .gr-editor-launch { position:absolute; top:96px; right:var(--gr-gutter); z-index:4; display:flex; justify-content:flex-end; }
 .gr-shell { width:min(100%, var(--gr-shell-max)); margin:0 auto; padding:0 var(--gr-gutter); }
 .gr-hero { position:relative; min-height:var(--gr-hero-min); overflow:hidden; background:#fffdf8; }
 .gr-hero::before { content:''; position:absolute; inset:0; background-image:var(--gr-hero-image-url, url('/assets/Graphic_3_growth.png')); background-size:var(--gr-hero-art-width) auto; background-position:calc(100% + var(--gr-hero-art-offset-x)) calc(50% + var(--gr-hero-art-offset-y)); background-repeat:no-repeat; opacity:var(--gr-hero-art-opacity); pointer-events:none; }
-.gr-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.94) 0%, rgba(255,253,248,0.88) 20%, rgba(255,253,248,0.72) 48%, rgba(255,253,248,0.42) 76%, rgba(255,253,248,0.18) 100%); pointer-events:none; }
+.gr-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--gr-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--gr-hero-fade-left), rgba(255,253,248,0.08) calc(var(--gr-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--gr-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--gr-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
 .gr-hero-content { position:relative; z-index:1; width:min(100%, var(--gr-shell-max)); min-height:var(--gr-hero-min); margin:0 auto; padding:0 var(--gr-gutter); display:flex; align-items:center; }
 .gr-hero-copy { max-width:var(--gr-hero-copy-max); transform:translate(var(--gr-hero-copy-offset-x), var(--gr-hero-copy-offset-y)); }
-.gr-hero-title { font-size:var(--gr-hero-title-size); line-height:0.96; font-weight:700; color:#1e2530; letter-spacing:-0.05em; margin:0 0 var(--gr-hero-title-gap); font-family:'Montserrat',sans-serif; text-wrap:balance; }
-.gr-hero-subtitle { font-size:var(--gr-hero-body-size); font-weight:500; color:rgba(30,37,48,0.84); max-width:720px; margin:0; line-height:1.7; font-family:'Montserrat',sans-serif; }
+.gr-hero-title { width:min(100%, var(--gr-hero-title-width)); max-width:var(--gr-hero-title-width); font-size:var(--gr-hero-title-size); line-height:0.96; font-weight:700; color:#1e2530; letter-spacing:-0.05em; margin:0 0 var(--gr-hero-title-gap); font-family:'Montserrat',sans-serif; text-wrap:balance; }
+.gr-hero-subtitle { width:min(100%, var(--gr-hero-body-width)); max-width:var(--gr-hero-body-width); font-size:var(--gr-hero-body-size); font-weight:500; color:rgba(30,37,48,0.84); margin:0; line-height:1.7; font-family:'Montserrat',sans-serif; }
 /* Growth and Reach — Row 1: Journey Timeline */
 .gr-timeline-row { background:#1e2530; padding:48px 0; }
 .gr-eyebrow { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:2.5px; color:#c84826; margin-bottom:14px; font-family:'Montserrat',sans-serif; }
@@ -233,6 +237,12 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --ci-hero-image-size: auto 110%;
   --ci-hero-image-opacity: 0.22;
   --ci-hero-copy-offset: 0px;
+  --ci-hero-copy-offset-x: 0px;
+  --ci-hero-title-width: 700px;
+  --ci-hero-body-width: 620px;
+  --ci-hero-title-gap: 24px;
+  --ci-hero-fade-left: 48%;
+  --ci-hero-fade-right: 10%;
   --ci-row-title-size: clamp(1.45rem, 1.1rem + 0.9vw, 2rem);
   --ci-row-copy-size: 0.88rem;
   --ci-card-headline-size: clamp(1.32rem, 1.08rem + 0.64vw, 1.8rem);
@@ -250,13 +260,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .ci-story-page > #ci-story-rows { width:min(100%, var(--ci-shell-max)); margin:0 auto; padding:24px var(--ci-gutter) 0; }
 .ci-story-hero { position:relative; overflow:hidden; border-radius:0; background:#fffdf8; box-shadow:none; margin-bottom:0; min-height:360px; border-bottom:1px solid rgba(30,37,48,0.08); }
 .ci-story-hero::before { content:''; position:absolute; inset:0; background-image:var(--ci-hero-image-url); background-position:var(--ci-hero-image-position); background-size:var(--ci-hero-image-size); background-repeat:no-repeat; opacity:var(--ci-hero-image-opacity); pointer-events:none; }
-.ci-story-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.94) 0%, rgba(255,253,248,0.88) 22%, rgba(255,253,248,0.72) 48%, rgba(255,253,248,0.42) 72%, rgba(255,253,248,0.18) 100%); pointer-events:none; }
+.ci-story-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--ci-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--ci-hero-fade-left), rgba(255,253,248,0.08) calc(var(--ci-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--ci-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--ci-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
 .ci-story-hero-inner { position:relative; z-index:1; width:min(100%, var(--ci-shell-max)); min-height:360px; margin:0 auto; padding:0 var(--ci-gutter); display:flex; align-items:stretch; }
-.ci-hero-copy { width:min(100%, 700px); max-width:700px; min-height:100%; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:0; transform:translateY(var(--ci-hero-copy-offset)); }
+.ci-hero-copy { width:min(100%, var(--ci-hero-title-width)); max-width:var(--ci-hero-title-width); min-height:100%; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:0; transform:translate(var(--ci-hero-copy-offset-x), var(--ci-hero-copy-offset)); }
 .ci-kicker,
 .ci-hero-jumps { display:none !important; }
-.ci-hero-headline { width:min(100%, 700px); max-width:700px; font-size:var(--ci-hero-headline-size); line-height:0.98; letter-spacing:-0.05em; color:var(--nv); margin:0 0 clamp(16px, 1.5vw, 24px); text-wrap:balance; }
-.ci-hero-body { width:min(100%, 620px); max-width:620px; font-size:var(--ci-hero-body-size); line-height:1.7; color:rgba(30,37,48,0.86); font-weight:500; margin:0; }
+.ci-hero-headline { width:min(100%, var(--ci-hero-title-width)); max-width:var(--ci-hero-title-width); font-size:var(--ci-hero-headline-size); line-height:0.98; letter-spacing:-0.05em; color:var(--nv); margin:0 0 var(--ci-hero-title-gap); text-wrap:balance; }
+.ci-hero-body { width:min(100%, var(--ci-hero-body-width)); max-width:var(--ci-hero-body-width); font-size:var(--ci-hero-body-size); line-height:1.7; color:rgba(30,37,48,0.86); font-weight:500; margin:0; }
 .ci-story-row { display:grid; grid-template-columns:minmax(210px, 0.25fr) minmax(0, 1fr); gap:22px; align-items:start; padding:24px 0; border-top:1px solid rgba(30,37,48,0.09); }
 .ci-story-row:first-of-type { border-top:none; padding-top:0; }
   .ci-row-intro { position:sticky; top:136px; align-self:start; padding:6px 10px 12px 0; cursor:pointer; }
@@ -480,7 +490,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .mission-hero-grid { display:grid; grid-template-columns:var(--mission-hero-columns); align-items:center; gap:var(--mission-section-gap); min-height:var(--mission-hero-min); }
   .mission-intro-wrap { position:relative; z-index:2; width:min(100%, var(--mission-hero-text-max)); max-width:var(--mission-hero-text-max); min-height:var(--mission-hero-min); display:flex; flex-direction:column; justify-content:center; padding:clamp(22px, 2.2vw, 40px) 0 clamp(28px, 2.4vw, 44px); text-align:var(--mission-hero-text-align); transform:translateY(var(--mission-hero-copy-offset, 0px)); transition:transform 0.2s ease; }
   .mission-kicker { font-size:clamp(0.72rem, 0.62rem + 0.12vw, 0.8rem); font-weight:700; letter-spacing:0.2em; text-transform:uppercase; color:#c84826; margin-bottom:clamp(14px, 1.4vw, 20px); }
-  .mission-thesis { width:min(100%, var(--mission-hero-title-width, var(--mission-hero-text-max))); max-width:var(--mission-hero-title-width, var(--mission-hero-text-max)); font-family:var(--mission-heading-font); font-size:var(--mission-hero-title-size); line-height:0.98; font-weight:700; letter-spacing:-0.05em; color:#1e2530; margin-bottom:clamp(16px, 1.5vw, 24px); text-wrap:balance; }
+  .mission-thesis { width:min(100%, var(--mission-hero-title-width, var(--mission-hero-text-max))); max-width:var(--mission-hero-title-width, var(--mission-hero-text-max)); font-family:var(--mission-heading-font); font-size:var(--mission-hero-title-size); line-height:0.98; font-weight:700; letter-spacing:-0.05em; color:#1e2530; margin-bottom:var(--mission-hero-title-gap, clamp(16px, 1.5vw, 24px)); text-wrap:balance; }
 .mission-text { width:min(100%, var(--mission-hero-body-width)); max-width:var(--mission-hero-body-width); min-height:var(--mission-hero-body-min-height); font-family:var(--mission-body-font); font-size:var(--mission-body-size); line-height:1.7; color:rgba(30,37,48,0.86); font-weight:500; }
 .mission-paths, .mission-path-pill { display:none; }
 .mission-hero-visual { min-height:var(--mission-hero-min); height:100%; }
@@ -897,6 +907,18 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
+          <label class="editor-label" for="growth-editor-title-width">Title box width</label>
+          <input id="growth-editor-title-width" type="range" min="320" max="1320" step="10">
+          <div class="editor-inline-meta"><span>Narrower</span><span id="growth-editor-title-width-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-body-width">Subtitle box width</label>
+          <input id="growth-editor-body-width" type="range" min="320" max="1040" step="10">
+          <div class="editor-inline-meta"><span>Narrower</span><span id="growth-editor-body-width-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
           <label class="editor-label" for="growth-editor-copy-offset-x">Text horizontal position</label>
           <input id="growth-editor-copy-offset-x" type="range" min="-200" max="200" step="2">
           <div class="editor-inline-meta"><span>Left</span><span id="growth-editor-copy-offset-x-value"></span></div>
@@ -914,13 +936,25 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="growth-editor-art-width">Graphic width</label>
-          <input id="growth-editor-art-width" type="range" min="220" max="980" step="10">
+          <input id="growth-editor-art-width" type="range" min="220" max="1280" step="10">
           <div class="editor-inline-meta"><span>Smaller</span><span id="growth-editor-art-width-value"></span></div>
         </div>
         <div class="editor-field">
           <label class="editor-label" for="growth-editor-art-opacity">Graphic transparency</label>
           <input id="growth-editor-art-opacity" type="range" min="0" max="0.6" step="0.01">
           <div class="editor-inline-meta"><span>Fainter</span><span id="growth-editor-art-opacity-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-fade-left">Left fade</label>
+          <input id="growth-editor-fade-left" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Less cover</span><span id="growth-editor-fade-left-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-fade-right">Right fade</label>
+          <input id="growth-editor-fade-right" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Less cover</span><span id="growth-editor-fade-right-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
@@ -951,14 +985,14 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         </div>
         <div class="editor-field">
           <label class="editor-label" for="growth-editor-title-size">Title size</label>
-          <input id="growth-editor-title-size" type="range" min="1.8" max="4.8" step="0.05">
+          <input id="growth-editor-title-size" type="range" min="1.8" max="6.8" step="0.05">
           <div class="editor-inline-meta"><span>Smaller</span><span id="growth-editor-title-size-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="growth-editor-body-size">Subtitle size</label>
-          <input id="growth-editor-body-size" type="range" min="0.8" max="1.6" step="0.02">
+          <input id="growth-editor-body-size" type="range" min="0.8" max="2.2" step="0.02">
           <div class="editor-inline-meta"><span>Smaller</span><span id="growth-editor-body-size-value"></span></div>
         </div>
         <div class="editor-field">
@@ -1283,6 +1317,30 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
               <div class="editor-inline-meta"><span>Fainter</span><span id="impact-editor-hero-image-opacity-value"></span></div>
             </div>
             <div class="editor-field">
+              <label class="editor-label" for="impact-editor-hero-image-scale">Artwork zoom</label>
+              <input id="impact-editor-hero-image-scale" type="range" min="70" max="230" step="2">
+              <div class="editor-inline-meta"><span>Wider</span><span id="impact-editor-hero-image-scale-value"></span></div>
+            </div>
+          </div>
+          <div class="editor-grid-2">
+            <div class="editor-field">
+              <label class="editor-label" for="impact-editor-hero-fade-left">Left fade</label>
+              <input id="impact-editor-hero-fade-left" type="range" min="0" max="100" step="1">
+              <div class="editor-inline-meta"><span>Less cover</span><span id="impact-editor-hero-fade-left-value"></span></div>
+            </div>
+            <div class="editor-field">
+              <label class="editor-label" for="impact-editor-hero-fade-right">Right fade</label>
+              <input id="impact-editor-hero-fade-right" type="range" min="0" max="100" step="1">
+              <div class="editor-inline-meta"><span>Less cover</span><span id="impact-editor-hero-fade-right-value"></span></div>
+            </div>
+          </div>
+          <div class="editor-grid-2">
+            <div class="editor-field">
+              <label class="editor-label" for="impact-editor-hero-offset-x">Headline horizontal position</label>
+              <input id="impact-editor-hero-offset-x" type="range" min="-200" max="200" step="2">
+              <div class="editor-inline-meta"><span>Left</span><span id="impact-editor-hero-offset-x-value"></span></div>
+            </div>
+            <div class="editor-field">
               <label class="editor-label" for="impact-editor-hero-offset-y">Headline vertical position</label>
               <input id="impact-editor-hero-offset-y" type="range" min="-120" max="120" step="2">
               <div class="editor-inline-meta"><span>Higher</span><span id="impact-editor-hero-offset-y-value"></span></div>
@@ -1331,8 +1389,32 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
           </div>
           <div class="editor-field">
             <label class="editor-label" for="impact-editor-hero-size">Hero size</label>
-            <input id="impact-editor-hero-size" type="range" min="1.5" max="3.4" step="0.05">
+            <input id="impact-editor-hero-size" type="range" min="1.5" max="6.8" step="0.05">
             <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-hero-size-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-editor-hero-body-size">Hero subtitle size</label>
+            <input id="impact-editor-hero-body-size" type="range" min="0.75" max="2.2" step="0.02">
+            <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-hero-body-size-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-editor-hero-title-width">Hero heading box width</label>
+            <input id="impact-editor-hero-title-width" type="range" min="320" max="1320" step="10">
+            <div class="editor-inline-meta"><span>Narrower</span><span id="impact-editor-hero-title-width-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-editor-hero-body-width">Hero subtitle box width</label>
+            <input id="impact-editor-hero-body-width" type="range" min="320" max="1040" step="10">
+            <div class="editor-inline-meta"><span>Narrower</span><span id="impact-editor-hero-body-width-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-editor-hero-title-gap">Title margin below</label>
+            <input id="impact-editor-hero-title-gap" type="range" min="0" max="64" step="2">
+            <div class="editor-inline-meta"><span>Tighter</span><span id="impact-editor-hero-title-gap-value"></span></div>
           </div>
         </div>
         <div class="editor-grid-2">
@@ -1912,7 +1994,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-text-max">Hero text width</label>
-          <input id="mission-editor-hero-text-max" type="range" min="420" max="960" step="10">
+          <input id="mission-editor-hero-text-max" type="range" min="420" max="1320" step="10">
           <div class="editor-inline-meta"><span>Narrow</span><span id="mission-editor-hero-text-max-value"></span></div>
         </div>
         <div class="editor-field">
@@ -2036,7 +2118,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         </div>
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-image-scale">Artwork size</label>
-          <input id="mission-editor-hero-image-scale" type="range" min="70" max="170" step="2">
+          <input id="mission-editor-hero-image-scale" type="range" min="70" max="230" step="2">
           <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-hero-image-scale-value"></span></div>
         </div>
       </div>
@@ -2045,6 +2127,18 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
           <label class="editor-label" for="mission-editor-hero-fade-strength">Fade strength</label>
           <input id="mission-editor-hero-fade-strength" type="range" min="0.2" max="0.98" step="0.01">
           <div class="editor-inline-meta"><span>More image</span><span id="mission-editor-hero-fade-strength-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-hero-fade-left">Left fade</label>
+          <input id="mission-editor-hero-fade-left" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Less cover</span><span id="mission-editor-hero-fade-left-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-hero-fade-right">Right fade</label>
+          <input id="mission-editor-hero-fade-right" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Less cover</span><span id="mission-editor-hero-fade-right-value"></span></div>
         </div>
       </div>
     </div>
@@ -2072,25 +2166,32 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-title-size">Hero heading size</label>
-          <input id="mission-editor-hero-title-size" type="range" min="2.2" max="4.8" step="0.05">
+          <input id="mission-editor-hero-title-size" type="range" min="2.2" max="6.8" step="0.05">
           <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-hero-title-size-value"></span></div>
         </div>
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-body-size">Body text size</label>
-          <input id="mission-editor-body-size" type="range" min="0.75" max="1.3" step="0.02">
+          <input id="mission-editor-body-size" type="range" min="0.75" max="2.2" step="0.02">
           <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-body-size-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-body-width">Hero body box width</label>
-          <input id="mission-editor-hero-body-width" type="range" min="320" max="860" step="10">
+          <input id="mission-editor-hero-body-width" type="range" min="320" max="1040" step="10">
           <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-hero-body-width-value"></span></div>
         </div>
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-title-width">Hero heading box width</label>
-          <input id="mission-editor-hero-title-width" type="range" min="320" max="960" step="10">
+          <input id="mission-editor-hero-title-width" type="range" min="320" max="1320" step="10">
           <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-hero-title-width-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-hero-title-gap">Title margin below</label>
+          <input id="mission-editor-hero-title-gap" type="range" min="0" max="64" step="2">
+          <div class="editor-inline-meta"><span>Tighter</span><span id="mission-editor-hero-title-gap-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
@@ -2866,7 +2967,11 @@ var IMPACT_EDITOR_DEFAULTS = {
     body: 'The Foundry provides faculty, students, and alumni with the resources and opportunities that allow teaching and preaching ministries to thrive.',
     image: '/assets/Graphic_1_mission_impact.png',
     imagePosition: 'right center',
+    imageScale: 110,
     imageOpacity: 0.22,
+    imageFadeLeft: 48,
+    imageFadeRight: 10,
+    offsetX: 0,
     offsetY: 0
   },
   layout: {
@@ -2879,6 +2984,9 @@ var IMPACT_EDITOR_DEFAULTS = {
     fontFamily: "'Montserrat', sans-serif",
     heroSize: 2.65,
     heroBodySize: 0.96,
+    heroTitleWidth: 700,
+    heroBodyWidth: 620,
+    heroTitleGap: 24,
     rowTitleSize: 2,
     rowCopySize: 0.88,
     cardHeadlineSize: 1.8,
@@ -3203,6 +3311,9 @@ function impactApplyCssVars(config) {
   panel.style.setProperty('--ci-font-family', config.typography.fontFamily || "'Montserrat', sans-serif");
   panel.style.setProperty('--ci-hero-headline-size', (config.typography.heroSize || 2.65) + 'rem');
   panel.style.setProperty('--ci-hero-body-size', (config.typography.heroBodySize || 0.96) + 'rem');
+  panel.style.setProperty('--ci-hero-title-width', (config.typography.heroTitleWidth || 700) + 'px');
+  panel.style.setProperty('--ci-hero-body-width', (config.typography.heroBodyWidth || 620) + 'px');
+  panel.style.setProperty('--ci-hero-title-gap', (config.typography.heroTitleGap || 24) + 'px');
   panel.style.setProperty('--ci-row-title-size', (config.typography.rowTitleSize || 2) + 'rem');
   panel.style.setProperty('--ci-row-copy-size', (config.typography.rowCopySize || 0.88) + 'rem');
   panel.style.setProperty('--ci-card-headline-size', (config.typography.cardHeadlineSize || 1.8) + 'rem');
@@ -3211,7 +3322,11 @@ function impactApplyCssVars(config) {
   panel.style.setProperty('--ci-card-name-size', (config.typography.nameSize || 0.9) + 'rem');
   panel.style.setProperty('--ci-hero-image-url', 'url("' + ((config.hero && config.hero.image) || '/assets/Graphic_1_mission_impact.png') + '")');
   panel.style.setProperty('--ci-hero-image-position', (config.hero && config.hero.imagePosition) || 'center right');
+  panel.style.setProperty('--ci-hero-image-size', 'auto ' + (((config.hero && config.hero.imageScale) != null ? config.hero.imageScale : 110)) + '%');
   panel.style.setProperty('--ci-hero-image-opacity', String((config.hero && config.hero.imageOpacity) != null ? config.hero.imageOpacity : 0.26));
+  panel.style.setProperty('--ci-hero-fade-left', (((config.hero && config.hero.imageFadeLeft) != null ? config.hero.imageFadeLeft : 48)) + '%');
+  panel.style.setProperty('--ci-hero-fade-right', (((config.hero && config.hero.imageFadeRight) != null ? config.hero.imageFadeRight : 10)) + '%');
+  panel.style.setProperty('--ci-hero-copy-offset-x', (((config.hero && config.hero.offsetX) || 0)) + 'px');
   panel.style.setProperty('--ci-hero-copy-offset', (((config.hero && config.hero.offsetY) || 0)) + 'px');
 }
 
@@ -4002,8 +4117,16 @@ function impactPopulateEditorFields() {
   document.getElementById('impact-editor-hero-body').value = hero.body || '';
   document.getElementById('impact-editor-hero-image').value = hero.image || '/assets/Graphic_1_mission_impact.png';
   document.getElementById('impact-editor-hero-image-position').value = hero.imagePosition || 'center right';
+  document.getElementById('impact-editor-hero-image-scale').value = hero.imageScale != null ? hero.imageScale : 110;
+  document.getElementById('impact-editor-hero-image-scale-value').textContent = Math.round(hero.imageScale != null ? hero.imageScale : 110) + '%';
   document.getElementById('impact-editor-hero-image-opacity').value = hero.imageOpacity != null ? hero.imageOpacity : 0.26;
   document.getElementById('impact-editor-hero-image-opacity-value').textContent = impactFormatPercent((hero.imageOpacity != null ? hero.imageOpacity : 0.26));
+  document.getElementById('impact-editor-hero-fade-left').value = hero.imageFadeLeft != null ? hero.imageFadeLeft : 48;
+  document.getElementById('impact-editor-hero-fade-left-value').textContent = impactFormatPercent((hero.imageFadeLeft != null ? hero.imageFadeLeft : 48) / 100);
+  document.getElementById('impact-editor-hero-fade-right').value = hero.imageFadeRight != null ? hero.imageFadeRight : 10;
+  document.getElementById('impact-editor-hero-fade-right-value').textContent = impactFormatPercent((hero.imageFadeRight != null ? hero.imageFadeRight : 10) / 100);
+  document.getElementById('impact-editor-hero-offset-x').value = hero.offsetX || 0;
+  document.getElementById('impact-editor-hero-offset-x-value').textContent = ((hero.offsetX || 0) > 0 ? '+' : '') + (hero.offsetX || 0) + 'px';
   document.getElementById('impact-editor-hero-offset-y').value = hero.offsetY || 0;
   document.getElementById('impact-editor-hero-offset-y-value').textContent = ((hero.offsetY || 0) > 0 ? '+' : '') + (hero.offsetY || 0) + 'px';
   document.getElementById('impact-editor-card-gap').value = config.layout.cardGap;
@@ -4017,6 +4140,14 @@ function impactPopulateEditorFields() {
   document.getElementById('impact-editor-font-family').value = config.typography.fontFamily;
   document.getElementById('impact-editor-hero-size').value = config.typography.heroSize;
   document.getElementById('impact-editor-hero-size-value').textContent = Number(config.typography.heroSize).toFixed(2) + 'rem';
+  document.getElementById('impact-editor-hero-body-size').value = config.typography.heroBodySize;
+  document.getElementById('impact-editor-hero-body-size-value').textContent = Number(config.typography.heroBodySize).toFixed(2) + 'rem';
+  document.getElementById('impact-editor-hero-title-width').value = config.typography.heroTitleWidth != null ? config.typography.heroTitleWidth : 700;
+  document.getElementById('impact-editor-hero-title-width-value').textContent = impactFormatPx(config.typography.heroTitleWidth != null ? config.typography.heroTitleWidth : 700);
+  document.getElementById('impact-editor-hero-body-width').value = config.typography.heroBodyWidth != null ? config.typography.heroBodyWidth : 620;
+  document.getElementById('impact-editor-hero-body-width-value').textContent = impactFormatPx(config.typography.heroBodyWidth != null ? config.typography.heroBodyWidth : 620);
+  document.getElementById('impact-editor-hero-title-gap').value = config.typography.heroTitleGap != null ? config.typography.heroTitleGap : 24;
+  document.getElementById('impact-editor-hero-title-gap-value').textContent = impactFormatPx(config.typography.heroTitleGap != null ? config.typography.heroTitleGap : 24);
   document.getElementById('impact-editor-row-title-size').value = config.typography.rowTitleSize;
   document.getElementById('impact-editor-row-title-size-value').textContent = Number(config.typography.rowTitleSize).toFixed(2) + 'rem';
   document.getElementById('impact-editor-row-copy-size').value = config.typography.rowCopySize;
@@ -4270,7 +4401,11 @@ function impactBindEditor() {
     impactPopulateEditorFields();
     impactSetStatus('Live draft preview active', false);
   });
+  onInput('impact-editor-hero-image-scale', ['hero', 'imageScale'], Number);
   onInput('impact-editor-hero-image-opacity', ['hero', 'imageOpacity'], Number);
+  onInput('impact-editor-hero-fade-left', ['hero', 'imageFadeLeft'], Number);
+  onInput('impact-editor-hero-fade-right', ['hero', 'imageFadeRight'], Number);
+  onInput('impact-editor-hero-offset-x', ['hero', 'offsetX'], Number);
   onInput('impact-editor-hero-offset-y', ['hero', 'offsetY'], Number);
   onInput('impact-editor-card-gap', ['layout', 'cardGap'], Number);
   onInput('impact-editor-card-height', ['layout', 'cardHeight'], Number);
@@ -4278,6 +4413,10 @@ function impactBindEditor() {
   onInput('impact-editor-portrait-scale', ['layout', 'portraitScale'], Number);
   onInput('impact-editor-font-family', ['typography', 'fontFamily']);
   onInput('impact-editor-hero-size', ['typography', 'heroSize'], Number);
+  onInput('impact-editor-hero-body-size', ['typography', 'heroBodySize'], Number);
+  onInput('impact-editor-hero-title-width', ['typography', 'heroTitleWidth'], Number);
+  onInput('impact-editor-hero-body-width', ['typography', 'heroBodyWidth'], Number);
+  onInput('impact-editor-hero-title-gap', ['typography', 'heroTitleGap'], Number);
   onInput('impact-editor-row-title-size', ['typography', 'rowTitleSize'], Number);
   onInput('impact-editor-row-copy-size', ['typography', 'rowCopySize'], Number);
   onInput('impact-editor-headline-size', ['typography', 'cardHeadlineSize'], Number);
@@ -4575,18 +4714,22 @@ var GROWTH_EDITOR_DEFAULTS = {
     gutter: 40,
     heroHeight: 360,
     copyWidth: 760,
+    titleWidth: 760,
+    bodyWidth: 720,
     copyOffsetX: 0,
     copyOffsetY: 0,
     titleGap: 18,
     artWidth: 420,
     artOffsetX: -20,
     artOffsetY: 0,
-    artOpacity: 0.22
+    artOpacity: 0.22,
+    fadeLeft: 48,
+    fadeRight: 10
   },
   typography: {
     fontFamily: "'Montserrat', sans-serif",
     titleSize: 4.2,
-    bodySize: 1
+    bodySize: 1.0
   }
 };
 var growthEditorRuntime = {
@@ -4676,6 +4819,8 @@ function growthApplyConfig(config) {
   panel.style.setProperty('--gr-gutter', (config.layout.gutter || 40) + 'px');
   panel.style.setProperty('--gr-hero-min', (config.layout.heroHeight || 360) + 'px');
   panel.style.setProperty('--gr-hero-copy-max', (config.layout.copyWidth || 760) + 'px');
+  panel.style.setProperty('--gr-hero-title-width', (config.layout.titleWidth || 760) + 'px');
+  panel.style.setProperty('--gr-hero-body-width', (config.layout.bodyWidth || 720) + 'px');
   panel.style.setProperty('--gr-hero-copy-offset-x', (config.layout.copyOffsetX || 0) + 'px');
   panel.style.setProperty('--gr-hero-copy-offset-y', (config.layout.copyOffsetY || 0) + 'px');
   panel.style.setProperty('--gr-hero-title-gap', (config.layout.titleGap || 18) + 'px');
@@ -4683,6 +4828,8 @@ function growthApplyConfig(config) {
   panel.style.setProperty('--gr-hero-art-offset-x', (config.layout.artOffsetX || 0) + 'px');
   panel.style.setProperty('--gr-hero-art-offset-y', (config.layout.artOffsetY || 0) + 'px');
   panel.style.setProperty('--gr-hero-art-opacity', String((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22));
+  panel.style.setProperty('--gr-hero-fade-left', ((config.layout.fadeLeft != null) ? config.layout.fadeLeft : 48) + '%');
+  panel.style.setProperty('--gr-hero-fade-right', ((config.layout.fadeRight != null) ? config.layout.fadeRight : 10) + '%');
   panel.style.setProperty('--gr-hero-title-size', (config.typography.titleSize || 4.2) + 'rem');
   panel.style.setProperty('--gr-hero-body-size', (config.typography.bodySize || 1) + 'rem');
   var font = config.typography.fontFamily || "'Montserrat', sans-serif";
@@ -4739,11 +4886,15 @@ function growthPopulateEditorFields() {
   document.getElementById('growth-editor-shell-max').value = Number(config.layout.shellMax || 1680);
   document.getElementById('growth-editor-hero-height').value = Number(config.layout.heroHeight || 360);
   document.getElementById('growth-editor-copy-width').value = Number(config.layout.copyWidth || 760);
+  document.getElementById('growth-editor-title-width').value = Number(config.layout.titleWidth || 760);
+  document.getElementById('growth-editor-body-width').value = Number(config.layout.bodyWidth || 720);
   document.getElementById('growth-editor-title-gap').value = Number(config.layout.titleGap || 18);
   document.getElementById('growth-editor-copy-offset-x').value = Number(config.layout.copyOffsetX || 0);
   document.getElementById('growth-editor-copy-offset-y').value = Number(config.layout.copyOffsetY || 0);
   document.getElementById('growth-editor-art-width').value = Number(config.layout.artWidth || 420);
   document.getElementById('growth-editor-art-opacity').value = Number((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22);
+  document.getElementById('growth-editor-fade-left').value = Number((config.layout.fadeLeft != null) ? config.layout.fadeLeft : 48);
+  document.getElementById('growth-editor-fade-right').value = Number((config.layout.fadeRight != null) ? config.layout.fadeRight : 10);
   document.getElementById('growth-editor-art-offset-x').value = Number(config.layout.artOffsetX || 0);
   document.getElementById('growth-editor-art-offset-y').value = Number(config.layout.artOffsetY || 0);
   document.getElementById('growth-editor-font-family').value = config.typography.fontFamily || "'Montserrat', sans-serif";
@@ -4754,11 +4905,15 @@ function growthPopulateEditorFields() {
   document.getElementById('growth-editor-shell-max-value').textContent = Math.round(Number(config.layout.shellMax || 1680)) + 'px';
   document.getElementById('growth-editor-hero-height-value').textContent = Math.round(Number(config.layout.heroHeight || 360)) + 'px';
   document.getElementById('growth-editor-copy-width-value').textContent = Math.round(Number(config.layout.copyWidth || 760)) + 'px';
+  document.getElementById('growth-editor-title-width-value').textContent = Math.round(Number(config.layout.titleWidth || 760)) + 'px';
+  document.getElementById('growth-editor-body-width-value').textContent = Math.round(Number(config.layout.bodyWidth || 720)) + 'px';
   document.getElementById('growth-editor-title-gap-value').textContent = Math.round(Number(config.layout.titleGap || 18)) + 'px';
   document.getElementById('growth-editor-copy-offset-x-value').textContent = Math.round(Number(config.layout.copyOffsetX || 0)) + 'px';
   document.getElementById('growth-editor-copy-offset-y-value').textContent = Math.round(Number(config.layout.copyOffsetY || 0)) + 'px';
   document.getElementById('growth-editor-art-width-value').textContent = Math.round(Number(config.layout.artWidth || 420)) + 'px';
   document.getElementById('growth-editor-art-opacity-value').textContent = Math.round(Number((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22) * 100) + '%';
+  document.getElementById('growth-editor-fade-left-value').textContent = Math.round(Number((config.layout.fadeLeft != null) ? config.layout.fadeLeft : 48)) + '%';
+  document.getElementById('growth-editor-fade-right-value').textContent = Math.round(Number((config.layout.fadeRight != null) ? config.layout.fadeRight : 10)) + '%';
   document.getElementById('growth-editor-art-offset-x-value').textContent = Math.round(Number(config.layout.artOffsetX || 0)) + 'px';
   document.getElementById('growth-editor-art-offset-y-value').textContent = Math.round(Number(config.layout.artOffsetY || 0)) + 'px';
   document.getElementById('growth-editor-title-size-value').textContent = Number(config.typography.titleSize || 4.2).toFixed(2) + 'rem';
@@ -4847,11 +5002,15 @@ function growthBindEditor() {
   bindInput('growth-editor-shell-max', 'layout', 'shellMax', Number);
   bindInput('growth-editor-hero-height', 'layout', 'heroHeight', Number);
   bindInput('growth-editor-copy-width', 'layout', 'copyWidth', Number);
+  bindInput('growth-editor-title-width', 'layout', 'titleWidth', Number);
+  bindInput('growth-editor-body-width', 'layout', 'bodyWidth', Number);
   bindInput('growth-editor-title-gap', 'layout', 'titleGap', Number);
   bindInput('growth-editor-copy-offset-x', 'layout', 'copyOffsetX', Number);
   bindInput('growth-editor-copy-offset-y', 'layout', 'copyOffsetY', Number);
   bindInput('growth-editor-art-width', 'layout', 'artWidth', Number);
   bindInput('growth-editor-art-opacity', 'layout', 'artOpacity', Number);
+  bindInput('growth-editor-fade-left', 'layout', 'fadeLeft', Number);
+  bindInput('growth-editor-fade-right', 'layout', 'fadeRight', Number);
   bindInput('growth-editor-art-offset-x', 'layout', 'artOffsetX', Number);
   bindInput('growth-editor-art-offset-y', 'layout', 'artOffsetY', Number);
   bindInput('growth-editor-font-family', 'typography', 'fontFamily');

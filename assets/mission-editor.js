@@ -30,7 +30,9 @@
       heroImageY: 50,
       heroImageScale: 100,
       heroImageOpacity: 0.25,
-      heroFadeStrength: 0.74
+      heroFadeStrength: 0.74,
+      heroFadeLeft: 74,
+      heroFadeRight: 8
     },
     typography: {
       headingFont: "'Montserrat', sans-serif",
@@ -40,6 +42,7 @@
       heroBodyWidth: 620,
       heroBodyMinHeight: 0,
       heroTitleWidth: 700,
+      heroTitleGap: 24,
       sectionTitleSize: 1.8,
       sectionCopySize: 0.96,
       sectionCopyWidth: 280,
@@ -205,14 +208,14 @@
     } catch (err) {}
   }
 
-  function computeOverlayGradient(strength) {
-    var s = clamp(strength, 0.2, 0.98, 0.74);
-    var stop1 = Math.min(0.99, s + 0.19);
-    var stop2 = Math.min(0.96, s + 0.08);
-    var stop3 = Math.min(0.86, s - 0.1);
-    var stop4 = Math.max(0.22, s - 0.3);
-    var stop5 = Math.max(0.04, s - 0.5);
-    return 'linear-gradient(90deg, rgba(255,253,248,' + stop1.toFixed(2) + ') 0%, rgba(255,253,248,' + stop2.toFixed(2) + ') 18%, rgba(255,253,248,' + stop3.toFixed(2) + ') 38%, rgba(255,253,248,' + stop4.toFixed(2) + ') 58%, rgba(255,253,248,' + (stop4 * 0.55).toFixed(2) + ') 78%, rgba(255,253,248,' + stop5.toFixed(2) + ') 100%)';
+  function computeOverlayGradient(leftFade, rightFade, legacyStrength) {
+    var left = leftFade != null ? clamp(leftFade, 0, 100, 74) : clamp((legacyStrength != null ? legacyStrength : 0.74) * 100, 20, 98, 74);
+    var right = rightFade != null ? clamp(rightFade, 0, 100, 8) : 8;
+    var leftSoft = Math.max(0, left - 20);
+    var leftEdge = Math.min(94, left + 10);
+    var rightStart = Math.max(leftEdge + 4, 100 - right - 14);
+    var rightSoft = Math.max(rightStart + 2, 100 - right);
+    return 'linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) ' + Math.round(leftSoft) + '%, rgba(255,253,248,0.58) ' + Math.round(left) + '%, rgba(255,253,248,0.08) ' + Math.round(leftEdge) + '%, rgba(255,253,248,0.08) ' + Math.round(rightStart) + '%, rgba(255,253,248,0.58) ' + Math.round(rightSoft) + '%, rgba(255,253,248,0.90) 100%)';
   }
 
   function ensureSectionConfig(config, sectionId) {
@@ -320,7 +323,7 @@
     var overlay = panel ? panel.querySelector('.mission-bar-overlay') : null;
     var grid = panel ? panel.querySelector('.mission-hero-grid') : null;
     var visual = panel ? panel.querySelector('.mission-hero-visual') : null;
-    var heroTextMax = clamp(state.config.layout.heroTextMax, 420, 960, 700);
+    var heroTextMax = clamp(state.config.layout.heroTextMax, 420, 1320, 700);
     var heroMinHeight = clamp(state.config.layout.heroMinHeight, 240, 520, 348);
     if (!panel) return;
     panel.style.setProperty('--mission-shell-max', clamp(state.config.layout.shellMax, 1280, 1880, 1680) + 'px');
@@ -339,16 +342,17 @@
     panel.style.setProperty('--mission-public-columns', clamp(state.config.layout.publicColumns, 1, 4, 3));
     panel.style.setProperty('--mission-hero-image-url', 'url("' + (state.config.visual.heroImage || '/assets/Graphic_1.png') + '")');
     panel.style.setProperty('--mission-hero-image-position', clamp(state.config.visual.heroImageX, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).x) + '% ' + clamp(state.config.visual.heroImageY, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).y) + '%');
-    panel.style.setProperty('--mission-hero-image-size', clamp(state.config.visual.heroImageScale, 70, 170, 100) + '% auto');
+    panel.style.setProperty('--mission-hero-image-size', clamp(state.config.visual.heroImageScale, 70, 230, 100) + '% auto');
     panel.style.setProperty('--mission-hero-image-opacity', clamp(state.config.visual.heroImageOpacity, 0, 0.65, 0.25));
-    panel.style.setProperty('--mission-hero-overlay-gradient', computeOverlayGradient(state.config.visual.heroFadeStrength));
+    panel.style.setProperty('--mission-hero-overlay-gradient', computeOverlayGradient(state.config.visual.heroFadeLeft, state.config.visual.heroFadeRight, state.config.visual.heroFadeStrength));
     panel.style.setProperty('--mission-heading-font', state.config.typography.headingFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-body-font', state.config.typography.bodyFont || "'Montserrat', sans-serif");
-    panel.style.setProperty('--mission-hero-title-size', clamp(state.config.typography.heroTitleSize, 2.2, 4.8, 3.75) + 'rem');
-    panel.style.setProperty('--mission-hero-title-width', clamp(state.config.typography.heroTitleWidth, 320, 960, heroTextMax) + 'px');
-    panel.style.setProperty('--mission-body-size', clamp(state.config.typography.bodySize, 0.75, 1.3, 1) + 'rem');
-    panel.style.setProperty('--mission-hero-body-width', clamp(state.config.typography.heroBodyWidth, 320, 860, 620) + 'px');
+    panel.style.setProperty('--mission-hero-title-size', clamp(state.config.typography.heroTitleSize, 2.2, 6.8, 3.75) + 'rem');
+    panel.style.setProperty('--mission-hero-title-width', clamp(state.config.typography.heroTitleWidth, 320, 1320, heroTextMax) + 'px');
+    panel.style.setProperty('--mission-body-size', clamp(state.config.typography.bodySize, 0.75, 2.2, 1) + 'rem');
+    panel.style.setProperty('--mission-hero-body-width', clamp(state.config.typography.heroBodyWidth, 320, 1040, 620) + 'px');
     panel.style.setProperty('--mission-hero-body-min-height', clamp(state.config.typography.heroBodyMinHeight, 0, 220, 0) + 'px');
+    panel.style.setProperty('--mission-hero-title-gap', clamp(state.config.typography.heroTitleGap, 0, 64, 24) + 'px');
     panel.style.setProperty('--mission-section-title-size', clamp(state.config.typography.sectionTitleSize, 1.1, 2.4, 1.8) + 'rem');
     panel.style.setProperty('--mission-section-copy-size', clamp(state.config.typography.sectionCopySize, 0.72, 1.3, 0.96) + 'rem');
     panel.style.setProperty('--mission-section-copy-width', clamp(state.config.typography.sectionCopyWidth, 180, 520, 280) + 'px');
@@ -761,10 +765,13 @@
     runtime.ui.heroImageYValue.textContent = Math.round(Number(runtime.ui.heroImageY.value) || 0) + '%';
     runtime.ui.heroImageOpacityValue.textContent = formatPercent(runtime.ui.heroImageOpacity.value);
     runtime.ui.heroFadeStrengthValue.textContent = formatPercent(runtime.ui.heroFadeStrength.value);
+    runtime.ui.heroFadeLeftValue.textContent = formatPercent((Number(runtime.ui.heroFadeLeft.value) || 0) / 100);
+    runtime.ui.heroFadeRightValue.textContent = formatPercent((Number(runtime.ui.heroFadeRight.value) || 0) / 100);
     runtime.ui.heroTitleSizeValue.textContent = Number(runtime.ui.heroTitleSize.value).toFixed(2) + 'rem';
     runtime.ui.bodySizeValue.textContent = Number(runtime.ui.bodySize.value).toFixed(2) + 'rem';
     runtime.ui.heroBodyWidthValue.textContent = formatPx(runtime.ui.heroBodyWidth.value);
     runtime.ui.heroTitleWidthValue.textContent = formatPx(runtime.ui.heroTitleWidth.value);
+    runtime.ui.heroTitleGapValue.textContent = formatPx(runtime.ui.heroTitleGap.value);
     runtime.ui.heroBodyHeightValue.textContent = formatPx(runtime.ui.heroBodyHeight.value);
     runtime.ui.sectionTitleSizeValue.textContent = Number(runtime.ui.sectionTitleSize.value).toFixed(2) + 'rem';
     runtime.ui.sectionCopySizeValue.textContent = Number(runtime.ui.sectionCopySize.value).toFixed(2) + 'rem';
@@ -809,7 +816,7 @@
     runtime.ui.publicCopy.value = (config.sections.public || {}).copy || '';
     runtime.ui.shellMax.value = clamp(config.layout.shellMax, 1280, 1880, 1680);
     runtime.ui.gutter.value = clamp(config.layout.gutter, 12, 72, 28);
-    runtime.ui.heroTextMax.value = clamp(config.layout.heroTextMax, 420, 960, 700);
+    runtime.ui.heroTextMax.value = clamp(config.layout.heroTextMax, 420, 1320, 700);
     runtime.ui.heroMinHeight.value = clamp(config.layout.heroMinHeight, 240, 520, 348);
     runtime.ui.heroGap.value = clamp(config.layout.heroGap, 8, 72, 24);
     runtime.ui.heroOffsetY.value = clamp(config.layout.heroOffsetY, -120, 120, 0);
@@ -825,15 +832,18 @@
     runtime.ui.heroImagePosition.value = config.visual.heroImagePosition || 'center right';
     runtime.ui.heroImageX.value = clamp(config.visual.heroImageX, 0, 100, getAnchorPercent(config.visual.heroImagePosition).x);
     runtime.ui.heroImageY.value = clamp(config.visual.heroImageY, 0, 100, getAnchorPercent(config.visual.heroImagePosition).y);
-    runtime.ui.heroImageScale.value = clamp(config.visual.heroImageScale, 70, 170, 100);
+    runtime.ui.heroImageScale.value = clamp(config.visual.heroImageScale, 70, 230, 100);
     runtime.ui.heroImageOpacity.value = clamp(config.visual.heroImageOpacity, 0, 0.65, 0.25);
     runtime.ui.heroFadeStrength.value = clamp(config.visual.heroFadeStrength, 0.2, 0.98, 0.74);
+    runtime.ui.heroFadeLeft.value = clamp(config.visual.heroFadeLeft, 0, 100, clamp((config.visual.heroFadeStrength != null ? config.visual.heroFadeStrength : 0.74) * 100, 20, 98, 74));
+    runtime.ui.heroFadeRight.value = clamp(config.visual.heroFadeRight, 0, 100, 8);
     runtime.ui.headingFont.value = config.typography.headingFont || "'Montserrat', sans-serif";
     runtime.ui.bodyFont.value = config.typography.bodyFont || "'Montserrat', sans-serif";
-    runtime.ui.heroTitleSize.value = clamp(config.typography.heroTitleSize, 2.2, 4.8, 3.75);
-    runtime.ui.bodySize.value = clamp(config.typography.bodySize, 0.75, 1.3, 1);
-    runtime.ui.heroBodyWidth.value = clamp(config.typography.heroBodyWidth, 320, 860, 620);
-    runtime.ui.heroTitleWidth.value = clamp(config.typography.heroTitleWidth, 320, 960, clamp(config.layout.heroTextMax, 420, 960, 700));
+    runtime.ui.heroTitleSize.value = clamp(config.typography.heroTitleSize, 2.2, 6.8, 3.75);
+    runtime.ui.bodySize.value = clamp(config.typography.bodySize, 0.75, 2.2, 1);
+    runtime.ui.heroBodyWidth.value = clamp(config.typography.heroBodyWidth, 320, 1040, 620);
+    runtime.ui.heroTitleWidth.value = clamp(config.typography.heroTitleWidth, 320, 1320, clamp(config.layout.heroTextMax, 420, 1320, 700));
+    runtime.ui.heroTitleGap.value = clamp(config.typography.heroTitleGap, 0, 64, 24);
     runtime.ui.heroBodyHeight.value = clamp(config.typography.heroBodyMinHeight, 0, 220, 0);
     runtime.ui.sectionTitleSize.value = clamp(config.typography.sectionTitleSize, 1.1, 2.4, 1.8);
     runtime.ui.sectionCopySize.value = clamp(config.typography.sectionCopySize, 0.72, 1.3, 0.96);
@@ -937,6 +947,10 @@
       heroImageOpacityValue: document.getElementById('mission-editor-hero-image-opacity-value'),
       heroFadeStrength: document.getElementById('mission-editor-hero-fade-strength'),
       heroFadeStrengthValue: document.getElementById('mission-editor-hero-fade-strength-value'),
+      heroFadeLeft: document.getElementById('mission-editor-hero-fade-left'),
+      heroFadeLeftValue: document.getElementById('mission-editor-hero-fade-left-value'),
+      heroFadeRight: document.getElementById('mission-editor-hero-fade-right'),
+      heroFadeRightValue: document.getElementById('mission-editor-hero-fade-right-value'),
       headingFont: document.getElementById('mission-editor-heading-font'),
       bodyFont: document.getElementById('mission-editor-body-font'),
       heroTitleSize: document.getElementById('mission-editor-hero-title-size'),
@@ -947,6 +961,8 @@
       heroBodyWidthValue: document.getElementById('mission-editor-hero-body-width-value'),
       heroTitleWidth: document.getElementById('mission-editor-hero-title-width'),
       heroTitleWidthValue: document.getElementById('mission-editor-hero-title-width-value'),
+      heroTitleGap: document.getElementById('mission-editor-hero-title-gap'),
+      heroTitleGapValue: document.getElementById('mission-editor-hero-title-gap-value'),
       heroBodyHeight: document.getElementById('mission-editor-hero-body-height'),
       heroBodyHeightValue: document.getElementById('mission-editor-hero-body-height-value'),
       sectionTitleSize: document.getElementById('mission-editor-section-title-size'),
@@ -1124,6 +1140,17 @@
     });
     bindLiveInput(runtime.ui.heroFadeStrength, function() {
       runtime.draftConfig.visual.heroFadeStrength = Number(runtime.ui.heroFadeStrength.value);
+      if (runtime.draftConfig.visual.heroFadeLeft == null) {
+        runtime.draftConfig.visual.heroFadeLeft = clamp(Number(runtime.ui.heroFadeStrength.value) * 100, 20, 98, 74);
+      }
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.heroFadeLeft, function() {
+      runtime.draftConfig.visual.heroFadeLeft = Number(runtime.ui.heroFadeLeft.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.heroFadeRight, function() {
+      runtime.draftConfig.visual.heroFadeRight = Number(runtime.ui.heroFadeRight.value);
       window.renderOfferings(runtime.baseOfferings);
     });
     [
@@ -1131,6 +1158,7 @@
       ['bodySize', 'bodySize'],
       ['heroBodyWidth', 'heroBodyWidth'],
       ['heroTitleWidth', 'heroTitleWidth'],
+      ['heroTitleGap', 'heroTitleGap'],
       ['heroBodyHeight', 'heroBodyMinHeight'],
       ['sectionTitleSize', 'sectionTitleSize'],
       ['sectionCopySize', 'sectionCopySize'],
