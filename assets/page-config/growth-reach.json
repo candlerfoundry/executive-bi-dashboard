@@ -9,13 +9,17 @@
     "gutter": 40,
     "heroHeight": 364,
     "copyWidth": 800,
-    "copyOffsetX": -40,
-    "copyOffsetY": 24,
+    "titleWidth": 830,
+    "bodyWidth": 720,
+    "copyOffsetX": -84,
+    "copyOffsetY": 10,
     "titleGap": 14,
-    "artWidth": 690,
-    "artOffsetX": -98,
-    "artOffsetY": 16,
-    "artOpacity": 0.46
+    "artWidth": 1280,
+    "artOffsetX": -174,
+    "artOffsetY": -138,
+    "artOpacity": 0.48,
+    "fadeLeft": 44,
+    "fadeRight": 7
   },
   "typography": {
     "fontFamily": "'Montserrat', sans-serif",
