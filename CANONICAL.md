@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-04-13
+Last updated: 2026-04-22
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -265,6 +265,40 @@ Heat tiers:
 
 ---
 
+## 16. THEOED - DISCUSSION GUIDE ASSETS AND VIEWER
+**Rule:** TheoEd discussion guide PDFs are Git-tracked static assets. Each featured card on the TheoEd page can surface its own guide from the pop-out viewer.
+
+**Asset location:** All discussion guide PDFs live in [assets/theoed/discussion-guides/](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/theoed/discussion-guides).
+
+**Filename convention:** `THEO-<id>-<kebab-slug>-discussion-guide.pdf`. The `THEO-<id>` prefix matches the Airtable record id in *3MB, Unstuck, TheoEd* (TheoEd Archive view), so guides remain resolvable even if the talk title is rewritten. Spaces and punctuation are collapsed to hyphens, lowercased, and the trailing author suffix from the source file is dropped for brevity.
+
+**Upstream sources (read-only):**
+- Dropbox: `C:\Users\esavant\Dropbox\TheoEd\<Event Folder>\<THEO-id - Speaker Title>\<... - Discussion Guide.pdf>`
+- Airtable: base *3MB, Unstuck, TheoEd*, table *TheoEd*, view *TheoEd Archive*, field **Discussion Guide**.
+
+Dropbox is the faster source; use it for bulk sync into the repo. Airtable is authoritative for metadata but slower to fetch PDFs.
+
+**Card data structure:** The 9 featured cards are defined in `THEOED_SPEAKERS` in [index.html](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/index.html). Each entry has a `guide` string field holding the relative path to the PDF, e.g. `guide:'assets/theoed/discussion-guides/THEO-168-...-discussion-guide.pdf'`. An empty string or missing `guide` marks the card as having no guide yet. This is the field the future TheoEd editor must read/write.
+
+**Viewer behavior:** The pop-out/lightbox (`#te-lightbox`) renders a banner below the video with id `#te-lb-guide`, which has three states via its `data-state` attribute:
+- `has-guide` → shows the `Download Discussion Guide` button (`#te-lb-guide-link`) pointing at the card's `guide` path.
+- `missing` → shows the fallback copy in `#te-lb-guide-missing`: "Discussion guide not yet available for this talk. Please provide one to add it here."
+- `empty` → default/reset state while the lightbox is closed.
+
+`openLightbox(vid, name, loc, guide)` sets the href and the state; `closeLightbox()` resets it to `empty` so stale data does not flash between opens.
+
+**Exact label text:** The button label must read `Download Discussion Guide` — do not shorten, recolor without design input, or rename. The label lives as plain text inside `.te-lb-guide-label` with an arrow glyph in `.te-lb-guide-icon`.
+
+**Scope:** The bottom *Event Archive* accordion (`THEOED_EVENTS`) intentionally does **not** yet carry per-talk guide fields. Do not add them without an explicit request. All 51 guides are in the repo for future use.
+
+**Missing / unresolved mappings (as of 2026-04-22):**
+- `THEOED_EVENTS` → Austin 2023 → *Rev. Dr. Jose Irizarry, "The World We Can See"* has no discussion guide PDF in Dropbox or Airtable. If one becomes available, add it to `assets/theoed/discussion-guides/` using the `THEO-<id>-...-discussion-guide.pdf` convention.
+- PDFs present in the repo that do **not** currently map to a `THEOED_EVENTS` talk: Greg Ellison (THEO-212, ATL 2017), Shawn Duncan (THEO-191, ATL 2020 Winter), and the three *Offstage Talks* — Roger Nam (THEO-172), Whitney Arreche (THEO-194), Dante Stewart (THEO-200). These are staged for later inclusion when the event archive or offstage talks list is expanded.
+
+**Regression risk:** Do not reintroduce external URLs (e.g. theoed.com) for the per-card guide link — the dashboard is the source of truth for these PDFs. Do not relocate the `assets/theoed/discussion-guides/` folder without updating every `guide` path and this canonical entry.
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
 [ ] Candler Impact still uses hero + 3 story rows, not the retired faculty grid
 [ ] Candler Impact cards still render as unified editorial story cards
@@ -276,4 +310,5 @@ Heat tiers:
 [ ] No-op publishes succeed cleanly
 [ ] "Founded in 2018" remains correct
 [ ] Growth and Reach canonical layout/data still match sections 12-15
+[ ] TheoEd discussion guides still resolve from `assets/theoed/discussion-guides/` and the `Download Discussion Guide` button appears in the lightbox for every featured card
 [ ] CANONICAL.md is updated when fragile architecture changes

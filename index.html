@@ -679,6 +679,15 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .te-lb-video iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
 .te-lb-close { position:absolute; top:-44px; right:0; background:transparent; border:none; color:#fafaf2; font-size:32px; cursor:pointer; line-height:1; padding:4px 8px; opacity:0.8; }
 .te-lb-close:hover { opacity:1; }
+/* Discussion guide banner in the TheoEd lightbox */
+.te-lb-guide { margin-top:14px; display:flex; align-items:center; justify-content:center; }
+.te-lb-guide[data-state="empty"] .te-lb-guide-link { display:none; }
+.te-lb-guide[data-state="has-guide"] .te-lb-guide-missing { display:none; }
+.te-lb-guide[data-state="missing"] .te-lb-guide-link { display:none; }
+.te-lb-guide-link { display:inline-flex; align-items:center; gap:10px; padding:10px 18px; border-radius:999px; background:#c84826; color:#fafaf2; font-size:15px; font-weight:700; letter-spacing:0.02em; text-decoration:none; box-shadow:0 6px 16px rgba(200,72,38,0.35); transition:background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; }
+.te-lb-guide-link:hover, .te-lb-guide-link:focus-visible { background:#a5381c; transform:translateY(-1px); box-shadow:0 10px 22px rgba(200,72,38,0.45); outline:none; }
+.te-lb-guide-icon { font-size:16px; line-height:1; }
+.te-lb-guide-missing { color:#fafaf2; font-size:14px; font-weight:500; opacity:0.82; text-align:center; padding:8px 14px; background:rgba(255,255,255,0.06); border:1px solid rgba(250,250,242,0.18); border-radius:8px; }
 .te-archive-section { background:#F5F0EB; padding:24px 60px 60px; }
 .te-archive-hdr { display:flex; align-items:center; gap:20px; margin-bottom:28px; }
 .te-archive-hdr-title { font-size:1.1rem; font-weight:700; color:#1e2530; }
@@ -2587,6 +2596,16 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       <div class="te-lb-video">
         <iframe id="te-lb-frame" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
       </div>
+      <!-- Per-talk discussion guide banner. Populated by openLightbox(). -->
+      <div class="te-lb-guide" id="te-lb-guide" data-state="empty">
+        <a id="te-lb-guide-link" class="te-lb-guide-link" href="#" target="_blank" rel="noopener" download>
+          <span class="te-lb-guide-icon" aria-hidden="true">&#8675;</span>
+          <span class="te-lb-guide-label">Download Discussion Guide</span>
+        </a>
+        <span class="te-lb-guide-missing" id="te-lb-guide-missing">
+          Discussion guide not yet available for this talk. Please provide one to add it here.
+        </span>
+      </div>
     </div>
   </div>
 
@@ -2655,16 +2674,21 @@ const FACULTY = [
   { file: 'Tony_Alonso.jpg',                           name: 'Tony Alonso' }
 ];
 
+// TheoEd speaker cards for the 3x3 featured grid.
+// `guide` holds the per-talk discussion guide PDF path, relative to repo root.
+// Discussion guide PDFs live in: assets/theoed/discussion-guides/
+// To add/change a guide for a card, edit the `guide` value here.
+// Set to an empty string '' to mark a talk as having no guide yet.
 const THEOED_SPEAKERS = [
-  {name:'Suzanne Stabile',            loc:'Nashville \xb7 2024', photo:'assets/theoed_photos/Suzanne Stabile - 1.jpg',   imgPos:'78% 20%', imgScale:'1.18', vid:'rFf8d2WDn9Y', quote:'\u201cDon\u2019t get attached to the results \u2014 that\u2019s where we get in trouble.\u201d'},
-  {name:'Austin Channing Brown',      loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Austin Channing Brown.jpg', imgPos:'50% 24%', imgScale:'1.32', vid:'20Tgb1L5Bgw', quote:'\u201cMy parents named me so I could make it to the interview.\u201d'},
-  {name:'The Rt. Rev. Robert Wright', loc:'Atlanta \xb7 2022',   photo:'assets/theoed_photos/Rob Wright.jpg',            imgPos:'68% 18%', imgScale:'1.45', vid:'ipq7vf9QLxA', quote:'\u201cLove is overthrowing everything that is not love.\u201d'},
-  {name:'Dr. Amy-Jill Levine',        loc:'Atlanta \xb7 2017',   photo:'assets/theoed_photos/Amy Jill-Levine 1.png',     imgPos:'50% 26%', imgScale:'1.0', vid:'AFy_jjP2WzU', quote:'\u201cIt is not the job of the individual Christian to say who is saved and who is damned.\u201d'},
-  {name:'Julian Davis Reid',          loc:'Nashville \xb7 2024', photo:'assets/theoed_photos/Julian Davis Reid 1.jpg',   imgPos:'70% 24%', imgScale:'1.18', vid:'HEspbbh3-1w', quote:'\u201cThe bass notes are God\u2019s deepest messages \u2014 love, forgiveness, hope.\u201d'},
-  {name:'Dr. Wil Gafney',             loc:'Atlanta \xb7 2020',   photo:'assets/theoed_photos/Wil Gafney - 1.jpg',        imgPos:'52% 20%', imgScale:'1.38', vid:'zLfpaRhsSUI', quote:'\u201cThe language you use about God tells me what you think about me.\u201d'},
-  {name:'Shane Claiborne',            loc:'Atlanta \xb7 2018',   photo:'assets/theoed_photos/Shane Claiborne.jpg',       imgPos:'72% 24%', imgScale:'1.28', vid:'tVL7z73zuJ8', quote:'\u201cWe worship a homeless man on Sunday \u2014 can we ignore one on Monday?\u201d'},
-  {name:'Pete Enns',                  loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Pete Enns.jpeg',            imgPos:'50% 22%', imgScale:'1.28', vid:'YDirRZLtifE', quote:'\u201cReimagining God is not disloyalty \u2014 it is exactly what the tradition has always done.\u201d'},
-  {name:'Diana Butler Bass',          loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Diana Butler Bass.jpeg',    imgPos:'50% 22%', imgScale:'1.3', vid:'4cNTthYIW0I', quote:'\u201cGratitude is not something we put on the side of our faith \u2014 it is central to God\u2019s dream of justice.\u201d'}
+  {name:'Suzanne Stabile',            loc:'Nashville \xb7 2024', photo:'assets/theoed_photos/Suzanne Stabile - 1.jpg',   imgPos:'78% 20%', imgScale:'1.18', vid:'rFf8d2WDn9Y', quote:'\u201cDon\u2019t get attached to the results \u2014 that\u2019s where we get in trouble.\u201d',                                       guide:'assets/theoed/discussion-guides/THEO-168-suzanne-stabile-the-power-of-story-discussion-guide.pdf'},
+  {name:'Austin Channing Brown',      loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Austin Channing Brown.jpg', imgPos:'50% 24%', imgScale:'1.32', vid:'20Tgb1L5Bgw', quote:'\u201cMy parents named me so I could make it to the interview.\u201d',                                                             guide:'assets/theoed/discussion-guides/THEO-137-austin-channing-brown-the-double-sided-pursuit-of-racial-justice-discussion-guide.pdf'},
+  {name:'The Rt. Rev. Robert Wright', loc:'Atlanta \xb7 2022',   photo:'assets/theoed_photos/Rob Wright.jpg',            imgPos:'68% 18%', imgScale:'1.45', vid:'ipq7vf9QLxA', quote:'\u201cLove is overthrowing everything that is not love.\u201d',                                                                        guide:'assets/theoed/discussion-guides/THEO-189-the-right-rev-robert-wright-the-leadership-love-demands-discussion-guide.pdf'},
+  {name:'Dr. Amy-Jill Levine',        loc:'Atlanta \xb7 2017',   photo:'assets/theoed_photos/Amy Jill-Levine 1.png',     imgPos:'50% 26%', imgScale:'1.0',  vid:'AFy_jjP2WzU', quote:'\u201cIt is not the job of the individual Christian to say who is saved and who is damned.\u201d',                                   guide:'assets/theoed/discussion-guides/THEO-128-amy-jill-levine-life-after-death-jesus-judiasm-and-justice-discussion-guide.pdf'},
+  {name:'Julian Davis Reid',          loc:'Nashville \xb7 2024', photo:'assets/theoed_photos/Julian Davis Reid 1.jpg',   imgPos:'70% 24%', imgScale:'1.18', vid:'HEspbbh3-1w', quote:'\u201cThe bass notes are God\u2019s deepest messages \u2014 love, forgiveness, hope.\u201d',                                             guide:'assets/theoed/discussion-guides/THEO-184-julian-davis-reid-the-chord-changes-discussion-guide.pdf'},
+  {name:'Dr. Wil Gafney',             loc:'Atlanta \xb7 2020',   photo:'assets/theoed_photos/Wil Gafney - 1.jpg',        imgPos:'52% 20%', imgScale:'1.38', vid:'zLfpaRhsSUI', quote:'\u201cThe language you use about God tells me what you think about me.\u201d',                                                        guide:'assets/theoed/discussion-guides/THEO-180-dr-wil-gafney-biblical-language-for-a-god-who-transcends-gender-discussion-guide.pdf'},
+  {name:'Shane Claiborne',            loc:'Atlanta \xb7 2018',   photo:'assets/theoed_photos/Shane Claiborne.jpg',       imgPos:'72% 24%', imgScale:'1.28', vid:'tVL7z73zuJ8', quote:'\u201cWe worship a homeless man on Sunday \u2014 can we ignore one on Monday?\u201d',                                                 guide:'assets/theoed/discussion-guides/THEO-182-dr-shane-claiborne-resurrecting-church-discussion-guide.pdf'},
+  {name:'Pete Enns',                  loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Pete Enns.jpeg',            imgPos:'50% 22%', imgScale:'1.28', vid:'YDirRZLtifE', quote:'\u201cReimagining God is not disloyalty \u2014 it is exactly what the tradition has always done.\u201d',                               guide:'assets/theoed/discussion-guides/THEO-138-pete-enns-reimagining-an-ancient-god-discussion-guide.pdf'},
+  {name:'Diana Butler Bass',          loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Diana Butler Bass.jpeg',    imgPos:'50% 22%', imgScale:'1.3',  vid:'4cNTthYIW0I', quote:'\u201cGratitude is not something we put on the side of our faith \u2014 it is central to God\u2019s dream of justice.\u201d',       guide:'assets/theoed/discussion-guides/THEO-181-dr-diana-butler-bass-jesus-the-ingrate-discussion-guide.pdf'}
 ];
 
 const THEOED_EVENTS = [
@@ -2770,7 +2794,7 @@ function initTheoEd() {
             '<div class="theoed-tile-location">' + sp.loc + '</div>' +
           '</div>' +
         '</div>';
-      function launchTalk() { openLightbox(sp.vid, sp.name, sp.loc); }
+      function launchTalk() { openLightbox(sp.vid, sp.name, sp.loc, sp.guide); }
       tile.addEventListener('click', launchTalk);
       tile.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' || e.key === ' ') {
@@ -2815,7 +2839,7 @@ function initTheoEd() {
   });
 }
 
-function openLightbox(vid, name, loc) {
+function openLightbox(vid, name, loc, guide) {
   var lb = document.getElementById('te-lightbox');
   var frame = document.getElementById('te-lb-frame');
   var lbName = document.getElementById('te-lb-name');
@@ -2824,6 +2848,19 @@ function openLightbox(vid, name, loc) {
   if (lbName) lbName.textContent = name || '';
   if (lbLoc) lbLoc.textContent = loc || '';
   frame.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
+  // Populate the per-talk discussion guide banner
+  var guideWrap = document.getElementById('te-lb-guide');
+  var guideLink = document.getElementById('te-lb-guide-link');
+  if (guideWrap && guideLink) {
+    var url = (typeof guide === 'string') ? guide.trim() : '';
+    if (url) {
+      guideLink.setAttribute('href', url);
+      guideWrap.setAttribute('data-state', 'has-guide');
+    } else {
+      guideLink.setAttribute('href', '#');
+      guideWrap.setAttribute('data-state', 'missing');
+    }
+  }
   lb.classList.add('open');
 }
 
@@ -2833,6 +2870,11 @@ function closeLightbox() {
   if (!lb) return;
   lb.classList.remove('open');
   if (frame) frame.src = '';
+  // Reset the discussion guide banner so it doesn't flash stale content next open
+  var guideWrap = document.getElementById('te-lb-guide');
+  var guideLink = document.getElementById('te-lb-guide-link');
+  if (guideWrap) guideWrap.setAttribute('data-state', 'empty');
+  if (guideLink) guideLink.setAttribute('href', '#');
 }
 
 function switchTab(id, btn) {
