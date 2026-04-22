@@ -287,6 +287,8 @@ Dropbox is the faster source; use it for bulk sync into the repo. Airtable is au
 
 `openLightbox(vid, name, loc, guide)` sets the href and the state; `closeLightbox()` resets it to `empty` so stale data does not flash between opens.
 
+**Missing-guide policy:** Talks without a guide (empty or missing `guide` field) must hide/omit the guide link cleanly in the pop-out viewer. No visible fallback banner should appear for guide-less talks.
+
 **Exact label text:** The button label must read `Download Discussion Guide` — do not shorten, recolor without design input, or rename. The label lives as plain text inside `.te-lb-guide-label` with an arrow glyph in `.te-lb-guide-icon`.
 
 **Scope:** The bottom *Event Archive* accordion (`THEOED_EVENTS`) intentionally does **not** yet carry per-talk guide fields. Do not add them without an explicit request. All 51 guides are in the repo for future use.
@@ -296,6 +298,69 @@ Dropbox is the faster source; use it for bulk sync into the repo. Airtable is au
 - PDFs present in the repo that do **not** currently map to a `THEOED_EVENTS` talk: Greg Ellison (THEO-212, ATL 2017), Shawn Duncan (THEO-191, ATL 2020 Winter), and the three *Offstage Talks* — Roger Nam (THEO-172), Whitney Arreche (THEO-194), Dante Stewart (THEO-200). These are staged for later inclusion when the event archive or offstage talks list is expanded.
 
 **Regression risk:** Do not reintroduce external URLs (e.g. theoed.com) for the per-card guide link — the dashboard is the source of truth for these PDFs. Do not relocate the `assets/theoed/discussion-guides/` folder without updating every `guide` path and this canonical entry.
+
+---
+
+## 17. GIT / EDITOR WORKFLOW
+**Rule:** `main` is shared between this repo and the live Netlify editor. The editor can push copy and content edits directly to GitHub `main`, so the local repo may be stale even when it looks recently used.
+
+**Before any local coding session:**
+```
+git pull origin main
+git status
+```
+
+**Before pushing local work:**
+```
+git pull --rebase origin main
+git push origin main
+```
+
+**Hard rules:**
+- Never force-push to `main`.
+- Always preserve editor-published copy changes. If a local edit would overwrite editor content, rebase and reconcile before pushing.
+
+**Regression risk:** Force-pushing or pushing without rebasing can silently discard copy edits that the Netlify editor wrote straight to `main`.
+
+---
+
+## 18. LOCAL PREVIEW WORKFLOW
+**Rule:** Preview the dashboard locally with Python's built-in static server from the repo root.
+
+```
+python -m http.server 4177
+```
+
+Open: `http://127.0.0.1:4177/index.html`
+
+**Note:** Localhost URLs only work on the machine running the server. Do not share them as shipping links or paste them into published content.
+
+---
+
+## 19. EDITOR BEHAVIOR TO PRESERVE
+**Rule:** The save / publish model documented in sections 7-9 must remain intact for `Our Mission & Offerings`, `Candler Impact`, and `Growth and Reach`.
+
+- Git-backed content loads by default on refresh.
+- Browser-saved drafts must not auto-override Git-backed content.
+- If a local draft exists, surface visible `Restore Draft` and `Discard Draft` controls.
+- `Save Changes in Browser` writes only to the local draft (localStorage).
+- `Publish to Main` pushes the approved edit to GitHub `main` and clears the local draft.
+
+**Regression risk:** Do not reintroduce auto-restore of localStorage drafts on load, and do not collapse Save and Publish into a single action.
+
+---
+
+## 20. SESSION GUARDRAILS
+**Rule:** Keep every change scoped to the dashboard section that was requested.
+
+- Do not touch unrelated tabs, pages, or editors unless absolutely necessary to complete the requested change.
+- Do not commit temporary working files, including:
+  - `.codex-review/`
+  - `test-results/`
+  - temporary screenshots
+- Do not commit unrelated generated assets unless explicitly asked.
+
+**Regression risk:** Out-of-scope edits and accidental commits of local working files are the most common source of editor/dev conflicts on `main`.
 
 ---
 
@@ -310,5 +375,8 @@ Dropbox is the faster source; use it for bulk sync into the repo. Airtable is au
 [ ] No-op publishes succeed cleanly
 [ ] "Founded in 2018" remains correct
 [ ] Growth and Reach canonical layout/data still match sections 12-15
-[ ] TheoEd discussion guides still resolve from `assets/theoed/discussion-guides/` and the `Download Discussion Guide` button appears in the lightbox for every featured card
+[ ] TheoEd discussion guides still resolve from `assets/theoed/discussion-guides/` and the `Download Discussion Guide` button appears in the lightbox for every featured card with a guide
+[ ] TheoEd cards without a guide hide the guide link cleanly (no fallback banner)
+[ ] Ran `git pull origin main` before starting, and `git pull --rebase origin main` before pushing; no force-push
+[ ] No temporary files staged (`.codex-review/`, `test-results/`, screenshots, unrelated generated assets)
 [ ] CANONICAL.md is updated when fragile architecture changes
