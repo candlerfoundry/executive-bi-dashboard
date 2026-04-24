@@ -12,21 +12,21 @@
     },
     "leftAccent": {
       "photo": "assets/theoed_photos/Macon - Douglas Theater.jpg",
-      "posX": 30,
-      "posY": 52,
-      "scale": 100,
-      "opacity": 68,
-      "width": 32,
+      "posX": 27,
+      "posY": 44,
+      "scale": 86,
+      "opacity": 100,
+      "width": 23,
       "feather": 60
     },
     "rightAccent": {
-      "photo": "assets/theoed_photos/TheoEd Logo on Stage.jpg",
-      "posX": 50,
-      "posY": 58,
-      "scale": 82,
-      "opacity": 68,
-      "width": 34,
-      "feather": 60
+      "photo": "assets/theoed_photos/Nashville.jpg",
+      "posX": 74,
+      "posY": 48,
+      "scale": 130,
+      "opacity": 84,
+      "width": 22,
+      "feather": 0
     },
     "stats": [
       {
@@ -65,24 +65,24 @@
       "name": "Cole Arthur Riley",
       "loc": "Macon · 2024",
       "photo": "assets/theoed_photos/Cole Arthur Riley.jpg",
-      "imgPos": "50% 24%",
-      "imgScale": "1.20",
+      "imgPos": "52% 5%",
+      "imgScale": "1.00",
       "vid": "UdjfTkpk6Lg",
-      "quote": "“What I had interpreted as divine silence might not always be absence — it might be a different kind of presence.”",
+      "quote": "“God feels more like a vast mystery than a voice.\"",
       "guide": "assets/theoed/discussion-guides/THEO-174-cole-arthur-riley-the-silence-of-god-discussion-guide.pdf"
     },
     {
-      "name": "Rev. Dr. Otis Moss III",
+      "name": "Otis Moss",
       "loc": "Charlotte · 2022",
       "photo": "assets/theoed_photos/Otis Moss III.jpg",
       "imgPos": "50% 22%",
-      "imgScale": "1.20",
+      "imgScale": "1.00",
       "vid": "6xuZ8T1ERaw",
-      "quote": "“Our greatest challenge is not that we lack the resources — we lack the imagination to imagine a new world.”",
+      "quote": "“Our greatest challenge is not that we lack the resources — we lack imagination.\"",
       "guide": "assets/theoed/discussion-guides/THEO-197-rev-dr-otis-moss-iii-by-any-greens-necessary-discussion-guide.pdf"
     },
     {
-      "name": "Dr. Amy-Jill Levine",
+      "name": "Amy-Jill Levine",
       "loc": "Atlanta · 2017",
       "photo": "assets/theoed_photos/Amy Jill-Levine 1.png",
       "imgPos": "50% 26%",
@@ -102,7 +102,7 @@
       "guide": "assets/theoed/discussion-guides/THEO-184-julian-davis-reid-the-chord-changes-discussion-guide.pdf"
     },
     {
-      "name": "Dr. Wil Gafney",
+      "name": "Wil Gafney",
       "loc": "Atlanta · 2020",
       "photo": "assets/theoed_photos/Wil Gafney - 1.jpg",
       "imgPos": "52% 20%",
