@@ -1,0 +1,478 @@
+{
+  "hero": {
+    "logoImage": "https://www.dropbox.com/scl/fi/mytchjl1bntbysy3scwu1/TheoEd-Full-Name-no-tagline-white.png?rlkey=nzul4ipst3mesi95zinzm3y3m&st=3r134bwi&dl=1",
+    "logoAlt": "TheoEd",
+    "description": "TheoEd brings the world's leading theological thinkers to cities across the U.S. TheoEd is open to the public, livestreamed, and made available for free online, becoming a surprising way for all spiritual seekers - churched and unchurched alike - to truly engage in theology.",
+    "centerImage": {
+      "photo": "assets/theoed_photos/Greg Ellison - 1.jpg",
+      "posX": 50,
+      "posY": 18,
+      "scale": 62,
+      "opacity": 75
+    },
+    "leftAccent": {
+      "photo": "assets/theoed_photos/Macon - Douglas Theater.jpg",
+      "posX": 30,
+      "posY": 52,
+      "scale": 100,
+      "opacity": 68,
+      "width": 32,
+      "feather": 60
+    },
+    "rightAccent": {
+      "photo": "assets/theoed_photos/TheoEd Logo on Stage.jpg",
+      "posX": 50,
+      "posY": 58,
+      "scale": 82,
+      "opacity": 68,
+      "width": 34,
+      "feather": 60
+    },
+    "stats": [
+      {
+        "number": "12",
+        "label": "Events Hosted"
+      },
+      {
+        "number": "9",
+        "label": "Cities"
+      },
+      {
+        "number": "50+",
+        "label": "Talks"
+      },
+      {
+        "number": "10,000+",
+        "label": "Reached Online"
+      }
+    ]
+  },
+  "archive": {
+    "title": "Event Archive"
+  },
+  "speakers": [
+    {
+      "name": "Suzanne Stabile",
+      "loc": "Nashville · 2024",
+      "photo": "assets/theoed_photos/Suzanne Stabile - 1.jpg",
+      "imgPos": "78% 20%",
+      "imgScale": "1.18",
+      "vid": "rFf8d2WDn9Y",
+      "quote": "“Don’t get attached to the results — that’s where we get in trouble.”",
+      "guide": "assets/theoed/discussion-guides/THEO-168-suzanne-stabile-the-power-of-story-discussion-guide.pdf"
+    },
+    {
+      "name": "Cole Arthur Riley",
+      "loc": "Macon · 2024",
+      "photo": "assets/theoed_photos/Cole Arthur Riley.jpg",
+      "imgPos": "50% 24%",
+      "imgScale": "1.20",
+      "vid": "UdjfTkpk6Lg",
+      "quote": "“What I had interpreted as divine silence might not always be absence — it might be a different kind of presence.”",
+      "guide": "assets/theoed/discussion-guides/THEO-174-cole-arthur-riley-the-silence-of-god-discussion-guide.pdf"
+    },
+    {
+      "name": "Rev. Dr. Otis Moss III",
+      "loc": "Charlotte · 2022",
+      "photo": "assets/theoed_photos/Otis Moss III.jpg",
+      "imgPos": "50% 22%",
+      "imgScale": "1.20",
+      "vid": "6xuZ8T1ERaw",
+      "quote": "“Our greatest challenge is not that we lack the resources — we lack the imagination to imagine a new world.”",
+      "guide": "assets/theoed/discussion-guides/THEO-197-rev-dr-otis-moss-iii-by-any-greens-necessary-discussion-guide.pdf"
+    },
+    {
+      "name": "Dr. Amy-Jill Levine",
+      "loc": "Atlanta · 2017",
+      "photo": "assets/theoed_photos/Amy Jill-Levine 1.png",
+      "imgPos": "50% 26%",
+      "imgScale": "1.0",
+      "vid": "AFy_jjP2WzU",
+      "quote": "“It is not the job of the individual Christian to say who is saved and who is damned.”",
+      "guide": "assets/theoed/discussion-guides/THEO-128-amy-jill-levine-life-after-death-jesus-judiasm-and-justice-discussion-guide.pdf"
+    },
+    {
+      "name": "Julian Davis Reid",
+      "loc": "Nashville · 2024",
+      "photo": "assets/theoed_photos/Julian Davis Reid 1.jpg",
+      "imgPos": "70% 24%",
+      "imgScale": "1.18",
+      "vid": "HEspbbh3-1w",
+      "quote": "“The bass notes are God’s deepest messages — love, forgiveness, hope.”",
+      "guide": "assets/theoed/discussion-guides/THEO-184-julian-davis-reid-the-chord-changes-discussion-guide.pdf"
+    },
+    {
+      "name": "Dr. Wil Gafney",
+      "loc": "Atlanta · 2020",
+      "photo": "assets/theoed_photos/Wil Gafney - 1.jpg",
+      "imgPos": "52% 20%",
+      "imgScale": "1.38",
+      "vid": "zLfpaRhsSUI",
+      "quote": "“The language you use about God tells me what you think about me.”",
+      "guide": "assets/theoed/discussion-guides/THEO-180-dr-wil-gafney-biblical-language-for-a-god-who-transcends-gender-discussion-guide.pdf"
+    },
+    {
+      "name": "Shane Claiborne",
+      "loc": "Atlanta · 2018",
+      "photo": "assets/theoed_photos/Shane Claiborne.jpg",
+      "imgPos": "72% 24%",
+      "imgScale": "1.28",
+      "vid": "tVL7z73zuJ8",
+      "quote": "“We worship a homeless man on Sunday — can we ignore one on Monday?”",
+      "guide": "assets/theoed/discussion-guides/THEO-182-dr-shane-claiborne-resurrecting-church-discussion-guide.pdf"
+    },
+    {
+      "name": "Pete Enns",
+      "loc": "Atlanta · 2019",
+      "photo": "assets/theoed_photos/Pete Enns.jpeg",
+      "imgPos": "50% 22%",
+      "imgScale": "1.28",
+      "vid": "YDirRZLtifE",
+      "quote": "“Reimagining God is not disloyalty — it is exactly what the tradition has always done.”",
+      "guide": "assets/theoed/discussion-guides/THEO-138-pete-enns-reimagining-an-ancient-god-discussion-guide.pdf"
+    },
+    {
+      "name": "Diana Butler Bass",
+      "loc": "Atlanta · 2019",
+      "photo": "assets/theoed_photos/Diana Butler Bass.jpeg",
+      "imgPos": "50% 22%",
+      "imgScale": "1.3",
+      "vid": "4cNTthYIW0I",
+      "quote": "“Gratitude is not something we put on the side of our faith — it is central to God’s dream of justice.”",
+      "guide": "assets/theoed/discussion-guides/THEO-181-dr-diana-butler-bass-jesus-the-ingrate-discussion-guide.pdf"
+    }
+  ],
+  "events": [
+    {
+      "city": "Nashville",
+      "year": "2025",
+      "label": "Nashville 2025",
+      "grad": "135deg, #1e3020 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Suzanne Stabile",
+          "t": "The Power of Story",
+          "u": "https://www.youtube.com/watch?v=rFf8d2WDn9Y&t=742s"
+        },
+        {
+          "s": "Lanecia Rouse",
+          "t": "Embracing the In-Between",
+          "u": "https://www.youtube.com/watch?v=Fl2UboBPiPs&t=155s"
+        },
+        {
+          "s": "Rev. Josh Scott",
+          "t": "Rewilding the Church",
+          "u": "https://www.youtube.com/watch?v=q7FiEYD6YCo"
+        },
+        {
+          "s": "Julian Davis Reid",
+          "t": "The Chord Changes",
+          "u": "https://www.youtube.com/watch?v=HEspbbh3-1w"
+        }
+      ]
+    },
+    {
+      "city": "Macon",
+      "year": "2024",
+      "label": "Macon 2024",
+      "grad": "135deg, #2f1e18 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Scott Mitchell",
+          "t": "Fringe Dwellings",
+          "u": "https://www.youtube.com/watch?v=3eb_d56UxqQ"
+        },
+        {
+          "s": "Cole Arthur Riley",
+          "t": "The Silence of God",
+          "u": "https://www.youtube.com/watch?v=UdjfTkpk6Lg&t=164s"
+        },
+        {
+          "s": "Sister Theresa Sullivan",
+          "t": "Am I a Savior or a Servant?",
+          "u": "https://www.youtube.com/watch?v=bC9h7wE5aeQ"
+        },
+        {
+          "s": "Rev. Reginald Sharpe, Jr.",
+          "t": "The Fourth Temptation",
+          "u": "https://www.youtube.com/watch?v=AM5frvHzvaQ&t=4s"
+        },
+        {
+          "s": "Dr. Moshe Szyf",
+          "t": "Inheriting Trauma",
+          "u": "https://www.youtube.com/watch?v=b1ZbfJj8qsM"
+        }
+      ]
+    },
+    {
+      "city": "Austin",
+      "year": "2023",
+      "label": "Austin 2023",
+      "grad": "135deg, #2f1a10 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "John Pavlovitz",
+          "t": "Exit Interview: The Pastor I Wish I'd Been",
+          "u": "https://www.youtube.com/watch?v=QDyl2rAtK-I&t=53s"
+        },
+        {
+          "s": "Dr. Kara Powell",
+          "t": "3 Big Questions that Change Every Young Person",
+          "u": "https://www.youtube.com/watch?v=8c4kKcKuQUo&t=488s"
+        },
+        {
+          "s": "Rev. Dr. Jose Irizarry",
+          "t": "The World We Can See",
+          "u": "https://www.youtube.com/watch?v=nIyUqwAbWIw"
+        },
+        {
+          "s": "Lisa Sharon Harper",
+          "t": "Four Words that Change Everything",
+          "u": "https://www.youtube.com/watch?v=TB2pIcpYuaA&t=196s"
+        }
+      ]
+    },
+    {
+      "city": "Orlando",
+      "year": "2023",
+      "label": "Orlando 2023",
+      "grad": "135deg, #10202f 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Brian McLaren",
+          "t": "Faith After Fundamentalism",
+          "u": "https://www.youtube.com/watch?v=rH2BNCYNJo4"
+        },
+        {
+          "s": "Rev. Dr. Jacqui Lewis",
+          "t": "God-Talk for Hot-Mess Times",
+          "u": "https://www.youtube.com/watch?v=uERWzI2APJo&t=78s"
+        },
+        {
+          "s": "Rev. Dr. Lydia Munoz",
+          "t": "Creating God in Our Image",
+          "u": "https://www.youtube.com/watch?v=wZwki8_i3SA&t=41s"
+        },
+        {
+          "s": "Rev. Dr. Luke A. Powery",
+          "t": "An Ethics of Dust",
+          "u": "https://www.youtube.com/watch?v=7WW_DzvHWMw"
+        },
+        {
+          "s": "Cliff and Clay Price",
+          "t": "Growing Up Different in a Small Town",
+          "u": "https://www.youtube.com/watch?v=A4YZeYTnusI&t=2s"
+        }
+      ]
+    },
+    {
+      "city": "Charlotte",
+      "year": "2022",
+      "label": "Charlotte 2022",
+      "grad": "135deg, #181e2f 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Dr. Yolanda Pierce",
+          "t": "Salvation & Soul Food",
+          "u": "https://www.youtube.com/watch?v=gCfSoz5KWEw"
+        },
+        {
+          "s": "Dr. Miroslav Volf",
+          "t": "Why Did God Create the World",
+          "u": "https://www.youtube.com/watch?v=mhNYjSaBZqU&t=104s"
+        },
+        {
+          "s": "Rev. Dr. Otis Moss III",
+          "t": "By Any Greens Necessary",
+          "u": "https://www.youtube.com/watch?v=6xuZ8T1ERaw"
+        },
+        {
+          "s": "Liz Clasen-Kelly",
+          "t": "On the Other Side of Judgment",
+          "u": "https://www.youtube.com/watch?v=9o-HeaUlLc8"
+        }
+      ]
+    },
+    {
+      "city": "Atlanta",
+      "year": "2022",
+      "label": "Atlanta 2022",
+      "grad": "135deg, #2a1818 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Dr. Kristin Du Mez",
+          "t": "Confronting Our Histories",
+          "u": "https://www.youtube.com/watch?v=9ZkFtgys7f0"
+        },
+        {
+          "s": "Dr. Jennifer Carlier",
+          "t": "Finding God in the Basement",
+          "u": "https://www.youtube.com/watch?v=ddQfEBCfxKo"
+        },
+        {
+          "s": "Right Rev. Robert Wright",
+          "t": "The Leadership Love Demands",
+          "u": "https://www.youtube.com/watch?v=ipq7vf9QLxA"
+        },
+        {
+          "s": "Rev. Jim Wallis",
+          "t": "Crossing the Color Line",
+          "u": "https://www.youtube.com/watch?v=Ly_ikBtpzPo&t=26s"
+        },
+        {
+          "s": "Rev. Dr. Gary Mason",
+          "t": "Jesus and Religious Ethnic Nationalism",
+          "u": "https://www.youtube.com/watch?v=3s8uYcE-UXw"
+        }
+      ]
+    },
+    {
+      "city": "Atlanta",
+      "year": "2021",
+      "label": "Atlanta 2021",
+      "grad": "135deg, #141e2a 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Rev. Olu Brown",
+          "t": "Embracing Uncertainty",
+          "u": "https://www.youtube.com/watch?v=qIeHuVN0gJw&t=31s"
+        },
+        {
+          "s": "Rev. Dr. Neichelle Guidry",
+          "t": "What It Means to Be Human",
+          "u": "https://www.youtube.com/watch?v=C-pYwZjJvbc&t=132s"
+        },
+        {
+          "s": "Doug Shipman",
+          "t": "Is Reconciliation Right for America?",
+          "u": "https://www.youtube.com/watch?v=0KeRIrg87ws&t=229s"
+        },
+        {
+          "s": "Dr. Chanequa Walker Barnes",
+          "t": "Pathological Whiteness",
+          "u": "https://www.youtube.com/watch?v=rc5VzRLgK_4&t=712s"
+        }
+      ]
+    },
+    {
+      "city": "Atlanta",
+      "year": "2020",
+      "label": "Atlanta 2020",
+      "grad": "135deg, #1e1428 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Dr. Hillary McBride",
+          "t": "Body and Spirit: Why We Are Both and Why That Matters",
+          "u": "https://www.youtube.com/watch?v=s-syH4L470w&t=142s"
+        },
+        {
+          "s": "Dr. Wil Gafney",
+          "t": "Biblical Language for a God Who Transcends Gender",
+          "u": "https://www.youtube.com/watch?v=zLfpaRhsSUI&t=4s"
+        },
+        {
+          "s": "Jeff and Andre Shinabarger",
+          "t": "Love or Work?",
+          "u": "https://www.youtube.com/watch?v=oq4pcWuJ4Y8"
+        }
+      ]
+    },
+    {
+      "city": "Atlanta",
+      "year": "2019",
+      "label": "Atlanta 2019 (Fall)",
+      "grad": "135deg, #1a1e14 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Dr. Ted Smith",
+          "t": "Loving Things that Die",
+          "u": "https://www.youtube.com/watch?v=tu41vUm4A9k"
+        },
+        {
+          "s": "Austin Channing Brown",
+          "t": "The Double-Sided Pursuit of Racial Justice",
+          "u": "https://www.youtube.com/watch?v=20Tgb1L5Bgw&t=5s"
+        },
+        {
+          "s": "Rev. Mihee Kim-Kort",
+          "t": "Mother Tongue",
+          "u": "https://www.youtube.com/watch?v=OZz3sMgt1sc&t=1s"
+        },
+        {
+          "s": "Jonathan Merritt",
+          "t": "The Death and Resurrection of Sacred Speech",
+          "u": "https://www.youtube.com/watch?v=ii_mYp2aIBw"
+        }
+      ]
+    },
+    {
+      "city": "Atlanta",
+      "year": "2019",
+      "label": "Atlanta 2019 (Winter)",
+      "grad": "135deg, #141a1e 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Dr. Pete Enns",
+          "t": "Reimagining an Ancient God",
+          "u": "https://www.youtube.com/watch?v=YDirRZLtifE&t=1s"
+        },
+        {
+          "s": "Dr. Diana Butler Bass",
+          "t": "Jesus the Ingrate",
+          "u": "https://www.youtube.com/watch?v=4cNTthYIW0I"
+        },
+        {
+          "s": "Dr. Patrick Reyes",
+          "t": "Wanted: Dead or Alive",
+          "u": "https://www.youtube.com/watch?v=3dyVbwcZvHU"
+        },
+        {
+          "s": "Mike McHargue",
+          "t": "Wishing for the End",
+          "u": "https://www.youtube.com/watch?v=a-J3nf4_w0k"
+        }
+      ]
+    },
+    {
+      "city": "Atlanta",
+      "year": "2018",
+      "label": "Atlanta 2018",
+      "grad": "135deg, #1e2a20 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Dr. Shane Claiborne",
+          "t": "Resurrecting Church",
+          "u": "https://www.youtube.com/watch?v=tVL7z73zuJ8"
+        },
+        {
+          "s": "Rev. Dr. Lauren F. Winner",
+          "t": "Unexpected Metaphors for God",
+          "u": "https://www.youtube.com/watch?v=BBolByb6xmA"
+        },
+        {
+          "s": "Dr. Paul Wallace",
+          "t": "There's Something Holy Out There",
+          "u": "https://www.youtube.com/watch?v=OhOH7xAxPns"
+        }
+      ]
+    },
+    {
+      "city": "Atlanta",
+      "year": "2017",
+      "label": "Atlanta 2017",
+      "grad": "135deg, #201820 0%, #1e2530 100%",
+      "talks": [
+        {
+          "s": "Dr. Amy-Jill Levine",
+          "t": "Life After Death: Jesus, Judaism, and Justice",
+          "u": "https://www.youtube.com/watch?v=AFy_jjP2WzU"
+        },
+        {
+          "s": "Dr. Brent Strawn",
+          "t": "Bible as Poetry",
+          "u": "https://www.youtube.com/watch?v=SiEIUvFmfU4&t=269s"
+        }
+      ]
+    }
+  ]
+}

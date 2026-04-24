@@ -16,7 +16,8 @@ function isAllowedPath(path) {
   return (
     path === 'assets/page-config/mission-page.json' ||
     path === 'assets/page-config/candler-impact.json' ||
-    path === 'assets/page-config/growth-reach.json'
+    path === 'assets/page-config/growth-reach.json' ||
+    path === 'assets/page-config/theoed.json'
   );
 }
 

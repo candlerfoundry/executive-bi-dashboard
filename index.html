@@ -644,9 +644,12 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 /* TAB: THEOED */
 #panel-theoed { padding-top:0; padding-bottom:0; background:#F5F0EB; }
 .te-hero { background-color:#0b0f18; height:380px; position:relative; overflow:hidden; }
-.te-hero::before { content:''; position:absolute; inset:0; background:url('assets/theoed_photos/Greg Ellison - 1.jpg') center 18% / min(62%,880px) auto no-repeat; opacity:0.75; }
-.te-hero-overlay { position:absolute; inset:0; background:linear-gradient(90deg, rgba(11,15,24,0.96) 0%, rgba(11,15,24,0.55) 22%, rgba(11,15,24,0.18) 50%, rgba(11,15,24,0.55) 78%, rgba(11,15,24,0.96) 100%), linear-gradient(180deg, rgba(11,15,24,0.08) 0%, rgba(11,15,24,0.34) 74%, rgba(11,15,24,0.7) 100%); }
-.te-hero-content { position:relative; z-index:1; height:380px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:14px 24px 20px; text-align:center; gap:10px; }
+.te-hero::before { content:''; position:absolute; inset:0; background-image:var(--te-hero-center-img, url('assets/theoed_photos/Greg Ellison - 1.jpg')); background-position:var(--te-hero-center-pos, center 18%); background-size:var(--te-hero-center-size, 62% auto); background-repeat:no-repeat; opacity:var(--te-hero-center-opacity, 0.75); z-index:0; }
+.te-hero-accent { position:absolute; top:0; bottom:0; pointer-events:none; background-repeat:no-repeat; z-index:0; }
+.te-hero-accent-left { left:0; width:var(--te-accent-left-width, 32%); background-image:var(--te-accent-left-img, none); background-size:var(--te-accent-left-size, auto 100%); background-position:var(--te-accent-left-pos, 50% 40%); opacity:var(--te-accent-left-opacity, 0.42); -webkit-mask-image:radial-gradient(ellipse 120% 130% at 0% 50%, #000 0%, #000 var(--te-accent-left-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-left-mid, 72%), transparent 100%); mask-image:radial-gradient(ellipse 120% 130% at 0% 50%, #000 0%, #000 var(--te-accent-left-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-left-mid, 72%), transparent 100%); }
+.te-hero-accent-right { right:0; width:var(--te-accent-right-width, 32%); background-image:var(--te-accent-right-img, none); background-size:var(--te-accent-right-size, auto 100%); background-position:var(--te-accent-right-pos, 50% 40%); opacity:var(--te-accent-right-opacity, 0.42); -webkit-mask-image:radial-gradient(ellipse 120% 130% at 100% 50%, #000 0%, #000 var(--te-accent-right-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-right-mid, 72%), transparent 100%); mask-image:radial-gradient(ellipse 120% 130% at 100% 50%, #000 0%, #000 var(--te-accent-right-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-right-mid, 72%), transparent 100%); }
+.te-hero-overlay { position:absolute; inset:0; background:linear-gradient(90deg, rgba(11,15,24,0.55) 0%, rgba(11,15,24,0.25) 22%, rgba(11,15,24,0.08) 50%, rgba(11,15,24,0.25) 78%, rgba(11,15,24,0.55) 100%), linear-gradient(180deg, rgba(11,15,24,0.08) 0%, rgba(11,15,24,0.34) 74%, rgba(11,15,24,0.7) 100%); z-index:1; }
+.te-hero-content { position:relative; z-index:2; height:380px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:14px 24px 20px; text-align:center; gap:10px; }
 .te-logo-img { min-width:200px; width:clamp(200px,16vw,300px); height:auto; display:block; }
 .te-hero-desc { max-width:760px; font-size:clamp(0.9rem,1vw,1rem); font-weight:500; color:#ffffff; line-height:1.6; margin:0; text-shadow:0 2px 16px rgba(0,0,0,0.7); }
 .te-hero-stats { display:flex; align-items:flex-start; justify-content:center; gap:0; margin-top:2px; flex-wrap:wrap; row-gap:12px; }
@@ -682,6 +685,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 /* Discussion guide banner in the TheoEd lightbox */
 .te-lb-guide { margin-top:14px; display:flex; align-items:center; justify-content:center; }
 .te-lb-guide[data-state="empty"] .te-lb-guide-link { display:none; }
+.te-lb-guide[data-state="empty"] .te-lb-guide-missing { display:none; }
 .te-lb-guide[data-state="has-guide"] .te-lb-guide-missing { display:none; }
 .te-lb-guide[data-state="missing"] .te-lb-guide-link { display:none; }
 .te-lb-guide-link { display:inline-flex; align-items:center; gap:10px; padding:10px 18px; border-radius:999px; background:#c84826; color:#fafaf2; font-size:15px; font-weight:700; letter-spacing:0.02em; text-decoration:none; box-shadow:0 6px 16px rgba(200,72,38,0.35); transition:background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease; }
@@ -702,6 +706,23 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .te-acc-talk a { font-size:0.8rem; color:rgba(30,37,48,0.65); text-decoration:none; line-height:1.5; display:block; }
 .te-acc-talk a:hover { color:#1e2530; text-decoration:underline; }
 .te-acc-talk-spk { font-size:0.65rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:rgba(30,37,48,0.38); margin-bottom:2px; }
+/* TheoEd editor specifics */
+#panel-theoed { position:relative; }
+.te-editor-launch { position:absolute; top:14px; right:24px; z-index:60; display:flex; justify-content:flex-end; pointer-events:none; }
+.te-editor-launch .page-editor-toggle { pointer-events:auto; }
+.theoed-editor-panel[hidden] { display:none; }
+.theoed-editor-row-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
+.theoed-editor-row-actions .impact-editor-secondary { padding:8px 10px; font-size:0.72rem; border-radius:999px; }
+.theoed-editor-stat-row { display:grid; grid-template-columns:minmax(80px,0.7fr) minmax(0,1.3fr) auto; gap:8px; align-items:end; margin-bottom:10px; }
+.theoed-editor-stat-row input { width:100%; border:1px solid rgba(30,37,48,0.14); border-radius:10px; background:#fffdf8; color:#1e2530; padding:10px 12px; font:inherit; font-size:0.78rem; line-height:1.4; }
+.theoed-editor-stat-row button { padding:10px 12px; border-radius:10px; border:1px solid rgba(30,37,48,0.14); background:#ffffff; color:#1e2530; font:inherit; font-size:0.72rem; font-weight:700; cursor:pointer; }
+.theoed-editor-talk-row { display:grid; grid-template-columns:1fr; gap:8px; padding:12px; background:#fafaf2; border:1px solid rgba(30,37,48,0.08); border-radius:12px; margin-bottom:12px; }
+.theoed-editor-talk-row .editor-field { margin-bottom:0; }
+.theoed-editor-talk-row .theoed-editor-row-actions { margin-top:4px; }
+.theoed-editor-talk-row label.editor-label { font-size:0.62rem; }
+@media (max-width:960px) {
+  .te-editor-launch { position:static; padding:12px 20px 0; justify-content:flex-start; }
+}
 @media (max-width:960px) {
   .te-hero { height:auto; min-height:320px; }
   .te-hero::before { background-size:cover; background-position:center 18%; -webkit-mask-image:linear-gradient(180deg, #000 0%, #000 55%, transparent 100%); mask-image:linear-gradient(180deg, #000 0%, #000 55%, transparent 100%); }
@@ -2549,13 +2570,313 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 <div id="panel-theoed" class="panel">
   <!-- TheoEd speaker-grid restore is canonical; this comment creates a safe main-branch redeploy marker. -->
 
+  <div class="te-editor-launch">
+    <button class="page-editor-toggle" id="theoed-editor-toggle" type="button" aria-expanded="false" aria-controls="theoed-editor-shell">Edit TheoEd</button>
+  </div>
+
+  <aside class="page-editor-shell" id="theoed-editor-shell" hidden>
+    <div class="page-editor-header">
+      <div>
+        <div class="page-editor-title">TheoEd Editor</div>
+        <p class="page-editor-note">Edit TheoEd hero content, featured cards, and event archive. Save a local draft, then publish to main when ready.</p>
+      </div>
+      <button class="page-editor-close" id="theoed-editor-close" type="button" aria-label="Close TheoEd editor">&times;</button>
+    </div>
+    <div class="page-editor-status" id="theoed-editor-status">Previewing draft edits</div>
+    <div class="page-editor-draft-notice" id="theoed-editor-draft-notice" hidden>
+      <div class="page-editor-draft-copy">A local browser draft exists. Git-backed content is loaded by default.</div>
+      <div class="page-editor-draft-actions">
+        <button class="impact-editor-secondary" id="theoed-editor-restore-draft" type="button">Restore Draft</button>
+        <button class="impact-editor-secondary" id="theoed-editor-discard-draft" type="button">Discard Draft</button>
+      </div>
+    </div>
+
+    <div class="impact-editor-tabs" role="tablist" aria-label="TheoEd editor sections">
+      <button class="impact-editor-tab is-active" type="button" data-theoed-panel="page">Page</button>
+      <button class="impact-editor-tab" type="button" data-theoed-panel="cards">Featured Cards</button>
+      <button class="impact-editor-tab" type="button" data-theoed-panel="archive">Event Archive</button>
+    </div>
+
+    <!-- PAGE -->
+    <div class="theoed-editor-panel" data-theoed-panel-body="page">
+      <div class="page-editor-group">
+        <h4>Hero Text</h4>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-desc">Hero description</label>
+          <textarea id="theoed-editor-hero-desc"></textarea>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-logo">Logo image URL</label>
+          <input id="theoed-editor-hero-logo" type="text">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-logo-alt">Logo alt text</label>
+          <input id="theoed-editor-hero-logo-alt" type="text">
+        </div>
+      </div>
+      <div class="page-editor-group">
+        <h4>Hero Center Photo</h4>
+        <p class="page-editor-note" style="margin:-6px 0 12px;">The main portrait in the middle of the banner. Defaults to Greg Ellison.</p>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-center-photo">Photo URL / path</label>
+          <input id="theoed-editor-hero-center-photo" type="text" placeholder="assets/theoed_photos/&hellip;.jpg">
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-center-posx">Horizontal position</label>
+            <input id="theoed-editor-hero-center-posx" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Left</span><span id="theoed-editor-hero-center-posx-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-center-posy">Vertical position</label>
+            <input id="theoed-editor-hero-center-posy" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Top</span><span id="theoed-editor-hero-center-posy-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-center-scale">Zoom / scale</label>
+            <input id="theoed-editor-hero-center-scale" type="range" min="30" max="220" step="2">
+            <div class="editor-inline-meta"><span>Smaller</span><span id="theoed-editor-hero-center-scale-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-center-opacity">Transparency</label>
+            <input id="theoed-editor-hero-center-opacity" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Fainter</span><span id="theoed-editor-hero-center-opacity-value"></span></div>
+          </div>
+        </div>
+      </div>
+      <div class="page-editor-group">
+        <h4>Hero Left Accent Photo</h4>
+        <p class="page-editor-note" style="margin:-6px 0 12px;">Optional collage photo on the left edge. Fades out toward the center. Leave the photo URL blank to hide it.</p>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-left-photo">Photo URL / path</label>
+          <input id="theoed-editor-hero-left-photo" type="text" placeholder="assets/theoed_photos/&hellip;.jpg">
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-left-posx">Horizontal position</label>
+            <input id="theoed-editor-hero-left-posx" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Left</span><span id="theoed-editor-hero-left-posx-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-left-posy">Vertical position</label>
+            <input id="theoed-editor-hero-left-posy" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Top</span><span id="theoed-editor-hero-left-posy-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-left-scale">Zoom / scale</label>
+            <input id="theoed-editor-hero-left-scale" type="range" min="60" max="220" step="2">
+            <div class="editor-inline-meta"><span>Smaller</span><span id="theoed-editor-hero-left-scale-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-left-opacity">Transparency</label>
+            <input id="theoed-editor-hero-left-opacity" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Fainter</span><span id="theoed-editor-hero-left-opacity-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-left-width">Slot width (how much of the banner this photo occupies)</label>
+          <input id="theoed-editor-hero-left-width" type="range" min="10" max="55" step="1">
+          <div class="editor-inline-meta"><span>Narrower</span><span id="theoed-editor-hero-left-width-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-left-feather">Edge feather (soft fade into background)</label>
+          <input id="theoed-editor-hero-left-feather" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Hard edge</span><span id="theoed-editor-hero-left-feather-value"></span></div>
+        </div>
+      </div>
+      <div class="page-editor-group">
+        <h4>Hero Right Accent Photo</h4>
+        <p class="page-editor-note" style="margin:-6px 0 12px;">Optional collage photo on the right edge. Fades out toward the center. Leave the photo URL blank to hide it.</p>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-right-photo">Photo URL / path</label>
+          <input id="theoed-editor-hero-right-photo" type="text" placeholder="assets/theoed_photos/&hellip;.jpg">
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-right-posx">Horizontal position</label>
+            <input id="theoed-editor-hero-right-posx" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Left</span><span id="theoed-editor-hero-right-posx-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-right-posy">Vertical position</label>
+            <input id="theoed-editor-hero-right-posy" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Top</span><span id="theoed-editor-hero-right-posy-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-right-scale">Zoom / scale</label>
+            <input id="theoed-editor-hero-right-scale" type="range" min="60" max="220" step="2">
+            <div class="editor-inline-meta"><span>Smaller</span><span id="theoed-editor-hero-right-scale-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-right-opacity">Transparency</label>
+            <input id="theoed-editor-hero-right-opacity" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Fainter</span><span id="theoed-editor-hero-right-opacity-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-right-width">Slot width (how much of the banner this photo occupies)</label>
+          <input id="theoed-editor-hero-right-width" type="range" min="10" max="55" step="1">
+          <div class="editor-inline-meta"><span>Narrower</span><span id="theoed-editor-hero-right-width-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-right-feather">Edge feather (soft fade into background)</label>
+          <input id="theoed-editor-hero-right-feather" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Hard edge</span><span id="theoed-editor-hero-right-feather-value"></span></div>
+        </div>
+      </div>
+
+      <div class="page-editor-group">
+        <h4>Hero Stats</h4>
+        <div id="theoed-editor-stats-list"></div>
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" type="button" id="theoed-editor-stat-add">Add Stat</button>
+        </div>
+      </div>
+
+      <div class="page-editor-group">
+        <h4>Event Archive Heading</h4>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-archive-title">Section title</label>
+          <input id="theoed-editor-archive-title" type="text">
+        </div>
+      </div>
+    </div>
+
+    <!-- FEATURED CARDS -->
+    <div class="theoed-editor-panel" data-theoed-panel-body="cards" hidden>
+      <div class="page-editor-group">
+        <h4>Choose a Card</h4>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-card-select">Featured card</label>
+          <select id="theoed-editor-card-select"></select>
+        </div>
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" type="button" id="theoed-editor-card-up">Move Up</button>
+          <button class="impact-editor-secondary" type="button" id="theoed-editor-card-down">Move Down</button>
+          <button class="impact-editor-secondary" type="button" id="theoed-editor-card-remove">Remove Card</button>
+          <button class="impact-editor-secondary" type="button" id="theoed-editor-card-add">Add New Card</button>
+        </div>
+      </div>
+
+      <div class="page-editor-group">
+        <h4>Speaker &amp; Talk</h4>
+        <p class="page-editor-note" style="margin:-6px 0 12px;">To swap a different speaker into this card, just edit the fields below &mdash; you don’t need to delete the card first. Use Add / Remove above only when you actually want to add or remove a card from the grid.</p>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-card-name">Speaker name</label>
+          <input id="theoed-editor-card-name" type="text">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-card-loc">Location / date (e.g. Atlanta &middot; 2019)</label>
+          <input id="theoed-editor-card-loc" type="text">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-card-quote">Quote shown on card</label>
+          <textarea id="theoed-editor-card-quote"></textarea>
+        </div>
+      </div>
+
+      <div class="page-editor-group">
+        <h4>Photo</h4>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-card-photo">Photo URL / path</label>
+          <input id="theoed-editor-card-photo" type="text">
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-card-imgposx">Horizontal position</label>
+            <input id="theoed-editor-card-imgposx" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Left</span><span id="theoed-editor-card-imgposx-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-card-imgposy">Vertical position</label>
+            <input id="theoed-editor-card-imgposy" type="range" min="0" max="100" step="1">
+            <div class="editor-inline-meta"><span>Top</span><span id="theoed-editor-card-imgposy-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-card-imgscale">Zoom / scale</label>
+          <input id="theoed-editor-card-imgscale" type="range" min="100" max="220" step="2">
+          <div class="editor-inline-meta"><span>Less zoom</span><span id="theoed-editor-card-imgscale-value"></span></div>
+        </div>
+      </div>
+
+      <div class="page-editor-group">
+        <h4>Links</h4>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-card-vid">YouTube video ID</label>
+          <input id="theoed-editor-card-vid" type="text" placeholder="e.g. rFf8d2WDn9Y">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-card-guide">Discussion guide URL / path (leave blank to hide)</label>
+          <input id="theoed-editor-card-guide" type="text" placeholder="assets/theoed/discussion-guides/&hellip;.pdf">
+        </div>
+      </div>
+    </div>
+
+    <!-- EVENT ARCHIVE -->
+    <div class="theoed-editor-panel" data-theoed-panel-body="archive" hidden>
+      <div class="page-editor-group">
+        <h4>Choose an Event</h4>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-event-select">Event</label>
+          <select id="theoed-editor-event-select"></select>
+        </div>
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" type="button" id="theoed-editor-event-up">Move Up</button>
+          <button class="impact-editor-secondary" type="button" id="theoed-editor-event-down">Move Down</button>
+          <button class="impact-editor-secondary" type="button" id="theoed-editor-event-remove">Remove Event</button>
+          <button class="impact-editor-secondary" type="button" id="theoed-editor-event-add">Add New Event</button>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-event-city">City</label>
+            <input id="theoed-editor-event-city" type="text">
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-event-year">Year</label>
+            <input id="theoed-editor-event-year" type="text">
+          </div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-event-label">Display label</label>
+          <input id="theoed-editor-event-label" type="text">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-event-grad">Accordion header background gradient</label>
+          <input id="theoed-editor-event-grad" type="text">
+        </div>
+      </div>
+
+      <div class="page-editor-group">
+        <h4>Talks in this Event</h4>
+        <div id="theoed-editor-talks-list"></div>
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" type="button" id="theoed-editor-talk-add">Add Talk</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-editor-actions">
+      <button class="page-editor-reset" id="theoed-editor-reset" type="button">Revert to Published</button>
+      <button class="page-editor-apply" id="theoed-editor-apply" type="button">Save Changes in Browser</button>
+    </div>
+  </aside>
+
   <!-- HERO -->
-  <div class="te-hero">
+  <div class="te-hero" id="te-hero">
+    <div class="te-hero-accent te-hero-accent-left" id="te-hero-accent-left"></div>
+    <div class="te-hero-accent te-hero-accent-right" id="te-hero-accent-right"></div>
     <div class="te-hero-overlay"></div>
       <div class="te-hero-content">
-        <img class="te-logo-img" src="https://www.dropbox.com/scl/fi/mytchjl1bntbysy3scwu1/TheoEd-Full-Name-no-tagline-white.png?rlkey=nzul4ipst3mesi95zinzm3y3m&st=3r134bwi&dl=1" alt="TheoEd">
-      <p class="te-hero-desc">TheoEd brings the world's leading theological thinkers to cities across the U.S. TheoEd is open to the public, livestreamed, and made available for free online, becoming a surprising way for all spiritual seekers - churched and unchurched alike - to truly engage in theological discussion.</p>
-      <div class="te-hero-stats">
+        <img class="te-logo-img" id="te-logo-img" src="https://www.dropbox.com/scl/fi/mytchjl1bntbysy3scwu1/TheoEd-Full-Name-no-tagline-white.png?rlkey=nzul4ipst3mesi95zinzm3y3m&st=3r134bwi&dl=1" alt="TheoEd">
+      <p class="te-hero-desc" id="te-hero-desc">TheoEd brings the world's leading theological thinkers to cities across the U.S. TheoEd is open to the public, livestreamed, and made available for free online, becoming a surprising way for all spiritual seekers - churched and unchurched alike - to truly engage in theological discussion.</p>
+      <div class="te-hero-stats" id="te-hero-stats">
         <div class="te-hs-item">
           <div class="te-hs-num">12</div>
           <div class="te-hs-lbl">Events Hosted</div>
@@ -2612,7 +2933,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   <!-- EVENT ARCHIVE -->
   <div class="te-archive-section">
     <div class="te-archive-hdr">
-      <span class="te-archive-hdr-title">Event Archive</span>
+      <span class="te-archive-hdr-title" id="te-archive-hdr-title">Event Archive</span>
       <div class="te-archive-hdr-rule"></div>
     </div>
     <div class="te-accordion" id="te-accordion"></div>
@@ -2765,78 +3086,802 @@ const THEOED_EVENTS = [
   ]}
 ];
 
+// TheoEd editor defaults. The legacy THEOED_SPEAKERS / THEOED_EVENTS consts
+// above stand in as the built-in fallback. The live config merges (1) these
+// defaults, (2) the Git-backed assets/page-config/theoed.json published state,
+// and optionally (3) the local browser draft stored in localStorage.
+var THEOED_EDITOR_DEFAULTS = {
+  hero: {
+    logoImage: 'https://www.dropbox.com/scl/fi/mytchjl1bntbysy3scwu1/TheoEd-Full-Name-no-tagline-white.png?rlkey=nzul4ipst3mesi95zinzm3y3m&st=3r134bwi&dl=1',
+    logoAlt: 'TheoEd',
+    description: "TheoEd brings the world's leading theological thinkers to cities across the U.S. TheoEd is open to the public, livestreamed, and made available for free online, becoming a surprising way for all spiritual seekers - churched and unchurched alike - to truly engage in theological discussion.",
+    centerImage: { photo: 'assets/theoed_photos/Greg Ellison - 1.jpg', posX: 50, posY: 18, scale: 62, opacity: 75 },
+    leftAccent:  { photo: '', posX: 50, posY: 40, scale: 110, opacity: 42, width: 32, feather: 55 },
+    rightAccent: { photo: '', posX: 50, posY: 40, scale: 110, opacity: 42, width: 32, feather: 55 },
+    stats: [
+      { number: '12', label: 'Events Hosted' },
+      { number: '9', label: 'Cities' },
+      { number: '50+', label: 'Talks' },
+      { number: '10,000+', label: 'Reached Online' }
+    ]
+  },
+  archive: { title: 'Event Archive' },
+  speakers: THEOED_SPEAKERS,
+  events: THEOED_EVENTS
+};
+
+var THEOED_EDITOR_STORAGE_KEY = 'executive-bi-dashboard.pageConfig.theoed.v1';
+var theoedEditorRuntime = {
+  publishedConfig: null,
+  storedDraftConfig: null,
+  baselineConfig: null,
+  config: null,
+  isOpen: false,
+  controlsBound: false,
+  setOpen: null,
+  selectedCard: 0,
+  selectedEvent: 0,
+  activePanel: 'page'
+};
+window.theoedEditorRuntime = theoedEditorRuntime;
+
+function theoedClone(value) { return value == null ? value : JSON.parse(JSON.stringify(value)); }
+function theoedConfigsEqual(a, b) { return JSON.stringify(a || {}) === JSON.stringify(b || {}); }
+
+function theoedGetStoredConfig() {
+  try { var raw = localStorage.getItem(THEOED_EDITOR_STORAGE_KEY); return raw ? JSON.parse(raw) : null; }
+  catch (err) { return null; }
+}
+function theoedSetStoredConfig(c) { try { localStorage.setItem(THEOED_EDITOR_STORAGE_KEY, JSON.stringify(c || {})); } catch (err) {} }
+function theoedClearStoredConfig() { try { localStorage.removeItem(THEOED_EDITOR_STORAGE_KEY); } catch (err) {} }
+
+// Arrays are fully replaced by override so removals persist; nested objects merge.
+function theoedMergeConfig(defaults, override) {
+  var merged = theoedClone(defaults) || {};
+  if (!override || typeof override !== 'object') return merged;
+  Object.keys(override).forEach(function(key) {
+    var v = override[key];
+    if (Array.isArray(v)) merged[key] = theoedClone(v);
+    else if (v && typeof v === 'object') merged[key] = theoedMergeConfig(merged[key] || {}, v);
+    else if (v !== undefined) merged[key] = v;
+  });
+  return merged;
+}
+
+function theoedGetConfig() {
+  var base = theoedMergeConfig(THEOED_EDITOR_DEFAULTS, theoedEditorRuntime.publishedConfig || {});
+  if (!base.hero) base.hero = {};
+  if (!Array.isArray(base.hero.stats)) base.hero.stats = theoedClone(THEOED_EDITOR_DEFAULTS.hero.stats);
+  if (!Array.isArray(base.speakers)) base.speakers = theoedClone(THEOED_EDITOR_DEFAULTS.speakers);
+  if (!Array.isArray(base.events)) base.events = theoedClone(THEOED_EDITOR_DEFAULTS.events);
+  return base;
+}
+
+function theoedLoadPublishedDraft() {
+  theoedEditorRuntime.config = theoedGetConfig();
+  theoedEditorRuntime.baselineConfig = theoedClone(theoedEditorRuntime.config);
+}
+
+function theoedRestoreStoredDraft() {
+  theoedLoadPublishedDraft();
+  if (theoedEditorRuntime.storedDraftConfig) {
+    theoedEditorRuntime.config = theoedMergeConfig(theoedEditorRuntime.config, theoedEditorRuntime.storedDraftConfig);
+  }
+  theoedEditorRuntime.baselineConfig = theoedClone(theoedEditorRuntime.config);
+}
+
+function theoedUpdateDraftNotice() {
+  var notice = document.getElementById('theoed-editor-draft-notice');
+  if (notice) notice.hidden = !theoedEditorRuntime.storedDraftConfig;
+}
+function theoedSetStatus(message, saved) {
+  var node = document.getElementById('theoed-editor-status');
+  if (!node) return;
+  node.textContent = message;
+  node.classList.toggle('is-saved', !!saved);
+  theoedUpdateDraftNotice();
+}
+function theoedHasDraftChanges() { return !theoedConfigsEqual(theoedEditorRuntime.config, theoedEditorRuntime.baselineConfig); }
+
+function theoedSaveConfig(message) {
+  theoedEditorRuntime.storedDraftConfig = theoedClone(theoedEditorRuntime.config);
+  theoedSetStoredConfig(theoedEditorRuntime.storedDraftConfig);
+  theoedEditorRuntime.baselineConfig = theoedClone(theoedEditorRuntime.config);
+  theoedSetStatus(message || 'Changes saved in browser', true);
+  if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('theoed-editor-shell'), message || 'Changes saved in browser');
+}
+
+function theoedRestoreSavedConfig() {
+  theoedEditorRuntime.config = theoedClone(theoedEditorRuntime.baselineConfig || theoedGetConfig());
+  theoedApplyConfig(theoedEditorRuntime.config);
+  theoedPopulateAllFields();
+  theoedSetStatus('Saved browser version loaded', true);
+}
+
+// Backward-compat: legacy configs used hero.backgroundImage; now hero.centerImage.photo.
+function theoedNormalizeHero(hero) {
+  hero = hero || {};
+  if (hero.backgroundImage && (!hero.centerImage || !hero.centerImage.photo)) {
+    hero.centerImage = Object.assign({ posX:50, posY:18, scale:110, opacity:75, photo: hero.backgroundImage }, hero.centerImage || {});
+  }
+  ['centerImage','leftAccent','rightAccent'].forEach(function(slot) {
+    var defaults = THEOED_EDITOR_DEFAULTS.hero[slot] || { photo:'', posX:50, posY:40, scale:110, opacity:42 };
+    var current = hero[slot] || {};
+    hero[slot] = {
+      photo:    current.photo != null ? current.photo : defaults.photo,
+      posX:     Number(current.posX != null ? current.posX : defaults.posX),
+      posY:     Number(current.posY != null ? current.posY : defaults.posY),
+      scale:    Number(current.scale != null ? current.scale : defaults.scale),
+      opacity:  Number(current.opacity != null ? current.opacity : defaults.opacity),
+      width:    (slot === 'centerImage') ? undefined :
+                Number(current.width != null ? current.width : (defaults.width != null ? defaults.width : 32)),
+      feather:  (slot === 'centerImage') ? undefined :
+                Number(current.feather != null ? current.feather : (defaults.feather != null ? defaults.feather : 55))
+    };
+  });
+  return hero;
+}
+
+function theoedApplyHero(config) {
+  if (config) config.hero = theoedNormalizeHero(config.hero);
+  var hero = (config && config.hero) || THEOED_EDITOR_DEFAULTS.hero;
+  var heroRoot = document.getElementById('te-hero');
+  var logo = document.getElementById('te-logo-img');
+  var desc = document.getElementById('te-hero-desc');
+  var statsRoot = document.getElementById('te-hero-stats');
+  if (logo) {
+    if (hero.logoImage) logo.setAttribute('src', hero.logoImage);
+    if (hero.logoAlt) logo.setAttribute('alt', hero.logoAlt);
+  }
+  if (desc) desc.textContent = hero.description || '';
+  if (heroRoot) {
+    var c = hero.centerImage || {};
+    if (c.photo) {
+      heroRoot.style.setProperty('--te-hero-center-img', 'url("' + c.photo + '")');
+    } else {
+      heroRoot.style.removeProperty('--te-hero-center-img');
+    }
+    heroRoot.style.setProperty('--te-hero-center-pos', (c.posX || 50) + '% ' + (c.posY || 18) + '%');
+    heroRoot.style.setProperty('--te-hero-center-size', (c.scale || 62) + '% auto');
+    heroRoot.style.setProperty('--te-hero-center-opacity', String(((c.opacity != null) ? c.opacity : 75) / 100));
+
+    function applyAccent(slot, varPrefix) {
+      var s = hero[slot] || {};
+      if (s.photo) {
+        heroRoot.style.setProperty(varPrefix + '-img', 'url("' + s.photo + '")');
+      } else {
+        heroRoot.style.setProperty(varPrefix + '-img', 'none');
+      }
+      heroRoot.style.setProperty(varPrefix + '-pos', (s.posX || 50) + '% ' + (s.posY || 40) + '%');
+      heroRoot.style.setProperty(varPrefix + '-size', 'auto ' + (s.scale || 110) + '%');
+      heroRoot.style.setProperty(varPrefix + '-opacity', String(((s.opacity != null) ? s.opacity : 0) / 100));
+      heroRoot.style.setProperty(varPrefix + '-width', (s.width != null ? s.width : 32) + '%');
+      // Feather (0=hard, 100=very soft): solid mask from 0% to (70 - feather*0.55)%,
+      // fading to transparent at 100%. So feather=0 keeps almost the whole slot
+      // solid; feather=100 starts the fade at ~15%.
+      var featherN = (s.feather != null) ? Number(s.feather) : 55;
+      var solidStop = Math.max(5, 70 - featherN * 0.55);
+      var midStop   = Math.max(solidStop + 8, Math.min(95, solidStop + (100 - solidStop) * 0.5));
+      heroRoot.style.setProperty(varPrefix + '-solid', solidStop + '%');
+      heroRoot.style.setProperty(varPrefix + '-mid',   midStop   + '%');
+    }
+    applyAccent('leftAccent',  '--te-accent-left');
+    applyAccent('rightAccent', '--te-accent-right');
+  }
+  if (statsRoot) {
+    var stats = Array.isArray(hero.stats) ? hero.stats : [];
+    statsRoot.innerHTML = '';
+    stats.forEach(function(stat, i) {
+      if (i > 0) {
+        var sep = document.createElement('div');
+        sep.className = 'te-hs-sep';
+        statsRoot.appendChild(sep);
+      }
+      var item = document.createElement('div');
+      item.className = 'te-hs-item';
+      var num = document.createElement('div');
+      num.className = 'te-hs-num';
+      num.textContent = stat && stat.number != null ? stat.number : '';
+      var lbl = document.createElement('div');
+      lbl.className = 'te-hs-lbl';
+      lbl.textContent = stat && stat.label ? stat.label : '';
+      item.appendChild(num);
+      item.appendChild(lbl);
+      statsRoot.appendChild(item);
+    });
+  }
+}
+
+function theoedRenderSpeakerGrid(config) {
+  var grid = document.getElementById('theoed-speaker-grid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  var speakers = (config && Array.isArray(config.speakers)) ? config.speakers : [];
+  speakers.forEach(function(sp) {
+    var tile = document.createElement('div');
+    tile.className = 'theoed-speaker-tile';
+    tile.setAttribute('role', 'button');
+    tile.setAttribute('tabindex', '0');
+    tile.setAttribute('aria-label', 'Play TheoEd talk by ' + (sp.name || '') + (sp.loc ? ', ' + sp.loc : ''));
+    var imgStyle = '';
+    if (sp.imgPos) imgStyle += 'object-position:' + sp.imgPos + ';';
+    if (sp.imgScale) imgStyle += '--te-img-scale:' + sp.imgScale + ';';
+    tile.innerHTML =
+      '<div class="theoed-speaker-media">' +
+        '<img src="' + (sp.photo || '') + '" alt="' + (sp.name || '') + '" loading="lazy"' + (imgStyle ? ' style="' + imgStyle + '"' : '') + '>' +
+        '<div class="theoed-speaker-play" aria-hidden="true">&#9654;</div>' +
+      '</div>' +
+      '<div class="theoed-tile-overlay">' +
+        '<div class="theoed-tile-quote">' + (sp.quote || '') + '</div>' +
+        '<div>' +
+          '<div class="theoed-tile-name">' + (sp.name || '') + '</div>' +
+          '<div class="theoed-tile-location">' + (sp.loc || '') + '</div>' +
+        '</div>' +
+      '</div>';
+    function launchTalk() { openLightbox(sp.vid, sp.name, sp.loc, sp.guide); }
+    tile.addEventListener('click', launchTalk);
+    tile.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); launchTalk(); }
+    });
+    grid.appendChild(tile);
+  });
+}
+
+function theoedRenderArchive(config) {
+  var acc = document.getElementById('te-accordion');
+  if (!acc) return;
+  acc.innerHTML = '';
+  var events = (config && Array.isArray(config.events)) ? config.events : [];
+  events.forEach(function(ev) {
+    var group = document.createElement('div');
+    group.className = 'te-acc-group';
+    var talks = Array.isArray(ev.talks) ? ev.talks : [];
+    var talksHtml = talks.map(function(tk) {
+      return '<div class="te-acc-talk"><div class="te-acc-talk-spk">' + (tk.s || '') + '</div>' +
+             '<a href="' + (tk.u || '#') + '" target="_blank" rel="noopener">' + (tk.t || '') + '</a></div>';
+    }).join('');
+    group.innerHTML =
+      '<button class="te-acc-btn"><span>' + (ev.label || '') + ' \xb7 ' + talks.length + ' talk' + (talks.length !== 1 ? 's' : '') + '</span>' +
+      '<span class="te-acc-chevron">&#8964;</span></button>' +
+      '<div class="te-acc-body">' + talksHtml + '</div>';
+    group.querySelector('.te-acc-btn').addEventListener('click', function() {
+      var isOpen = group.classList.contains('open');
+      acc.querySelectorAll('.te-acc-group.open').forEach(function(g) { g.classList.remove('open'); });
+      if (!isOpen) group.classList.add('open');
+    });
+    acc.appendChild(group);
+  });
+  var archiveTitle = document.getElementById('te-archive-hdr-title');
+  if (archiveTitle && config && config.archive && config.archive.title) archiveTitle.textContent = config.archive.title;
+}
+
+function theoedApplyConfig(config) {
+  theoedApplyHero(config);
+  theoedRenderSpeakerGrid(config);
+  theoedRenderArchive(config);
+}
+
+function theoedSetVal(id, value) { var el = document.getElementById(id); if (el) el.value = value == null ? '' : value; }
+
+function theoedSetSliderWithValue(id, value, fmt) {
+  var el = document.getElementById(id);
+  if (el) el.value = value;
+  var label = document.getElementById(id + '-value');
+  if (label) label.textContent = fmt ? fmt(value) : (value + '');
+}
+
+function theoedPopulatePageFields() {
+  var cfg = theoedEditorRuntime.config || theoedGetConfig();
+  cfg.hero = theoedNormalizeHero(cfg.hero);
+  var hero = cfg.hero || {};
+  theoedSetVal('theoed-editor-hero-desc', hero.description);
+  theoedSetVal('theoed-editor-hero-logo', hero.logoImage);
+  theoedSetVal('theoed-editor-hero-logo-alt', hero.logoAlt);
+  theoedSetVal('theoed-editor-archive-title', (cfg.archive && cfg.archive.title) || 'Event Archive');
+
+  // Hero photo slot fields
+  ['centerImage','leftAccent','rightAccent'].forEach(function(slot) {
+    var prefix = (slot === 'centerImage') ? 'hero-center' : (slot === 'leftAccent' ? 'hero-left' : 'hero-right');
+    var d = hero[slot] || {};
+    theoedSetVal('theoed-editor-' + prefix + '-photo', d.photo);
+    theoedSetSliderWithValue('theoed-editor-' + prefix + '-posx', Math.round(Number(d.posX || 0)), function(v){return Math.round(v)+'%';});
+    theoedSetSliderWithValue('theoed-editor-' + prefix + '-posy', Math.round(Number(d.posY || 0)), function(v){return Math.round(v)+'%';});
+    theoedSetSliderWithValue('theoed-editor-' + prefix + '-scale', Math.round(Number(d.scale || 110)), function(v){return Math.round(v)+'%';});
+    theoedSetSliderWithValue('theoed-editor-' + prefix + '-opacity', Math.round(Number(d.opacity || 0)), function(v){return Math.round(v)+'%';});
+    if (slot !== 'centerImage') {
+      theoedSetSliderWithValue('theoed-editor-' + prefix + '-width', Math.round(Number(d.width != null ? d.width : 32)), function(v){return Math.round(v)+'%';});
+      theoedSetSliderWithValue('theoed-editor-' + prefix + '-feather', Math.round(Number(d.feather != null ? d.feather : 55)), function(v){return Math.round(v)+'%';});
+    }
+  });
+
+  var statsList = document.getElementById('theoed-editor-stats-list');
+  if (statsList) {
+    statsList.innerHTML = '';
+    var stats = Array.isArray(hero.stats) ? hero.stats : [];
+    stats.forEach(function(stat, idx) {
+      var row = document.createElement('div');
+      row.className = 'theoed-editor-stat-row';
+      row.innerHTML =
+        '<input type="text" data-theoed-stat-field="number" data-theoed-stat-idx="' + idx + '" placeholder="12">' +
+        '<input type="text" data-theoed-stat-field="label"  data-theoed-stat-idx="' + idx + '" placeholder="Events Hosted">' +
+        '<button type="button" data-theoed-stat-remove="' + idx + '" aria-label="Remove stat">Remove</button>';
+      row.querySelector('[data-theoed-stat-field="number"]').value = stat && stat.number != null ? stat.number : '';
+      row.querySelector('[data-theoed-stat-field="label"]').value = stat && stat.label ? stat.label : '';
+      statsList.appendChild(row);
+    });
+  }
+}
+
+function theoedPopulateCardFields() {
+  var cfg = theoedEditorRuntime.config || theoedGetConfig();
+  var select = document.getElementById('theoed-editor-card-select');
+  var speakers = Array.isArray(cfg.speakers) ? cfg.speakers : [];
+  if (select) {
+    var current = theoedEditorRuntime.selectedCard;
+    select.innerHTML = '';
+    speakers.forEach(function(sp, idx) {
+      var opt = document.createElement('option');
+      opt.value = String(idx);
+      opt.textContent = (idx + 1) + '. ' + (sp.name || 'Untitled') + (sp.loc ? ' (' + sp.loc + ')' : '');
+      select.appendChild(opt);
+    });
+    if (current >= speakers.length) current = speakers.length - 1;
+    if (current < 0) current = 0;
+    theoedEditorRuntime.selectedCard = current;
+    if (speakers.length) select.value = String(current);
+  }
+  var sp = speakers[theoedEditorRuntime.selectedCard] || {};
+  theoedSetVal('theoed-editor-card-name', sp.name);
+  theoedSetVal('theoed-editor-card-loc', sp.loc);
+  theoedSetVal('theoed-editor-card-quote', sp.quote);
+  theoedSetVal('theoed-editor-card-photo', sp.photo);
+  // Parse imgPos string ("50% 24%") into two sliders (defaults if missing)
+  var pos = String(sp.imgPos || '50% 24%').split(/\s+/);
+  var px = parseFloat(pos[0]); if (!isFinite(px)) px = 50;
+  var py = parseFloat(pos[1]); if (!isFinite(py)) py = 24;
+  theoedSetSliderWithValue('theoed-editor-card-imgposx', Math.round(px), function(v){return Math.round(v)+'%';});
+  theoedSetSliderWithValue('theoed-editor-card-imgposy', Math.round(py), function(v){return Math.round(v)+'%';});
+  // imgScale on the page is a multiplier ("1.20"); editor slider is integer % (100-220)
+  var sc = parseFloat(sp.imgScale); if (!isFinite(sc)) sc = 1.2;
+  theoedSetSliderWithValue('theoed-editor-card-imgscale', Math.round(sc * 100), function(v){return Math.round(v)+'%';});
+  theoedSetVal('theoed-editor-card-vid', sp.vid);
+  theoedSetVal('theoed-editor-card-guide', sp.guide);
+}
+
+function theoedPopulateEventFields() {
+  var cfg = theoedEditorRuntime.config || theoedGetConfig();
+  var select = document.getElementById('theoed-editor-event-select');
+  var events = Array.isArray(cfg.events) ? cfg.events : [];
+  if (select) {
+    var current = theoedEditorRuntime.selectedEvent;
+    select.innerHTML = '';
+    events.forEach(function(ev, idx) {
+      var opt = document.createElement('option');
+      opt.value = String(idx);
+      opt.textContent = (idx + 1) + '. ' + (ev.label || ((ev.city || '') + ' ' + (ev.year || ''))).trim();
+      select.appendChild(opt);
+    });
+    if (current >= events.length) current = events.length - 1;
+    if (current < 0) current = 0;
+    theoedEditorRuntime.selectedEvent = current;
+    if (events.length) select.value = String(current);
+  }
+  var ev = events[theoedEditorRuntime.selectedEvent] || { talks: [] };
+  theoedSetVal('theoed-editor-event-city', ev.city);
+  theoedSetVal('theoed-editor-event-year', ev.year);
+  theoedSetVal('theoed-editor-event-label', ev.label);
+  theoedSetVal('theoed-editor-event-grad', ev.grad);
+
+  var talksList = document.getElementById('theoed-editor-talks-list');
+  if (talksList) {
+    talksList.innerHTML = '';
+    var talks = Array.isArray(ev.talks) ? ev.talks : [];
+    talks.forEach(function(tk, idx) {
+      var row = document.createElement('div');
+      row.className = 'theoed-editor-talk-row';
+      row.innerHTML =
+        '<div class="editor-field"><label class="editor-label">Speaker</label>' +
+          '<input type="text" data-theoed-talk-field="s" data-theoed-talk-idx="' + idx + '"></div>' +
+        '<div class="editor-field"><label class="editor-label">Talk title</label>' +
+          '<input type="text" data-theoed-talk-field="t" data-theoed-talk-idx="' + idx + '"></div>' +
+        '<div class="editor-field"><label class="editor-label">URL</label>' +
+          '<input type="text" data-theoed-talk-field="u" data-theoed-talk-idx="' + idx + '"></div>' +
+        '<div class="theoed-editor-row-actions">' +
+          '<button class="impact-editor-secondary" type="button" data-theoed-talk-up="' + idx + '">Up</button>' +
+          '<button class="impact-editor-secondary" type="button" data-theoed-talk-down="' + idx + '">Down</button>' +
+          '<button class="impact-editor-secondary" type="button" data-theoed-talk-remove="' + idx + '">Remove</button>' +
+        '</div>';
+      row.querySelector('[data-theoed-talk-field="s"]').value = tk.s || '';
+      row.querySelector('[data-theoed-talk-field="t"]').value = tk.t || '';
+      row.querySelector('[data-theoed-talk-field="u"]').value = tk.u || '';
+      talksList.appendChild(row);
+    });
+  }
+}
+
+function theoedPopulateAllFields() {
+  theoedPopulatePageFields();
+  theoedPopulateCardFields();
+  theoedPopulateEventFields();
+}
+
+function theoedLiveUpdate(message) {
+  theoedApplyConfig(theoedEditorRuntime.config);
+  theoedSetStatus(message || 'Live draft preview active', false);
+}
+
+function theoedBindEditor() {
+  if (theoedEditorRuntime.controlsBound) return;
+  theoedEditorRuntime.controlsBound = true;
+  var shell = document.getElementById('theoed-editor-shell');
+  var toggle = document.getElementById('theoed-editor-toggle');
+  var closeBtn = document.getElementById('theoed-editor-close');
+  if (!shell || !toggle) return;
+  var header = shell.querySelector('.page-editor-header');
+
+  function setOpen(open) {
+    shell.hidden = !open;
+    theoedEditorRuntime.isOpen = !!open;
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  theoedEditorRuntime.setOpen = setOpen;
+
+  function requestClose() {
+    if (!theoedHasDraftChanges()) { setOpen(false); theoedSetStatus('Saved browser version loaded', true); return true; }
+    if (window.confirm('Save your TheoEd edits before closing? Click OK to save. Click Cancel for more options.')) {
+      theoedSaveConfig('Changes saved in browser'); setOpen(false); return true;
+    }
+    if (!window.confirm('Discard unsaved TheoEd edits and close the editor?')) return false;
+    theoedRestoreSavedConfig(); setOpen(false); return true;
+  }
+
+  if (window.attachPageEditorShellBehavior) {
+    window.attachPageEditorShellBehavior({
+      shell: shell, toggle: toggle, close: closeBtn, header: header,
+      onCloseRequest: requestClose,
+      ignoreOutsideSelector: '#panel-theoed .te-hero, #panel-theoed .theoed-speaker-grid, #panel-theoed .te-archive-section, #panel-theoed .te-lightbox'
+    });
+  }
+
+  toggle.addEventListener('click', function() {
+    if (shell.hidden) setOpen(true); else requestClose();
+  });
+
+  shell.querySelectorAll('[data-theoed-panel]').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var target = btn.getAttribute('data-theoed-panel');
+      theoedEditorRuntime.activePanel = target;
+      shell.querySelectorAll('[data-theoed-panel]').forEach(function(b) {
+        b.classList.toggle('is-active', b.getAttribute('data-theoed-panel') === target);
+      });
+      shell.querySelectorAll('[data-theoed-panel-body]').forEach(function(body) {
+        body.hidden = body.getAttribute('data-theoed-panel-body') !== target;
+      });
+    });
+  });
+
+  var restoreBtn = document.getElementById('theoed-editor-restore-draft');
+  if (restoreBtn) restoreBtn.addEventListener('click', function() {
+    if (!theoedEditorRuntime.storedDraftConfig) return;
+    theoedRestoreStoredDraft();
+    theoedApplyConfig(theoedEditorRuntime.config);
+    theoedPopulateAllFields();
+    theoedSetStatus('Local draft restored', true);
+  });
+  var discardBtn = document.getElementById('theoed-editor-discard-draft');
+  if (discardBtn) discardBtn.addEventListener('click', function() {
+    theoedClearStoredConfig();
+    theoedEditorRuntime.storedDraftConfig = null;
+    theoedLoadPublishedDraft();
+    theoedApplyConfig(theoedEditorRuntime.config);
+    theoedPopulateAllFields();
+    theoedSetStatus('Local draft discarded', true);
+  });
+
+  function bindPageInput(id, setter) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() { setter(el.value); theoedLiveUpdate(); });
+  }
+  bindPageInput('theoed-editor-hero-desc', function(v) { theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {}; theoedEditorRuntime.config.hero.description = v; });
+  bindPageInput('theoed-editor-hero-logo', function(v) { theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {}; theoedEditorRuntime.config.hero.logoImage = v; });
+  bindPageInput('theoed-editor-hero-logo-alt', function(v) { theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {}; theoedEditorRuntime.config.hero.logoAlt = v; });
+  // Hero photo slot bindings
+  function ensureHeroSlot(slot) {
+    theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {};
+    theoedEditorRuntime.config.hero = theoedNormalizeHero(theoedEditorRuntime.config.hero);
+    return theoedEditorRuntime.config.hero[slot];
+  }
+  function bindHeroSlot(slot, prefix) {
+    var photo = document.getElementById('theoed-editor-' + prefix + '-photo');
+    if (photo) photo.addEventListener('input', function() {
+      ensureHeroSlot(slot).photo = photo.value;
+      theoedLiveUpdate();
+    });
+    [['posx','posX'], ['posy','posY'], ['scale','scale'], ['opacity','opacity'], ['width','width'], ['feather','feather']].forEach(function(p) {
+      var el = document.getElementById('theoed-editor-' + prefix + '-' + p[0]);
+      if (!el) return;
+      el.addEventListener('input', function() {
+        var s = ensureHeroSlot(slot);
+        s[p[1]] = Number(el.value);
+        var lbl = document.getElementById('theoed-editor-' + prefix + '-' + p[0] + '-value');
+        if (lbl) lbl.textContent = Math.round(Number(el.value)) + '%';
+        theoedLiveUpdate();
+      });
+    });
+  }
+  bindHeroSlot('centerImage', 'hero-center');
+  bindHeroSlot('leftAccent',  'hero-left');
+  bindHeroSlot('rightAccent', 'hero-right');
+  bindPageInput('theoed-editor-archive-title', function(v) { theoedEditorRuntime.config.archive = theoedEditorRuntime.config.archive || {}; theoedEditorRuntime.config.archive.title = v; });
+
+  var statsList = document.getElementById('theoed-editor-stats-list');
+  if (statsList) {
+    statsList.addEventListener('input', function(event) {
+      var target = event.target;
+      if (!target || !target.hasAttribute('data-theoed-stat-field')) return;
+      var idx = Number(target.getAttribute('data-theoed-stat-idx'));
+      var field = target.getAttribute('data-theoed-stat-field');
+      theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {};
+      theoedEditorRuntime.config.hero.stats = Array.isArray(theoedEditorRuntime.config.hero.stats) ? theoedEditorRuntime.config.hero.stats : [];
+      while (theoedEditorRuntime.config.hero.stats.length <= idx) theoedEditorRuntime.config.hero.stats.push({ number: '', label: '' });
+      theoedEditorRuntime.config.hero.stats[idx][field] = target.value;
+      theoedLiveUpdate();
+    });
+    statsList.addEventListener('click', function(event) {
+      var target = event.target;
+      if (!target || !target.hasAttribute('data-theoed-stat-remove')) return;
+      var idx = Number(target.getAttribute('data-theoed-stat-remove'));
+      theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {};
+      theoedEditorRuntime.config.hero.stats = Array.isArray(theoedEditorRuntime.config.hero.stats) ? theoedEditorRuntime.config.hero.stats : [];
+      theoedEditorRuntime.config.hero.stats.splice(idx, 1);
+      theoedPopulatePageFields();
+      theoedLiveUpdate();
+    });
+  }
+  var statAdd = document.getElementById('theoed-editor-stat-add');
+  if (statAdd) statAdd.addEventListener('click', function() {
+    theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {};
+    theoedEditorRuntime.config.hero.stats = Array.isArray(theoedEditorRuntime.config.hero.stats) ? theoedEditorRuntime.config.hero.stats : [];
+    theoedEditorRuntime.config.hero.stats.push({ number: '', label: 'New stat' });
+    theoedPopulatePageFields();
+    theoedLiveUpdate();
+  });
+
+  var cardSelect = document.getElementById('theoed-editor-card-select');
+  if (cardSelect) cardSelect.addEventListener('change', function() {
+    theoedEditorRuntime.selectedCard = Number(cardSelect.value) || 0;
+    theoedPopulateCardFields();
+  });
+  function bindCardInput(id, field) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      var speakers = theoedEditorRuntime.config.speakers;
+      if (!Array.isArray(speakers) || !speakers[theoedEditorRuntime.selectedCard]) return;
+      speakers[theoedEditorRuntime.selectedCard][field] = el.value;
+      if (field === 'name' || field === 'loc') {
+        var sp = speakers[theoedEditorRuntime.selectedCard];
+        var label = (theoedEditorRuntime.selectedCard + 1) + '. ' + (sp.name || 'Untitled');
+        if (sp.loc) label += ' (' + sp.loc + ')';
+        var opt = cardSelect && cardSelect.querySelector('option[value="' + theoedEditorRuntime.selectedCard + '"]');
+        if (opt) opt.textContent = label;
+      }
+      theoedLiveUpdate();
+    });
+  }
+  bindCardInput('theoed-editor-card-name', 'name');
+  bindCardInput('theoed-editor-card-loc', 'loc');
+  bindCardInput('theoed-editor-card-quote', 'quote');
+  bindCardInput('theoed-editor-card-photo', 'photo');
+  // Card image position/scale: sliders compose imgPos string ("X% Y%") and imgScale multiplier
+  function updateCardImgFromSliders() {
+    var speakers = theoedEditorRuntime.config.speakers;
+    if (!Array.isArray(speakers) || !speakers[theoedEditorRuntime.selectedCard]) return;
+    var sp = speakers[theoedEditorRuntime.selectedCard];
+    var px = document.getElementById('theoed-editor-card-imgposx');
+    var py = document.getElementById('theoed-editor-card-imgposy');
+    var sc = document.getElementById('theoed-editor-card-imgscale');
+    if (px && py) sp.imgPos = Math.round(Number(px.value)) + '% ' + Math.round(Number(py.value)) + '%';
+    if (sc) sp.imgScale = (Number(sc.value) / 100).toFixed(2);
+  }
+  ['theoed-editor-card-imgposx', 'theoed-editor-card-imgposy', 'theoed-editor-card-imgscale'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      updateCardImgFromSliders();
+      var lbl = document.getElementById(id + '-value');
+      if (lbl) lbl.textContent = Math.round(Number(el.value)) + '%';
+      theoedLiveUpdate();
+    });
+  });
+  bindCardInput('theoed-editor-card-vid', 'vid');
+  bindCardInput('theoed-editor-card-guide', 'guide');
+
+  function moveCard(delta) {
+    var speakers = theoedEditorRuntime.config.speakers;
+    if (!Array.isArray(speakers)) return;
+    var i = theoedEditorRuntime.selectedCard, j = i + delta;
+    if (j < 0 || j >= speakers.length) return;
+    var tmp = speakers[i]; speakers[i] = speakers[j]; speakers[j] = tmp;
+    theoedEditorRuntime.selectedCard = j;
+    theoedPopulateCardFields();
+    theoedLiveUpdate();
+  }
+  var cardUp = document.getElementById('theoed-editor-card-up'); if (cardUp) cardUp.addEventListener('click', function() { moveCard(-1); });
+  var cardDown = document.getElementById('theoed-editor-card-down'); if (cardDown) cardDown.addEventListener('click', function() { moveCard(1); });
+  var cardRemove = document.getElementById('theoed-editor-card-remove');
+  if (cardRemove) cardRemove.addEventListener('click', function() {
+    var speakers = theoedEditorRuntime.config.speakers;
+    if (!Array.isArray(speakers) || !speakers.length) return;
+    if (!window.confirm('Remove this featured card from the TheoEd page?')) return;
+    speakers.splice(theoedEditorRuntime.selectedCard, 1);
+    if (theoedEditorRuntime.selectedCard >= speakers.length) theoedEditorRuntime.selectedCard = Math.max(0, speakers.length - 1);
+    theoedPopulateCardFields();
+    theoedLiveUpdate();
+  });
+  var cardAdd = document.getElementById('theoed-editor-card-add');
+  if (cardAdd) cardAdd.addEventListener('click', function() {
+    theoedEditorRuntime.config.speakers = Array.isArray(theoedEditorRuntime.config.speakers) ? theoedEditorRuntime.config.speakers : [];
+    theoedEditorRuntime.config.speakers.push({ name: 'New Speaker', loc: '', photo: '', imgPos: '50% 24%', imgScale: '1.2', vid: '', quote: '', guide: '' });
+    theoedEditorRuntime.selectedCard = theoedEditorRuntime.config.speakers.length - 1;
+    theoedPopulateCardFields();
+    theoedLiveUpdate();
+  });
+
+  var eventSelect = document.getElementById('theoed-editor-event-select');
+  if (eventSelect) eventSelect.addEventListener('change', function() {
+    theoedEditorRuntime.selectedEvent = Number(eventSelect.value) || 0;
+    theoedPopulateEventFields();
+  });
+  function bindEventInput(id, field) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      var events = theoedEditorRuntime.config.events;
+      if (!Array.isArray(events) || !events[theoedEditorRuntime.selectedEvent]) return;
+      events[theoedEditorRuntime.selectedEvent][field] = el.value;
+      if (field === 'label' || field === 'city' || field === 'year') {
+        var opt = eventSelect && eventSelect.querySelector('option[value="' + theoedEditorRuntime.selectedEvent + '"]');
+        var ev = events[theoedEditorRuntime.selectedEvent];
+        var lbl = ev.label || ((ev.city || '') + ' ' + (ev.year || '')).trim();
+        if (opt) opt.textContent = (theoedEditorRuntime.selectedEvent + 1) + '. ' + lbl;
+      }
+      theoedLiveUpdate();
+    });
+  }
+  bindEventInput('theoed-editor-event-city', 'city');
+  bindEventInput('theoed-editor-event-year', 'year');
+  bindEventInput('theoed-editor-event-label', 'label');
+  bindEventInput('theoed-editor-event-grad', 'grad');
+
+  function moveEvent(delta) {
+    var events = theoedEditorRuntime.config.events;
+    if (!Array.isArray(events)) return;
+    var i = theoedEditorRuntime.selectedEvent, j = i + delta;
+    if (j < 0 || j >= events.length) return;
+    var tmp = events[i]; events[i] = events[j]; events[j] = tmp;
+    theoedEditorRuntime.selectedEvent = j;
+    theoedPopulateEventFields();
+    theoedLiveUpdate();
+  }
+  var eventUp = document.getElementById('theoed-editor-event-up'); if (eventUp) eventUp.addEventListener('click', function() { moveEvent(-1); });
+  var eventDown = document.getElementById('theoed-editor-event-down'); if (eventDown) eventDown.addEventListener('click', function() { moveEvent(1); });
+  var eventRemove = document.getElementById('theoed-editor-event-remove');
+  if (eventRemove) eventRemove.addEventListener('click', function() {
+    var events = theoedEditorRuntime.config.events;
+    if (!Array.isArray(events) || !events.length) return;
+    if (!window.confirm('Remove this event from the TheoEd archive?')) return;
+    events.splice(theoedEditorRuntime.selectedEvent, 1);
+    if (theoedEditorRuntime.selectedEvent >= events.length) theoedEditorRuntime.selectedEvent = Math.max(0, events.length - 1);
+    theoedPopulateEventFields();
+    theoedLiveUpdate();
+  });
+  var eventAdd = document.getElementById('theoed-editor-event-add');
+  if (eventAdd) eventAdd.addEventListener('click', function() {
+    theoedEditorRuntime.config.events = Array.isArray(theoedEditorRuntime.config.events) ? theoedEditorRuntime.config.events : [];
+    theoedEditorRuntime.config.events.push({
+      city: 'New City', year: String(new Date().getFullYear()),
+      label: 'New Event', grad: '135deg, #1e2530 0%, #1e2530 100%', talks: []
+    });
+    theoedEditorRuntime.selectedEvent = theoedEditorRuntime.config.events.length - 1;
+    theoedPopulateEventFields();
+    theoedLiveUpdate();
+  });
+
+  var talksList = document.getElementById('theoed-editor-talks-list');
+  if (talksList) {
+    talksList.addEventListener('input', function(event) {
+      var target = event.target;
+      if (!target || !target.hasAttribute('data-theoed-talk-field')) return;
+      var idx = Number(target.getAttribute('data-theoed-talk-idx'));
+      var field = target.getAttribute('data-theoed-talk-field');
+      var ev = theoedEditorRuntime.config.events && theoedEditorRuntime.config.events[theoedEditorRuntime.selectedEvent];
+      if (!ev) return;
+      ev.talks = Array.isArray(ev.talks) ? ev.talks : [];
+      while (ev.talks.length <= idx) ev.talks.push({ s: '', t: '', u: '' });
+      ev.talks[idx][field] = target.value;
+      theoedLiveUpdate();
+    });
+    talksList.addEventListener('click', function(event) {
+      var target = event.target;
+      if (!target) return;
+      var ev = theoedEditorRuntime.config.events && theoedEditorRuntime.config.events[theoedEditorRuntime.selectedEvent];
+      if (!ev) return;
+      ev.talks = Array.isArray(ev.talks) ? ev.talks : [];
+      if (target.hasAttribute('data-theoed-talk-remove')) {
+        var idx = Number(target.getAttribute('data-theoed-talk-remove'));
+        ev.talks.splice(idx, 1);
+        theoedPopulateEventFields();
+        theoedLiveUpdate();
+      } else if (target.hasAttribute('data-theoed-talk-up')) {
+        var iu = Number(target.getAttribute('data-theoed-talk-up'));
+        if (iu > 0) { var tmp = ev.talks[iu]; ev.talks[iu] = ev.talks[iu - 1]; ev.talks[iu - 1] = tmp; theoedPopulateEventFields(); theoedLiveUpdate(); }
+      } else if (target.hasAttribute('data-theoed-talk-down')) {
+        var idn = Number(target.getAttribute('data-theoed-talk-down'));
+        if (idn < ev.talks.length - 1) { var tmp2 = ev.talks[idn]; ev.talks[idn] = ev.talks[idn + 1]; ev.talks[idn + 1] = tmp2; theoedPopulateEventFields(); theoedLiveUpdate(); }
+      }
+    });
+  }
+  var talkAdd = document.getElementById('theoed-editor-talk-add');
+  if (talkAdd) talkAdd.addEventListener('click', function() {
+    var ev = theoedEditorRuntime.config.events && theoedEditorRuntime.config.events[theoedEditorRuntime.selectedEvent];
+    if (!ev) return;
+    ev.talks = Array.isArray(ev.talks) ? ev.talks : [];
+    ev.talks.push({ s: '', t: 'New talk', u: '' });
+    theoedPopulateEventFields();
+    theoedLiveUpdate();
+  });
+
+  var applyBtn = document.getElementById('theoed-editor-apply');
+  if (applyBtn) applyBtn.addEventListener('click', function() { theoedSaveConfig('Changes saved in browser'); });
+  var resetBtn = document.getElementById('theoed-editor-reset');
+  if (resetBtn) resetBtn.addEventListener('click', function() {
+    if (!window.confirm('Revert all in-progress edits back to the version currently published on main? This does not clear your saved browser draft (use Discard Draft for that).')) return;
+    // Reset = "what the page looks like right after a fresh git pull". That is
+    // the merged defaults + publishedConfig, without any in-memory edits.
+    theoedLoadPublishedDraft();
+    theoedApplyConfig(theoedEditorRuntime.config);
+    theoedPopulateAllFields();
+    theoedSetStatus('Reverted to published version', true);
+    if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Reverted to published version');
+  });
+}
+
+window.theoedEditorBridge = {
+  getDraftConfig: function() {
+    return theoedEditorRuntime.config ? theoedClone(theoedEditorRuntime.config) : null;
+  },
+  markPublished: function(message) {
+    if (!theoedEditorRuntime.config) return;
+    theoedEditorRuntime.publishedConfig = theoedClone(theoedEditorRuntime.config);
+    theoedEditorRuntime.storedDraftConfig = null;
+    theoedClearStoredConfig();
+    theoedEditorRuntime.baselineConfig = theoedClone(theoedEditorRuntime.config);
+    theoedSetStatus(message || 'Published to main', true);
+    if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('theoed-editor-shell'), message || 'Published to main');
+  }
+};
+
 var teoEdReady = false;
-function initTheoEd() {
+async function initTheoEd() {
   if (teoEdReady) return;
   teoEdReady = true;
+  // Git-backed JSON is the source of truth on refresh; browser-saved drafts
+  // must NOT auto-apply, but are surfaced via the Restore/Discard draft notice.
+  theoedEditorRuntime.publishedConfig = await window.pageEditorFetchJson('/assets/page-config/theoed.json');
+  theoedEditorRuntime.storedDraftConfig = theoedGetStoredConfig();
+  theoedLoadPublishedDraft();
+  theoedApplyConfig(theoedEditorRuntime.config);
+  theoedBindEditor();
+  theoedPopulateAllFields();
+  theoedSetStatus(theoedEditorRuntime.storedDraftConfig ? 'Git-backed content loaded (local draft available)' : 'Saved browser version loaded', true);
 
-  // ── Speaker grid 3×3 ──
-  var grid = document.getElementById('theoed-speaker-grid');
-  if (grid) {
-    THEOED_SPEAKERS.forEach(function(sp) {
-      var tile = document.createElement('div');
-      tile.className = 'theoed-speaker-tile';
-      tile.setAttribute('role', 'button');
-      tile.setAttribute('tabindex', '0');
-      tile.setAttribute('aria-label', 'Play TheoEd talk by ' + sp.name + ', ' + sp.loc);
-      var imgStyle = '';
-      if (sp.imgPos) imgStyle += 'object-position:' + sp.imgPos + ';';
-      if (sp.imgScale) imgStyle += '--te-img-scale:' + sp.imgScale + ';';
-      tile.innerHTML =
-        '<div class="theoed-speaker-media">' +
-          '<img src="' + sp.photo + '" alt="' + sp.name + '" loading="lazy"' + (imgStyle ? ' style="' + imgStyle + '"' : '') + '>' +
-          '<div class="theoed-speaker-play" aria-hidden="true">&#9654;</div>' +
-        '</div>' +
-        '<div class="theoed-tile-overlay">' +
-          '<div class="theoed-tile-quote">' + sp.quote + '</div>' +
-          '<div>' +
-            '<div class="theoed-tile-name">' + sp.name + '</div>' +
-            '<div class="theoed-tile-location">' + sp.loc + '</div>' +
-          '</div>' +
-        '</div>';
-      function launchTalk() { openLightbox(sp.vid, sp.name, sp.loc, sp.guide); }
-      tile.addEventListener('click', launchTalk);
-      tile.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          launchTalk();
-        }
-      });
-      grid.appendChild(tile);
-    });
-  }
-
-  // ── Event Archive accordion ──
-  var acc = document.getElementById('te-accordion');
-  if (acc) {
-    THEOED_EVENTS.forEach(function(ev) {
-      var group = document.createElement('div');
-      group.className = 'te-acc-group';
-      var talksHtml = ev.talks.map(function(tk) {
-        return '<div class="te-acc-talk"><div class="te-acc-talk-spk">' + tk.s + '</div>' +
-               '<a href="' + tk.u + '" target="_blank" rel="noopener">' + tk.t + '</a></div>';
-      }).join('');
-      group.innerHTML =
-        '<button class="te-acc-btn"><span>' + ev.label + ' \xb7 ' + ev.talks.length + ' talk' + (ev.talks.length !== 1 ? 's' : '') + '</span>' +
-        '<span class="te-acc-chevron">&#8964;</span></button>' +
-        '<div class="te-acc-body">' + talksHtml + '</div>';
-      group.querySelector('.te-acc-btn').addEventListener('click', function() {
-        var isOpen = group.classList.contains('open');
-        acc.querySelectorAll('.te-acc-group.open').forEach(function(g) { g.classList.remove('open'); });
-        if (!isOpen) group.classList.add('open');
-      });
-      acc.appendChild(group);
-    });
-  }
-
-  // ── Lightbox event listeners ──
   var lbClose = document.getElementById('te-lb-close');
   var lbBackdrop = document.getElementById('te-lb-backdrop');
   if (lbClose) lbClose.addEventListener('click', closeLightbox);
   if (lbBackdrop) lbBackdrop.addEventListener('click', closeLightbox);
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeLightbox();
-  });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
 }
 
 function openLightbox(vid, name, loc, guide) {
@@ -2848,7 +3893,6 @@ function openLightbox(vid, name, loc, guide) {
   if (lbName) lbName.textContent = name || '';
   if (lbLoc) lbLoc.textContent = loc || '';
   frame.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
-  // Populate the per-talk discussion guide banner
   var guideWrap = document.getElementById('te-lb-guide');
   var guideLink = document.getElementById('te-lb-guide-link');
   if (guideWrap && guideLink) {
@@ -2858,7 +3902,9 @@ function openLightbox(vid, name, loc, guide) {
       guideWrap.setAttribute('data-state', 'has-guide');
     } else {
       guideLink.setAttribute('href', '#');
-      guideWrap.setAttribute('data-state', 'missing');
+      // 'empty' state hides both the link and the fallback banner, per the
+      // missing-guide policy: no visible fallback for guide-less talks.
+      guideWrap.setAttribute('data-state', 'empty');
     }
   }
   lb.classList.add('open');
@@ -2870,7 +3916,6 @@ function closeLightbox() {
   if (!lb) return;
   lb.classList.remove('open');
   if (frame) frame.src = '';
-  // Reset the discussion guide banner so it doesn't flash stale content next open
   var guideWrap = document.getElementById('te-lb-guide');
   var guideLink = document.getElementById('te-lb-guide-link');
   if (guideWrap) guideWrap.setAttribute('data-state', 'empty');
@@ -3217,6 +4262,12 @@ window.publishDashboardEdits = async function() {
       content: window.growthEditorBridge.getDraftConfig()
     });
   }
+  if (window.theoedEditorBridge && window.theoedEditorBridge.getDraftConfig()) {
+    files.push({
+      path: 'assets/page-config/theoed.json',
+      content: window.theoedEditorBridge.getDraftConfig()
+    });
+  }
   if (!files.length) throw new Error('No editable page drafts are ready to publish');
   return await window.pageEditorPublishConfig({
     commitMessage: 'Publish dashboard editor updates',
@@ -3229,7 +4280,7 @@ window.publishDashboardEdits = async function() {
   if (!button || button.dataset.bound === 'true') return;
   button.dataset.bound = 'true';
   button.addEventListener('click', async function() {
-    if (!window.confirm('Publish the current Mission, Candler Impact, and Growth and Reach drafts to main?')) return;
+    if (!window.confirm('Publish the current Mission, Candler Impact, Growth and Reach, and TheoEd drafts to main?')) return;
     var original = button.textContent;
     button.disabled = true;
     button.textContent = 'Publishing…';
@@ -3238,6 +4289,7 @@ window.publishDashboardEdits = async function() {
       if (window.missionEditorBridge) window.missionEditorBridge.markPublished('Published to main');
       if (window.impactEditorBridge) window.impactEditorBridge.markPublished('Published to main');
       if (window.growthEditorBridge) window.growthEditorBridge.markPublished('Published to main');
+      if (window.theoedEditorBridge) window.theoedEditorBridge.markPublished('Published to main');
       button.textContent = 'Published';
       setTimeout(function() {
         button.disabled = false;
