@@ -1,0 +1,10 @@
+# Normalize line endings across platforms (Dropbox + Windows + Linux sandboxes
+# swap CRLF/LF frequently; this keeps git diffs clean). See CANONICAL.md §22.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.pdf binary
+*.webp binary
+*.gif binary
+*.ico binary

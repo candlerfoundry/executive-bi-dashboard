@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-04-22
+Last updated: 2026-04-24 (TheoEd hero collage + Cole Arthur Riley + Otis Moss III)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -123,6 +123,7 @@ This behavior applies to:
 - `Our Mission & Offerings`
 - `Candler Impact`
 - `Growth and Reach`
+- `TheoEd`
 
 **Why:** GitHub is the source of truth. Refreshing the page after publish should show the published state unless the editor user explicitly asks to restore a local draft.
 
@@ -135,6 +136,7 @@ This behavior applies to:
 - [assets/page-config/mission-page.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/mission-page.json)
 - [assets/page-config/candler-impact.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/candler-impact.json)
 - [assets/page-config/growth-reach.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/growth-reach.json)
+- [assets/page-config/theoed.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/theoed.json)
 
 Browser drafts may still live in localStorage, but Git-tracked published state comes from the JSON files above.
 
@@ -154,6 +156,8 @@ No-op publishes must return success, not failure, when the content is unchanged.
 - `GITHUB_REPO`
 - `GITHUB_BRANCH`
 - optional `CMS_SECRET`
+
+**Approved config paths (`isAllowedPath`):** `mission-page.json`, `candler-impact.json`, `growth-reach.json`, `theoed.json`. All under `assets/page-config/`.
 
 **Regression risk:** Do not let the publish function write arbitrary repo paths.
 
@@ -278,24 +282,24 @@ Heat tiers:
 
 Dropbox is the faster source; use it for bulk sync into the repo. Airtable is authoritative for metadata but slower to fetch PDFs.
 
-**Card data structure:** The 9 featured cards are defined in `THEOED_SPEAKERS` in [index.html](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/index.html). Each entry has a `guide` string field holding the relative path to the PDF, e.g. `guide:'assets/theoed/discussion-guides/THEO-168-...-discussion-guide.pdf'`. An empty string or missing `guide` marks the card as having no guide yet. This is the field the future TheoEd editor must read/write.
+**Card data structure:** The 9 featured cards are defined in [assets/page-config/theoed.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/theoed.json) under `speakers[]`, with a legacy fallback `THEOED_SPEAKERS` array in [index.html](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/index.html). Each speaker entry has a `guide` string field holding the relative path to the PDF, e.g. `"guide": "assets/theoed/discussion-guides/THEO-168-...-discussion-guide.pdf"`. An empty string or missing `guide` marks the card as having no guide yet. The TheoEd editor reads and writes this field (see section 21).
 
 **Viewer behavior:** The pop-out/lightbox (`#te-lightbox`) renders a banner below the video with id `#te-lb-guide`, which has three states via its `data-state` attribute:
 - `has-guide` → shows the `Download Discussion Guide` button (`#te-lb-guide-link`) pointing at the card's `guide` path.
-- `missing` → shows the fallback copy in `#te-lb-guide-missing`: "Discussion guide not yet available for this talk. Please provide one to add it here."
-- `empty` → default/reset state while the lightbox is closed.
+- `empty` → hides both the link and the fallback copy. This is the default/reset state while the lightbox is closed AND the state `openLightbox()` uses when a card has no guide (per the missing-guide policy below).
+- `missing` → legacy state from the prior viewer. CSS still hides the link in this state; `.te-lb-guide-missing` copy is also hidden under `state="empty"`. `openLightbox()` no longer sets `missing`, but it is preserved so older published pages still behave cleanly.
 
 `openLightbox(vid, name, loc, guide)` sets the href and the state; `closeLightbox()` resets it to `empty` so stale data does not flash between opens.
 
-**Missing-guide policy:** Talks without a guide (empty or missing `guide` field) must hide/omit the guide link cleanly in the pop-out viewer. No visible fallback banner should appear for guide-less talks.
+**Missing-guide policy:** Talks without a guide (empty or missing `guide` field) must hide/omit the guide link cleanly in the pop-out viewer. No visible fallback banner should appear for guide-less talks. Enforced by `openLightbox()` setting `data-state="empty"` when `guide` is blank, and CSS hiding both `.te-lb-guide-link` and `.te-lb-guide-missing` under that state.
 
 **Exact label text:** The button label must read `Download Discussion Guide` — do not shorten, recolor without design input, or rename. The label lives as plain text inside `.te-lb-guide-label` with an arrow glyph in `.te-lb-guide-icon`.
 
-**Scope:** The bottom *Event Archive* accordion (`THEOED_EVENTS`) intentionally does **not** yet carry per-talk guide fields. Do not add them without an explicit request. All 51 guides are in the repo for future use.
+**Scope:** The bottom *Event Archive* accordion (`events[]` in theoed.json) intentionally does **not** yet carry per-talk guide fields. Do not add them without an explicit request. All 51 guides are in the repo for future use.
 
 **Missing / unresolved mappings (as of 2026-04-22):**
-- `THEOED_EVENTS` → Austin 2023 → *Rev. Dr. Jose Irizarry, "The World We Can See"* has no discussion guide PDF in Dropbox or Airtable. If one becomes available, add it to `assets/theoed/discussion-guides/` using the `THEO-<id>-...-discussion-guide.pdf` convention.
-- PDFs present in the repo that do **not** currently map to a `THEOED_EVENTS` talk: Greg Ellison (THEO-212, ATL 2017), Shawn Duncan (THEO-191, ATL 2020 Winter), and the three *Offstage Talks* — Roger Nam (THEO-172), Whitney Arreche (THEO-194), Dante Stewart (THEO-200). These are staged for later inclusion when the event archive or offstage talks list is expanded.
+- Austin 2023 → *Rev. Dr. Jose Irizarry, "The World We Can See"* has no discussion guide PDF in Dropbox or Airtable. If one becomes available, add it to `assets/theoed/discussion-guides/` using the `THEO-<id>-...-discussion-guide.pdf` convention.
+- PDFs present in the repo that do **not** currently map to a featured/event talk: Greg Ellison (THEO-212, ATL 2017), Shawn Duncan (THEO-191, ATL 2020 Winter), and the three *Offstage Talks* — Roger Nam (THEO-172), Whitney Arreche (THEO-194), Dante Stewart (THEO-200). These are staged for later inclusion when the event archive or offstage talks list is expanded.
 
 **Regression risk:** Do not reintroduce external URLs (e.g. theoed.com) for the per-card guide link — the dashboard is the source of truth for these PDFs. Do not relocate the `assets/theoed/discussion-guides/` folder without updating every `guide` path and this canonical entry.
 
@@ -338,7 +342,7 @@ Open: `http://127.0.0.1:4177/index.html`
 ---
 
 ## 19. EDITOR BEHAVIOR TO PRESERVE
-**Rule:** The save / publish model documented in sections 7-9 must remain intact for `Our Mission & Offerings`, `Candler Impact`, and `Growth and Reach`.
+**Rule:** The save / publish model documented in sections 7-9 must remain intact for `Our Mission & Offerings`, `Candler Impact`, `Growth and Reach`, and `TheoEd`.
 
 - Git-backed content loads by default on refresh.
 - Browser-saved drafts must not auto-override Git-backed content.
@@ -364,6 +368,92 @@ Open: `http://127.0.0.1:4177/index.html`
 
 ---
 
+## 21. THEOED EDITOR
+**Rule:** TheoEd has its own in-browser editor that follows the same durable save/publish workflow as Mission, Candler Impact, and Growth and Reach.
+
+**Where editable data lives:**
+- Published/Git-backed state: [assets/page-config/theoed.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/theoed.json)
+- Browser draft key: `executive-bi-dashboard.pageConfig.theoed.v1` in `localStorage`
+- Built-in defaults/fallback: `THEOED_EDITOR_DEFAULTS` in [index.html](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/index.html), which wraps the legacy `THEOED_SPEAKERS` / `THEOED_EVENTS` consts so the page still renders if the JSON fetch fails.
+
+**Config shape (theoed.json):**
+- `hero.{logoImage, logoAlt, description, backgroundImage, stats[{number, label}]}`
+- `archive.title`
+- `speakers[{name, loc, photo, imgPos, imgScale, vid, quote, guide}]` — the 9 featured cards
+- `events[{city, year, label, grad, talks[{s, t, u}]}]` — the Event Archive accordion
+
+**Hero collage (added 2026-04-24):** The hero now supports a three-photo collage — one center portrait plus one left and one right accent photo. Each slot is an editable object in `hero` with these fields:
+- `centerImage`: `{ photo, posX, posY, scale, opacity }` where `scale` is width-based (default 62 = 62% of banner width, matching the prior single-image hero).
+- `leftAccent`, `rightAccent`: `{ photo, posX, posY, scale, opacity, width, feather }`. `width` is the slot width as % of banner (default 32). `scale` is height-based (default 110 = height 110% of slot). `feather` is the edge softness (0 = hard edge, 100 = heavily feathered); the slider maps onto the solid/fade stops of a radial mask anchored at the outer edge of the slot.
+- Leave an accent's `photo` blank to hide that accent cleanly — no broken-image placeholder.
+- CSS driven by custom properties on `#te-hero`: `--te-hero-center-*`, `--te-accent-left-*`, `--te-accent-right-*` (`-img`, `-pos`, `-size`, `-opacity`, `-width`, `-solid`, `-mid`). Mask is `radial-gradient(ellipse 120% 130% at 0%|100% 50%, #000 0%, #000 var(--*-solid), rgba(0,0,0,0.4) var(--*-mid), transparent 100%)`.
+- The horizontal overlay gradient was softened so the accents are actually visible: edges are now `rgba(11,15,24,0.55)` at the outer edge instead of `0.96`. The vertical gradient (top-to-bottom darkening) is unchanged so stat text stays legible.
+
+**Reset-to-Published semantics (changed 2026-04-24):** The editor’s reset button was renamed from `Reset to Default` to `Revert to Published` and now re-loads the Git-published `theoed.json` (plus built-in defaults) into runtime state. It no longer copies the legacy `THEOED_SPEAKERS`/`THEOED_EVENTS` in-code fallback. It does not clear the local browser draft — use `Discard Draft` for that.
+
+**Featured-card image sliders:** The horizontal position, vertical position, and zoom inputs for each featured card are sliders (not text boxes). The underlying data shape remains `imgPos: "X% Y%"` and `imgScale: "1.xx"` so it stays compatible with the rendered tile.
+
+**Featured speakers update (2026-04-24):**
+- Replaced `The Rt. Rev. Robert Wright` with `Rev. Dr. Otis Moss III` (Charlotte 2022, video `6xuZ8T1ERaw`, guide `THEO-197`).
+- Replaced `Austin Channing Brown` with `Cole Arthur Riley` (Macon 2024, video `UdjfTkpk6Lg`, guide `THEO-174`).
+- Photos in repo: `assets/theoed_photos/Otis Moss III.jpg`, `assets/theoed_photos/Cole Arthur Riley.jpg`. Source metadata pulled from Airtable base *Candler Foundry: Master CRM*, table `3MB, UNST, TheoEd, OND`, view `TheoEd Archive`, field `Speaker Photos`.
+
+
+**Editor UI (inside `#panel-theoed`):**
+- Toggle button `#theoed-editor-toggle` ("Edit TheoEd") in the top-right of the panel.
+- Floating `<aside id="theoed-editor-shell">` with three tabs:
+  - **Page** — hero description, logo image/alt, background image, hero stats (add/remove/edit), archive heading.
+  - **Featured Cards** — pick card via `<select>`, edit speaker name / location / quote / photo / imgPos / imgScale / YouTube video id / discussion guide URL. Move Up / Down / Remove / Add New Card.
+  - **Event Archive** — pick event via `<select>`, edit city / year / label / gradient; talks list with per-row Speaker / Title / URL plus Up/Down/Remove; add talks; add/remove/move events.
+- Status pill, `Restore Draft` / `Discard Draft` notice, `Reset to Default`, `Save Changes in Browser`.
+
+**Workflow (mirrors sections 7-9, 19):**
+- Git-backed `theoed.json` is the source of truth on page load.
+- A browser draft (in `localStorage`) must NOT auto-apply; if present, the draft-notice surfaces `Restore Draft` / `Discard Draft`.
+- `Save Changes in Browser` writes only to `localStorage`, does not prompt to publish.
+- `Publish to Main` (global top-right button) calls the Netlify function and, on success, `theoedEditorBridge.markPublished()` clears the local draft so the Git-backed version becomes the default again.
+- `Reset to Default` re-renders from `THEOED_EDITOR_DEFAULTS` only; it does NOT clear `localStorage` (a confirm explains this).
+
+**Live render contract:**
+- `theoedApplyConfig(config)` rerenders the hero, the 3×3 speaker grid, and the event archive from the current config on every edit.
+- `openLightbox()` still wires `sp.vid`, `sp.name`, `sp.loc`, and `sp.guide` into the pop-out viewer; no per-card viewer state lives outside the config.
+
+**Discussion guide handling in the editor:**
+- Each speaker has a `guide` string editable as plain text. Leave blank to mark a card as having no guide.
+- Blank `guide` → lightbox opens with `data-state="empty"`, which hides the button and the fallback banner. No broken-looking control is ever shown (section 16).
+- Filled `guide` → lightbox opens with `data-state="has-guide"` and the exact label "Download Discussion Guide".
+
+**Publish bridge:** `window.theoedEditorBridge.getDraftConfig()` feeds `window.publishDashboardEdits()`, which appends `{path: 'assets/page-config/theoed.json', content: …}` to the `files` array sent to the Netlify `publish-page-config` function. The function's allowlist was extended to accept this path (see [netlify/functions/publish-page-config.js](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/netlify/functions/publish-page-config.js) `isAllowedPath`).
+
+**Files future coding assistants should avoid touching without explicit request:**
+- The other editors (Mission / Candler Impact / Growth and Reach) and their configs.
+- The event archive accordion CSS, the featured speaker tile CSS, and the lightbox CSS — donor-facing polish lives there.
+- The discussion guide PDF filenames in `assets/theoed/discussion-guides/` (the `THEO-<id>` convention is the stable identifier; see section 16).
+- The shared `window.pageEditor*` helpers (`pageEditorShowToast`, `pageEditorFetchJson`, `pageEditorPublishConfig`, `attachPageEditorShellBehavior`) — modify only with good reason.
+
+**Testing notes:**
+- Preview: `python -m http.server 4177` from the repo root, then visit `http://127.0.0.1:4177/index.html`.
+- An automated Playwright test lives alongside dev outputs during sessions (e.g. `outputs/test_theoed.py`) and maps each check to the 19-item test list used for this feature. Re-run after any TheoEd or shared-editor change.
+- Refresh-behavior test: save a draft, reload the page, and confirm the grid still shows Git-backed content (`Suzanne Stabile` in slot 1) rather than the edited draft, with the draft notice visible inside the editor.
+
+**Regression risk:**
+- Do not reintroduce any auto-restore of the TheoEd localStorage draft on page load.
+- Do not collapse `Save Changes in Browser` and `Publish to Main` into a single action.
+- Do not hard-code TheoEd copy back into `index.html` except as fallback defaults — the JSON config is the editable source of truth.
+- Do not restore the visible "Discussion guide not yet available for this talk. Please provide one to add it here." fallback banner for guide-less talks.
+
+---
+
+
+## 22. LINE-ENDING NORMALIZATION
+**Rule:** The repo has a top-level `.gitattributes` with `* text=auto eol=lf`. All text files are stored in Git with LF line endings. Working copies on Windows may appear with CRLF, which is fine as long as `.gitattributes` is present.
+
+**Why:** Without this, Dropbox-synced copies of repo files flip between CRLF and LF and every unrelated file shows as "modified" in `git status`, causing noisy commits and phantom merge conflicts with the Netlify editor.
+
+**Regression risk:** Do not remove `.gitattributes`. If a session shows dozens of whitespace-only "modified" files, do NOT `git add .` — first verify with `git diff -w --shortstat <file>` whether the change is real.
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
 [ ] Candler Impact still uses hero + 3 story rows, not the retired faculty grid
 [ ] Candler Impact cards still render as unified editorial story cards
@@ -371,12 +461,16 @@ Open: `http://127.0.0.1:4177/index.html`
 [ ] Save and Publish are still separate actions
 [ ] Clicking page content while editing does not force editor close
 [ ] Published state still flows through the page-config JSON files
-[ ] Netlify publish function only writes approved config paths
+[ ] Netlify publish function only writes approved config paths (mission, impact, growth, theoed)
 [ ] No-op publishes succeed cleanly
 [ ] "Founded in 2018" remains correct
 [ ] Growth and Reach canonical layout/data still match sections 12-15
 [ ] TheoEd discussion guides still resolve from `assets/theoed/discussion-guides/` and the `Download Discussion Guide` button appears in the lightbox for every featured card with a guide
 [ ] TheoEd cards without a guide hide the guide link cleanly (no fallback banner)
+[ ] TheoEd editor still loads Git-backed content by default, surfaces Restore/Discard when a local draft exists, and clears the draft after a successful publish
+[ ] `assets/page-config/theoed.json` remains the editable source of truth; `THEOED_EDITOR_DEFAULTS` (and the legacy `THEOED_SPEAKERS`/`THEOED_EVENTS`) are fallbacks only
+[ ] Hero collage: only `centerImage` + `leftAccent` + `rightAccent` in `hero`. `leftAccent`/`rightAccent` include `width` and `feather` fields. Accent `photo` blank = slot hidden (no broken image)
+[ ] `.gitattributes` still present at repo root so line-ending noise stays out of diffs
 [ ] Ran `git pull origin main` before starting, and `git pull --rebase origin main` before pushing; no force-push
 [ ] No temporary files staged (`.codex-review/`, `test-results/`, screenshots, unrelated generated assets)
 [ ] CANONICAL.md is updated when fragile architecture changes
