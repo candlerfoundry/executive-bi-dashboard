@@ -29,6 +29,7 @@
     "heroImageY": 47,
     "heroImageScale": 104,
     "heroImageOpacity": 0.56,
+    "heroImageClarity": 0,
     "heroFadeStrength": 0.56,
     "heroFadeLeft": 26,
     "heroFadeRight": 20
