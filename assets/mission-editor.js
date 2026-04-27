@@ -231,6 +231,68 @@
     return config.cards[cardId];
   }
 
+  function getCardMeta(cardId) {
+    return (window.MISSION_CARD_META && window.MISSION_CARD_META[cardId]) || {};
+  }
+
+  function getEffectiveCardActions(card, cardId) {
+    var meta = getCardMeta(cardId);
+    return deepClone((card && card.cardActions) || (card && card.links) || meta.actions || []);
+  }
+
+  function normalizeAssetPath(value) {
+    var path = String(value || '').trim().replace(/\\/g, '/').replace(/^\/+/, '');
+    if (!path) return '';
+    if (path.indexOf('assets/') !== 0) path = 'assets/' + path;
+    return path;
+  }
+
+  function pathForUploadAssetFunction(value) {
+    return normalizeAssetPath(value).replace(/^assets\//, '');
+  }
+
+  function setSelectValueWithCustomOption(select, value, label) {
+    if (!select) return;
+    var normalized = value || '';
+    if (!normalized) return;
+    var option = Array.prototype.find.call(select.options, function(item) {
+      return item.value === normalized;
+    });
+    if (!option) {
+      option = document.createElement('option');
+      option.value = normalized;
+      option.textContent = label || 'Custom Git asset';
+      option.dataset.customAsset = 'true';
+      select.appendChild(option);
+    }
+    select.value = normalized;
+  }
+
+  async function uploadGitAsset(file, uploadPath) {
+    return await new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = async function() {
+        try {
+          var base64 = String(reader.result || '').split(',')[1];
+          var response = await fetch('/.netlify/functions/upload-asset', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path: uploadPath, content: base64 })
+          });
+          var data = await response.json().catch(function() { return {}; });
+          if (!response.ok) throw new Error(data.error || 'Upload failed');
+          resolve(data);
+        } catch (err) {
+          reject(err);
+        }
+      };
+      reader.onerror = function() {
+        reject(new Error('Unable to read selected file'));
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
   async function getPublishedConfig() {
     if (!window.pageEditorFetchJson) return null;
     return await window.pageEditorFetchJson('/assets/page-config/mission-page.json');
@@ -276,14 +338,15 @@
     var cards = (offerings || []).map(function(offering, idx) {
       var slug = window.getOfferingSlug(offering, idx);
       var overrides = (effective.cards && effective.cards[slug]) || {};
+      var meta = getCardMeta(slug);
       var card = deepClone(offering);
       card.section = overrides.section || (window.MISSION_SECTION_BUCKETS && window.MISSION_SECTION_BUCKETS[slug]) || 'ministry';
       card.visible = overrides.visible !== undefined ? overrides.visible !== false : offering.visible !== false;
       card.order = clamp(overrides.order, 1, 50, offering.order || idx + 1);
       card.frontTitle = overrides.frontTitle || offering.frontTitle || offering.title || '';
-      card.frontDescription = overrides.frontDescription || offering.frontDescription || offering.tagline || offering.blurb || '';
+      card.frontDescription = overrides.frontDescription || offering.frontDescription || meta.copy || offering.tagline || offering.blurb || '';
       card.backHeading = overrides.backHeading || offering.backHeading || card.frontTitle;
-      card.backDescription = overrides.backDescription || offering.backDescription || card.frontDescription;
+      card.backDescription = overrides.backDescription || offering.backDescription || meta.backCopy || card.frontDescription;
       card.backBackground = overrides.backBackground || offering.backBackground || '';
       card.backStripColor = overrides.backStripColor || offering.backStripColor || '';
       card.backTextColor = overrides.backTextColor || offering.backTextColor || '';
@@ -291,6 +354,7 @@
       card.buttonTextColor = overrides.buttonTextColor || offering.buttonTextColor || '';
       card.frontTitleSize = overrides.frontTitleSize != null ? overrides.frontTitleSize : (offering.frontTitleSize != null ? offering.frontTitleSize : null);
       card.frontBodySize = overrides.frontBodySize != null ? overrides.frontBodySize : (offering.frontBodySize != null ? offering.frontBodySize : null);
+      card.backBodySize = overrides.backBodySize != null ? overrides.backBodySize : (offering.backBodySize != null ? offering.backBodySize : null);
       card.frontTextWidth = overrides.frontTextWidth != null ? overrides.frontTextWidth : (offering.frontTextWidth != null ? offering.frontTextWidth : null);
       card.frontGraphicUrl = overrides.frontGraphicUrl || offering.frontGraphicUrl || offering.imageUrl || '';
       card.frontGraphicPosition = overrides.frontGraphicPosition || offering.frontGraphicPosition || '';
@@ -300,6 +364,8 @@
       card.frontGraphicScale = overrides.frontGraphicScale != null ? overrides.frontGraphicScale : (offering.frontGraphicScale != null ? offering.frontGraphicScale : null);
       if (overrides.actions && overrides.actions.length) {
         card.cardActions = deepClone(overrides.actions);
+      } else if (offering.cardActions || offering.links || meta.actions) {
+        card.cardActions = getEffectiveCardActions(offering, slug);
       }
       if (overrides.primaryActionLabel) {
         if (card.cardActions && card.cardActions[0]) card.cardActions[0].label = overrides.primaryActionLabel;
@@ -471,6 +537,7 @@
       if (offering.frontGraphicScale != null) flip.style.setProperty('--card-graphic-scale', offering.frontGraphicScale);
       if (offering.frontTitleSize != null) flip.style.setProperty('--mission-card-title-size-local', offering.frontTitleSize + 'rem');
       if (offering.frontBodySize != null) flip.style.setProperty('--mission-card-body-size-local', offering.frontBodySize + 'rem');
+      if (offering.backBodySize != null) flip.style.setProperty('--mission-card-back-body-size-local', offering.backBodySize + 'rem');
       if (offering.frontTextWidth != null) flip.style.setProperty('--mission-card-front-text-width-local', offering.frontTextWidth + 'px');
       if (offering.backBackground) flip.style.setProperty('--mission-card-back-bg', offering.backBackground);
       if (offering.backStripColor) flip.style.setProperty('--mission-card-back-strip-bg', offering.backStripColor);
@@ -492,7 +559,7 @@
           '<div class="card-back">' +
             '<div class="cb-strip">' + escapeHtml(backHeading) + '</div>' +
             '<div class="cb-body">' +
-              '<div class="cb-hook">' + escapeHtml(backCopy) + '</div>' +
+              '<div class="cb-hook" style="font-size:var(--mission-card-back-body-size-local, var(--mission-card-body-size));">' + escapeHtml(backCopy) + '</div>' +
               '<div class="cb-icon">' + window.getIconSVG(offering.icon, '#c84826') + '</div>' +
               backLinksHtml +
             '</div>' +
@@ -719,7 +786,8 @@
     var card = runtime.currentState.cards.find(function(item, idx) {
       return window.getOfferingSlug(item, idx) === runtime.activeCardId;
     });
-    var actions = card && card.cardActions && card.cardActions.length ? card.cardActions.slice(0, 3) : [];
+    var actions = card ? getEffectiveCardActions(card, runtime.activeCardId).slice(0, 3) : [];
+    while (actions.length < 3) actions.push({ label: '', url: '', type: 'resource', visible: true });
     actions.forEach(function(action, index) {
       var block = document.createElement('div');
       block.className = 'editor-field';
@@ -736,16 +804,18 @@
       bindLiveInput(labelInput, function() {
         runtime.activeCardPreviewFace = 'back';
         var cfg = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
-        if (!cfg.actions || !cfg.actions.length) cfg.actions = deepClone(card.cardActions || []);
+        if (!cfg.actions || !cfg.actions.length) cfg.actions = getEffectiveCardActions(card, runtime.activeCardId);
         if (!cfg.actions[index]) cfg.actions[index] = { label: '', url: '', type: 'resource', visible: true };
+        cfg.actions[index].visible = true;
         cfg.actions[index].label = labelInput.value;
         window.renderOfferings(runtime.baseOfferings);
       });
       bindLiveInput(urlInput, function() {
         runtime.activeCardPreviewFace = 'back';
         var cfg = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
-        if (!cfg.actions || !cfg.actions.length) cfg.actions = deepClone(card.cardActions || []);
+        if (!cfg.actions || !cfg.actions.length) cfg.actions = getEffectiveCardActions(card, runtime.activeCardId);
         if (!cfg.actions[index]) cfg.actions[index] = { label: '', url: '', type: 'resource', visible: true };
+        cfg.actions[index].visible = true;
         cfg.actions[index].url = urlInput.value;
         window.renderOfferings(runtime.baseOfferings);
       });
@@ -791,6 +861,7 @@
     runtime.ui.cardArtScaleValue.textContent = Number(runtime.ui.cardArtScale.value).toFixed(2) + 'x';
     runtime.ui.cardTitleSizeLocalValue.textContent = Number(runtime.ui.cardTitleSizeLocal.value).toFixed(2) + 'rem';
     runtime.ui.cardBodySizeLocalValue.textContent = Number(runtime.ui.cardBodySizeLocal.value).toFixed(2) + 'rem';
+    runtime.ui.cardBackBodySizeLocalValue.textContent = Number(runtime.ui.cardBackBodySizeLocal.value).toFixed(2) + 'rem';
     runtime.ui.cardFrontBoxWidthLocalValue.textContent = formatPx(runtime.ui.cardFrontBoxWidthLocal.value);
     runtime.ui.cardArtShiftXValue.textContent = formatPx(runtime.ui.cardArtShiftX.value);
     runtime.ui.cardArtShiftYValue.textContent = formatPx(runtime.ui.cardArtShiftY.value);
@@ -831,7 +902,9 @@
     runtime.ui.communityColumns.value = String(clamp(config.layout.communityColumns, 1, 4, 2));
     runtime.ui.ministryColumns.value = String(clamp(config.layout.ministryColumns, 1, 4, 3));
     runtime.ui.publicColumns.value = String(clamp(config.layout.publicColumns, 1, 4, 3));
-    runtime.ui.heroImage.value = config.visual.heroImage || '/assets/Graphic_1.png';
+    var selectedHeroImage = config.visual.heroImage || '/assets/Graphic_1.png';
+    setSelectValueWithCustomOption(runtime.ui.heroImage, selectedHeroImage);
+    runtime.ui.heroImagePath.value = normalizeAssetPath(selectedHeroImage);
     runtime.ui.heroImagePosition.value = config.visual.heroImagePosition || 'center right';
     runtime.ui.heroImageX.value = clamp(config.visual.heroImageX, 0, 100, getAnchorPercent(config.visual.heroImagePosition).x);
     runtime.ui.heroImageY.value = clamp(config.visual.heroImageY, 0, 100, getAnchorPercent(config.visual.heroImagePosition).y);
@@ -866,10 +939,13 @@
       runtime.ui.cardMeta.textContent = (SECTION_META[card.section] ? SECTION_META[card.section].label : 'Mission') + ' card';
       runtime.ui.cardTitle.value = card.frontTitle || card.title || '';
       runtime.ui.cardDescription.value = card.frontDescription || '';
-      runtime.ui.cardArtwork.value = card.frontGraphicUrl || ((window.MISSION_CARD_GRAPHICS && window.MISSION_CARD_GRAPHICS[runtime.activeCardId] && window.MISSION_CARD_GRAPHICS[runtime.activeCardId].url) || CARD_ART_OPTIONS[0].value);
+      var selectedArtwork = card.frontGraphicUrl || ((window.MISSION_CARD_GRAPHICS && window.MISSION_CARD_GRAPHICS[runtime.activeCardId] && window.MISSION_CARD_GRAPHICS[runtime.activeCardId].url) || CARD_ART_OPTIONS[0].value);
+      setSelectValueWithCustomOption(runtime.ui.cardArtwork, selectedArtwork);
+      runtime.ui.cardArtworkPath.value = normalizeAssetPath(selectedArtwork);
       runtime.ui.cardArtPosition.value = card.frontGraphicPosition || ((window.MISSION_CARD_GRAPHICS && window.MISSION_CARD_GRAPHICS[runtime.activeCardId] && window.MISSION_CARD_GRAPHICS[runtime.activeCardId].pos) || 'center right');
       runtime.ui.cardTitleSizeLocal.value = clamp(card.frontTitleSize, 0.9, 1.9, clamp(config.typography.cardTitleSize, 0.9, 1.8, 1.45));
       runtime.ui.cardBodySizeLocal.value = clamp(card.frontBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
+      runtime.ui.cardBackBodySizeLocal.value = clamp(card.backBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
       runtime.ui.cardFrontBoxWidthLocal.value = clamp(card.frontTextWidth, 180, 420, clamp(config.typography.cardFrontTextWidth, 140, 420, 260));
       runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -180, 180, 0);
       runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -180, 180, 0);
@@ -940,6 +1016,10 @@
       ministryColumns: document.getElementById('mission-editor-ministry-columns'),
       publicColumns: document.getElementById('mission-editor-public-columns'),
       heroImage: document.getElementById('mission-editor-hero-image'),
+      heroImagePath: document.getElementById('mission-editor-hero-image-path'),
+      heroImageUpload: document.getElementById('mission-editor-hero-image-upload'),
+      heroImageUploadButton: document.getElementById('mission-editor-hero-image-upload-button'),
+      heroImageUploadStatus: document.getElementById('mission-editor-hero-image-upload-status'),
       heroImagePosition: document.getElementById('mission-editor-hero-image-position'),
       heroImageX: document.getElementById('mission-editor-hero-image-x'),
       heroImageXValue: document.getElementById('mission-editor-hero-image-x-value'),
@@ -1004,9 +1084,15 @@
       cardTitleSizeLocalValue: document.getElementById('mission-editor-card-title-size-local-value'),
       cardBodySizeLocal: document.getElementById('mission-editor-card-body-size-local'),
       cardBodySizeLocalValue: document.getElementById('mission-editor-card-body-size-local-value'),
+      cardBackBodySizeLocal: document.getElementById('mission-editor-card-back-body-size-local'),
+      cardBackBodySizeLocalValue: document.getElementById('mission-editor-card-back-body-size-local-value'),
       cardFrontBoxWidthLocal: document.getElementById('mission-editor-card-front-box-width-local'),
       cardFrontBoxWidthLocalValue: document.getElementById('mission-editor-card-front-box-width-local-value'),
       cardArtwork: document.getElementById('mission-editor-card-artwork'),
+      cardArtworkPath: document.getElementById('mission-editor-card-artwork-path'),
+      cardArtworkUpload: document.getElementById('mission-editor-card-artwork-upload'),
+      cardArtworkUploadButton: document.getElementById('mission-editor-card-artwork-upload-button'),
+      cardArtworkUploadStatus: document.getElementById('mission-editor-card-artwork-upload-status'),
       cardArtPosition: document.getElementById('mission-editor-card-art-position'),
       cardArtShiftX: document.getElementById('mission-editor-card-art-shift-x'),
       cardArtShiftXValue: document.getElementById('mission-editor-card-art-shift-x-value'),
@@ -1115,7 +1201,10 @@
           ministryColumns: 'ministryColumns',
           publicColumns: 'publicColumns'
         };
-        if (key === 'heroImage') runtime.draftConfig.visual.heroImage = runtime.ui.heroImage.value;
+        if (key === 'heroImage') {
+          runtime.draftConfig.visual.heroImage = runtime.ui.heroImage.value;
+          runtime.ui.heroImagePath.value = normalizeAssetPath(runtime.ui.heroImage.value);
+        }
         else if (key === 'heroImagePosition') {
           var preset = getAnchorPercent(runtime.ui.heroImagePosition.value);
           runtime.draftConfig.visual.heroImagePosition = runtime.ui.heroImagePosition.value;
@@ -1127,6 +1216,31 @@
         else runtime.draftConfig.layout[map[key]] = key.indexOf('Columns') !== -1 ? Number(runtime.ui[key].value) : runtime.ui[key].value;
         window.renderOfferings(runtime.baseOfferings);
       });
+    });
+    bindLiveInput(runtime.ui.heroImagePath, function() {
+      var path = normalizeAssetPath(runtime.ui.heroImagePath.value);
+      runtime.draftConfig.visual.heroImage = path ? '/' + path : '';
+      setSelectValueWithCustomOption(runtime.ui.heroImage, runtime.draftConfig.visual.heroImage);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    runtime.ui.heroImageUploadButton.addEventListener('click', async function() {
+      var file = runtime.ui.heroImageUpload.files && runtime.ui.heroImageUpload.files[0];
+      var uploadPath = pathForUploadAssetFunction(runtime.ui.heroImagePath.value);
+      if (!file || !uploadPath) {
+        runtime.ui.heroImageUploadStatus.textContent = 'Choose a file and enter a Git asset location.';
+        return;
+      }
+      runtime.ui.heroImageUploadStatus.textContent = 'Uploading to Git...';
+      try {
+        var data = await uploadGitAsset(file, uploadPath);
+        runtime.draftConfig.visual.heroImage = data.url || ('/assets/' + uploadPath);
+        runtime.ui.heroImagePath.value = normalizeAssetPath(runtime.draftConfig.visual.heroImage);
+        setSelectValueWithCustomOption(runtime.ui.heroImage, runtime.draftConfig.visual.heroImage, 'Uploaded Git asset');
+        runtime.ui.heroImageUploadStatus.textContent = 'Uploaded: ' + runtime.draftConfig.visual.heroImage;
+        window.renderOfferings(runtime.baseOfferings);
+      } catch (err) {
+        runtime.ui.heroImageUploadStatus.textContent = err.message || 'Upload failed';
+      }
     });
     bindLiveInput(runtime.ui.heroImageX, function() {
       runtime.draftConfig.visual.heroImageX = Number(runtime.ui.heroImageX.value);
@@ -1205,7 +1319,38 @@
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
       card.frontGraphicUrl = runtime.ui.cardArtwork.value;
+      runtime.ui.cardArtworkPath.value = normalizeAssetPath(runtime.ui.cardArtwork.value);
       window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtworkPath, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var path = normalizeAssetPath(runtime.ui.cardArtworkPath.value);
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicUrl = path ? '/' + path : '';
+      setSelectValueWithCustomOption(runtime.ui.cardArtwork, card.frontGraphicUrl);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    runtime.ui.cardArtworkUploadButton.addEventListener('click', function() {
+      var file = runtime.ui.cardArtworkUpload.files && runtime.ui.cardArtworkUpload.files[0];
+      var uploadPath = pathForUploadAssetFunction(runtime.ui.cardArtworkPath.value);
+      if (!file || !uploadPath) {
+        runtime.ui.cardArtworkUploadStatus.textContent = 'Choose a file and enter a Git asset location.';
+        return;
+      }
+      runtime.ui.cardArtworkUploadStatus.textContent = 'Uploading to Git...';
+      uploadGitAsset(file, uploadPath)
+        .then(function(data) {
+          runtime.activeCardPreviewFace = 'front';
+          var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+          card.frontGraphicUrl = data.url || ('/assets/' + uploadPath);
+          runtime.ui.cardArtworkPath.value = normalizeAssetPath(card.frontGraphicUrl);
+          setSelectValueWithCustomOption(runtime.ui.cardArtwork, card.frontGraphicUrl, 'Uploaded Git asset');
+          runtime.ui.cardArtworkUploadStatus.textContent = 'Uploaded: ' + card.frontGraphicUrl;
+          window.renderOfferings(runtime.baseOfferings);
+        })
+        .catch(function(err) {
+          runtime.ui.cardArtworkUploadStatus.textContent = err.message || 'Upload failed';
+        });
     });
     runtime.ui.cardArtPosition.addEventListener('change', function() {
       runtime.activeCardPreviewFace = 'front';
@@ -1237,6 +1382,12 @@
       card.frontBodySize = Number(runtime.ui.cardBodySizeLocal.value);
       window.renderOfferings(runtime.baseOfferings);
     });
+    bindLiveInput(runtime.ui.cardBackBodySizeLocal, function() {
+      runtime.activeCardPreviewFace = 'back';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.backBodySize = Number(runtime.ui.cardBackBodySizeLocal.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
     bindLiveInput(runtime.ui.cardFrontBoxWidthLocal, function() {
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
@@ -1259,14 +1410,12 @@
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
       card.frontTitle = runtime.ui.cardTitle.value;
-      card.backHeading = runtime.ui.cardTitle.value;
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardDescription, function() {
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
       card.frontDescription = runtime.ui.cardDescription.value;
-      card.backDescription = runtime.ui.cardDescription.value;
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardBackTitle, function() {
