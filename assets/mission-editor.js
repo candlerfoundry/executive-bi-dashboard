@@ -228,6 +228,16 @@
     return 'linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) ' + Math.round(leftSoft) + '%, rgba(255,253,248,0.58) ' + Math.round(left) + '%, rgba(255,253,248,0.08) ' + Math.round(leftEdge) + '%, rgba(255,253,248,0.08) ' + Math.round(rightStart) + '%, rgba(255,253,248,0.58) ' + Math.round(rightSoft) + '%, rgba(255,253,248,0.90) 100%)';
   }
 
+  function computeImageMask(leftFade, rightFade) {
+    var left = clamp(leftFade, 0, 100, 74);
+    var right = clamp(rightFade, 0, 100, 8);
+    var leftSolid = clamp(left * 0.42, 0, 42, 18);
+    var rightSolid = clamp(right * 0.42, 0, 42, 18);
+    var leftMid = Math.max(1, leftSolid * 0.55);
+    var rightMid = Math.min(99, 100 - (rightSolid * 0.55));
+    return 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.08) ' + Math.round(leftMid) + '%, #000 ' + Math.round(leftSolid) + '%, #000 ' + Math.round(100 - rightSolid) + '%, rgba(0,0,0,0.08) ' + Math.round(rightMid) + '%, transparent 100%)';
+  }
+
   function ensureSectionConfig(config, sectionId) {
     if (!config.sections) config.sections = {};
     if (!config.sections[sectionId]) config.sections[sectionId] = deepClone(DEFAULT_CONFIG.sections[sectionId] || { id: sectionId });
@@ -432,6 +442,7 @@
     panel.style.setProperty('--mission-hero-image-opacity', clamp(state.config.visual.heroImageOpacity, 0, 0.65, 0.25));
     panel.style.setProperty('--mission-hero-image-clarity', clamp(state.config.visual.heroImageClarity, 0, 100, 0));
     panel.style.setProperty('--mission-hero-overlay-gradient', computeOverlayGradient(state.config.visual.heroFadeLeft, state.config.visual.heroFadeRight, state.config.visual.heroFadeStrength));
+    panel.style.setProperty('--mission-hero-image-mask', computeImageMask(state.config.visual.heroFadeLeft, state.config.visual.heroFadeRight));
     panel.style.setProperty('--mission-heading-font', state.config.typography.headingFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-body-font', state.config.typography.bodyFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-hero-title-size', clamp(state.config.typography.heroTitleSize, 2.2, 6.8, 3.75) + 'rem');
@@ -453,20 +464,20 @@
     panel.style.setProperty('--mission-button-size', clamp(state.config.typography.buttonSize, 0.58, 1, 0.76) + 'rem');
     if (bar) {
       bar.style.minHeight = heroMinHeight + 'px';
-      bar.style.height = '';
+      bar.style.height = heroMinHeight + 'px';
     }
     if (overlay) {
       overlay.style.minHeight = heroMinHeight + 'px';
-      overlay.style.height = '';
+      overlay.style.height = heroMinHeight + 'px';
     }
     if (grid) {
       grid.style.minHeight = heroMinHeight + 'px';
-      grid.style.height = '';
+      grid.style.height = heroMinHeight + 'px';
       grid.style.gridTemplateColumns = 'minmax(0,' + heroTextMax + 'px) minmax(0,1fr)';
     }
     if (visual) {
       visual.style.minHeight = heroMinHeight + 'px';
-      visual.style.height = '';
+      visual.style.height = heroMinHeight + 'px';
     }
     if (intro) {
       intro.style.width = heroTextMax + 'px';
@@ -1044,6 +1055,7 @@
   }
 
   function bindLiveInput(element, handler) {
+    if (!element) return;
     element.addEventListener('input', handler);
     element.addEventListener('change', handler);
   }
