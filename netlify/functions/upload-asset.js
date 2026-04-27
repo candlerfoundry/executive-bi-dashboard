@@ -11,9 +11,18 @@ const CORS = {
 // Allow only safe path characters; block path traversal
 function sanitizePath(raw) {
   return String(raw)
-    .replace(/[^a-zA-Z0-9/\-_.]/g, '')
+    .replace(/\\/g, '/')
+    .replace(/[^a-zA-Z0-9/\-_. ]/g, '')
     .replace(/\.\.+/g, '')
     .replace(/^\/+/, '');
+}
+
+function encodeRepoPath(path) {
+  return path.split('/').map(encodeURIComponent).join('/');
+}
+
+function hasFileExtension(path) {
+  return /\.[a-zA-Z0-9]{2,8}$/.test(path);
 }
 
 exports.handler = async function (event) {
@@ -49,8 +58,12 @@ exports.handler = async function (event) {
   if (!safePath) {
     return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'Invalid path' }) };
   }
+  if (!hasFileExtension(safePath)) {
+    return { statusCode: 400, headers: CORS, body: JSON.stringify({ error: 'Asset path must include a file name and extension' }) };
+  }
 
   const filePath = `assets/${safePath}`;
+  const encodedFilePath = encodeRepoPath(filePath);
 
   const ghHeaders = {
     Authorization: `Bearer ${GITHUB_PAT}`,
@@ -58,15 +71,26 @@ exports.handler = async function (event) {
     'User-Agent': 'CandlerFoundry-CMS',
   };
 
-  // Get existing file SHA if present (required for updates)
-  let sha;
+  // Asset uploads are intentionally create-only. Page config publishing is separate;
+  // uploading a new asset must never overwrite a built-in image or prior upload.
   const getRes = await fetch(
-    `https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}?ref=${GITHUB_BRANCH}`,
+    `https://api.github.com/repos/${GITHUB_REPO}/contents/${encodedFilePath}?ref=${GITHUB_BRANCH}`,
     { headers: ghHeaders }
   );
   if (getRes.ok) {
-    const fileData = await getRes.json();
-    sha = fileData.sha;
+    return {
+      statusCode: 409,
+      headers: CORS,
+      body: JSON.stringify({ error: `Asset already exists: ${filePath}. Choose a new Git asset location.` }),
+    };
+  }
+  if (getRes.status !== 404) {
+    const errText = await getRes.text();
+    return {
+      statusCode: 502,
+      headers: CORS,
+      body: JSON.stringify({ error: `GitHub GET failed (${getRes.status})`, detail: errText }),
+    };
   }
 
   const putPayload = {
@@ -74,10 +98,9 @@ exports.handler = async function (event) {
     content: fileContent, // already base64
     branch: GITHUB_BRANCH,
   };
-  if (sha) putPayload.sha = sha;
 
   const putRes = await fetch(
-    `https://api.github.com/repos/${GITHUB_REPO}/contents/${filePath}`,
+    `https://api.github.com/repos/${GITHUB_REPO}/contents/${encodedFilePath}`,
     { method: 'PUT', headers: ghHeaders, body: JSON.stringify(putPayload) }
   );
 

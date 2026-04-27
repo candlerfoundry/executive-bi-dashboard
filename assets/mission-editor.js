@@ -106,6 +106,15 @@
     { value: '/assets/Graphic Vignettes/graphic-3-reader-dog.png', label: 'Reader with dog' }
   ];
 
+  var PROTECTED_ASSET_PATHS = [
+    'assets/Graphic_1.png',
+    'assets/Graphic_1_mission_impact.png',
+    'assets/Graphic_2.png',
+    'assets/Graphic_3_growth.png',
+    'assets/TCF_Logo-Orange-Transparent.png',
+    'assets/TCF_Logomark-Orange-Transparent.png'
+  ];
+
   var runtime = {
     baseOfferings: [],
     defaultConfig: null,
@@ -249,6 +258,16 @@
 
   function pathForUploadAssetFunction(value) {
     return normalizeAssetPath(value).replace(/^assets\//, '');
+  }
+
+  function getUploadPathError(value) {
+    var normalized = normalizeAssetPath(value);
+    if (!normalized) return 'Enter a new Git asset location before uploading.';
+    if (!/\.[a-zA-Z0-9]{2,8}$/.test(normalized)) return 'Git asset location must include a file name and extension.';
+    if (PROTECTED_ASSET_PATHS.indexOf(normalized) !== -1) {
+      return 'Choose a new asset path. Built-in graphics cannot be overwritten.';
+    }
+    return '';
   }
 
   function setSelectValueWithCustomOption(select, value, label) {
@@ -1299,9 +1318,10 @@
     });
     runtime.ui.heroImageUploadButton.addEventListener('click', async function() {
       var file = runtime.ui.heroImageUpload.files && runtime.ui.heroImageUpload.files[0];
+      var pathError = getUploadPathError(runtime.ui.heroImagePath.value);
       var uploadPath = pathForUploadAssetFunction(runtime.ui.heroImagePath.value);
-      if (!file || !uploadPath) {
-        runtime.ui.heroImageUploadStatus.textContent = 'Choose a file and enter a Git asset location.';
+      if (!file || pathError) {
+        runtime.ui.heroImageUploadStatus.textContent = !file ? 'Choose a file before uploading.' : pathError;
         return;
       }
       runtime.ui.heroImageUploadStatus.textContent = 'Uploading to Git...';
@@ -1408,9 +1428,10 @@
     });
     runtime.ui.cardArtworkUploadButton.addEventListener('click', function() {
       var file = runtime.ui.cardArtworkUpload.files && runtime.ui.cardArtworkUpload.files[0];
+      var pathError = getUploadPathError(runtime.ui.cardArtworkPath.value);
       var uploadPath = pathForUploadAssetFunction(runtime.ui.cardArtworkPath.value);
-      if (!file || !uploadPath) {
-        runtime.ui.cardArtworkUploadStatus.textContent = 'Choose a file and enter a Git asset location.';
+      if (!file || pathError) {
+        runtime.ui.cardArtworkUploadStatus.textContent = !file ? 'Choose a file before uploading.' : pathError;
         return;
       }
       runtime.ui.cardArtworkUploadStatus.textContent = 'Uploading to Git...';
