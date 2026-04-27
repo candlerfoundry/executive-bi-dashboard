@@ -490,7 +490,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   background:#fbf8f3;
 }
 .mission-bar { position:relative; min-height:var(--mission-hero-min); background:#fffdf8; overflow:hidden; margin-bottom:22px; border-bottom:1px solid rgba(30,37,48,0.14); }
-.mission-bar::before { content:''; position:absolute; inset:0; background-image:var(--mission-hero-image-url); background-position:var(--mission-hero-image-position); background-size:var(--mission-hero-image-size); background-repeat:no-repeat; opacity:var(--mission-hero-image-opacity); filter:saturate(calc(1 + (var(--mission-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--mission-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--mission-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; -webkit-mask-image:var(--mission-hero-image-mask); mask-image:var(--mission-hero-image-mask); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; }
+.mission-bar::before { content:''; position:absolute; inset:0; pointer-events:none; }
 .mission-bar::after { content:''; position:absolute; inset:0; background:var(--mission-hero-overlay-gradient); pointer-events:none; }
 .mission-bar-overlay { position:relative; z-index:1; width:min(100%, var(--mission-shell-max)); min-height:var(--mission-hero-min); margin:0 auto; padding:0 var(--mission-gutter) 0; }
 .mission-hero-grid { display:grid; grid-template-columns:var(--mission-hero-columns); align-items:center; gap:var(--mission-section-gap); min-height:var(--mission-hero-min); }
@@ -499,7 +499,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   .mission-thesis { width:min(100%, var(--mission-hero-title-width, var(--mission-hero-text-max))); max-width:var(--mission-hero-title-width, var(--mission-hero-text-max)); font-family:var(--mission-heading-font); font-size:var(--mission-hero-title-size); line-height:0.98; font-weight:700; letter-spacing:-0.05em; color:#1e2530; margin-bottom:var(--mission-hero-title-gap, clamp(16px, 1.5vw, 24px)); text-wrap:balance; }
 .mission-text { width:min(100%, var(--mission-hero-body-width)); max-width:var(--mission-hero-body-width); min-height:var(--mission-hero-body-min-height); font-family:var(--mission-body-font); font-size:var(--mission-body-size); line-height:1.7; color:rgba(30,37,48,0.86); font-weight:500; }
 .mission-paths, .mission-path-pill { display:none; }
-.mission-hero-visual { min-height:var(--mission-hero-min); height:100%; }
+.mission-hero-visual { position:relative; min-height:var(--mission-hero-min); height:100%; }
+.mission-hero-visual::before { content:''; position:absolute; inset:0; background-image:var(--mission-hero-image-url); background-position:var(--mission-hero-image-position); background-size:var(--mission-hero-image-size); background-repeat:no-repeat; opacity:var(--mission-hero-image-opacity); filter:saturate(calc(1 + (var(--mission-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--mission-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--mission-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; -webkit-mask-image:var(--mission-hero-image-mask); mask-image:var(--mission-hero-image-mask); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
 .mission-shell { width:min(100%, var(--mission-shell-max)); margin:0 auto; padding:0 var(--mission-gutter) clamp(44px, 4vw, 64px); }
 .mission-section { display:grid; grid-template-columns:minmax(var(--mission-intro-col), 0.24fr) minmax(0, 1fr); gap:var(--mission-section-gap); align-items:stretch; padding:var(--mission-section-spacing) 0 var(--mission-section-spacing); border-top:1px solid rgba(30,37,48,0.08); }
 .mission-section:last-child { padding-bottom:0; }
@@ -541,7 +542,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .mission-page .offering-flip.is-edit-selected .card-back { outline:none; box-shadow:0 0 0 2px rgba(30,37,48,0.08), 0 18px 36px rgba(30,37,48,0.12); }
 .mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
 .mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.16); box-shadow:0 10px 20px rgba(30,37,48,0.08), 0 2px 5px rgba(30,37,48,0.08); overflow:hidden; position:relative; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
-  .mission-page .card-front::before { content:''; position:absolute; top:clamp(10px, 1vw, 16px); right:clamp(8px, 0.9vw, 14px); bottom:clamp(8px, 0.9vw, 12px); width:var(--mission-card-art-lg); background-image:var(--card-graphic,none); background-size:var(--card-graphic-size,contain); background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:var(--card-graphic-opacity,0.9); z-index:0; pointer-events:none; border-radius:inherit; transform:translate(var(--card-graphic-shift-x, 0px), var(--card-graphic-shift-y, 0px)) scale(var(--card-graphic-scale,1)); transform-origin:center right; }
+  .mission-page .card-front::before { content:''; position:absolute; top:clamp(10px, 1vw, 16px); right:clamp(8px, 0.9vw, 14px); bottom:clamp(8px, 0.9vw, 12px); width:var(--mission-card-art-lg); background-image:var(--card-graphic,none); background-size:var(--card-graphic-size,contain); background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:var(--card-graphic-opacity,0.9); z-index:0; pointer-events:none; border-radius:inherit; transform:translate(var(--card-graphic-shift-x, 0px), var(--card-graphic-shift-y, 0px)) scale(var(--card-graphic-scale,1)); transform-origin:center right; -webkit-mask-image:var(--card-graphic-mask, none); mask-image:var(--card-graphic-mask, none); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
 .mission-page .card-front::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,250,0.96) 0%, rgba(255,253,250,0.92) 46%, rgba(255,253,250,0.38) 72%, rgba(255,253,250,0.08) 100%); z-index:0; pointer-events:none; }
 .mission-page .offering-flip:hover .card-front { border-color:rgba(30,37,48,0.24); box-shadow:0 24px 40px rgba(30,37,48,0.16), 0 8px 14px rgba(30,37,48,0.08); }
 .mission-page .card-back { transform:rotateY(180deg); background:var(--mission-card-back-bg); border:1px solid rgba(30,37,48,0.22); box-shadow:0 20px 40px rgba(30,37,48,0.18), 0 8px 16px rgba(30,37,48,0.12); overflow:hidden; padding:0; }
@@ -2025,7 +2026,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
     </div>
 
-    <div class="page-editor-group" data-mission-editor-scope="page">
+    <div class="page-editor-group" data-mission-editor-scope="section">
       <h4>Sections</h4>
       <div class="editor-field" hidden>
         <label class="editor-label" for="mission-editor-section-select">Section focus</label>
@@ -2053,8 +2054,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
     </div>
 
-    <div class="page-editor-group" data-mission-editor-scope="hero page">
-      <h4>Layout</h4>
+    <div class="page-editor-group" data-mission-editor-scope="hero">
+      <h4>Hero Layout</h4>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-shell-max">Page width</label>
@@ -2093,25 +2094,6 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-section-spacing">Section spacing</label>
-          <input id="mission-editor-section-spacing" type="range" min="18" max="84" step="2">
-          <div class="editor-inline-meta"><span>Compact</span><span id="mission-editor-section-spacing-value"></span></div>
-        </div>
-      </div>
-      <div class="editor-grid-2">
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-gap">Card spacing</label>
-          <input id="mission-editor-card-gap" type="range" min="8" max="40" step="2">
-          <div class="editor-inline-meta"><span>Tighter</span><span id="mission-editor-card-gap-value"></span></div>
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-min-height">Card height</label>
-          <input id="mission-editor-card-min-height" type="range" min="220" max="420" step="4">
-          <div class="editor-inline-meta"><span>Shorter</span><span id="mission-editor-card-min-height-value"></span></div>
-        </div>
-      </div>
-      <div class="editor-grid-2">
-        <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-text-align">Hero text alignment</label>
           <select id="mission-editor-hero-text-align">
             <option value="left">Left aligned</option>
@@ -2124,34 +2106,6 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
             <option value="1.15fr 0.85fr">Text wider</option>
             <option value="1.05fr 0.95fr">Balanced</option>
             <option value="0.95fr 1.05fr">Image wider</option>
-          </select>
-        </div>
-      </div>
-      <div class="editor-grid-3">
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-community-columns">Community cards</label>
-          <select id="mission-editor-community-columns">
-            <option value="1">1 across</option>
-            <option value="2">2 across</option>
-            <option value="3">3 across</option>
-          </select>
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-ministry-columns">Ministry cards</label>
-          <select id="mission-editor-ministry-columns">
-            <option value="1">1 across</option>
-            <option value="2">2 across</option>
-            <option value="3">3 across</option>
-            <option value="4">4 across</option>
-          </select>
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-public-columns">Public cards</label>
-          <select id="mission-editor-public-columns">
-            <option value="1">1 across</option>
-            <option value="2">2 across</option>
-            <option value="3">3 across</option>
-            <option value="4">4 across</option>
           </select>
         </div>
       </div>
@@ -2236,8 +2190,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
     </div>
 
-    <div class="page-editor-group" data-mission-editor-scope="hero page">
-      <h4>Typography</h4>
+    <div class="page-editor-group" data-mission-editor-scope="hero">
+      <h4>Hero Typography</h4>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-heading-font">Heading font</label>
@@ -2295,6 +2249,79 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         </div>
         <div></div>
       </div>
+    </div>
+
+    <div class="page-editor-group" data-mission-editor-scope="unused" hidden>
+      <h4>Section Visibility</h4>
+      <div id="mission-editor-section-visibility"></div>
+    </div>
+
+    <div class="page-editor-group" data-mission-editor-scope="page">
+      <h4>Ordering</h4>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-order-section-select">Section order target</label>
+        <select id="mission-editor-order-section-select"></select>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-order-section-value">Section order</label>
+        <select id="mission-editor-order-section-value">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="page-editor-group" data-mission-editor-scope="section">
+      <h4>Section & Card Layout</h4>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-section-spacing">Section spacing</label>
+          <input id="mission-editor-section-spacing" type="range" min="18" max="84" step="2">
+          <div class="editor-inline-meta"><span>Compact</span><span id="mission-editor-section-spacing-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-gap">Card spacing</label>
+          <input id="mission-editor-card-gap" type="range" min="8" max="40" step="2">
+          <div class="editor-inline-meta"><span>Tighter</span><span id="mission-editor-card-gap-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-min-height">Card height</label>
+          <input id="mission-editor-card-min-height" type="range" min="220" max="420" step="4">
+          <div class="editor-inline-meta"><span>Shorter</span><span id="mission-editor-card-min-height-value"></span></div>
+        </div>
+        <div></div>
+      </div>
+      <div class="editor-grid-3">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-community-columns">Community cards</label>
+          <select id="mission-editor-community-columns">
+            <option value="1">1 across</option>
+            <option value="2">2 across</option>
+            <option value="3">3 across</option>
+          </select>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-ministry-columns">Ministry cards</label>
+          <select id="mission-editor-ministry-columns">
+            <option value="1">1 across</option>
+            <option value="2">2 across</option>
+            <option value="3">3 across</option>
+            <option value="4">4 across</option>
+          </select>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-public-columns">Public cards</label>
+          <select id="mission-editor-public-columns">
+            <option value="1">1 across</option>
+            <option value="2">2 across</option>
+            <option value="3">3 across</option>
+            <option value="4">4 across</option>
+          </select>
+        </div>
+      </div>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-section-title-size">Section heading size</label>
@@ -2321,36 +2348,36 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-title-size">Card title size</label>
+          <label class="editor-label" for="mission-editor-card-title-size">Default card title size</label>
           <input id="mission-editor-card-title-size" type="range" min="0.9" max="1.8" step="0.02">
           <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-title-size-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-body-size">Card body size</label>
+          <label class="editor-label" for="mission-editor-card-body-size">Default card body size</label>
           <input id="mission-editor-card-body-size" type="range" min="0.68" max="1.15" step="0.02">
           <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-body-size-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-front-box-width">Front text box width</label>
+          <label class="editor-label" for="mission-editor-card-front-box-width">Default front text width</label>
           <input id="mission-editor-card-front-box-width" type="range" min="140" max="420" step="10">
           <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-card-front-box-width-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-front-box-height">Front text box height</label>
-          <input id="mission-editor-card-front-box-height" type="range" min="0" max="220" step="4">
-          <div class="editor-inline-meta"><span>Shorter</span><span id="mission-editor-card-front-box-height-value"></span></div>
+          <label class="editor-label" for="mission-editor-card-back-box-width">Default back text width</label>
+          <input id="mission-editor-card-back-box-width" type="range" min="160" max="420" step="10">
+          <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-card-back-box-width-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-back-box-width">Back text box width</label>
-          <input id="mission-editor-card-back-box-width" type="range" min="160" max="420" step="10">
-          <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-card-back-box-width-value"></span></div>
+          <label class="editor-label" for="mission-editor-card-front-box-height">Default front text height</label>
+          <input id="mission-editor-card-front-box-height" type="range" min="0" max="220" step="4">
+          <div class="editor-inline-meta"><span>Shorter</span><span id="mission-editor-card-front-box-height-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-back-box-height">Back text box height</label>
+          <label class="editor-label" for="mission-editor-card-back-box-height">Default back text height</label>
           <input id="mission-editor-card-back-box-height" type="range" min="0" max="240" step="4">
           <div class="editor-inline-meta"><span>Shorter</span><span id="mission-editor-card-back-box-height-value"></span></div>
         </div>
@@ -2359,27 +2386,6 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         <label class="editor-label" for="mission-editor-button-size">Button label size</label>
         <input id="mission-editor-button-size" type="range" min="0.58" max="1" step="0.02">
         <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-button-size-value"></span></div>
-      </div>
-    </div>
-
-    <div class="page-editor-group" data-mission-editor-scope="unused" hidden>
-      <h4>Section Visibility</h4>
-      <div id="mission-editor-section-visibility"></div>
-    </div>
-
-    <div class="page-editor-group" data-mission-editor-scope="page">
-      <h4>Ordering</h4>
-      <div class="editor-field">
-        <label class="editor-label" for="mission-editor-order-section-select">Section order target</label>
-        <select id="mission-editor-order-section-select"></select>
-      </div>
-      <div class="editor-field">
-        <label class="editor-label" for="mission-editor-order-section-value">Section order</label>
-        <select id="mission-editor-order-section-value">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
       </div>
     </div>
 
@@ -2464,6 +2470,18 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
           <label class="editor-label" for="mission-editor-card-art-scale">Artwork size</label>
           <input id="mission-editor-card-art-scale" type="range" min="0.6" max="1.6" step="0.02">
           <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-art-scale-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-art-fade-x">Artwork side feather</label>
+          <input id="mission-editor-card-art-fade-x" type="range" min="0" max="50" step="1">
+          <div class="editor-inline-meta"><span>Harder</span><span id="mission-editor-card-art-fade-x-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-art-fade-y">Artwork top/bottom feather</label>
+          <input id="mission-editor-card-art-fade-y" type="range" min="0" max="50" step="1">
+          <div class="editor-inline-meta"><span>Harder</span><span id="mission-editor-card-art-fade-y-value"></span></div>
         </div>
       </div>
       <div class="editor-field">

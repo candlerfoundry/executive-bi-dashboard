@@ -31,9 +31,9 @@
       heroImageScale: 100,
       heroImageOpacity: 0.25,
       heroImageClarity: 0,
-      heroFadeStrength: 0.74,
-      heroFadeLeft: 74,
-      heroFadeRight: 8
+      heroFadeStrength: 0.32,
+      heroFadeLeft: 18,
+      heroFadeRight: 12
     },
     typography: {
       headingFont: "'Montserrat', sans-serif",
@@ -228,14 +228,16 @@
     return 'linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) ' + Math.round(leftSoft) + '%, rgba(255,253,248,0.58) ' + Math.round(left) + '%, rgba(255,253,248,0.08) ' + Math.round(leftEdge) + '%, rgba(255,253,248,0.08) ' + Math.round(rightStart) + '%, rgba(255,253,248,0.58) ' + Math.round(rightSoft) + '%, rgba(255,253,248,0.90) 100%)';
   }
 
-  function computeImageMask(leftFade, rightFade) {
-    var left = clamp(leftFade, 0, 100, 74);
-    var right = clamp(rightFade, 0, 100, 8);
-    var leftSolid = clamp(left * 0.42, 0, 42, 18);
-    var rightSolid = clamp(right * 0.42, 0, 42, 18);
-    var leftMid = Math.max(1, leftSolid * 0.55);
-    var rightMid = Math.min(99, 100 - (rightSolid * 0.55));
-    return 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.08) ' + Math.round(leftMid) + '%, #000 ' + Math.round(leftSolid) + '%, #000 ' + Math.round(100 - rightSolid) + '%, rgba(0,0,0,0.08) ' + Math.round(rightMid) + '%, transparent 100%)';
+  function computeImageMask(leftFade, rightFade, topFade, bottomFade) {
+    var left = clamp(leftFade, 0, 100, 0);
+    var right = clamp(rightFade, 0, 100, 0);
+    var top = clamp(topFade, 0, 100, 0);
+    var bottom = clamp(bottomFade, 0, 100, 0);
+    var horizontal = 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.18) ' + Math.round(left * 0.35) + '%, #000 ' + Math.round(left) + '%, #000 ' + Math.round(100 - right) + '%, rgba(0,0,0,0.18) ' + Math.round(100 - (right * 0.35)) + '%, transparent 100%)';
+    var vertical = 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.18) ' + Math.round(top * 0.35) + '%, #000 ' + Math.round(top) + '%, #000 ' + Math.round(100 - bottom) + '%, rgba(0,0,0,0.18) ' + Math.round(100 - (bottom * 0.35)) + '%, transparent 100%)';
+    if (!top && !bottom) return horizontal;
+    if (!left && !right) return vertical;
+    return horizontal + ', ' + vertical;
   }
 
   function ensureSectionConfig(config, sectionId) {
@@ -391,6 +393,8 @@
       card.frontGraphicShiftY = overrides.frontGraphicShiftY != null ? overrides.frontGraphicShiftY : (offering.frontGraphicShiftY != null ? offering.frontGraphicShiftY : 0);
       card.frontGraphicOpacity = overrides.frontGraphicOpacity != null ? overrides.frontGraphicOpacity : (offering.frontGraphicOpacity != null ? offering.frontGraphicOpacity : null);
       card.frontGraphicScale = overrides.frontGraphicScale != null ? overrides.frontGraphicScale : (offering.frontGraphicScale != null ? offering.frontGraphicScale : null);
+      card.frontGraphicFadeX = overrides.frontGraphicFadeX != null ? overrides.frontGraphicFadeX : (offering.frontGraphicFadeX != null ? offering.frontGraphicFadeX : 0);
+      card.frontGraphicFadeY = overrides.frontGraphicFadeY != null ? overrides.frontGraphicFadeY : (offering.frontGraphicFadeY != null ? offering.frontGraphicFadeY : 0);
       if (overrides.actions && overrides.actions.length) {
         card.cardActions = deepClone(overrides.actions);
       } else if (offering.cardActions || offering.links || meta.actions) {
@@ -565,6 +569,9 @@
       if (offering.frontGraphicShiftY != null) flip.style.setProperty('--card-graphic-shift-y', offering.frontGraphicShiftY + 'px');
       if (offering.frontGraphicOpacity != null) flip.style.setProperty('--card-graphic-opacity', offering.frontGraphicOpacity);
       if (offering.frontGraphicScale != null) flip.style.setProperty('--card-graphic-scale', offering.frontGraphicScale);
+      if (offering.frontGraphicFadeX || offering.frontGraphicFadeY) {
+        flip.style.setProperty('--card-graphic-mask', computeImageMask(offering.frontGraphicFadeX, offering.frontGraphicFadeX, offering.frontGraphicFadeY, offering.frontGraphicFadeY));
+      }
       if (offering.frontTitleSize != null) flip.style.setProperty('--mission-card-title-size-local', offering.frontTitleSize + 'rem');
       if (offering.frontBodySize != null) flip.style.setProperty('--mission-card-body-size-local', offering.frontBodySize + 'rem');
       if (offering.backBodySize != null) flip.style.setProperty('--mission-card-back-body-size-local', offering.backBodySize + 'rem');
@@ -648,7 +655,7 @@
       if (scope === 'hero') {
         group.hidden = tokens.indexOf('hero') === -1;
       } else {
-        group.hidden = tokens.indexOf('hero') !== -1 || (tokens.indexOf('page') === -1 && tokens.indexOf('card') === -1);
+        group.hidden = tokens.indexOf('hero') !== -1 || (tokens.indexOf('section') === -1 && tokens.indexOf('page') === -1 && tokens.indexOf('card') === -1);
       }
     });
     syncEditorTabs();
@@ -944,6 +951,8 @@
     runtime.ui.buttonSizeValue.textContent = Number(runtime.ui.buttonSize.value).toFixed(2) + 'rem';
     runtime.ui.cardArtOpacityValue.textContent = formatPercent(runtime.ui.cardArtOpacity.value);
     runtime.ui.cardArtScaleValue.textContent = Number(runtime.ui.cardArtScale.value).toFixed(2) + 'x';
+    runtime.ui.cardArtFadeXValue.textContent = Math.round(Number(runtime.ui.cardArtFadeX.value) || 0) + '%';
+    runtime.ui.cardArtFadeYValue.textContent = Math.round(Number(runtime.ui.cardArtFadeY.value) || 0) + '%';
     runtime.ui.cardTitleSizeLocalValue.textContent = Number(runtime.ui.cardTitleSizeLocal.value).toFixed(2) + 'rem';
     runtime.ui.cardBodySizeLocalValue.textContent = Number(runtime.ui.cardBodySizeLocal.value).toFixed(2) + 'rem';
     runtime.ui.cardBackBodySizeLocalValue.textContent = Number(runtime.ui.cardBackBodySizeLocal.value).toFixed(2) + 'rem';
@@ -996,9 +1005,9 @@
     runtime.ui.heroImageScale.value = clamp(config.visual.heroImageScale, 70, 230, 100);
     runtime.ui.heroImageOpacity.value = clamp(config.visual.heroImageOpacity, 0, 0.65, 0.25);
     runtime.ui.heroImageClarity.value = clamp(config.visual.heroImageClarity, 0, 100, 0);
-    runtime.ui.heroFadeStrength.value = clamp(config.visual.heroFadeStrength, 0.2, 0.98, 0.74);
-    runtime.ui.heroFadeLeft.value = clamp(config.visual.heroFadeLeft, 0, 100, clamp((config.visual.heroFadeStrength != null ? config.visual.heroFadeStrength : 0.74) * 100, 20, 98, 74));
-    runtime.ui.heroFadeRight.value = clamp(config.visual.heroFadeRight, 0, 100, 8);
+    runtime.ui.heroFadeStrength.value = clamp(config.visual.heroFadeStrength, 0.2, 0.98, 0.32);
+    runtime.ui.heroFadeLeft.value = clamp(config.visual.heroFadeLeft, 0, 100, 18);
+    runtime.ui.heroFadeRight.value = clamp(config.visual.heroFadeRight, 0, 100, 12);
     runtime.ui.headingFont.value = config.typography.headingFont || "'Montserrat', sans-serif";
     runtime.ui.bodyFont.value = config.typography.bodyFont || "'Montserrat', sans-serif";
     runtime.ui.heroTitleSize.value = clamp(config.typography.heroTitleSize, 2.2, 6.8, 3.75);
@@ -1036,6 +1045,8 @@
       runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -180, 180, 0);
       runtime.ui.cardArtOpacity.value = card.frontGraphicOpacity != null ? card.frontGraphicOpacity : 0.9;
       runtime.ui.cardArtScale.value = card.frontGraphicScale != null ? card.frontGraphicScale : 1;
+      runtime.ui.cardArtFadeX.value = clamp(card.frontGraphicFadeX, 0, 50, 0);
+      runtime.ui.cardArtFadeY.value = clamp(card.frontGraphicFadeY, 0, 50, 0);
       runtime.ui.cardBackTitle.value = card.backHeading || '';
       runtime.ui.cardBackDescription.value = card.backDescription || '';
       runtime.ui.cardButtonLabel.value = cardConfig.primaryActionLabel || (((card.cardActions || [])[0] || {}).label || '');
@@ -1189,6 +1200,10 @@
       cardArtOpacityValue: document.getElementById('mission-editor-card-art-opacity-value'),
       cardArtScale: document.getElementById('mission-editor-card-art-scale'),
       cardArtScaleValue: document.getElementById('mission-editor-card-art-scale-value'),
+      cardArtFadeX: document.getElementById('mission-editor-card-art-fade-x'),
+      cardArtFadeXValue: document.getElementById('mission-editor-card-art-fade-x-value'),
+      cardArtFadeY: document.getElementById('mission-editor-card-art-fade-y'),
+      cardArtFadeYValue: document.getElementById('mission-editor-card-art-fade-y-value'),
       cardBackTitle: document.getElementById('mission-editor-card-back-title'),
       cardBackDescription: document.getElementById('mission-editor-card-back-description'),
       cardButtonLabel: document.getElementById('mission-editor-card-button-label'),
@@ -1369,10 +1384,10 @@
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.heroFadeStrength, function() {
-      runtime.draftConfig.visual.heroFadeStrength = Number(runtime.ui.heroFadeStrength.value);
-      if (runtime.draftConfig.visual.heroFadeLeft == null) {
-        runtime.draftConfig.visual.heroFadeLeft = clamp(Number(runtime.ui.heroFadeStrength.value) * 100, 20, 98, 74);
-      }
+      var strength = Number(runtime.ui.heroFadeStrength.value);
+      runtime.draftConfig.visual.heroFadeStrength = strength;
+      runtime.draftConfig.visual.heroFadeLeft = clamp(strength * 55, 0, 50, 18);
+      runtime.draftConfig.visual.heroFadeRight = clamp(strength * 40, 0, 50, 12);
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.heroFadeLeft, function() {
@@ -1477,6 +1492,18 @@
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
       card.frontGraphicScale = Number(runtime.ui.cardArtScale.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtFadeX, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicFadeX = Number(runtime.ui.cardArtFadeX.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtFadeY, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicFadeY = Number(runtime.ui.cardArtFadeY.value);
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardTitleSizeLocal, function() {
