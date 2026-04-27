@@ -118,7 +118,7 @@
     orderSectionId: 'community',
     activeCardId: null,
     activeCardPreviewFace: 'front',
-    activeEditorScope: 'page',
+    activeEditorScope: 'hero',
     ui: {},
     controlsReady: false
   };
@@ -611,16 +611,17 @@
 
   function syncEditorScopeVisibility() {
     if (!runtime.ui.shell) return;
-    var scope = runtime.activeEditorScope || 'page';
+    var scope = runtime.activeEditorScope || 'hero';
     var groups = runtime.ui.shell.querySelectorAll('[data-mission-editor-scope]');
     groups.forEach(function(group) {
-      if (scope === 'page') {
-        group.hidden = false;
-        return;
-      }
       var tokens = String(group.getAttribute('data-mission-editor-scope') || '').split(/\s+/).filter(Boolean);
-      group.hidden = tokens.indexOf(scope) === -1;
+      if (scope === 'hero') {
+        group.hidden = tokens.indexOf('hero') === -1;
+      } else {
+        group.hidden = tokens.indexOf('hero') !== -1 || (tokens.indexOf('page') === -1 && tokens.indexOf('card') === -1);
+      }
     });
+    syncEditorTabs();
   }
 
     async function publishDraft() {
@@ -656,8 +657,54 @@
       }
     };
 
+  function getCardById(cardId) {
+    if (!runtime.currentState || !cardId) return null;
+    for (var i = 0; i < runtime.currentState.cards.length; i += 1) {
+      var card = runtime.currentState.cards[i];
+      if (window.getOfferingSlug(card, i) === cardId) return card;
+    }
+    return null;
+  }
+
+  function getCardsForEditorSection() {
+    if (!runtime.currentState) return [];
+    if (runtime.activeEditorScope !== 'section') {
+      return runtime.currentState.cards.slice();
+    }
+    return runtime.currentState.cards.filter(function(card) {
+      return (card.section || 'ministry') === runtime.activeSectionId;
+    });
+  }
+
+  function ensureActiveCardForSection() {
+    var cards = getCardsForEditorSection();
+    if (!cards.length) {
+      runtime.activeCardId = null;
+      return;
+    }
+    var current = getCardById(runtime.activeCardId);
+    if (!current || (runtime.activeEditorScope === 'section' && current.section !== runtime.activeSectionId)) {
+      runtime.activeCardId = window.getOfferingSlug(cards[0], runtime.currentState.cards.indexOf(cards[0]));
+      runtime.activeCardPreviewFace = 'front';
+    }
+  }
+
+  function syncEditorTabs() {
+    if (!runtime.ui || !runtime.ui.tabs) return;
+    runtime.ui.tabs.forEach(function(tab) {
+      var tabScope = tab.getAttribute('data-mission-editor-tab');
+      var tabSection = tab.getAttribute('data-mission-editor-section');
+      var active = runtime.activeEditorScope === tabScope && (tabScope !== 'section' || tabSection === runtime.activeSectionId);
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+  }
+
   function openEditor(scope) {
-    runtime.activeEditorScope = scope || runtime.activeEditorScope || 'page';
+    runtime.activeEditorScope = scope || runtime.activeEditorScope || 'hero';
+    if (runtime.activeEditorScope === 'section') {
+      ensureActiveCardForSection();
+    }
     runtime.ui.shell.removeAttribute('hidden');
     runtime.ui.toggle.setAttribute('aria-expanded', 'true');
     syncEditorScopeVisibility();
@@ -684,8 +731,13 @@
   function selectCardFromCanvas(cardId, face) {
     runtime.activeCardId = cardId;
     runtime.activeCardPreviewFace = face || 'front';
+    var selectedCard = getCardById(cardId);
+    if (selectedCard && selectedCard.section) {
+      runtime.activeSectionId = selectedCard.section;
+      runtime.orderSectionId = selectedCard.section;
+    }
     if (runtime.controlsReady) {
-      openEditor('card');
+      openEditor('section');
       syncEditorFromState();
     }
   }
@@ -767,14 +819,17 @@
     if (!runtime.currentState) return;
     var previous = runtime.activeCardId;
     runtime.ui.cardSelect.innerHTML = '';
-    runtime.currentState.cards.forEach(function(card, idx) {
+    var cards = getCardsForEditorSection();
+    cards.forEach(function(card) {
+      var idx = runtime.currentState.cards.indexOf(card);
       var slug = window.getOfferingSlug(card, idx);
       var option = document.createElement('option');
       option.value = slug;
       option.textContent = card.frontTitle || card.title || slug;
       runtime.ui.cardSelect.appendChild(option);
     });
-    runtime.activeCardId = previous || (runtime.currentState.cards[0] ? window.getOfferingSlug(runtime.currentState.cards[0], 0) : null);
+    runtime.activeCardId = previous;
+    ensureActiveCardForSection();
     if (runtime.activeCardId) runtime.ui.cardSelect.value = runtime.activeCardId;
   }
 
@@ -984,6 +1039,7 @@
       draftNotice: document.getElementById('mission-editor-draft-notice'),
       restoreDraft: document.getElementById('mission-editor-restore-draft'),
       discardDraft: document.getElementById('mission-editor-discard-draft'),
+      tabs: Array.prototype.slice.call(document.querySelectorAll('#mission-editor-shell [data-mission-editor-tab]')),
       heroHeadline: document.getElementById('mission-editor-hero-headline'),
       heroBody: document.getElementById('mission-editor-hero-body'),
       sectionSelect: document.getElementById('mission-editor-section-select'),
@@ -1121,6 +1177,21 @@
     populateHeroImages();
     populateCardArtworkOptions();
 
+    runtime.ui.tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var scope = tab.getAttribute('data-mission-editor-tab') || 'hero';
+        var section = tab.getAttribute('data-mission-editor-section');
+        runtime.activeEditorScope = scope;
+        if (section) {
+          runtime.activeSectionId = section;
+          runtime.orderSectionId = section;
+          ensureActiveCardForSection();
+        }
+        openEditor(scope);
+        syncEditorFromState();
+      });
+    });
+
     if (window.attachPageEditorShellBehavior) {
       window.attachPageEditorShellBehavior({
         shell: runtime.ui.shell,
@@ -1132,7 +1203,7 @@
       });
     }
     runtime.ui.toggle.addEventListener('click', function() {
-      if (runtime.ui.shell.hasAttribute('hidden')) openEditor('page');
+      if (runtime.ui.shell.hasAttribute('hidden')) openEditor(runtime.activeEditorScope || 'hero');
       else closeEditor();
     });
 
@@ -1154,6 +1225,9 @@
     });
     runtime.ui.sectionSelect.addEventListener('change', function() {
       runtime.activeSectionId = runtime.ui.sectionSelect.value;
+      runtime.orderSectionId = runtime.activeSectionId;
+      if (runtime.activeEditorScope !== 'hero') runtime.activeEditorScope = 'section';
+      ensureActiveCardForSection();
       syncEditorFromState();
     });
     bindLiveInput(runtime.ui.sectionTitle, function() {
@@ -1303,6 +1377,8 @@
     });
     runtime.ui.orderSectionSelect.addEventListener('change', function() {
       runtime.orderSectionId = runtime.ui.orderSectionSelect.value;
+      runtime.activeSectionId = runtime.orderSectionId;
+      if (runtime.activeEditorScope !== 'hero') runtime.activeEditorScope = 'section';
       syncEditorFromState();
     });
     runtime.ui.orderSectionValue.addEventListener('change', function() {
@@ -1312,7 +1388,7 @@
     runtime.ui.cardSelect.addEventListener('change', function() {
       runtime.activeCardId = runtime.ui.cardSelect.value;
       runtime.activeCardPreviewFace = 'front';
-      openEditor('card');
+      openEditor('section');
       syncEditorFromState();
     });
     runtime.ui.cardArtwork.addEventListener('change', function() {
@@ -1436,6 +1512,8 @@
     runtime.ui.cardSection.addEventListener('change', function() {
       runtime.activeCardPreviewFace = 'front';
       ensureCardConfig(runtime.draftConfig, runtime.activeCardId).section = runtime.ui.cardSection.value;
+      runtime.activeSectionId = runtime.ui.cardSection.value;
+      runtime.orderSectionId = runtime.ui.cardSection.value;
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardOrder, function() {

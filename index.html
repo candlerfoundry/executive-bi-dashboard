@@ -711,6 +711,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .te-editor-launch { position:absolute; top:14px; right:24px; z-index:60; display:flex; justify-content:flex-end; pointer-events:none; }
 .te-editor-launch .page-editor-toggle { pointer-events:auto; }
 .theoed-editor-panel[hidden] { display:none; }
+#mission-editor-shell .impact-editor-tabs { grid-template-columns:repeat(4, minmax(0, 1fr)); }
+#mission-editor-shell .mission-editor-panel-note { margin:-6px 0 12px; font-size:0.78rem; line-height:1.5; color:rgba(30,37,48,0.62); }
 .theoed-editor-row-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
 .theoed-editor-row-actions .impact-editor-secondary { padding:8px 10px; font-size:0.72rem; border-radius:999px; }
 .theoed-editor-stat-row { display:grid; grid-template-columns:minmax(80px,0.7fr) minmax(0,1.3fr) auto; gap:8px; align-items:end; margin-bottom:10px; }
@@ -1999,6 +2001,13 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         <button class="impact-editor-secondary" id="mission-editor-restore-draft" type="button">Restore Draft</button>
         <button class="impact-editor-secondary" id="mission-editor-discard-draft" type="button">Discard Draft</button>
       </div>
+    </div>
+
+    <div class="impact-editor-tabs" role="tablist" aria-label="Mission editor sections">
+      <button class="impact-editor-tab is-active" id="mission-editor-tab-header" type="button" data-mission-editor-tab="hero">Header</button>
+      <button class="impact-editor-tab" id="mission-editor-tab-community" type="button" data-mission-editor-tab="section" data-mission-editor-section="community">Community</button>
+      <button class="impact-editor-tab" id="mission-editor-tab-ministry" type="button" data-mission-editor-tab="section" data-mission-editor-section="ministry">Ministry</button>
+      <button class="impact-editor-tab" id="mission-editor-tab-public" type="button" data-mission-editor-tab="section" data-mission-editor-section="public">Public</button>
     </div>
 
   <div class="page-editor-group" data-mission-editor-scope="hero">
