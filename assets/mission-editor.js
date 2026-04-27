@@ -128,6 +128,7 @@
     activeCardId: null,
     activeCardPreviewFace: 'front',
     activeEditorScope: 'hero',
+    editorMode: 'simple',
     ui: {},
     controlsReady: false
   };
@@ -254,6 +255,10 @@
 
   function getCardMeta(cardId) {
     return (window.MISSION_CARD_META && window.MISSION_CARD_META[cardId]) || {};
+  }
+
+  function getDefaultCardArtWidth(card) {
+    return card && card.section === 'community' ? 164 : 144;
   }
 
   function getEffectiveCardActions(card, cardId) {
@@ -393,6 +398,7 @@
       card.frontGraphicShiftY = overrides.frontGraphicShiftY != null ? overrides.frontGraphicShiftY : (offering.frontGraphicShiftY != null ? offering.frontGraphicShiftY : 0);
       card.frontGraphicOpacity = overrides.frontGraphicOpacity != null ? overrides.frontGraphicOpacity : (offering.frontGraphicOpacity != null ? offering.frontGraphicOpacity : null);
       card.frontGraphicScale = overrides.frontGraphicScale != null ? overrides.frontGraphicScale : (offering.frontGraphicScale != null ? offering.frontGraphicScale : null);
+      card.frontGraphicWidth = overrides.frontGraphicWidth != null ? overrides.frontGraphicWidth : (offering.frontGraphicWidth != null ? offering.frontGraphicWidth : null);
       card.frontGraphicFadeX = overrides.frontGraphicFadeX != null ? overrides.frontGraphicFadeX : (offering.frontGraphicFadeX != null ? offering.frontGraphicFadeX : 0);
       card.frontGraphicFadeY = overrides.frontGraphicFadeY != null ? overrides.frontGraphicFadeY : (offering.frontGraphicFadeY != null ? offering.frontGraphicFadeY : 0);
       if (overrides.actions && overrides.actions.length) {
@@ -569,6 +575,7 @@
       if (offering.frontGraphicShiftY != null) flip.style.setProperty('--card-graphic-shift-y', offering.frontGraphicShiftY + 'px');
       if (offering.frontGraphicOpacity != null) flip.style.setProperty('--card-graphic-opacity', offering.frontGraphicOpacity);
       if (offering.frontGraphicScale != null) flip.style.setProperty('--card-graphic-scale', offering.frontGraphicScale);
+      if (offering.frontGraphicWidth != null) flip.style.setProperty('--mission-card-art-width-local', offering.frontGraphicWidth + 'px');
       if (offering.frontGraphicFadeX || offering.frontGraphicFadeY) {
         flip.style.setProperty('--card-graphic-mask', computeImageMask(offering.frontGraphicFadeX, offering.frontGraphicFadeX, offering.frontGraphicFadeY, offering.frontGraphicFadeY));
       }
@@ -649,6 +656,21 @@
   function syncEditorScopeVisibility() {
     if (!runtime.ui.shell) return;
     var scope = runtime.activeEditorScope || 'hero';
+    var advanced = runtime.editorMode === 'advanced';
+    runtime.ui.shell.classList.toggle('mission-editor-simple', !advanced);
+    runtime.ui.shell.classList.toggle('mission-editor-advanced', advanced);
+    if (runtime.ui.modeButtons) {
+      runtime.ui.modeButtons.forEach(function(button) {
+        var active = button.getAttribute('data-mission-editor-mode') === runtime.editorMode;
+        button.classList.toggle('is-active', active);
+        button.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+    if (runtime.ui.modeNote) {
+      runtime.ui.modeNote.textContent = advanced
+        ? 'Advanced mode includes layout, typography, fade, upload, and color controls.'
+        : 'Simple mode keeps the everyday writing, artwork, and ordering controls visible.';
+    }
     var groups = runtime.ui.shell.querySelectorAll('[data-mission-editor-scope]');
     groups.forEach(function(group) {
       var tokens = String(group.getAttribute('data-mission-editor-scope') || '').split(/\s+/).filter(Boolean);
@@ -951,6 +973,7 @@
     runtime.ui.buttonSizeValue.textContent = Number(runtime.ui.buttonSize.value).toFixed(2) + 'rem';
     runtime.ui.cardArtOpacityValue.textContent = formatPercent(runtime.ui.cardArtOpacity.value);
     runtime.ui.cardArtScaleValue.textContent = Number(runtime.ui.cardArtScale.value).toFixed(2) + 'x';
+    runtime.ui.cardArtWidthValue.textContent = formatPx(runtime.ui.cardArtWidth.value);
     runtime.ui.cardArtFadeXValue.textContent = Math.round(Number(runtime.ui.cardArtFadeX.value) || 0) + '%';
     runtime.ui.cardArtFadeYValue.textContent = Math.round(Number(runtime.ui.cardArtFadeY.value) || 0) + '%';
     runtime.ui.cardTitleSizeLocalValue.textContent = Number(runtime.ui.cardTitleSizeLocal.value).toFixed(2) + 'rem';
@@ -1044,7 +1067,8 @@
       runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -180, 180, 0);
       runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -180, 180, 0);
       runtime.ui.cardArtOpacity.value = card.frontGraphicOpacity != null ? card.frontGraphicOpacity : 0.9;
-      runtime.ui.cardArtScale.value = card.frontGraphicScale != null ? card.frontGraphicScale : 1;
+      runtime.ui.cardArtScale.value = clamp(card.frontGraphicScale, 0.5, 3, 1);
+      runtime.ui.cardArtWidth.value = clamp(card.frontGraphicWidth, 90, 280, getDefaultCardArtWidth(card));
       runtime.ui.cardArtFadeX.value = clamp(card.frontGraphicFadeX, 0, 50, 0);
       runtime.ui.cardArtFadeY.value = clamp(card.frontGraphicFadeY, 0, 50, 0);
       runtime.ui.cardBackTitle.value = card.backHeading || '';
@@ -1082,6 +1106,8 @@
       restoreDraft: document.getElementById('mission-editor-restore-draft'),
       discardDraft: document.getElementById('mission-editor-discard-draft'),
       tabs: Array.prototype.slice.call(document.querySelectorAll('#mission-editor-shell [data-mission-editor-tab]')),
+      modeButtons: Array.prototype.slice.call(document.querySelectorAll('#mission-editor-shell [data-mission-editor-mode]')),
+      modeNote: document.getElementById('mission-editor-mode-note'),
       heroHeadline: document.getElementById('mission-editor-hero-headline'),
       heroBody: document.getElementById('mission-editor-hero-body'),
       sectionSelect: document.getElementById('mission-editor-section-select'),
@@ -1200,6 +1226,8 @@
       cardArtOpacityValue: document.getElementById('mission-editor-card-art-opacity-value'),
       cardArtScale: document.getElementById('mission-editor-card-art-scale'),
       cardArtScaleValue: document.getElementById('mission-editor-card-art-scale-value'),
+      cardArtWidth: document.getElementById('mission-editor-card-art-width'),
+      cardArtWidthValue: document.getElementById('mission-editor-card-art-width-value'),
       cardArtFadeX: document.getElementById('mission-editor-card-art-fade-x'),
       cardArtFadeXValue: document.getElementById('mission-editor-card-art-fade-x-value'),
       cardArtFadeY: document.getElementById('mission-editor-card-art-fade-y'),
@@ -1235,6 +1263,12 @@
         }
         openEditor(scope);
         syncEditorFromState();
+      });
+    });
+    runtime.ui.modeButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        runtime.editorMode = button.getAttribute('data-mission-editor-mode') || 'simple';
+        syncEditorScopeVisibility();
       });
     });
 
@@ -1494,6 +1528,12 @@
       card.frontGraphicScale = Number(runtime.ui.cardArtScale.value);
       window.renderOfferings(runtime.baseOfferings);
     });
+    bindLiveInput(runtime.ui.cardArtWidth, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicWidth = Number(runtime.ui.cardArtWidth.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
     bindLiveInput(runtime.ui.cardArtFadeX, function() {
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
@@ -1608,10 +1648,10 @@
     runtime.ui.reset.addEventListener('click', function() {
       clearStoredConfig();
       runtime.storedDraftConfig = null;
-      runtime.draftConfig = deepClone(runtime.defaultConfig);
+      loadPublishedDraft();
       runtime.baselineConfig = deepClone(runtime.draftConfig);
       window.renderOfferings(runtime.baseOfferings);
-      notifySaved('Reset to default preview');
+      notifySaved('Reverted to published');
     });
     runtime.ui.restoreDraft.addEventListener('click', function() {
       if (!runtime.storedDraftConfig) return;
