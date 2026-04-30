@@ -26,6 +26,7 @@
     visual: {
       heroImage: '/assets/Graphic_1.png',
       heroImagePosition: 'center right',
+      heroImageFit: 'width',
       heroImageX: 78,
       heroImageY: 50,
       heroImageScale: 100,
@@ -226,6 +227,21 @@
     var rightStart = Math.max(leftEdge + 4, 100 - right - 14);
     var rightSoft = Math.max(rightStart + 2, 100 - right);
     return 'linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) ' + Math.round(leftSoft) + '%, rgba(255,253,248,0.58) ' + Math.round(left) + '%, rgba(255,253,248,0.08) ' + Math.round(leftEdge) + '%, rgba(255,253,248,0.08) ' + Math.round(rightStart) + '%, rgba(255,253,248,0.58) ' + Math.round(rightSoft) + '%, rgba(255,253,248,0.90) 100%)';
+  }
+
+  function getHeroImageSize(fit, scale) {
+    var value = clamp(scale, 70, 230, 100);
+    switch (fit) {
+      case 'cover':
+        return 'cover';
+      case 'contain':
+        return 'contain';
+      case 'height':
+        return 'auto ' + value + '%';
+      case 'width':
+      default:
+        return value + '% auto';
+    }
   }
 
   function computeImageMask(leftFade, rightFade, topFade, bottomFade) {
@@ -442,7 +458,7 @@
     panel.style.setProperty('--mission-public-columns', clamp(state.config.layout.publicColumns, 1, 4, 3));
     panel.style.setProperty('--mission-hero-image-url', 'url("' + (state.config.visual.heroImage || '/assets/Graphic_1.png') + '")');
     panel.style.setProperty('--mission-hero-image-position', clamp(state.config.visual.heroImageX, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).x) + '% ' + clamp(state.config.visual.heroImageY, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).y) + '%');
-    panel.style.setProperty('--mission-hero-image-size', clamp(state.config.visual.heroImageScale, 70, 230, 100) + '% auto');
+    panel.style.setProperty('--mission-hero-image-size', getHeroImageSize(state.config.visual.heroImageFit, state.config.visual.heroImageScale));
     panel.style.setProperty('--mission-hero-image-opacity', clamp(state.config.visual.heroImageOpacity, 0, 0.65, 0.25));
     panel.style.setProperty('--mission-hero-image-clarity', clamp(state.config.visual.heroImageClarity, 0, 100, 0));
     panel.style.setProperty('--mission-hero-overlay-gradient', computeOverlayGradient(state.config.visual.heroFadeLeft, state.config.visual.heroFadeRight, state.config.visual.heroFadeStrength));
@@ -1000,6 +1016,7 @@
     setSelectValueWithCustomOption(runtime.ui.heroImage, selectedHeroImage);
     runtime.ui.heroImagePath.value = normalizeAssetPath(selectedHeroImage);
     runtime.ui.heroImagePosition.value = config.visual.heroImagePosition || 'center right';
+    runtime.ui.heroImageFit.value = config.visual.heroImageFit || 'width';
     runtime.ui.heroImageX.value = clamp(config.visual.heroImageX, 0, 100, getAnchorPercent(config.visual.heroImagePosition).x);
     runtime.ui.heroImageY.value = clamp(config.visual.heroImageY, 0, 100, getAnchorPercent(config.visual.heroImagePosition).y);
     runtime.ui.heroImageScale.value = clamp(config.visual.heroImageScale, 70, 230, 100);
@@ -1119,6 +1136,7 @@
       heroImageUploadButton: document.getElementById('mission-editor-hero-image-upload-button'),
       heroImageUploadStatus: document.getElementById('mission-editor-hero-image-upload-status'),
       heroImagePosition: document.getElementById('mission-editor-hero-image-position'),
+      heroImageFit: document.getElementById('mission-editor-hero-image-fit'),
       heroImageX: document.getElementById('mission-editor-hero-image-x'),
       heroImageXValue: document.getElementById('mission-editor-hero-image-x-value'),
       heroImageY: document.getElementById('mission-editor-hero-image-y'),
@@ -1312,7 +1330,7 @@
       });
     });
 
-    ['heroTextAlign', 'heroBalance', 'communityColumns', 'ministryColumns', 'publicColumns', 'heroImage', 'heroImagePosition', 'headingFont', 'bodyFont'].forEach(function(key) {
+    ['heroTextAlign', 'heroBalance', 'communityColumns', 'ministryColumns', 'publicColumns', 'heroImage', 'heroImagePosition', 'heroImageFit', 'headingFont', 'bodyFont'].forEach(function(key) {
       runtime.ui[key].addEventListener('change', function() {
         var map = {
           heroTextAlign: 'heroTextAlign',
@@ -1331,6 +1349,7 @@
           runtime.draftConfig.visual.heroImageX = preset.x;
           runtime.draftConfig.visual.heroImageY = preset.y;
         }
+        else if (key === 'heroImageFit') runtime.draftConfig.visual.heroImageFit = runtime.ui.heroImageFit.value;
         else if (key === 'headingFont') runtime.draftConfig.typography.headingFont = runtime.ui.headingFont.value;
         else if (key === 'bodyFont') runtime.draftConfig.typography.bodyFont = runtime.ui.bodyFont.value;
         else runtime.draftConfig.layout[map[key]] = key.indexOf('Columns') !== -1 ? Number(runtime.ui[key].value) : runtime.ui[key].value;

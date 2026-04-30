@@ -456,7 +456,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   --mission-public-columns: 3;
   --mission-hero-image-url: url('/assets/Graphic_1_mission_impact.png');
   --mission-hero-image-position: center right;
-  --mission-hero-image-size: cover;
+  --mission-hero-image-size: 100% auto;
   --mission-hero-image-opacity: 0.25;
   --mission-hero-image-clarity: 0;
   --mission-hero-overlay-gradient: linear-gradient(90deg, rgba(255,253,248,0.93) 0%, rgba(255,253,248,0.82) 18%, rgba(255,253,248,0.64) 38%, rgba(255,253,248,0.44) 58%, rgba(255,253,248,0.24) 78%, rgba(255,253,248,0.06) 100%);
@@ -490,7 +490,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   background:#fbf8f3;
 }
 .mission-bar { position:relative; min-height:var(--mission-hero-min); background:#fffdf8; overflow:hidden; margin-bottom:22px; border-bottom:1px solid rgba(30,37,48,0.14); }
-.mission-bar::before { content:''; position:absolute; inset:0; pointer-events:none; }
+.mission-bar::before { content:''; position:absolute; inset:0; background-image:var(--mission-hero-image-url); background-position:var(--mission-hero-image-position); background-size:var(--mission-hero-image-size); background-repeat:no-repeat; opacity:var(--mission-hero-image-opacity); filter:saturate(calc(1 + (var(--mission-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--mission-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--mission-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; -webkit-mask-image:var(--mission-hero-image-mask); mask-image:var(--mission-hero-image-mask); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
 .mission-bar::after { content:''; position:absolute; inset:0; background:var(--mission-hero-overlay-gradient); pointer-events:none; }
 .mission-bar-overlay { position:relative; z-index:1; width:min(100%, var(--mission-shell-max)); min-height:var(--mission-hero-min); margin:0 auto; padding:0 var(--mission-gutter) 0; }
 .mission-hero-grid { display:grid; grid-template-columns:var(--mission-hero-columns); align-items:center; gap:var(--mission-section-gap); min-height:var(--mission-hero-min); }
@@ -500,7 +500,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .mission-text { width:min(100%, var(--mission-hero-body-width)); max-width:var(--mission-hero-body-width); min-height:var(--mission-hero-body-min-height); font-family:var(--mission-body-font); font-size:var(--mission-body-size); line-height:1.7; color:rgba(30,37,48,0.86); font-weight:500; }
 .mission-paths, .mission-path-pill { display:none; }
 .mission-hero-visual { position:relative; min-height:var(--mission-hero-min); height:100%; }
-.mission-hero-visual::before { content:''; position:absolute; inset:0; background-image:var(--mission-hero-image-url); background-position:var(--mission-hero-image-position); background-size:var(--mission-hero-image-size); background-repeat:no-repeat; opacity:var(--mission-hero-image-opacity); filter:saturate(calc(1 + (var(--mission-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--mission-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--mission-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; -webkit-mask-image:var(--mission-hero-image-mask); mask-image:var(--mission-hero-image-mask); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
+.mission-hero-visual::before { content:none; }
 .mission-shell { width:min(100%, var(--mission-shell-max)); margin:0 auto; padding:0 var(--mission-gutter) clamp(44px, 4vw, 64px); }
 .mission-section { display:grid; grid-template-columns:minmax(var(--mission-intro-col), 0.24fr) minmax(0, 1fr); gap:var(--mission-section-gap); align-items:stretch; padding:var(--mission-section-spacing) 0 var(--mission-section-spacing); border-top:1px solid rgba(30,37,48,0.08); }
 .mission-section:last-child { padding-bottom:0; }
@@ -785,7 +785,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   .nav-tab { font-size:11px; padding:12px 12px; letter-spacing:0.15em; }
   .fb-name { min-width:120px; font-size:0.85rem; }
   .fb-popout { left:auto; right:0; top:calc(100% + 4px); transform:none; border-radius:8px; border-left:none; border-top:3px solid #c84826; }
-  .mission-bar::before { inset:260px -30vw 0 0; background-size:cover; background-position:center bottom; opacity:0.18; }
+  .mission-bar::before { inset:0; background-size:var(--mission-hero-image-size); background-position:var(--mission-hero-image-position); opacity:var(--mission-hero-image-opacity); }
   .mission-bar::after { background:linear-gradient(180deg, #fffdf8 0%, rgba(255,253,248,0.98) 38%, rgba(255,253,248,0.8) 56%, rgba(255,253,248,0.18) 82%, rgba(255,253,248,0) 100%); }
   .mission-bar-overlay { padding:18px 18px 0; }
   .mission-hero-grid { grid-template-columns:1fr; gap:0; min-height:auto; }
@@ -2129,6 +2129,15 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         </div>
       </div>
       <div class="editor-field">
+        <label class="editor-label" for="mission-editor-hero-image-fit">Artwork fill mode</label>
+        <select id="mission-editor-hero-image-fit">
+          <option value="width">Manual width</option>
+          <option value="height">Manual height</option>
+          <option value="cover">Cover banner</option>
+          <option value="contain">Fit inside banner</option>
+        </select>
+      </div>
+      <div class="editor-field">
         <label class="editor-label" for="mission-editor-hero-image-path">Hero artwork Git asset location</label>
         <input id="mission-editor-hero-image-path" type="text" placeholder="assets/mission/hero-art.png">
       </div>
@@ -2142,12 +2151,12 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-hero-image-x">Artwork horizontal shift</label>
+          <label class="editor-label" for="mission-editor-hero-image-x">Artwork horizontal position</label>
           <input id="mission-editor-hero-image-x" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Left</span><span id="mission-editor-hero-image-x-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-hero-image-y">Artwork vertical shift</label>
+          <label class="editor-label" for="mission-editor-hero-image-y">Artwork vertical position</label>
           <input id="mission-editor-hero-image-y" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Top</span><span id="mission-editor-hero-image-y-value"></span></div>
         </div>
@@ -2171,14 +2180,14 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
           <div class="editor-inline-meta"><span>More image</span><span id="mission-editor-hero-fade-strength-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-hero-fade-left">Left fade</label>
+          <label class="editor-label" for="mission-editor-hero-fade-left">Left edge feather</label>
           <input id="mission-editor-hero-fade-left" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Less cover</span><span id="mission-editor-hero-fade-left-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-hero-fade-right">Right fade</label>
+          <label class="editor-label" for="mission-editor-hero-fade-right">Right edge feather</label>
           <input id="mission-editor-hero-fade-right" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Less cover</span><span id="mission-editor-hero-fade-right-value"></span></div>
         </div>

@@ -25,9 +25,10 @@
   "visual": {
     "heroImage": "/assets/student_photos/Master Class Student Talking 1.jpg",
     "heroImagePosition": "center right",
+    "heroImageFit": "width",
     "heroImageX": 60,
     "heroImageY": 32,
-    "heroImageScale": 86,
+    "heroImageScale": 112,
     "heroImageOpacity": 0.54,
     "heroImageClarity": 17,
     "heroFadeStrength": 0.92,
