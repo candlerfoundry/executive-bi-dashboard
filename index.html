@@ -546,10 +546,10 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .mission-page .card-front::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,250,0.96) 0%, rgba(255,253,250,0.92) 46%, rgba(255,253,250,0.38) 72%, rgba(255,253,250,0.08) 100%); z-index:0; pointer-events:none; }
 .mission-page .offering-flip:hover .card-front { border-color:rgba(30,37,48,0.24); box-shadow:0 24px 40px rgba(30,37,48,0.16), 0 8px 14px rgba(30,37,48,0.08); }
 .mission-page .card-back { transform:rotateY(180deg); background:var(--mission-card-back-bg); border:1px solid rgba(30,37,48,0.22); box-shadow:0 20px 40px rgba(30,37,48,0.18), 0 8px 16px rgba(30,37,48,0.12); overflow:hidden; padding:0; }
-.mission-course-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-width-local, var(--mission-card-art-lg)) + clamp(8px, 1vw, 16px)); }
-.mission-course-grid .card-front::before { width:var(--mission-card-art-width-local, var(--mission-card-art-lg)); }
-.mission-ministry-grid .card-front, .mission-public-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-width-local, var(--mission-card-art-sm)) + clamp(8px, 1vw, 14px)); }
-.mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { width:var(--mission-card-art-width-local, var(--mission-card-art-sm)); right:clamp(6px, 0.7vw, 10px); opacity:0.92; }
+.mission-course-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
+.mission-course-grid .card-front::before { width:var(--mission-card-art-lg); }
+.mission-ministry-grid .card-front, .mission-public-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
+.mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { width:var(--mission-card-art-sm); right:clamp(6px, 0.7vw, 10px); opacity:0.92; }
 .mission-page .cf-group { display:none; }
   .mission-page .cf-top { position:relative; z-index:1; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:clamp(14px, 1.2vw, 18px); width:min(100%, var(--mission-card-front-text-width-local, var(--mission-card-front-text-width))); max-width:var(--mission-card-front-text-width-local, var(--mission-card-front-text-width)); }
 .mission-page .cf-icon { display:none; }
@@ -616,17 +616,6 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .editor-grid-2 { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
 .editor-grid-3 { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
 .editor-label { font-size:0.68rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; color:rgba(30,37,48,0.65); }
-.mission-editor-mode { display:flex; gap:8px; padding:4px; margin:0 0 14px; border:1px solid rgba(30,37,48,0.1); border-radius:999px; background:rgba(30,37,48,0.04); }
-.mission-editor-mode button { flex:1; border:none; border-radius:999px; background:transparent; color:rgba(30,37,48,0.68); padding:9px 12px; font:inherit; font-size:0.66rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; cursor:pointer; }
-.mission-editor-mode button.is-active { background:#1e2530; color:#fffdf8; box-shadow:0 8px 18px rgba(30,37,48,0.14); }
-.mission-editor-mode-note { margin:-4px 0 14px; font-size:0.74rem; line-height:1.55; color:rgba(30,37,48,0.62); }
-#mission-editor-shell.mission-editor-simple [data-mission-editor-advanced] { display:none !important; }
-#mission-editor-shell .mission-editor-subgroup { padding-top:14px; margin-top:14px; border-top:1px solid rgba(30,37,48,0.08); }
-#mission-editor-shell .mission-editor-subgroup:first-of-type { padding-top:0; margin-top:0; border-top:none; }
-#mission-editor-shell .mission-editor-subgroup-title { margin:0 0 12px; font-size:0.68rem; font-weight:800; letter-spacing:0.14em; text-transform:uppercase; color:#c84826; }
-#mission-editor-shell .mission-editor-details { border:1px solid rgba(30,37,48,0.1); border-radius:14px; background:#fffdf8; padding:0 12px; margin-bottom:14px; }
-#mission-editor-shell .mission-editor-details summary { cursor:pointer; padding:12px 2px; font-size:0.7rem; font-weight:800; letter-spacing:0.12em; text-transform:uppercase; color:#1e2530; }
-#mission-editor-shell .mission-editor-details[open] { padding-bottom:12px; }
 .editor-field input[type="text"],
 .editor-field input[type="number"],
 .editor-field textarea,
@@ -812,8 +801,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
   #mission-ministry { margin:0 -18px; padding:30px 18px 36px; border-radius:0; }
   #mission-public { padding-top:36px; }
   .mission-course-grid, .mission-ministry-grid, .mission-public-grid { grid-template-columns:1fr; }
-  .mission-course-grid .card-front, .mission-ministry-grid .card-front, .mission-public-grid .card-front { min-height:250px; padding:24px calc(min(var(--mission-card-art-width-local, 122px), 170px) + 10px) 24px 24px; }
-  .mission-page .card-front::before, .mission-course-grid .card-front::before, .mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { right:6px; top:10px; bottom:8px; width:min(var(--mission-card-art-width-local, 122px), 170px); opacity:0.92; }
+  .mission-course-grid .card-front, .mission-ministry-grid .card-front, .mission-public-grid .card-front { min-height:250px; padding:24px 132px 24px 24px; }
+  .mission-page .card-front::before, .mission-course-grid .card-front::before, .mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { right:6px; top:10px; bottom:8px; width:122px; opacity:0.92; }
   .mission-page .card-front::after { background:linear-gradient(90deg, rgba(255,253,250,0.97) 0%, rgba(255,253,250,0.93) 50%, rgba(255,253,250,0.35) 78%, rgba(255,253,250,0.08) 100%); }
   .mission-page .cf-name { font-size:1.32rem; max-width:100%; }
   .mission-page .cf-tagline { max-width:220px; font-size:0.9rem; margin-bottom:20px; }
@@ -2005,7 +1994,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     <div class="page-editor-header">
       <div>
         <div class="page-editor-title">Mission Page Editor</div>
-        <p class="page-editor-note">Draft edits preview live on this page. Save keeps a browser draft; Publish to Main sends ready changes to Git.</p>
+        <p class="page-editor-note">Draft edits preview live on this page. Apply saves this Mission configuration in your browser. Reset returns to the built-in default.</p>
       </div>
       <button class="page-editor-close" id="mission-editor-close" type="button" aria-label="Close Mission editor">&times;</button>
     </div>
@@ -2024,12 +2013,6 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       <button class="impact-editor-tab" id="mission-editor-tab-ministry" type="button" data-mission-editor-tab="section" data-mission-editor-section="ministry">Ministry</button>
       <button class="impact-editor-tab" id="mission-editor-tab-public" type="button" data-mission-editor-tab="section" data-mission-editor-section="public">Public</button>
     </div>
-
-    <div class="mission-editor-mode" role="group" aria-label="Mission editor mode">
-      <button class="is-active" id="mission-editor-mode-simple" type="button" data-mission-editor-mode="simple">Simple</button>
-      <button id="mission-editor-mode-advanced" type="button" data-mission-editor-mode="advanced">Advanced</button>
-    </div>
-    <p class="mission-editor-mode-note" id="mission-editor-mode-note">Simple mode keeps the everyday writing, artwork, and ordering controls visible.</p>
 
   <div class="page-editor-group" data-mission-editor-scope="hero">
     <h4>Content</h4>
@@ -2071,7 +2054,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
     </div>
 
-    <div class="page-editor-group" data-mission-editor-scope="hero" data-mission-editor-advanced>
+    <div class="page-editor-group" data-mission-editor-scope="hero">
       <h4>Hero Layout</h4>
       <div class="editor-grid-2">
         <div class="editor-field">
@@ -2129,7 +2112,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     </div>
 
     <div class="page-editor-group" data-mission-editor-scope="hero">
-      <h4>Hero Artwork</h4>
+      <h4>Visual Style</h4>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-image">Hero artwork</label>
@@ -2145,11 +2128,11 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
           </select>
         </div>
       </div>
-      <div class="editor-field" data-mission-editor-advanced>
+      <div class="editor-field">
         <label class="editor-label" for="mission-editor-hero-image-path">Hero artwork Git asset location</label>
         <input id="mission-editor-hero-image-path" type="text" placeholder="assets/mission/hero-art.png">
       </div>
-      <div class="editor-field" data-mission-editor-advanced>
+      <div class="editor-field">
         <label class="editor-label" for="mission-editor-hero-image-upload">Upload hero artwork to Git</label>
         <input id="mission-editor-hero-image-upload" type="file" accept="image/*">
         <div class="theoed-editor-row-actions">
@@ -2157,7 +2140,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
         </div>
         <p class="impact-editor-block-note" id="mission-editor-hero-image-upload-status">Choose a file and enter a Git asset location.</p>
       </div>
-      <div class="editor-grid-2" data-mission-editor-advanced>
+      <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-image-x">Artwork horizontal shift</label>
           <input id="mission-editor-hero-image-x" type="range" min="0" max="100" step="1">
@@ -2181,7 +2164,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
           <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-hero-image-scale-value"></span></div>
         </div>
       </div>
-      <div class="editor-grid-2" data-mission-editor-advanced>
+      <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-fade-strength">Fade strength</label>
           <input id="mission-editor-hero-fade-strength" type="range" min="0.2" max="0.98" step="0.01">
@@ -2193,7 +2176,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
           <div class="editor-inline-meta"><span>Less cover</span><span id="mission-editor-hero-fade-left-value"></span></div>
         </div>
       </div>
-      <div class="editor-grid-2" data-mission-editor-advanced>
+      <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-fade-right">Right fade</label>
           <input id="mission-editor-hero-fade-right" type="range" min="0" max="100" step="1">
@@ -2207,7 +2190,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
     </div>
 
-    <div class="page-editor-group" data-mission-editor-scope="hero" data-mission-editor-advanced>
+    <div class="page-editor-group" data-mission-editor-scope="hero">
       <h4>Hero Typography</h4>
       <div class="editor-grid-2">
         <div class="editor-field">
@@ -2273,8 +2256,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       <div id="mission-editor-section-visibility"></div>
     </div>
 
-    <div class="page-editor-group" data-mission-editor-scope="page" data-mission-editor-advanced>
-      <h4>Section Order</h4>
+    <div class="page-editor-group" data-mission-editor-scope="page">
+      <h4>Ordering</h4>
       <div class="editor-field">
         <label class="editor-label" for="mission-editor-order-section-select">Section order target</label>
         <select id="mission-editor-order-section-select"></select>
@@ -2289,7 +2272,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
       </div>
     </div>
 
-    <div class="page-editor-group" data-mission-editor-scope="section" data-mission-editor-advanced>
+    <div class="page-editor-group" data-mission-editor-scope="section">
       <h4>Section & Card Layout</h4>
       <div class="editor-grid-2">
         <div class="editor-field">
@@ -2407,191 +2390,164 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
     </div>
 
     <div class="page-editor-group" data-mission-editor-scope="card page">
-      <h4>Selected Card</h4>
+      <h4>Cards</h4>
       <div class="editor-field">
         <label class="editor-label" for="mission-editor-card-select">Selected card</label>
         <select id="mission-editor-card-select"></select>
       </div>
       <div class="page-editor-card-meta" id="mission-editor-card-meta"></div>
-      <div class="mission-editor-subgroup">
-        <div class="mission-editor-subgroup-title">Front</div>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-card-title">Card title</label>
+        <input id="mission-editor-card-title" type="text">
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-card-description">Card description</label>
+        <textarea id="mission-editor-card-description"></textarea>
+      </div>
+      <div class="editor-grid-3">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-title">Card title</label>
-          <input id="mission-editor-card-title" type="text">
+          <label class="editor-label" for="mission-editor-card-title-size-local">Title size</label>
+          <input id="mission-editor-card-title-size-local" type="range" min="0.9" max="1.9" step="0.02">
+          <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-title-size-local-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-description">Card description</label>
-          <textarea id="mission-editor-card-description"></textarea>
+          <label class="editor-label" for="mission-editor-card-body-size-local">Description size</label>
+          <input id="mission-editor-card-body-size-local" type="range" min="0.68" max="1.25" step="0.02">
+          <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-body-size-local-value"></span></div>
         </div>
-        <div class="editor-grid-3" data-mission-editor-advanced>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-title-size-local">Title size</label>
-            <input id="mission-editor-card-title-size-local" type="range" min="0.9" max="1.9" step="0.02">
-            <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-title-size-local-value"></span></div>
-          </div>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-body-size-local">Description size</label>
-            <input id="mission-editor-card-body-size-local" type="range" min="0.68" max="1.25" step="0.02">
-            <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-body-size-local-value"></span></div>
-          </div>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-front-box-width-local">Description width</label>
-            <input id="mission-editor-card-front-box-width-local" type="range" min="180" max="420" step="10">
-            <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-card-front-box-width-local-value"></span></div>
-          </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-front-box-width-local">Description width</label>
+          <input id="mission-editor-card-front-box-width-local" type="range" min="180" max="420" step="10">
+          <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-card-front-box-width-local-value"></span></div>
         </div>
       </div>
-
-      <div class="mission-editor-subgroup">
-        <div class="mission-editor-subgroup-title">Artwork</div>
-        <div class="editor-grid-2">
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-artwork">Front artwork</label>
-            <select id="mission-editor-card-artwork"></select>
-          </div>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-art-position">Artwork anchor</label>
-            <select id="mission-editor-card-art-position">
-              <option value="center right">Right center</option>
-              <option value="right bottom">Right bottom</option>
-              <option value="center center">Centered</option>
-              <option value="left center">Left center</option>
-            </select>
-          </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-artwork">Front artwork</label>
+          <select id="mission-editor-card-artwork"></select>
         </div>
-        <div class="editor-field" data-mission-editor-advanced>
-          <label class="editor-label" for="mission-editor-card-artwork-path">Front artwork Git asset location</label>
-          <input id="mission-editor-card-artwork-path" type="text" placeholder="assets/mission/my-card-art.png">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-art-position">Artwork anchor</label>
+          <select id="mission-editor-card-art-position">
+            <option value="center right">Right center</option>
+            <option value="right bottom">Right bottom</option>
+            <option value="center center">Centered</option>
+            <option value="left center">Left center</option>
+          </select>
         </div>
-        <div class="editor-field" data-mission-editor-advanced>
-          <label class="editor-label" for="mission-editor-card-artwork-upload">Upload front artwork to Git</label>
-          <input id="mission-editor-card-artwork-upload" type="file" accept="image/*">
-          <div class="theoed-editor-row-actions">
-            <button class="impact-editor-secondary" id="mission-editor-card-artwork-upload-button" type="button">Upload Asset</button>
-          </div>
-          <p class="impact-editor-block-note" id="mission-editor-card-artwork-upload-status">Choose a file and enter a Git asset location.</p>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-card-artwork-path">Front artwork Git asset location</label>
+        <input id="mission-editor-card-artwork-path" type="text" placeholder="assets/mission/my-card-art.png">
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-card-artwork-upload">Upload front artwork to Git</label>
+        <input id="mission-editor-card-artwork-upload" type="file" accept="image/*">
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" id="mission-editor-card-artwork-upload-button" type="button">Upload Asset</button>
         </div>
-        <div class="editor-grid-2">
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-art-scale">Artwork size</label>
-            <input id="mission-editor-card-art-scale" type="range" min="0.5" max="3" step="0.05">
-            <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-art-scale-value"></span></div>
-          </div>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-art-width">Artwork space</label>
-            <input id="mission-editor-card-art-width" type="range" min="90" max="280" step="2">
-            <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-card-art-width-value"></span></div>
-          </div>
+        <p class="impact-editor-block-note" id="mission-editor-card-artwork-upload-status">Choose a file and enter a Git asset location.</p>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-art-shift-x">Artwork horizontal shift</label>
+          <input id="mission-editor-card-art-shift-x" type="range" min="-180" max="180" step="2">
+          <div class="editor-inline-meta"><span>Left</span><span id="mission-editor-card-art-shift-x-value"></span></div>
         </div>
-        <div class="editor-grid-2">
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-art-shift-x">Artwork horizontal shift</label>
-            <input id="mission-editor-card-art-shift-x" type="range" min="-180" max="180" step="2">
-            <div class="editor-inline-meta"><span>Left</span><span id="mission-editor-card-art-shift-x-value"></span></div>
-          </div>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-art-shift-y">Artwork vertical shift</label>
-            <input id="mission-editor-card-art-shift-y" type="range" min="-180" max="180" step="2">
-            <div class="editor-inline-meta"><span>Up</span><span id="mission-editor-card-art-shift-y-value"></span></div>
-          </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-art-shift-y">Artwork vertical shift</label>
+          <input id="mission-editor-card-art-shift-y" type="range" min="-180" max="180" step="2">
+          <div class="editor-inline-meta"><span>Up</span><span id="mission-editor-card-art-shift-y-value"></span></div>
         </div>
-        <div class="editor-grid-2" data-mission-editor-advanced>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-art-opacity">Artwork visibility</label>
-            <input id="mission-editor-card-art-opacity" type="range" min="0" max="1" step="0.01">
-            <div class="editor-inline-meta"><span>Fainter</span><span id="mission-editor-card-art-opacity-value"></span></div>
-          </div>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-art-fade-x">Artwork side feather</label>
-            <input id="mission-editor-card-art-fade-x" type="range" min="0" max="50" step="1">
-            <div class="editor-inline-meta"><span>Harder</span><span id="mission-editor-card-art-fade-x-value"></span></div>
-          </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-art-opacity">Artwork visibility</label>
+          <input id="mission-editor-card-art-opacity" type="range" min="0" max="1" step="0.01">
+          <div class="editor-inline-meta"><span>Fainter</span><span id="mission-editor-card-art-opacity-value"></span></div>
         </div>
-        <div class="editor-field" data-mission-editor-advanced>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-art-scale">Artwork size</label>
+          <input id="mission-editor-card-art-scale" type="range" min="0.6" max="1.6" step="0.02">
+          <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-art-scale-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-art-fade-x">Artwork side feather</label>
+          <input id="mission-editor-card-art-fade-x" type="range" min="0" max="50" step="1">
+          <div class="editor-inline-meta"><span>Harder</span><span id="mission-editor-card-art-fade-x-value"></span></div>
+        </div>
+        <div class="editor-field">
           <label class="editor-label" for="mission-editor-card-art-fade-y">Artwork top/bottom feather</label>
           <input id="mission-editor-card-art-fade-y" type="range" min="0" max="50" step="1">
           <div class="editor-inline-meta"><span>Harder</span><span id="mission-editor-card-art-fade-y-value"></span></div>
         </div>
       </div>
-
-      <div class="mission-editor-subgroup">
-        <div class="mission-editor-subgroup-title">Back</div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-back-title">Back title</label>
-          <input id="mission-editor-card-back-title" type="text">
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-back-description">Back description</label>
-          <textarea id="mission-editor-card-back-description"></textarea>
-        </div>
-        <div class="editor-field" data-mission-editor-advanced>
-          <label class="editor-label" for="mission-editor-card-back-body-size-local">Back description size</label>
-          <input id="mission-editor-card-back-body-size-local" type="range" min="0.68" max="1.25" step="0.02">
-          <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-back-body-size-local-value"></span></div>
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-button-label">Primary button label</label>
-          <input id="mission-editor-card-button-label" type="text">
-        </div>
-        <details class="mission-editor-details">
-          <summary>Additional links</summary>
-          <div id="mission-editor-card-links"></div>
-        </details>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-card-back-title">Back title</label>
+        <input id="mission-editor-card-back-title" type="text">
       </div>
-
-      <div class="mission-editor-subgroup">
-        <div class="mission-editor-subgroup-title">Placement</div>
-        <div class="editor-grid-2">
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-section">Section</label>
-            <select id="mission-editor-card-section">
-              <option value="community">Community</option>
-              <option value="ministry">Ministry</option>
-              <option value="public">Public</option>
-            </select>
-          </div>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-order">Order</label>
-            <input id="mission-editor-card-order" type="number" min="1" max="20" step="1">
-          </div>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-card-back-description">Back description</label>
+        <textarea id="mission-editor-card-back-description"></textarea>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-card-back-body-size-local">Back description size</label>
+        <input id="mission-editor-card-back-body-size-local" type="range" min="0.68" max="1.25" step="0.02">
+        <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-back-body-size-local-value"></span></div>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-card-button-label">Primary button label</label>
+        <input id="mission-editor-card-button-label" type="text">
+      </div>
+      <div id="mission-editor-card-links"></div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-section">Section</label>
+          <select id="mission-editor-card-section">
+            <option value="community">Community</option>
+            <option value="ministry">Ministry</option>
+            <option value="public">Public</option>
+          </select>
         </div>
-        <div class="editor-checkbox">
-          <label for="mission-editor-card-visible">Show this card</label>
-          <input id="mission-editor-card-visible" type="checkbox">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-order">Order</label>
+          <input id="mission-editor-card-order" type="number" min="1" max="20" step="1">
         </div>
       </div>
-
-      <div class="mission-editor-subgroup" data-mission-editor-advanced>
-        <div class="mission-editor-subgroup-title">Back Colors</div>
-        <div class="editor-grid-2">
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-back-bg">Back background</label>
-            <input id="mission-editor-card-back-bg" type="color">
-          </div>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-back-strip">Back header bar</label>
-            <input id="mission-editor-card-back-strip" type="color">
-          </div>
-        </div>
-        <div class="editor-grid-2">
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-back-text-color">Back text color</label>
-            <input id="mission-editor-card-back-text-color" type="color">
-          </div>
-          <div class="editor-field">
-            <label class="editor-label" for="mission-editor-card-button-bg">Button color</label>
-            <input id="mission-editor-card-button-bg" type="color">
-          </div>
+      <div class="editor-checkbox">
+        <label for="mission-editor-card-visible">Show this card</label>
+        <input id="mission-editor-card-visible" type="checkbox">
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-back-bg">Back background</label>
+          <input id="mission-editor-card-back-bg" type="color">
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-button-text">Button text color</label>
-          <input id="mission-editor-card-button-text" type="color">
+          <label class="editor-label" for="mission-editor-card-back-strip">Back header bar</label>
+          <input id="mission-editor-card-back-strip" type="color">
         </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-back-text-color">Back text color</label>
+          <input id="mission-editor-card-back-text-color" type="color">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-button-bg">Button color</label>
+          <input id="mission-editor-card-button-bg" type="color">
+        </div>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-card-button-text">Button text color</label>
+        <input id="mission-editor-card-button-text" type="color">
       </div>
     </div>
 
     <div class="page-editor-actions">
-      <button class="page-editor-reset" id="mission-editor-reset" type="button">Revert to Published</button>
+      <button class="page-editor-reset" id="mission-editor-reset" type="button">Reset to Default</button>
       <button class="page-editor-apply" id="mission-editor-apply" type="button">Save Changes in Browser</button>
     </div>
   </aside>
