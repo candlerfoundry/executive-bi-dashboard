@@ -127,9 +127,11 @@
       "backDescription": "Easy, no-prep Sunday School & Bible study lessons.",
       "primaryActionLabel": "Free Lesson 1",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-booktop-pair.png",
-      "frontGraphicScale": 1.6,
-      "frontGraphicOpacity": 0.73,
-      "frontGraphicShiftX": 38
+      "frontGraphicScale": 3.14,
+      "frontGraphicOpacity": 0.58,
+      "frontGraphicShiftX": 158,
+      "frontGraphicFadeLeft": 15,
+      "frontGraphicFadeRight": 40
     },
     "3-minute-bible": {
       "section": "ministry",
@@ -141,7 +143,8 @@
       "backDescription": "3-minute video lessons Biblical and theological concepts for lay & ordained leaders",
       "primaryActionLabel": "Watch What Is a Covenant?",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-phone-user.png",
-      "frontGraphicScale": 1.52
+      "frontGraphicScale": 1.52,
+      "frontGraphicOpacity": 0.49
     },
     "unstuck": {
       "section": "ministry",
@@ -177,9 +180,14 @@
       "backDescription": "TED-style talks on theology, spirituality, & faith. Free discussion guides.",
       "primaryActionLabel": "Browse TheoEd Talks",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-side-reader.png",
-      "frontGraphicScale": 1.58,
-      "frontGraphicShiftX": 86,
-      "frontGraphicShiftY": -30
+      "frontGraphicScale": 2.24,
+      "frontGraphicShiftX": 172,
+      "frontGraphicShiftY": -44,
+      "frontGraphicOpacity": 0.35,
+      "frontGraphicWidth": 230,
+      "frontGraphicFadeLeft": 49,
+      "frontGraphicFadeRight": 55,
+      "frontGraphicFadeY": 31
     },
     "candler-in-conversation": {
       "section": "public",
