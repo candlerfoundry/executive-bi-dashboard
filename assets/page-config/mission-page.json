@@ -26,14 +26,14 @@
     "heroImage": "/assets/student_photos/Master Class Student Talking 1.jpg",
     "heroImagePosition": "center right",
     "heroImageFit": "width",
-    "heroImageX": 60,
-    "heroImageY": 32,
-    "heroImageScale": 112,
-    "heroImageOpacity": 0.54,
+    "heroImageX": 100,
+    "heroImageY": 31,
+    "heroImageScale": 78,
+    "heroImageOpacity": 0.48,
     "heroImageClarity": 17,
-    "heroFadeStrength": 0.92,
-    "heroFadeLeft": 32,
-    "heroFadeRight": 43
+    "heroFadeStrength": 0.27,
+    "heroFadeLeft": 46,
+    "heroFadeRight": 22
   },
   "typography": {
     "headingFont": "'Montserrat', sans-serif",
