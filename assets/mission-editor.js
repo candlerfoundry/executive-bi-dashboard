@@ -268,6 +268,10 @@
     return config.cards[cardId];
   }
 
+  function isEditorOpen() {
+    return !!(runtime.controlsReady && runtime.ui.shell && !runtime.ui.shell.hasAttribute('hidden'));
+  }
+
   function getCardMeta(cardId) {
     return (window.MISSION_CARD_META && window.MISSION_CARD_META[cardId]) || {};
   }
@@ -556,6 +560,7 @@
 
     var visible = offerings.filter(function(offering) { return offering.visible !== false; });
     visible.sort(function(a, b) { return (a.order || 99) - (b.order || 99); });
+    var editorOpen = isEditorOpen();
 
     visible.forEach(function(offering, idx) {
       var slug = window.getOfferingSlug(offering, idx);
@@ -579,8 +584,8 @@
       flip.setAttribute('aria-expanded', 'false');
       flip.dataset.flipEnabled = useFlip ? 'true' : 'false';
       flip.dataset.cardId = slug;
-      flip.classList.toggle('is-edit-selected', runtime.activeCardId === slug);
-      if (runtime.activeCardId === slug && runtime.activeCardPreviewFace === 'back' && useFlip) {
+      flip.classList.toggle('is-edit-selected', editorOpen && runtime.activeCardId === slug);
+      if (editorOpen && runtime.activeCardId === slug && runtime.activeCardPreviewFace === 'back' && useFlip) {
         flip.classList.add('is-flipped');
         flip.setAttribute('aria-expanded', 'true');
       }
@@ -790,6 +795,7 @@
     }
     runtime.ui.shell.setAttribute('hidden', '');
     runtime.ui.toggle.setAttribute('aria-expanded', 'false');
+    window.renderOfferings(runtime.baseOfferings);
     return true;
   }
 
