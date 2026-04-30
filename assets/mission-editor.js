@@ -407,9 +407,12 @@
       card.frontGraphicPosition = overrides.frontGraphicPosition || offering.frontGraphicPosition || '';
       card.frontGraphicShiftX = overrides.frontGraphicShiftX != null ? overrides.frontGraphicShiftX : (offering.frontGraphicShiftX != null ? offering.frontGraphicShiftX : 0);
       card.frontGraphicShiftY = overrides.frontGraphicShiftY != null ? overrides.frontGraphicShiftY : (offering.frontGraphicShiftY != null ? offering.frontGraphicShiftY : 0);
+      card.frontGraphicWidth = overrides.frontGraphicWidth != null ? overrides.frontGraphicWidth : (offering.frontGraphicWidth != null ? offering.frontGraphicWidth : null);
       card.frontGraphicOpacity = overrides.frontGraphicOpacity != null ? overrides.frontGraphicOpacity : (offering.frontGraphicOpacity != null ? offering.frontGraphicOpacity : null);
       card.frontGraphicScale = overrides.frontGraphicScale != null ? overrides.frontGraphicScale : (offering.frontGraphicScale != null ? offering.frontGraphicScale : null);
       card.frontGraphicFadeX = overrides.frontGraphicFadeX != null ? overrides.frontGraphicFadeX : (offering.frontGraphicFadeX != null ? offering.frontGraphicFadeX : 0);
+      card.frontGraphicFadeLeft = overrides.frontGraphicFadeLeft != null ? overrides.frontGraphicFadeLeft : (offering.frontGraphicFadeLeft != null ? offering.frontGraphicFadeLeft : null);
+      card.frontGraphicFadeRight = overrides.frontGraphicFadeRight != null ? overrides.frontGraphicFadeRight : (offering.frontGraphicFadeRight != null ? offering.frontGraphicFadeRight : null);
       card.frontGraphicFadeY = overrides.frontGraphicFadeY != null ? overrides.frontGraphicFadeY : (offering.frontGraphicFadeY != null ? offering.frontGraphicFadeY : 0);
       if (overrides.actions && overrides.actions.length) {
         card.cardActions = deepClone(overrides.actions);
@@ -583,10 +586,13 @@
       if (offering.frontGraphicPosition) flip.style.setProperty('--card-bg-pos', offering.frontGraphicPosition);
       if (offering.frontGraphicShiftX != null) flip.style.setProperty('--card-graphic-shift-x', offering.frontGraphicShiftX + 'px');
       if (offering.frontGraphicShiftY != null) flip.style.setProperty('--card-graphic-shift-y', offering.frontGraphicShiftY + 'px');
+      if (offering.frontGraphicWidth != null) flip.style.setProperty('--card-graphic-width', offering.frontGraphicWidth + 'px');
       if (offering.frontGraphicOpacity != null) flip.style.setProperty('--card-graphic-opacity', offering.frontGraphicOpacity);
       if (offering.frontGraphicScale != null) flip.style.setProperty('--card-graphic-scale', offering.frontGraphicScale);
-      if (offering.frontGraphicFadeX || offering.frontGraphicFadeY) {
-        flip.style.setProperty('--card-graphic-mask', computeImageMask(offering.frontGraphicFadeX, offering.frontGraphicFadeX, offering.frontGraphicFadeY, offering.frontGraphicFadeY));
+      var frontGraphicFadeLeft = offering.frontGraphicFadeLeft != null ? offering.frontGraphicFadeLeft : offering.frontGraphicFadeX;
+      var frontGraphicFadeRight = offering.frontGraphicFadeRight != null ? offering.frontGraphicFadeRight : offering.frontGraphicFadeX;
+      if (frontGraphicFadeLeft || frontGraphicFadeRight || offering.frontGraphicFadeY) {
+        flip.style.setProperty('--card-graphic-mask', computeImageMask(frontGraphicFadeLeft, frontGraphicFadeRight, offering.frontGraphicFadeY, offering.frontGraphicFadeY));
       }
       if (offering.frontTitleSize != null) flip.style.setProperty('--mission-card-title-size-local', offering.frontTitleSize + 'rem');
       if (offering.frontBodySize != null) flip.style.setProperty('--mission-card-body-size-local', offering.frontBodySize + 'rem');
@@ -967,7 +973,9 @@
     runtime.ui.buttonSizeValue.textContent = Number(runtime.ui.buttonSize.value).toFixed(2) + 'rem';
     runtime.ui.cardArtOpacityValue.textContent = formatPercent(runtime.ui.cardArtOpacity.value);
     runtime.ui.cardArtScaleValue.textContent = Number(runtime.ui.cardArtScale.value).toFixed(2) + 'x';
+    runtime.ui.cardArtWidthValue.textContent = formatPx(runtime.ui.cardArtWidth.value);
     runtime.ui.cardArtFadeXValue.textContent = Math.round(Number(runtime.ui.cardArtFadeX.value) || 0) + '%';
+    runtime.ui.cardArtFadeRightValue.textContent = Math.round(Number(runtime.ui.cardArtFadeRight.value) || 0) + '%';
     runtime.ui.cardArtFadeYValue.textContent = Math.round(Number(runtime.ui.cardArtFadeY.value) || 0) + '%';
     runtime.ui.cardTitleSizeLocalValue.textContent = Number(runtime.ui.cardTitleSizeLocal.value).toFixed(2) + 'rem';
     runtime.ui.cardBodySizeLocalValue.textContent = Number(runtime.ui.cardBodySizeLocal.value).toFixed(2) + 'rem';
@@ -1058,12 +1066,14 @@
       runtime.ui.cardBodySizeLocal.value = clamp(card.frontBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
       runtime.ui.cardBackBodySizeLocal.value = clamp(card.backBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
       runtime.ui.cardFrontBoxWidthLocal.value = clamp(card.frontTextWidth, 180, 420, clamp(config.typography.cardFrontTextWidth, 140, 420, 260));
-      runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -180, 180, 0);
-      runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -180, 180, 0);
+      runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -360, 360, 0);
+      runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -320, 320, 0);
+      runtime.ui.cardArtWidth.value = clamp(card.frontGraphicWidth, 80, 560, card.section === 'community' ? 164 : 144);
       runtime.ui.cardArtOpacity.value = card.frontGraphicOpacity != null ? card.frontGraphicOpacity : 0.9;
-      runtime.ui.cardArtScale.value = card.frontGraphicScale != null ? card.frontGraphicScale : 1;
-      runtime.ui.cardArtFadeX.value = clamp(card.frontGraphicFadeX, 0, 50, 0);
-      runtime.ui.cardArtFadeY.value = clamp(card.frontGraphicFadeY, 0, 50, 0);
+      runtime.ui.cardArtScale.value = card.frontGraphicScale != null ? clamp(card.frontGraphicScale, 0.4, 3.6, 1) : 1;
+      runtime.ui.cardArtFadeX.value = clamp(card.frontGraphicFadeLeft != null ? card.frontGraphicFadeLeft : card.frontGraphicFadeX, 0, 100, 0);
+      runtime.ui.cardArtFadeRight.value = clamp(card.frontGraphicFadeRight != null ? card.frontGraphicFadeRight : card.frontGraphicFadeX, 0, 100, 0);
+      runtime.ui.cardArtFadeY.value = clamp(card.frontGraphicFadeY, 0, 100, 0);
       runtime.ui.cardBackTitle.value = card.backHeading || '';
       runtime.ui.cardBackDescription.value = card.backDescription || '';
       runtime.ui.cardButtonLabel.value = cardConfig.primaryActionLabel || (((card.cardActions || [])[0] || {}).label || '');
@@ -1214,12 +1224,16 @@
       cardArtShiftXValue: document.getElementById('mission-editor-card-art-shift-x-value'),
       cardArtShiftY: document.getElementById('mission-editor-card-art-shift-y'),
       cardArtShiftYValue: document.getElementById('mission-editor-card-art-shift-y-value'),
+      cardArtWidth: document.getElementById('mission-editor-card-art-width'),
+      cardArtWidthValue: document.getElementById('mission-editor-card-art-width-value'),
       cardArtOpacity: document.getElementById('mission-editor-card-art-opacity'),
       cardArtOpacityValue: document.getElementById('mission-editor-card-art-opacity-value'),
       cardArtScale: document.getElementById('mission-editor-card-art-scale'),
       cardArtScaleValue: document.getElementById('mission-editor-card-art-scale-value'),
       cardArtFadeX: document.getElementById('mission-editor-card-art-fade-x'),
       cardArtFadeXValue: document.getElementById('mission-editor-card-art-fade-x-value'),
+      cardArtFadeRight: document.getElementById('mission-editor-card-art-fade-right'),
+      cardArtFadeRightValue: document.getElementById('mission-editor-card-art-fade-right-value'),
       cardArtFadeY: document.getElementById('mission-editor-card-art-fade-y'),
       cardArtFadeYValue: document.getElementById('mission-editor-card-art-fade-y-value'),
       cardBackTitle: document.getElementById('mission-editor-card-back-title'),
@@ -1513,10 +1527,24 @@
       card.frontGraphicScale = Number(runtime.ui.cardArtScale.value);
       window.renderOfferings(runtime.baseOfferings);
     });
+    bindLiveInput(runtime.ui.cardArtWidth, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicWidth = Number(runtime.ui.cardArtWidth.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
     bindLiveInput(runtime.ui.cardArtFadeX, function() {
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
-      card.frontGraphicFadeX = Number(runtime.ui.cardArtFadeX.value);
+      card.frontGraphicFadeLeft = Number(runtime.ui.cardArtFadeX.value);
+      delete card.frontGraphicFadeX;
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtFadeRight, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicFadeRight = Number(runtime.ui.cardArtFadeRight.value);
+      delete card.frontGraphicFadeX;
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardArtFadeY, function() {
