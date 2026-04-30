@@ -94,8 +94,12 @@
       "backTextColor": "#fafaf2",
       "buttonColor": "#c84826",
       "buttonTextColor": "#fafaf2",
-      "frontGraphicScale": 1.6,
-      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-1-seated-conversation.png"
+      "frontGraphicScale": 2.56,
+      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-1-seated-conversation.png",
+      "frontGraphicShiftX": -6,
+      "frontGraphicFadeRight": 13,
+      "frontGraphicShiftY": -76,
+      "frontGraphicOpacity": 0.45
     },
     "on-demand-courses": {
       "section": "community",
@@ -107,7 +111,11 @@
       "backDescription": "Asynchronous, pre-recorded Bible & theology courses for groups & individuals.",
       "primaryActionLabel": "Browse On-Demand Library",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-1-reader-presenter.png",
-      "frontGraphicScale": 1.6
+      "frontGraphicScale": 2.84,
+      "frontGraphicOpacity": 0.4,
+      "frontGraphicShiftY": 28,
+      "frontGraphicShiftX": 20,
+      "frontGraphicFadeLeft": 15
     },
     "sunday-school-simplified": {
       "section": "ministry",
