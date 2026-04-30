@@ -357,6 +357,12 @@
     runtime.baselineConfig = deepClone(runtime.draftConfig);
   }
 
+  async function reloadPublishedDraft() {
+    var latestPublished = await getPublishedConfig();
+    if (latestPublished) runtime.publishedConfig = latestPublished;
+    loadPublishedDraft();
+  }
+
   function restoreStoredDraft() {
     loadPublishedDraft();
     if (runtime.storedDraftConfig) mergeDeep(runtime.draftConfig, runtime.storedDraftConfig);
@@ -1652,13 +1658,21 @@
       runtime.baselineConfig = deepClone(runtime.draftConfig);
       notifySaved('Changes saved in browser');
     });
-    runtime.ui.reset.addEventListener('click', function() {
+    runtime.ui.reset.addEventListener('click', async function() {
+      var originalText = runtime.ui.reset.textContent;
+      runtime.ui.reset.disabled = true;
+      runtime.ui.reset.textContent = 'Loading...';
+      updateStatus('Loading published version...');
       clearStoredConfig();
       runtime.storedDraftConfig = null;
-      runtime.draftConfig = deepClone(runtime.defaultConfig);
-      runtime.baselineConfig = deepClone(runtime.draftConfig);
-      window.renderOfferings(runtime.baseOfferings);
-      notifySaved('Reset to default preview');
+      try {
+        await reloadPublishedDraft();
+        window.renderOfferings(runtime.baseOfferings);
+        notifySaved('Reverted to published version');
+      } finally {
+        runtime.ui.reset.disabled = false;
+        runtime.ui.reset.textContent = originalText;
+      }
     });
     runtime.ui.restoreDraft.addEventListener('click', function() {
       if (!runtime.storedDraftConfig) return;
@@ -1666,10 +1680,11 @@
       window.renderOfferings(runtime.baseOfferings);
       notifySaved('Local draft restored');
     });
-    runtime.ui.discardDraft.addEventListener('click', function() {
+    runtime.ui.discardDraft.addEventListener('click', async function() {
       clearStoredConfig();
       runtime.storedDraftConfig = null;
-      loadPublishedDraft();
+      updateStatus('Loading published version...');
+      await reloadPublishedDraft();
       window.renderOfferings(runtime.baseOfferings);
       notifySaved('Local draft discarded');
     });
@@ -1687,6 +1702,8 @@
     runtime.baseOfferings = deepClone((missionData.offerings && missionData.offerings.length) ? missionData.offerings : (window.FALLBACK_OFFERINGS || []));
     window.renderOfferings(runtime.baseOfferings);
     initEditor();
+    if (window.dashboardMarkConfigReady) window.dashboardMarkConfigReady('whoweare');
+    else if (document.body) document.body.classList.remove('page-config-loading');
   }
 
   document.addEventListener('DOMContentLoaded', function() {
