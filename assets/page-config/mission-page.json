@@ -128,7 +128,7 @@
       "primaryActionLabel": "Free Lesson 1",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-booktop-pair.png",
       "frontGraphicScale": 3.14,
-      "frontGraphicOpacity": 0.58,
+      "frontGraphicOpacity": 0.26,
       "frontGraphicShiftX": 158,
       "frontGraphicFadeLeft": 15,
       "frontGraphicFadeRight": 40
@@ -143,8 +143,10 @@
       "backDescription": "3-minute video lessons Biblical and theological concepts for lay & ordained leaders",
       "primaryActionLabel": "Watch What Is a Covenant?",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-phone-user.png",
-      "frontGraphicScale": 1.52,
-      "frontGraphicOpacity": 0.49
+      "frontGraphicScale": 3.6,
+      "frontGraphicOpacity": 0.38,
+      "frontGraphicShiftY": 174,
+      "frontGraphicShiftX": 24
     },
     "unstuck": {
       "section": "ministry",
@@ -155,10 +157,14 @@
       "backHeading": "Unstuck",
       "backDescription": "Video resources for vocational and spiritual discernment.",
       "primaryActionLabel": "Watch Belonging & Purpose",
-      "frontGraphicScale": 1.6,
+      "frontGraphicScale": 2.44,
       "frontGraphicUrl": "/assets/Graphic Vignettes/homepage-tablet-standing-seated.png",
-      "frontGraphicShiftX": 58,
-      "frontGraphicShiftY": -10
+      "frontGraphicShiftX": 126,
+      "frontGraphicShiftY": 20,
+      "frontGraphicOpacity": 0.42,
+      "frontGraphicFadeY": 35,
+      "frontGraphicFadeRight": 53,
+      "frontGraphicFadeLeft": 5
     },
     "scholars-blog": {
       "section": "public",
