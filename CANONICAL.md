@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-04-24 (TheoEd hero collage + Cole Arthur Riley + Otis Moss III)
+Last updated: 2026-05-08 (Courses card lookbook back layout)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -445,7 +445,48 @@ Open: `http://127.0.0.1:4177/index.html`
 ---
 
 
-## 22. LINE-ENDING NORMALIZATION
+## 23. COURSES CARD - LOOKBOOK BACK LAYOUT
+**Rule:** The back of the `Courses in the Community` card on the Mission & Offerings tab uses an editorial "lookbook" treatment instead of the standard navy/orange `cb-strip` + `cb-body` + pill-button back. This is currently the only Mission card opted into this layout.
+
+**Where the layout lives:**
+- CSS: `index.html`, block introduced just before `.mission-page .is-hidden`. All rules are namespaced under `.mission-page .card-back--lookbook` (and `.lb-*` children) so they cannot leak into other cards.
+- Conditional render branch: in both `renderOfferings` (fallback in `index.html`) and `renderOfferingsWithConfig` (live render in `assets/mission-editor.js`), gated on `offering.backLayout === 'lookbook' && offering.lookbookImage`. If either is missing, the standard back renders.
+- Card data fields plumbed through `buildMissionState`: `backLayout`, `lookbookImage`, `lookbookUrl`, `lookbookAlt` (added next to `cardActions` / `primaryActionLabel` handling).
+
+**Editor-driven config (source of truth):**
+[assets/page-config/mission-page.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/mission-page.json) -> `cards["courses-in-community"]` carries:
+```
+"backLayout": "lookbook",
+"lookbookImage": "/assets/flipbook/courses-flipbook-cover.png",
+"lookbookUrl": "#flipbook",
+"lookbookAlt": "Courses in the Community - Partner Lookbook cover",
+"actions": [
+  { "label": "Open the Partner Lookbook", "url": "#flipbook", "type": "lookbook", "visible": true },
+  { "label": "Browse Current Courses",   "url": "https://candlerfoundry.emory.edu/courses", "type": "course",   "visible": true }
+]
+```
+The first action becomes the navy primary button on the left column; the second renders as the navy-outline secondary button. The whole right-side lookbook tile is a third click target, also pointing at `lookbookUrl` (or, if blank, the primary action's url).
+
+**Asset location:** [assets/flipbook/courses-flipbook-cover.png](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/flipbook/courses-flipbook-cover.png) (1500 x 1560, ~0.96 aspect). Tile is sized 196 x 205 with `object-fit: cover; object-position: left center` so the spiral binding stays visible on the left edge of the tile.
+
+**Layout shape:** 2-column grid inside the back face: `1.25fr | 1px hairline | 1fr`. Left column carries title (Fraunces 24 px, 600), 72 x 3 px orange-red accent rule, lead copy (max 34ch), and a wrap-as-needed CTA pair. Right column centers the lookbook tile, which has stacked-page depth via two cream rectangles offset behind the cover, a slight `rotate(-2.5deg)`, and a hover lift that nudges the rotation toward 0.
+
+**Flipbook URL placeholder:** `#flipbook` is intentional. When the real flipbook page is built, update `lookbookUrl` and the matching `actions[0].url` in `mission-page.json` (and the live editor will pass it through). No code change required.
+
+**Editor:** the Mission editor does NOT yet expose form controls for `backLayout` / `lookbookImage` / `lookbookUrl` / `lookbookAlt`. They round-trip through the JSON because `mergeDeep` preserves unknown keys, but a user editing the courses card in the live editor will not see fields for them. If the editor's color/strip controls are touched on this card, those overrides do not affect the lookbook layout (the lookbook CSS uses its own background and ignores `--mission-card-back-bg`).
+
+**Click affordance + flip behavior preserved:** every CTA on the new back uses the existing `cb-cta` class (alongside `lb-btn` / `lb-tile`), so the existing flip-tap handler in `initMissionCardInteractions()` still ignores button clicks (`event.target.closest('.cb-cta')` early-returns). Tapping the card body still flips it; tapping the cover image, primary button, or secondary button navigates without flipping.
+
+**Regression risk:**
+- Do not let the lookbook CSS leak. Every selector must stay nested under `.mission-page .card-back--lookbook`.
+- Do not change the path to `assets/flipbook/courses-flipbook-cover.png` without updating both the JSON and this entry.
+- Do not strip `backLayout` / `lookbook*` fields from `buildMissionState`. They are how the runtime knows to switch render branches.
+- Do not collapse the conditional render in `renderOfferings` / `renderOfferingsWithConfig` into the navy/orange branch; the lookbook layout has no `.cb-strip` and would render badly.
+- If the editor gains color/strip controls for this card, they should be hidden or no-op while `backLayout === 'lookbook'`.
+
+---
+
+## 24. LINE-ENDING NORMALIZATION
 **Rule:** The repo has a top-level `.gitattributes` with `* text=auto eol=lf`. All text files are stored in Git with LF line endings. Working copies on Windows may appear with CRLF, which is fine as long as `.gitattributes` is present.
 
 **Why:** Without this, Dropbox-synced copies of repo files flip between CRLF and LF and every unrelated file shows as "modified" in `git status`, causing noisy commits and phantom merge conflicts with the Netlify editor.

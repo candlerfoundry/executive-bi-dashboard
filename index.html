@@ -44,11 +44,7 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 
 /* PANELS */
 .panel { display: none; }
-.panel.active { display: block; width: 100%; animation: fadeUp 0.35s ease; padding-top: 0; padding-bottom: 0; min-height: calc(100vh - 125px); position:relative; }
-body.page-config-loading .panel.active > *,
-.panel.is-config-loading > * { opacity:0; pointer-events:none; }
-body.page-config-loading .panel.active::before,
-.panel.is-config-loading::before { content:'Loading current dashboard...'; position:absolute; inset:0; z-index:80; display:flex; align-items:center; justify-content:center; min-height:calc(100vh - 125px); background:#fbf8f3; color:rgba(30,37,48,0.62); font-size:0.72rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; }
+.panel.active { display: block; width: 100%; animation: fadeUp 0.35s ease; padding-top: 0; padding-bottom: 0; min-height: calc(100vh - 125px); }
 @keyframes fadeUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
 
 /* ═══ SECTION: TYPOGRAPHY ═══ */
@@ -460,11 +456,10 @@ body.page-config-loading .panel.active::before,
   --mission-public-columns: 3;
   --mission-hero-image-url: url('/assets/Graphic_1_mission_impact.png');
   --mission-hero-image-position: center right;
-  --mission-hero-image-size: 100% auto;
+  --mission-hero-image-size: cover;
   --mission-hero-image-opacity: 0.25;
   --mission-hero-image-clarity: 0;
   --mission-hero-overlay-gradient: linear-gradient(90deg, rgba(255,253,248,0.93) 0%, rgba(255,253,248,0.82) 18%, rgba(255,253,248,0.64) 38%, rgba(255,253,248,0.44) 58%, rgba(255,253,248,0.24) 78%, rgba(255,253,248,0.06) 100%);
-  --mission-hero-image-mask: linear-gradient(90deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
   --mission-section-spacing: 42px;
   --mission-heading-font: 'Montserrat', sans-serif;
   --mission-body-font: 'Montserrat', sans-serif;
@@ -494,7 +489,7 @@ body.page-config-loading .panel.active::before,
   background:#fbf8f3;
 }
 .mission-bar { position:relative; min-height:var(--mission-hero-min); background:#fffdf8; overflow:hidden; margin-bottom:22px; border-bottom:1px solid rgba(30,37,48,0.14); }
-.mission-bar::before { content:''; position:absolute; inset:0; background-image:var(--mission-hero-image-url); background-position:var(--mission-hero-image-position); background-size:var(--mission-hero-image-size); background-repeat:no-repeat; opacity:var(--mission-hero-image-opacity); filter:saturate(calc(1 + (var(--mission-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--mission-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--mission-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; -webkit-mask-image:var(--mission-hero-image-mask); mask-image:var(--mission-hero-image-mask); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
+.mission-bar::before { content:''; position:absolute; inset:0; background-image:var(--mission-hero-image-url); background-position:var(--mission-hero-image-position); background-size:var(--mission-hero-image-size); background-repeat:no-repeat; opacity:var(--mission-hero-image-opacity); filter:saturate(calc(1 + (var(--mission-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--mission-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--mission-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; }
 .mission-bar::after { content:''; position:absolute; inset:0; background:var(--mission-hero-overlay-gradient); pointer-events:none; }
 .mission-bar-overlay { position:relative; z-index:1; width:min(100%, var(--mission-shell-max)); min-height:var(--mission-hero-min); margin:0 auto; padding:0 var(--mission-gutter) 0; }
 .mission-hero-grid { display:grid; grid-template-columns:var(--mission-hero-columns); align-items:center; gap:var(--mission-section-gap); min-height:var(--mission-hero-min); }
@@ -503,8 +498,7 @@ body.page-config-loading .panel.active::before,
   .mission-thesis { width:min(100%, var(--mission-hero-title-width, var(--mission-hero-text-max))); max-width:var(--mission-hero-title-width, var(--mission-hero-text-max)); font-family:var(--mission-heading-font); font-size:var(--mission-hero-title-size); line-height:0.98; font-weight:700; letter-spacing:-0.05em; color:#1e2530; margin-bottom:var(--mission-hero-title-gap, clamp(16px, 1.5vw, 24px)); text-wrap:balance; }
 .mission-text { width:min(100%, var(--mission-hero-body-width)); max-width:var(--mission-hero-body-width); min-height:var(--mission-hero-body-min-height); font-family:var(--mission-body-font); font-size:var(--mission-body-size); line-height:1.7; color:rgba(30,37,48,0.86); font-weight:500; }
 .mission-paths, .mission-path-pill { display:none; }
-.mission-hero-visual { position:relative; min-height:var(--mission-hero-min); height:100%; }
-.mission-hero-visual::before { content:none; }
+.mission-hero-visual { min-height:var(--mission-hero-min); height:100%; }
 .mission-shell { width:min(100%, var(--mission-shell-max)); margin:0 auto; padding:0 var(--mission-gutter) clamp(44px, 4vw, 64px); }
 .mission-section { display:grid; grid-template-columns:minmax(var(--mission-intro-col), 0.24fr) minmax(0, 1fr); gap:var(--mission-section-gap); align-items:stretch; padding:var(--mission-section-spacing) 0 var(--mission-section-spacing); border-top:1px solid rgba(30,37,48,0.08); }
 .mission-section:last-child { padding-bottom:0; }
@@ -545,15 +539,15 @@ body.page-config-loading .panel.active::before,
 .mission-page .offering-flip.is-edit-selected .card-front,
 .mission-page .offering-flip.is-edit-selected .card-back { outline:none; box-shadow:0 0 0 2px rgba(30,37,48,0.08), 0 18px 36px rgba(30,37,48,0.12); }
 .mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
-.mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.16); box-shadow:0 10px 20px rgba(30,37,48,0.08), 0 2px 5px rgba(30,37,48,0.08); overflow:hidden; position:relative; isolation:isolate; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
-  .mission-page .card-front::before { content:''; position:absolute; top:var(--card-graphic-top,clamp(10px, 1vw, 16px)); right:var(--card-graphic-right,clamp(8px, 0.9vw, 14px)); bottom:var(--card-graphic-bottom,clamp(8px, 0.9vw, 12px)); width:var(--card-graphic-width,var(--mission-card-art-lg)); background-image:var(--card-graphic,none); background-size:var(--card-graphic-size,contain); background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:var(--card-graphic-opacity,0.9); z-index:0; pointer-events:none; border-radius:inherit; transform:translate(var(--card-graphic-shift-x, 0px), var(--card-graphic-shift-y, 0px)) scale(var(--card-graphic-scale,1)); transform-origin:center right; -webkit-mask-image:var(--card-graphic-mask, none); mask-image:var(--card-graphic-mask, none); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
+.mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.16); box-shadow:0 10px 20px rgba(30,37,48,0.08), 0 2px 5px rgba(30,37,48,0.08); overflow:hidden; position:relative; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+  .mission-page .card-front::before { content:''; position:absolute; top:clamp(10px, 1vw, 16px); right:clamp(8px, 0.9vw, 14px); bottom:clamp(8px, 0.9vw, 12px); width:var(--mission-card-art-lg); background-image:var(--card-graphic,none); background-size:var(--card-graphic-size,contain); background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:var(--card-graphic-opacity,0.9); z-index:0; pointer-events:none; border-radius:inherit; transform:translate(var(--card-graphic-shift-x, 0px), var(--card-graphic-shift-y, 0px)) scale(var(--card-graphic-scale,1)); transform-origin:center right; }
 .mission-page .card-front::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,250,0.96) 0%, rgba(255,253,250,0.92) 46%, rgba(255,253,250,0.38) 72%, rgba(255,253,250,0.08) 100%); z-index:0; pointer-events:none; }
 .mission-page .offering-flip:hover .card-front { border-color:rgba(30,37,48,0.24); box-shadow:0 24px 40px rgba(30,37,48,0.16), 0 8px 14px rgba(30,37,48,0.08); }
 .mission-page .card-back { transform:rotateY(180deg); background:var(--mission-card-back-bg); border:1px solid rgba(30,37,48,0.22); box-shadow:0 20px 40px rgba(30,37,48,0.18), 0 8px 16px rgba(30,37,48,0.12); overflow:hidden; padding:0; }
 .mission-course-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
-.mission-course-grid .card-front::before { width:var(--card-graphic-width,var(--mission-card-art-lg)); }
+.mission-course-grid .card-front::before { width:var(--mission-card-art-lg); }
 .mission-ministry-grid .card-front, .mission-public-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
-.mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { width:var(--card-graphic-width,var(--mission-card-art-sm)); right:var(--card-graphic-right,clamp(6px, 0.7vw, 10px)); opacity:var(--card-graphic-opacity,0.92); }
+.mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { width:var(--mission-card-art-sm); right:clamp(6px, 0.7vw, 10px); opacity:0.92; }
 .mission-page .cf-group { display:none; }
   .mission-page .cf-top { position:relative; z-index:1; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:clamp(14px, 1.2vw, 18px); width:min(100%, var(--mission-card-front-text-width-local, var(--mission-card-front-text-width))); max-width:var(--mission-card-front-text-width-local, var(--mission-card-front-text-width)); }
 .mission-page .cf-icon { display:none; }
@@ -575,6 +569,41 @@ body.page-config-loading .panel.active::before,
 .mission-page .offering-flip:focus-visible .card-front,
 .mission-page .offering-flip:focus-visible .card-back { outline:3px solid rgba(200,72,38,0.55); outline-offset:3px; }
 .mission-page .card-back .cb-links a { position:relative; z-index:3; }
+
+/* === Lookbook back layout (CANONICAL section 23) ============================
+   Used when a card has backLayout: 'lookbook'. Currently only the
+   Courses in the Community card opts in. Renders an editorial
+   left-column (title, orange accent, lead, CTAs) plus a clickable
+   right-column "lookbook" tile that links to the Partner Lookbook. */
+.mission-page .card-back--lookbook {
+  background: radial-gradient(120% 70% at 100% 0%, rgba(246,168,93,0.10) 0%, rgba(246,168,93,0) 60%), linear-gradient(180deg, #fafaf2 0%, #fbf6e9 100%);
+  color:#1e2530; padding:0;
+  display:grid; grid-template-columns:1.25fr 1px 1fr; align-items:stretch;
+}
+.mission-page .card-back--lookbook .lb-left { padding:24px 22px 22px 28px; display:flex; flex-direction:column; min-width:0; }
+.mission-page .card-back--lookbook .lb-divider { background:linear-gradient(180deg, transparent 0%, rgba(30,37,48,0.14) 18%, rgba(30,37,48,0.14) 82%, transparent 100%); }
+.mission-page .card-back--lookbook .lb-right { padding:22px 22px 22px 18px; display:flex; align-items:center; justify-content:center; position:relative; min-width:0; }
+.mission-page .card-back--lookbook .lb-title { font-family:'Montserrat',sans-serif; font-weight:700; font-size:24px; line-height:1.08; letter-spacing:-0.04em; color:#1e2530; margin:0 0 10px; }
+.mission-page .card-back--lookbook .lb-accent { display:block; width:72px; height:3px; background:#c84826; border-radius:2px; margin:0 0 14px; }
+.mission-page .card-back--lookbook .lb-lead { font-size:13.5px; line-height:1.5; color:rgba(30,37,48,0.84); margin:0; max-width:34ch; }
+.mission-page .card-back--lookbook .lb-ctas { display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; padding-top:12px; }
+.mission-page .card-back--lookbook .lb-btn { display:inline-flex; align-items:center; gap:8px; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600; letter-spacing:0.02em; padding:9px 14px; border-radius:7px; text-decoration:none; line-height:1; transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease; }
+.mission-page .card-back--lookbook .lb-btn .lb-arrow { transition:transform 0.15s ease; }
+.mission-page .card-back--lookbook .lb-btn:hover .lb-arrow { transform:translateX(3px); }
+.mission-page .card-back--lookbook .lb-btn-primary { background:#1e2530; color:#fafaf2; border:1px solid #1e2530; box-shadow:0 4px 10px rgba(30,37,48,0.18); }
+.mission-page .card-back--lookbook .lb-btn-primary:hover { background:#0f1620; box-shadow:0 8px 18px rgba(30,37,48,0.24); transform:translateY(-1px); }
+.mission-page .card-back--lookbook .lb-btn-ghost { background:transparent; color:#1e2530; border:1px solid rgba(30,37,48,0.34); }
+.mission-page .card-back--lookbook .lb-btn-ghost:hover { background:rgba(30,37,48,0.05); border-color:#1e2530; }
+.mission-page .card-back--lookbook .lb-btn .lb-ext { font-size:10px; opacity:0.55; letter-spacing:0.06em; }
+.mission-page .card-back--lookbook .lb-tile { position:relative; display:block; width:196px; height:205px; border-radius:4px; overflow:visible; transform:rotate(-2.5deg); transition:transform 0.25s ease; text-decoration:none; }
+.mission-page .card-back--lookbook .lb-tile:hover { transform:rotate(-1deg) translateY(-3px); }
+.mission-page .card-back--lookbook .lb-tile .lb-pages-back,
+.mission-page .card-back--lookbook .lb-tile .lb-pages-mid { position:absolute; inset:0; background:#efe7d2; border-radius:3px; border:1px solid rgba(30,37,48,0.10); }
+.mission-page .card-back--lookbook .lb-tile .lb-pages-back { transform:translate(7px, 5px) rotate(2.4deg); z-index:0; background:#e6dcc1; }
+.mission-page .card-back--lookbook .lb-tile .lb-pages-mid { transform:translate(4px, 3px) rotate(1.4deg); z-index:1; background:#efe7d2; }
+.mission-page .card-back--lookbook .lb-tile .lb-cover { position:absolute; inset:0; z-index:2; background:#fafaf2; border:1px solid rgba(30,37,48,0.14); border-radius:3px; overflow:hidden; box-shadow:0 14px 22px rgba(30,37,48,0.20), 0 4px 8px rgba(30,37,48,0.10); }
+.mission-page .card-back--lookbook .lb-tile .lb-cover img { display:block; width:100%; height:100%; object-fit:cover; object-position:left center; }
+
 .mission-page .is-hidden { display:none !important; }
 
 /* Shared editable-page shell */
@@ -717,10 +746,6 @@ body.page-config-loading .panel.active::before,
 .te-editor-launch { position:absolute; top:14px; right:24px; z-index:60; display:flex; justify-content:flex-end; pointer-events:none; }
 .te-editor-launch .page-editor-toggle { pointer-events:auto; }
 .theoed-editor-panel[hidden] { display:none; }
-#mission-editor-shell .impact-editor-tabs { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:12px 0 14px; }
-#mission-editor-shell .impact-editor-tab { flex:0 1 auto; min-width:0; border-radius:999px; padding:8px 11px; font-size:0.58rem; line-height:1.1; letter-spacing:0.1em; color:#1e2530; background:#ffffff; white-space:normal; overflow-wrap:anywhere; }
-#mission-editor-shell .impact-editor-tab.is-active { background:#1e2530; color:#ffffff; border-color:#1e2530; }
-#mission-editor-shell .mission-editor-panel-note { margin:-6px 0 12px; font-size:0.78rem; line-height:1.5; color:rgba(30,37,48,0.62); }
 .theoed-editor-row-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:10px; }
 .theoed-editor-row-actions .impact-editor-secondary { padding:8px 10px; font-size:0.72rem; border-radius:999px; }
 .theoed-editor-stat-row { display:grid; grid-template-columns:minmax(80px,0.7fr) minmax(0,1.3fr) auto; gap:8px; align-items:end; margin-bottom:10px; }
@@ -789,7 +814,7 @@ body.page-config-loading .panel.active::before,
   .nav-tab { font-size:11px; padding:12px 12px; letter-spacing:0.15em; }
   .fb-name { min-width:120px; font-size:0.85rem; }
   .fb-popout { left:auto; right:0; top:calc(100% + 4px); transform:none; border-radius:8px; border-left:none; border-top:3px solid #c84826; }
-  .mission-bar::before { inset:0; background-size:var(--mission-hero-image-size); background-position:var(--mission-hero-image-position); opacity:var(--mission-hero-image-opacity); }
+  .mission-bar::before { inset:260px -30vw 0 0; background-size:cover; background-position:center bottom; opacity:0.18; }
   .mission-bar::after { background:linear-gradient(180deg, #fffdf8 0%, rgba(255,253,248,0.98) 38%, rgba(255,253,248,0.8) 56%, rgba(255,253,248,0.18) 82%, rgba(255,253,248,0) 100%); }
   .mission-bar-overlay { padding:18px 18px 0; }
   .mission-hero-grid { grid-template-columns:1fr; gap:0; min-height:auto; }
@@ -806,7 +831,7 @@ body.page-config-loading .panel.active::before,
   #mission-public { padding-top:36px; }
   .mission-course-grid, .mission-ministry-grid, .mission-public-grid { grid-template-columns:1fr; }
   .mission-course-grid .card-front, .mission-ministry-grid .card-front, .mission-public-grid .card-front { min-height:250px; padding:24px 132px 24px 24px; }
-  .mission-page .card-front::before, .mission-course-grid .card-front::before, .mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { right:var(--card-graphic-right,6px); top:var(--card-graphic-top,10px); bottom:var(--card-graphic-bottom,8px); width:var(--card-graphic-width,122px); opacity:var(--card-graphic-opacity,0.92); }
+  .mission-page .card-front::before, .mission-course-grid .card-front::before, .mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { right:6px; top:10px; bottom:8px; width:122px; opacity:0.92; }
   .mission-page .card-front::after { background:linear-gradient(90deg, rgba(255,253,250,0.97) 0%, rgba(255,253,250,0.93) 50%, rgba(255,253,250,0.35) 78%, rgba(255,253,250,0.08) 100%); }
   .mission-page .cf-name { font-size:1.32rem; max-width:100%; }
   .mission-page .cf-tagline { max-width:220px; font-size:0.9rem; margin-bottom:20px; }
@@ -843,7 +868,7 @@ body.page-config-loading .panel.active::before,
 
 </style>
 </head>
-<body class="page-config-loading">
+<body>
 
 <header class="header">
   <div class="header-logo">
@@ -1998,7 +2023,7 @@ body.page-config-loading .panel.active::before,
     <div class="page-editor-header">
       <div>
         <div class="page-editor-title">Mission Page Editor</div>
-        <p class="page-editor-note">Draft edits preview live on this page. Apply saves this Mission configuration in your browser. Reset returns to the version currently published on main.</p>
+        <p class="page-editor-note">Draft edits preview live on this page. Apply saves this Mission configuration in your browser. Reset returns to the built-in default.</p>
       </div>
       <button class="page-editor-close" id="mission-editor-close" type="button" aria-label="Close Mission editor">&times;</button>
     </div>
@@ -2009,13 +2034,6 @@ body.page-config-loading .panel.active::before,
         <button class="impact-editor-secondary" id="mission-editor-restore-draft" type="button">Restore Draft</button>
         <button class="impact-editor-secondary" id="mission-editor-discard-draft" type="button">Discard Draft</button>
       </div>
-    </div>
-
-    <div class="impact-editor-tabs" role="tablist" aria-label="Mission editor sections">
-      <button class="impact-editor-tab is-active" id="mission-editor-tab-header" type="button" data-mission-editor-tab="hero">Header</button>
-      <button class="impact-editor-tab" id="mission-editor-tab-community" type="button" data-mission-editor-tab="section" data-mission-editor-section="community">Community</button>
-      <button class="impact-editor-tab" id="mission-editor-tab-ministry" type="button" data-mission-editor-tab="section" data-mission-editor-section="ministry">Ministry</button>
-      <button class="impact-editor-tab" id="mission-editor-tab-public" type="button" data-mission-editor-tab="section" data-mission-editor-section="public">Public</button>
     </div>
 
   <div class="page-editor-group" data-mission-editor-scope="hero">
@@ -2030,36 +2048,36 @@ body.page-config-loading .panel.active::before,
       </div>
     </div>
 
-    <div class="page-editor-group" data-mission-editor-scope="section">
+    <div class="page-editor-group" data-mission-editor-scope="page">
       <h4>Sections</h4>
-      <div class="editor-field" hidden>
+      <div class="editor-field">
         <label class="editor-label" for="mission-editor-section-select">Section focus</label>
         <select id="mission-editor-section-select"></select>
       </div>
       <div class="editor-field">
-        <label class="editor-label" for="mission-editor-section-title">Section heading</label>
+        <label class="editor-label" for="mission-editor-section-title">Focused section heading</label>
         <input id="mission-editor-section-title" type="text">
       </div>
       <div class="editor-field">
-        <label class="editor-label" for="mission-editor-section-copy">Section subtitle</label>
+        <label class="editor-label" for="mission-editor-section-copy">Focused section subtitle</label>
         <textarea id="mission-editor-section-copy"></textarea>
       </div>
-      <div class="editor-field" hidden>
+      <div class="editor-field">
         <label class="editor-label" for="mission-editor-community-copy">Community section subtitle</label>
         <textarea id="mission-editor-community-copy"></textarea>
       </div>
-      <div class="editor-field" hidden>
+      <div class="editor-field">
         <label class="editor-label" for="mission-editor-ministry-copy">Ministry section subtitle</label>
         <textarea id="mission-editor-ministry-copy"></textarea>
       </div>
-      <div class="editor-field" hidden>
+      <div class="editor-field">
         <label class="editor-label" for="mission-editor-public-copy">Public section subtitle</label>
         <textarea id="mission-editor-public-copy"></textarea>
       </div>
     </div>
 
-    <div class="page-editor-group" data-mission-editor-scope="hero">
-      <h4>Hero Layout</h4>
+    <div class="page-editor-group" data-mission-editor-scope="hero page">
+      <h4>Layout</h4>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-shell-max">Page width</label>
@@ -2098,6 +2116,25 @@ body.page-config-loading .panel.active::before,
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
+          <label class="editor-label" for="mission-editor-section-spacing">Section spacing</label>
+          <input id="mission-editor-section-spacing" type="range" min="18" max="84" step="2">
+          <div class="editor-inline-meta"><span>Compact</span><span id="mission-editor-section-spacing-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-gap">Card spacing</label>
+          <input id="mission-editor-card-gap" type="range" min="8" max="40" step="2">
+          <div class="editor-inline-meta"><span>Tighter</span><span id="mission-editor-card-gap-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-card-min-height">Card height</label>
+          <input id="mission-editor-card-min-height" type="range" min="220" max="420" step="4">
+          <div class="editor-inline-meta"><span>Shorter</span><span id="mission-editor-card-min-height-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
           <label class="editor-label" for="mission-editor-hero-text-align">Hero text alignment</label>
           <select id="mission-editor-hero-text-align">
             <option value="left">Left aligned</option>
@@ -2110,6 +2147,34 @@ body.page-config-loading .panel.active::before,
             <option value="1.15fr 0.85fr">Text wider</option>
             <option value="1.05fr 0.95fr">Balanced</option>
             <option value="0.95fr 1.05fr">Image wider</option>
+          </select>
+        </div>
+      </div>
+      <div class="editor-grid-3">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-community-columns">Community cards</label>
+          <select id="mission-editor-community-columns">
+            <option value="1">1 across</option>
+            <option value="2">2 across</option>
+            <option value="3">3 across</option>
+          </select>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-ministry-columns">Ministry cards</label>
+          <select id="mission-editor-ministry-columns">
+            <option value="1">1 across</option>
+            <option value="2">2 across</option>
+            <option value="3">3 across</option>
+            <option value="4">4 across</option>
+          </select>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-public-columns">Public cards</label>
+          <select id="mission-editor-public-columns">
+            <option value="1">1 across</option>
+            <option value="2">2 across</option>
+            <option value="3">3 across</option>
+            <option value="4">4 across</option>
           </select>
         </div>
       </div>
@@ -2132,35 +2197,14 @@ body.page-config-loading .panel.active::before,
           </select>
         </div>
       </div>
-      <div class="editor-field">
-        <label class="editor-label" for="mission-editor-hero-image-fit">Artwork fill mode</label>
-        <select id="mission-editor-hero-image-fit">
-          <option value="width">Manual width</option>
-          <option value="height">Manual height</option>
-          <option value="cover">Cover banner</option>
-          <option value="contain">Fit inside banner</option>
-        </select>
-      </div>
-      <div class="editor-field">
-        <label class="editor-label" for="mission-editor-hero-image-path">Hero artwork Git asset location</label>
-        <input id="mission-editor-hero-image-path" type="text" placeholder="assets/mission/hero-art.png">
-      </div>
-      <div class="editor-field">
-        <label class="editor-label" for="mission-editor-hero-image-upload">Upload hero artwork to Git</label>
-        <input id="mission-editor-hero-image-upload" type="file" accept="image/*">
-        <div class="theoed-editor-row-actions">
-          <button class="impact-editor-secondary" id="mission-editor-hero-image-upload-button" type="button">Upload Asset</button>
-        </div>
-        <p class="impact-editor-block-note" id="mission-editor-hero-image-upload-status">Choose a file and enter a Git asset location.</p>
-      </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-hero-image-x">Artwork horizontal position</label>
+          <label class="editor-label" for="mission-editor-hero-image-x">Artwork horizontal shift</label>
           <input id="mission-editor-hero-image-x" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Left</span><span id="mission-editor-hero-image-x-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-hero-image-y">Artwork vertical position</label>
+          <label class="editor-label" for="mission-editor-hero-image-y">Artwork vertical shift</label>
           <input id="mission-editor-hero-image-y" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Top</span><span id="mission-editor-hero-image-y-value"></span></div>
         </div>
@@ -2184,14 +2228,14 @@ body.page-config-loading .panel.active::before,
           <div class="editor-inline-meta"><span>More image</span><span id="mission-editor-hero-fade-strength-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-hero-fade-left">Left edge feather</label>
+          <label class="editor-label" for="mission-editor-hero-fade-left">Left fade</label>
           <input id="mission-editor-hero-fade-left" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Less cover</span><span id="mission-editor-hero-fade-left-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-hero-fade-right">Right edge feather</label>
+          <label class="editor-label" for="mission-editor-hero-fade-right">Right fade</label>
           <input id="mission-editor-hero-fade-right" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Less cover</span><span id="mission-editor-hero-fade-right-value"></span></div>
         </div>
@@ -2203,8 +2247,8 @@ body.page-config-loading .panel.active::before,
       </div>
     </div>
 
-    <div class="page-editor-group" data-mission-editor-scope="hero">
-      <h4>Hero Typography</h4>
+    <div class="page-editor-group" data-mission-editor-scope="hero page">
+      <h4>Typography</h4>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-heading-font">Heading font</label>
@@ -2262,79 +2306,6 @@ body.page-config-loading .panel.active::before,
         </div>
         <div></div>
       </div>
-    </div>
-
-    <div class="page-editor-group" data-mission-editor-scope="unused" hidden>
-      <h4>Section Visibility</h4>
-      <div id="mission-editor-section-visibility"></div>
-    </div>
-
-    <div class="page-editor-group" data-mission-editor-scope="page">
-      <h4>Ordering</h4>
-      <div class="editor-field">
-        <label class="editor-label" for="mission-editor-order-section-select">Section order target</label>
-        <select id="mission-editor-order-section-select"></select>
-      </div>
-      <div class="editor-field">
-        <label class="editor-label" for="mission-editor-order-section-value">Section order</label>
-        <select id="mission-editor-order-section-value">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="page-editor-group" data-mission-editor-scope="section">
-      <h4>Section & Card Layout</h4>
-      <div class="editor-grid-2">
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-section-spacing">Section spacing</label>
-          <input id="mission-editor-section-spacing" type="range" min="18" max="84" step="2">
-          <div class="editor-inline-meta"><span>Compact</span><span id="mission-editor-section-spacing-value"></span></div>
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-gap">Card spacing</label>
-          <input id="mission-editor-card-gap" type="range" min="8" max="40" step="2">
-          <div class="editor-inline-meta"><span>Tighter</span><span id="mission-editor-card-gap-value"></span></div>
-        </div>
-      </div>
-      <div class="editor-grid-2">
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-min-height">Card height</label>
-          <input id="mission-editor-card-min-height" type="range" min="220" max="420" step="4">
-          <div class="editor-inline-meta"><span>Shorter</span><span id="mission-editor-card-min-height-value"></span></div>
-        </div>
-        <div></div>
-      </div>
-      <div class="editor-grid-3">
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-community-columns">Community cards</label>
-          <select id="mission-editor-community-columns">
-            <option value="1">1 across</option>
-            <option value="2">2 across</option>
-            <option value="3">3 across</option>
-          </select>
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-ministry-columns">Ministry cards</label>
-          <select id="mission-editor-ministry-columns">
-            <option value="1">1 across</option>
-            <option value="2">2 across</option>
-            <option value="3">3 across</option>
-            <option value="4">4 across</option>
-          </select>
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-public-columns">Public cards</label>
-          <select id="mission-editor-public-columns">
-            <option value="1">1 across</option>
-            <option value="2">2 across</option>
-            <option value="3">3 across</option>
-            <option value="4">4 across</option>
-          </select>
-        </div>
-      </div>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-section-title-size">Section heading size</label>
@@ -2361,36 +2332,36 @@ body.page-config-loading .panel.active::before,
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-title-size">Default card title size</label>
+          <label class="editor-label" for="mission-editor-card-title-size">Card title size</label>
           <input id="mission-editor-card-title-size" type="range" min="0.9" max="1.8" step="0.02">
           <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-title-size-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-body-size">Default card body size</label>
+          <label class="editor-label" for="mission-editor-card-body-size">Card body size</label>
           <input id="mission-editor-card-body-size" type="range" min="0.68" max="1.15" step="0.02">
           <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-body-size-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-front-box-width">Default front text width</label>
+          <label class="editor-label" for="mission-editor-card-front-box-width">Front text box width</label>
           <input id="mission-editor-card-front-box-width" type="range" min="140" max="420" step="10">
           <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-card-front-box-width-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-back-box-width">Default back text width</label>
-          <input id="mission-editor-card-back-box-width" type="range" min="160" max="420" step="10">
-          <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-card-back-box-width-value"></span></div>
+          <label class="editor-label" for="mission-editor-card-front-box-height">Front text box height</label>
+          <input id="mission-editor-card-front-box-height" type="range" min="0" max="220" step="4">
+          <div class="editor-inline-meta"><span>Shorter</span><span id="mission-editor-card-front-box-height-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-front-box-height">Default front text height</label>
-          <input id="mission-editor-card-front-box-height" type="range" min="0" max="220" step="4">
-          <div class="editor-inline-meta"><span>Shorter</span><span id="mission-editor-card-front-box-height-value"></span></div>
+          <label class="editor-label" for="mission-editor-card-back-box-width">Back text box width</label>
+          <input id="mission-editor-card-back-box-width" type="range" min="160" max="420" step="10">
+          <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-card-back-box-width-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-back-box-height">Default back text height</label>
+          <label class="editor-label" for="mission-editor-card-back-box-height">Back text box height</label>
           <input id="mission-editor-card-back-box-height" type="range" min="0" max="240" step="4">
           <div class="editor-inline-meta"><span>Shorter</span><span id="mission-editor-card-back-box-height-value"></span></div>
         </div>
@@ -2399,6 +2370,27 @@ body.page-config-loading .panel.active::before,
         <label class="editor-label" for="mission-editor-button-size">Button label size</label>
         <input id="mission-editor-button-size" type="range" min="0.58" max="1" step="0.02">
         <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-button-size-value"></span></div>
+      </div>
+    </div>
+
+    <div class="page-editor-group" data-mission-editor-scope="page">
+      <h4>Section Visibility</h4>
+      <div id="mission-editor-section-visibility"></div>
+    </div>
+
+    <div class="page-editor-group" data-mission-editor-scope="page">
+      <h4>Ordering</h4>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-order-section-select">Section order target</label>
+        <select id="mission-editor-order-section-select"></select>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="mission-editor-order-section-value">Section order</label>
+        <select id="mission-editor-order-section-value">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
       </div>
     </div>
 
@@ -2449,64 +2441,28 @@ body.page-config-loading .panel.active::before,
           </select>
         </div>
       </div>
-      <div class="editor-field">
-        <label class="editor-label" for="mission-editor-card-artwork-path">Front artwork Git asset location</label>
-        <input id="mission-editor-card-artwork-path" type="text" placeholder="assets/mission/my-card-art.png">
-      </div>
-      <div class="editor-field">
-        <label class="editor-label" for="mission-editor-card-artwork-upload">Upload front artwork to Git</label>
-        <input id="mission-editor-card-artwork-upload" type="file" accept="image/*">
-        <div class="theoed-editor-row-actions">
-          <button class="impact-editor-secondary" id="mission-editor-card-artwork-upload-button" type="button">Upload Asset</button>
-        </div>
-        <p class="impact-editor-block-note" id="mission-editor-card-artwork-upload-status">Choose a file and enter a Git asset location.</p>
-      </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-art-shift-x">Artwork horizontal position</label>
-          <input id="mission-editor-card-art-shift-x" type="range" min="-360" max="360" step="2">
-          <div class="editor-inline-meta"><span>Into text</span><span id="mission-editor-card-art-shift-x-value"></span></div>
+          <label class="editor-label" for="mission-editor-card-art-shift-x">Artwork horizontal shift</label>
+          <input id="mission-editor-card-art-shift-x" type="range" min="-180" max="180" step="2">
+          <div class="editor-inline-meta"><span>Left</span><span id="mission-editor-card-art-shift-x-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-art-shift-y">Artwork vertical position</label>
-          <input id="mission-editor-card-art-shift-y" type="range" min="-320" max="320" step="2">
+          <label class="editor-label" for="mission-editor-card-art-shift-y">Artwork vertical shift</label>
+          <input id="mission-editor-card-art-shift-y" type="range" min="-180" max="180" step="2">
           <div class="editor-inline-meta"><span>Up</span><span id="mission-editor-card-art-shift-y-value"></span></div>
         </div>
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-art-width">Artwork layer width</label>
-          <input id="mission-editor-card-art-width" type="range" min="80" max="560" step="10">
-          <div class="editor-inline-meta"><span>Narrower</span><span id="mission-editor-card-art-width-value"></span></div>
-        </div>
-        <div class="editor-field">
           <label class="editor-label" for="mission-editor-card-art-opacity">Artwork visibility</label>
           <input id="mission-editor-card-art-opacity" type="range" min="0" max="1" step="0.01">
           <div class="editor-inline-meta"><span>Fainter</span><span id="mission-editor-card-art-opacity-value"></span></div>
         </div>
-      </div>
-      <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="mission-editor-card-art-scale">Artwork size</label>
-          <input id="mission-editor-card-art-scale" type="range" min="0.4" max="3.6" step="0.02">
+          <input id="mission-editor-card-art-scale" type="range" min="0.6" max="1.6" step="0.02">
           <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-art-scale-value"></span></div>
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-art-fade-x">Artwork inner feather</label>
-          <input id="mission-editor-card-art-fade-x" type="range" min="0" max="100" step="1">
-          <div class="editor-inline-meta"><span>Harder</span><span id="mission-editor-card-art-fade-x-value"></span></div>
-        </div>
-      </div>
-      <div class="editor-grid-2">
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-art-fade-right">Artwork outer feather</label>
-          <input id="mission-editor-card-art-fade-right" type="range" min="0" max="100" step="1">
-          <div class="editor-inline-meta"><span>Harder</span><span id="mission-editor-card-art-fade-right-value"></span></div>
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="mission-editor-card-art-fade-y">Artwork top/bottom feather</label>
-          <input id="mission-editor-card-art-fade-y" type="range" min="0" max="100" step="1">
-          <div class="editor-inline-meta"><span>Harder</span><span id="mission-editor-card-art-fade-y-value"></span></div>
         </div>
       </div>
       <div class="editor-field">
@@ -2516,11 +2472,6 @@ body.page-config-loading .panel.active::before,
       <div class="editor-field">
         <label class="editor-label" for="mission-editor-card-back-description">Back description</label>
         <textarea id="mission-editor-card-back-description"></textarea>
-      </div>
-      <div class="editor-field">
-        <label class="editor-label" for="mission-editor-card-back-body-size-local">Back description size</label>
-        <input id="mission-editor-card-back-body-size-local" type="range" min="0.68" max="1.25" step="0.02">
-        <div class="editor-inline-meta"><span>Smaller</span><span id="mission-editor-card-back-body-size-local-value"></span></div>
       </div>
       <div class="editor-field">
         <label class="editor-label" for="mission-editor-card-button-label">Primary button label</label>
@@ -2572,7 +2523,7 @@ body.page-config-loading .panel.active::before,
     </div>
 
     <div class="page-editor-actions">
-      <button class="page-editor-reset" id="mission-editor-reset" type="button">Revert to Published</button>
+      <button class="page-editor-reset" id="mission-editor-reset" type="button">Reset to Default</button>
       <button class="page-editor-apply" id="mission-editor-apply" type="button">Save Changes in Browser</button>
     </div>
   </aside>
@@ -4006,60 +3957,14 @@ function closeLightbox() {
   if (guideLink) guideLink.setAttribute('href', '#');
 }
 
-var dashboardPanelLoaded = {};
-var dashboardPanelLoads = {};
-
-function setDashboardPanelLoading(id, isLoading) {
-  var panel = document.getElementById('panel-' + id);
-  if (panel) panel.classList.toggle('is-config-loading', !!isLoading);
-}
-
-function markDashboardPanelReady(id) {
-  if (id) {
-    dashboardPanelLoaded[id] = true;
-    setDashboardPanelLoading(id, false);
-  }
-  if (document.body && id === 'whoweare') {
-    document.body.classList.remove('page-config-loading');
-    document.body.classList.add('page-config-ready');
-  }
-}
-
-window.dashboardMarkConfigReady = markDashboardPanelReady;
-
-function needsDashboardPanelLoad(id) {
-  return (id === 'people' || id === 'numreach' || id === 'theoed') && !dashboardPanelLoaded[id];
-}
-
-function loadDashboardPanelConfig(id) {
-  if (!needsDashboardPanelLoad(id)) return null;
-  if (!dashboardPanelLoads[id]) {
-    dashboardPanelLoads[id] = Promise.resolve().then(function() {
-      if (id === 'numreach') {
-        initNumbers();
-        return initReach();
-      }
-      if (id === 'people') return initPeople();
-      if (id === 'theoed') return initTheoEd();
-      return null;
-    }).then(function() {
-      markDashboardPanelReady(id);
-    }).catch(function(err) {
-      console.error('Unable to load dashboard panel config', id, err);
-      markDashboardPanelReady(id);
-    });
-  }
-  return dashboardPanelLoads[id];
-}
-
 function switchTab(id, btn) {
-  if (needsDashboardPanelLoad(id)) setDashboardPanelLoading(id, true);
   document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
   document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
   document.getElementById('panel-' + id).classList.add('active');
   btn.classList.add('active');
-  var panelLoad = loadDashboardPanelConfig(id);
-  if (!panelLoad && id === 'numreach') initNumbers();
+  if (id === 'numreach') { initNumbers(); initReach(); }
+  if (id === 'people') initPeople();
+  if (id === 'theoed') initTheoEd();
 }
 
 function countUp(el, target, duration) {
@@ -6598,6 +6503,48 @@ function renderOfferings(offerings) {
     flip.dataset.flipEnabled = useFlip ? 'true' : 'false';
     flip.style.setProperty('--card-graphic', 'url("' + graphic.url + '")');
     flip.style.setProperty('--card-bg-pos', graphic.pos);
+    var cardBackHtml;
+    if (o.backLayout === 'lookbook' && o.lookbookImage) {
+      var primaryAct = actions[0] || { label: 'Open the Partner Lookbook', url: o.lookbookUrl || '#', type: 'lookbook' };
+      var secondaryAct = actions[1] || null;
+      var lookbookHref = o.lookbookUrl || (primaryAct && primaryAct.url) || '#';
+      var primaryHref = (primaryAct && primaryAct.url) || lookbookHref;
+      var secondaryHtml = secondaryAct
+        ? '<a class="cb-cta lb-btn lb-btn-ghost" href="' + secondaryAct.url + '" target="_blank" rel="noopener" data-action-type="' + (secondaryAct.type || 'course') + '">' + secondaryAct.label + ' <span class="lb-ext" aria-hidden="true">↗</span></a>'
+        : '';
+      cardBackHtml =
+        '<div class="card-back card-back--lookbook">' +
+          '<div class="lb-left">' +
+            '<h3 class="lb-title">' + backHeading + '</h3>' +
+            '<span class="lb-accent" aria-hidden="true"></span>' +
+            '<p class="lb-lead">' + backCopy + '</p>' +
+            '<div class="lb-ctas">' +
+              '<a class="cb-cta lb-btn lb-btn-primary" href="' + primaryHref + '" data-action-type="' + ((primaryAct && primaryAct.type) || 'lookbook') + '">' + primaryAct.label + ' <span class="lb-arrow" aria-hidden="true">→</span></a>' +
+              secondaryHtml +
+            '</div>' +
+          '</div>' +
+          '<div class="lb-divider" aria-hidden="true"></div>' +
+          '<div class="lb-right">' +
+            '<a class="cb-cta lb-tile" href="' + lookbookHref + '" data-action-type="lookbook" aria-label="Open the ' + backHeading + ' Partner Lookbook">' +
+              '<div class="lb-pages-back" aria-hidden="true"></div>' +
+              '<div class="lb-pages-mid" aria-hidden="true"></div>' +
+              '<div class="lb-cover">' +
+                '<img src="' + o.lookbookImage + '" alt="' + (o.lookbookAlt || '') + '" />' +
+              '</div>' +
+            '</a>' +
+          '</div>' +
+        '</div>';
+    } else {
+      cardBackHtml =
+        '<div class="card-back">' +
+          '<div class="cb-strip">' + backHeading + '</div>' +
+          '<div class="cb-body">' +
+            '<div class="cb-hook">' + backCopy + '</div>' +
+            '<div class="cb-icon">' + getIconSVG(o.icon, '#c84826') + '</div>' +
+            backLinksHtml +
+          '</div>' +
+        '</div>';
+    }
     flip.innerHTML =
       '<div class="offering-flip-inner">' +
         '<div class="card-front">' +
@@ -6610,14 +6557,7 @@ function renderOfferings(offerings) {
           '<div class="cf-hook">' + (CARD_HOOKS[idx] || '') + '</div>' +
           frontCtaHtml +
         '</div>' +
-        '<div class="card-back">' +
-          '<div class="cb-strip">' + backHeading + '</div>' +
-          '<div class="cb-body">' +
-            '<div class="cb-hook">' + backCopy + '</div>' +
-            '<div class="cb-icon">' + getIconSVG(o.icon, '#c84826') + '</div>' +
-            backLinksHtml +
-          '</div>' +
-        '</div>' +
+        cardBackHtml +
       '</div>';
     grids[MISSION_SECTION_BUCKETS[slug] || 'ministry'].appendChild(flip);
   });
