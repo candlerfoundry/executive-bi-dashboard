@@ -1,0 +1,22 @@
+# Local Claude/Cowork tokens — NEVER commit
+.claude-git-token.txt
+.codex-git-token.txt
+.git-token.txt
+
+# Local working scratchpads (untracked by convention; see CANONICAL section 20)
+.codex-review/
+test-results/
+_mockup_*.html
+_edit_sync_test.txt
+
+# Webflow vignette source files (we ship the kebab-case copies under
+# vignette-*.png; the original hash-prefixed exports are working files
+# only and should not be committed)
+assets/Graphic Vignettes/[0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f]*_*.png
+assets/Graphic Vignettes/hero-banner-*.png
+
+# OS / IDE noise
+.DS_Store
+Thumbs.db
+*.swp
+*~
