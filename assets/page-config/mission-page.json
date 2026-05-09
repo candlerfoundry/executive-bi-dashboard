@@ -94,7 +94,7 @@
       "backTextColor": "#fafaf2",
       "buttonColor": "#c84826",
       "buttonTextColor": "#fafaf2",
-      "frontGraphicScale": 1.5,
+      "frontGraphicScale": 6.84,
       "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-bridge-meeting.png",
       "frontGraphicOpacity": 0.45,
       "backLayout": "lookbook",
@@ -114,7 +114,9 @@
           "type": "course",
           "visible": true
         }
-      ]
+      ],
+      "frontGraphicShiftY": 28,
+      "frontGraphicShiftX": 198
     },
     "on-demand-courses": {
       "section": "community",
