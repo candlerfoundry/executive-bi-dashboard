@@ -126,14 +126,34 @@
       "frontTitle": "On-Demand Courses",
       "frontDescription": "Asynchronous, pre-recorded Bible & theology courses for groups & individuals.",
       "backHeading": "On-Demand Courses",
-      "backDescription": "Asynchronous, pre-recorded Bible & theology courses for groups & individuals.",
-      "primaryActionLabel": "Browse On-Demand Library",
+      "backDescription": "Try our free Sabbath course as a sample, then explore the rest of the on-demand library.",
+      "primaryActionLabel": "Take a Free Course",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-1-reader-presenter.png",
       "frontGraphicScale": 2.84,
       "frontGraphicOpacity": 0.4,
       "frontGraphicShiftY": 28,
       "frontGraphicShiftX": 20,
-      "frontGraphicFadeLeft": 15
+      "frontGraphicFadeLeft": 15,
+      "backLayout": "lookbook",
+      "lookbookImage": "/assets/Other Images/Sabbath_compressed.jpg",
+      "lookbookUrl": "#sabbath-course",
+      "lookbookAlt": "Sabbath - a free on-demand course from The Candler Foundry",
+      "lookbookTileWidth": 220,
+      "lookbookTileHeight": 145,
+      "actions": [
+        {
+          "label": "Take a Free Course",
+          "url": "#sabbath-course",
+          "type": "course",
+          "visible": true
+        },
+        {
+          "label": "Browse On-Demand Library",
+          "url": "https://candlerfoundry.emory.edu/courses",
+          "type": "library",
+          "visible": true
+        }
+      ]
     },
     "sunday-school-simplified": {
       "section": "ministry",

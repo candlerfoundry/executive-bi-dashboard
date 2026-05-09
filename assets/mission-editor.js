@@ -433,11 +433,18 @@
         if (card.cardActions && card.cardActions[0]) card.cardActions[0].label = overrides.primaryActionLabel;
         else if (card.links && card.links[0]) card.links[0].label = overrides.primaryActionLabel;
       }
-      // Lookbook back-layout fields (used by courses-in-community; CANONICAL section 23)
+      // Lookbook back-layout fields (used by courses-in-community + on-demand-courses; CANONICAL section 23)
       card.backLayout = overrides.backLayout || offering.backLayout || '';
       card.lookbookImage = overrides.lookbookImage || offering.lookbookImage || '';
       card.lookbookUrl = overrides.lookbookUrl || offering.lookbookUrl || '';
       card.lookbookAlt = overrides.lookbookAlt || offering.lookbookAlt || '';
+      card.lookbookTileWidth = overrides.lookbookTileWidth != null ? overrides.lookbookTileWidth : (offering.lookbookTileWidth != null ? offering.lookbookTileWidth : null);
+      card.lookbookTileHeight = overrides.lookbookTileHeight != null ? overrides.lookbookTileHeight : (offering.lookbookTileHeight != null ? offering.lookbookTileHeight : null);
+      card.lookbookTitleSize = overrides.lookbookTitleSize != null ? overrides.lookbookTitleSize : (offering.lookbookTitleSize != null ? offering.lookbookTitleSize : null);
+      card.lookbookLeadSize = overrides.lookbookLeadSize != null ? overrides.lookbookLeadSize : (offering.lookbookLeadSize != null ? offering.lookbookLeadSize : null);
+      if (card.cardActions && overrides.secondaryActionLabel && card.cardActions[1]) {
+        card.cardActions[1].label = overrides.secondaryActionLabel;
+      }
       sectionMap[slug] = card.section;
       return card;
     });
@@ -625,15 +632,20 @@
         var secondary = actions[1] || null;
         var lookbookHref = offering.lookbookUrl || (primary && primary.url) || '#';
         var primaryHref = (primary && primary.url) || lookbookHref;
+        var tileStyle = '';
+        if (offering.lookbookTileWidth) tileStyle += 'width:' + Number(offering.lookbookTileWidth) + 'px;';
+        if (offering.lookbookTileHeight) tileStyle += 'height:' + Number(offering.lookbookTileHeight) + 'px;';
+        var titleStyle = offering.lookbookTitleSize ? ' style="font-size:' + Number(offering.lookbookTitleSize) + 'px;"' : '';
+        var leadStyle = offering.lookbookLeadSize ? ' style="font-size:' + Number(offering.lookbookLeadSize) + 'px;"' : '';
         var secondaryHtml = secondary
           ? '<a class="cb-cta lb-btn lb-btn-ghost" href="' + escapeHtml(secondary.url) + '" target="_blank" rel="noopener" data-action-type="' + escapeHtml(secondary.type || 'course') + '">' + escapeHtml(secondary.label) + ' <span class="lb-ext" aria-hidden="true">↗</span></a>'
           : '';
         cardBackHtml =
           '<div class="card-back card-back--lookbook">' +
             '<div class="lb-left">' +
-              '<h3 class="lb-title">' + escapeHtml(backHeading) + '</h3>' +
+              '<h3 class="lb-title"' + titleStyle + '>' + escapeHtml(backHeading) + '</h3>' +
               '<span class="lb-accent" aria-hidden="true"></span>' +
-              '<p class="lb-lead">' + escapeHtml(backCopy) + '</p>' +
+              '<p class="lb-lead"' + leadStyle + '>' + escapeHtml(backCopy) + '</p>' +
               '<div class="lb-ctas">' +
                 '<a class="cb-cta lb-btn lb-btn-primary" href="' + escapeHtml(primaryHref) + '" data-action-type="' + escapeHtml((primary && primary.type) || 'lookbook') + '">' + escapeHtml(primary.label) + ' <span class="lb-arrow" aria-hidden="true">→</span></a>' +
                 secondaryHtml +
@@ -641,7 +653,7 @@
             '</div>' +
             '<div class="lb-divider" aria-hidden="true"></div>' +
             '<div class="lb-right">' +
-              '<a class="cb-cta lb-tile" href="' + escapeHtml(lookbookHref) + '" data-action-type="lookbook" aria-label="Open the ' + escapeHtml(backHeading) + ' Partner Lookbook">' +
+              '<a class="cb-cta lb-tile" href="' + escapeHtml(lookbookHref) + '" data-action-type="lookbook" aria-label="Open the ' + escapeHtml(backHeading) + ' lookbook"' + (tileStyle ? ' style="' + tileStyle + '"' : '') + '>' +
                 '<div class="lb-pages-back" aria-hidden="true"></div>' +
                 '<div class="lb-pages-mid" aria-hidden="true"></div>' +
                 '<div class="lb-cover">' +

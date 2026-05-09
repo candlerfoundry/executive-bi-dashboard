@@ -6637,15 +6637,20 @@ function renderOfferings(offerings) {
       var secondaryAct = actions[1] || null;
       var lookbookHref = o.lookbookUrl || (primaryAct && primaryAct.url) || '#';
       var primaryHref = (primaryAct && primaryAct.url) || lookbookHref;
+      var tileStyle = '';
+      if (o.lookbookTileWidth) tileStyle += 'width:' + Number(o.lookbookTileWidth) + 'px;';
+      if (o.lookbookTileHeight) tileStyle += 'height:' + Number(o.lookbookTileHeight) + 'px;';
+      var titleStyle = o.lookbookTitleSize ? ' style="font-size:' + Number(o.lookbookTitleSize) + 'px;"' : '';
+      var leadStyle = o.lookbookLeadSize ? ' style="font-size:' + Number(o.lookbookLeadSize) + 'px;"' : '';
       var secondaryHtml = secondaryAct
         ? '<a class="cb-cta lb-btn lb-btn-ghost" href="' + secondaryAct.url + '" target="_blank" rel="noopener" data-action-type="' + (secondaryAct.type || 'course') + '">' + secondaryAct.label + ' <span class="lb-ext" aria-hidden="true">↗</span></a>'
         : '';
       cardBackHtml =
         '<div class="card-back card-back--lookbook">' +
           '<div class="lb-left">' +
-            '<h3 class="lb-title">' + backHeading + '</h3>' +
+            '<h3 class="lb-title"' + titleStyle + '>' + backHeading + '</h3>' +
             '<span class="lb-accent" aria-hidden="true"></span>' +
-            '<p class="lb-lead">' + backCopy + '</p>' +
+            '<p class="lb-lead"' + leadStyle + '>' + backCopy + '</p>' +
             '<div class="lb-ctas">' +
               '<a class="cb-cta lb-btn lb-btn-primary" href="' + primaryHref + '" data-action-type="' + ((primaryAct && primaryAct.type) || 'lookbook') + '">' + primaryAct.label + ' <span class="lb-arrow" aria-hidden="true">→</span></a>' +
               secondaryHtml +
@@ -6653,7 +6658,7 @@ function renderOfferings(offerings) {
           '</div>' +
           '<div class="lb-divider" aria-hidden="true"></div>' +
           '<div class="lb-right">' +
-            '<a class="cb-cta lb-tile" href="' + lookbookHref + '" data-action-type="lookbook" aria-label="Open the ' + backHeading + ' Partner Lookbook">' +
+            '<a class="cb-cta lb-tile" href="' + lookbookHref + '" data-action-type="lookbook" aria-label="Open the ' + backHeading + ' lookbook"' + (tileStyle ? ' style="' + tileStyle + '"' : '') + '>' +
               '<div class="lb-pages-back" aria-hidden="true"></div>' +
               '<div class="lb-pages-mid" aria-hidden="true"></div>' +
               '<div class="lb-cover">' +

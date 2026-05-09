@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-08 (Courses card lookbook back layout)
+Last updated: 2026-05-09 (On-Demand lookbook + per-card tile + font sizes)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -445,22 +445,29 @@ Open: `http://127.0.0.1:4177/index.html`
 ---
 
 
-## 23. COURSES CARD - LOOKBOOK BACK LAYOUT
-**Rule:** The back of the `Courses in the Community` card on the Mission & Offerings tab uses an editorial "lookbook" treatment instead of the standard navy/orange `cb-strip` + `cb-body` + pill-button back. Currently only this card opts in.
+## 23. LOOKBOOK BACK LAYOUT
+**Rule:** Mission cards can opt into an editorial "lookbook" back layout instead of the standard navy/orange `cb-strip` + `cb-body` + pill-button back. Currently the `Courses in the Community` (Partner Lookbook cover) and `On-Demand Courses` (Sabbath cover) cards opt in via `backLayout: 'lookbook'` in mission-page.json. Other Mission cards keep the standard back.
 
 **CSS:** Block under `.mission-page .card-back--lookbook` (and `.lb-*` children) lives just before `.mission-page .is-hidden` in `index.html`. Scoped — must not leak.
 
 **Render branch:** Both `renderOfferings` (fallback in `index.html`) and `renderOfferingsWithConfig` (live render in `assets/mission-editor.js`) check `offering.backLayout === 'lookbook' && offering.lookbookImage` and render the lookbook structure when both are truthy. Otherwise the existing navy/orange back renders. Fields are plumbed through `buildMissionState` next to `cardActions` / `primaryActionLabel` handling.
 
-**Editor-driven config:** `assets/page-config/mission-page.json` -> `cards["courses-in-community"]` carries `backLayout`, `lookbookImage`, `lookbookUrl`, `lookbookAlt`, plus an `actions[]` whose first item becomes the navy primary CTA and second becomes the navy-outline secondary. The right-side lookbook tile is also a click target to `lookbookUrl` (or, if blank, the primary action's url).
+**Editor-driven config:** `assets/page-config/mission-page.json` -> `cards[<slug>]` carries `backLayout: 'lookbook'`, `lookbookImage`, `lookbookUrl`, `lookbookAlt`, plus an `actions[]` whose first item becomes the navy primary CTA and second becomes the navy-outline secondary. The right-side lookbook tile is also a click target to `lookbookUrl` (or, if blank, the primary action's url).
 
-**Asset:** `assets/flipbook/courses-flipbook-cover.png` (1500 x 1560, ~0.96 aspect). Tile is 196 x 205 with `object-fit: cover; object-position: left center` so the spiral binding stays visible.
+Optional per-card tuning (all numeric):
+- `lookbookTileWidth` / `lookbookTileHeight` (pixels) - tile dimensions on the right; defaults to 196 x 205 if unset. Use a wider/shorter tile for landscape covers (e.g. Sabbath: 220 x 145).
+- `lookbookTitleSize` / `lookbookLeadSize` (pixels) - font-size overrides for `.lb-title` and `.lb-lead`. Defaults: 24 / 13.5. Useful when copy length differs from the default cards.
+
+**Assets:**
+- Courses card: `assets/flipbook/courses-flipbook-cover.png` (1500 x 1560, ~0.96 aspect, near-square). Tile defaults to 196 x 205.
+- On-Demand card: `assets/Other Images/Sabbath_compressed.jpg` (2048 x 1365, ~1.5 aspect, landscape). Tile is 220 x 145. Path has spaces because the folder is named "Other Images"; we'll rename for repo hygiene next time we touch it.
+- All tiles use `object-fit: cover; object-position: left center` so detail anchors to the left of each cover.
 
 **Layout:** 2-column grid `1.25fr | 1px hairline | 1fr`. Left column: Montserrat 700 24px title (matches front-of-card typography), 72 x 3 px orange-red accent rule, lead copy (max 34ch), and a wrap-as-needed CTA pair. Right column centers the lookbook tile, which has stacked-page depth, slight tilt (`rotate(-2.5deg)`), and a hover lift.
 
 **Flipbook URL placeholder:** `#flipbook` is intentional. Update `lookbookUrl` and `actions[0].url` in `mission-page.json` when the real flipbook page is built. No code change required.
 
-**Editor:** the Mission editor does NOT yet expose form controls for the lookbook fields. They round-trip through the JSON because `mergeDeep` preserves unknown keys. If the editor's color/strip controls are touched on this card, those overrides do not affect the lookbook layout (the lookbook CSS uses its own background and ignores `--mission-card-back-bg`).
+**Editor:** the Mission editor exposes form controls for lookbook fields when a card has `backLayout: 'lookbook'` selected. Controls include image picker (drawn from CARD_ART_OPTIONS plus typed paths), click URL, alt text, secondary button label, tile width / height, and font-size sliders for title and lead. The lookbook CSS uses its own background and ignores `--mission-card-back-bg`, so the editor's color/strip controls have no effect when lookbook layout is on.
 
 **Click affordance preserved:** every CTA on the new back uses the existing `cb-cta` class (alongside `lb-btn` / `lb-tile`), so the existing flip-tap handler in `initMissionCardInteractions()` still ignores button clicks via `event.target.closest('.cb-cta')`.
 
