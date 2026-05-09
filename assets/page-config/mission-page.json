@@ -153,7 +153,9 @@
           "type": "library",
           "visible": true
         }
-      ]
+      ],
+      "lookbookTileTilt": 0,
+      "lookbookTileFlat": true
     },
     "sunday-school-simplified": {
       "section": "ministry",

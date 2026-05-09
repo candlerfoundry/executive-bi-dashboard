@@ -442,6 +442,8 @@
       card.lookbookTileHeight = overrides.lookbookTileHeight != null ? overrides.lookbookTileHeight : (offering.lookbookTileHeight != null ? offering.lookbookTileHeight : null);
       card.lookbookTitleSize = overrides.lookbookTitleSize != null ? overrides.lookbookTitleSize : (offering.lookbookTitleSize != null ? offering.lookbookTitleSize : null);
       card.lookbookLeadSize = overrides.lookbookLeadSize != null ? overrides.lookbookLeadSize : (offering.lookbookLeadSize != null ? offering.lookbookLeadSize : null);
+      card.lookbookTileTilt = overrides.lookbookTileTilt != null ? overrides.lookbookTileTilt : (offering.lookbookTileTilt != null ? offering.lookbookTileTilt : null);
+      card.lookbookTileFlat = overrides.lookbookTileFlat != null ? overrides.lookbookTileFlat : (offering.lookbookTileFlat != null ? offering.lookbookTileFlat : false);
       if (card.cardActions && overrides.secondaryActionLabel && card.cardActions[1]) {
         card.cardActions[1].label = overrides.secondaryActionLabel;
       }
@@ -635,6 +637,8 @@
         var tileStyle = '';
         if (offering.lookbookTileWidth) tileStyle += 'width:' + Number(offering.lookbookTileWidth) + 'px;';
         if (offering.lookbookTileHeight) tileStyle += 'height:' + Number(offering.lookbookTileHeight) + 'px;';
+        if (offering.lookbookTileTilt != null) tileStyle += 'transform:rotate(' + Number(offering.lookbookTileTilt) + 'deg);';
+        var hidePages = !!offering.lookbookTileFlat;
         var titleStyle = offering.lookbookTitleSize ? ' style="font-size:' + Number(offering.lookbookTitleSize) + 'px;"' : '';
         var leadStyle = offering.lookbookLeadSize ? ' style="font-size:' + Number(offering.lookbookLeadSize) + 'px;"' : '';
         var secondaryHtml = secondary
@@ -653,9 +657,9 @@
             '</div>' +
             '<div class="lb-divider" aria-hidden="true"></div>' +
             '<div class="lb-right">' +
-              '<a class="cb-cta lb-tile" href="' + escapeHtml(lookbookHref) + '" data-action-type="lookbook" aria-label="Open the ' + escapeHtml(backHeading) + ' lookbook"' + (tileStyle ? ' style="' + tileStyle + '"' : '') + '>' +
-                '<div class="lb-pages-back" aria-hidden="true"></div>' +
-                '<div class="lb-pages-mid" aria-hidden="true"></div>' +
+              '<a class="cb-cta lb-tile' + (hidePages ? ' is-flat' : '') + '" href="' + escapeHtml(lookbookHref) + '" data-action-type="lookbook" aria-label="Open the ' + escapeHtml(backHeading) + ' lookbook"' + (tileStyle ? ' style="' + tileStyle + '"' : '') + '>' +
+                (hidePages ? '' : '<div class="lb-pages-back" aria-hidden="true"></div>') +
+                (hidePages ? '' : '<div class="lb-pages-mid" aria-hidden="true"></div>') +
                 '<div class="lb-cover">' +
                   '<img src="' + escapeHtml(offering.lookbookImage) + '" alt="' + escapeHtml(offering.lookbookAlt || '') + '" />' +
                 '</div>' +
@@ -1067,9 +1071,6 @@
     runtime.ui.heroBody.value = config.content.hero.body || '';
     runtime.ui.sectionTitle.value = section.title || '';
     runtime.ui.sectionCopy.value = section.copy || '';
-    runtime.ui.communityCopy.value = (config.sections.community || {}).copy || '';
-    runtime.ui.ministryCopy.value = (config.sections.ministry || {}).copy || '';
-    runtime.ui.publicCopy.value = (config.sections.public || {}).copy || '';
     runtime.ui.shellMax.value = clamp(config.layout.shellMax, 1280, 1880, 1680);
     runtime.ui.gutter.value = clamp(config.layout.gutter, 12, 72, 28);
     runtime.ui.heroTextMax.value = clamp(config.layout.heroTextMax, 420, 1320, 700);
@@ -1178,9 +1179,6 @@
       sectionSelect: document.getElementById('mission-editor-section-select'),
       sectionTitle: document.getElementById('mission-editor-section-title'),
       sectionCopy: document.getElementById('mission-editor-section-copy'),
-      communityCopy: document.getElementById('mission-editor-community-copy'),
-      ministryCopy: document.getElementById('mission-editor-ministry-copy'),
-      publicCopy: document.getElementById('mission-editor-public-copy'),
       shellMax: document.getElementById('mission-editor-shell-max'),
       shellMaxValue: document.getElementById('mission-editor-shell-max-value'),
       gutter: document.getElementById('mission-editor-gutter'),
@@ -1380,17 +1378,6 @@
       ensureSectionConfig(runtime.draftConfig, runtime.activeSectionId).copy = runtime.ui.sectionCopy.value;
       window.renderOfferings(runtime.baseOfferings);
     });
-    [
-      ['communityCopy', 'community'],
-      ['ministryCopy', 'ministry'],
-      ['publicCopy', 'public']
-    ].forEach(function(pair) {
-      bindLiveInput(runtime.ui[pair[0]], function() {
-        ensureSectionConfig(runtime.draftConfig, pair[1]).copy = runtime.ui[pair[0]].value;
-        window.renderOfferings(runtime.baseOfferings);
-      });
-    });
-
     [
       ['shellMax', 'shellMax'],
       ['gutter', 'gutter'],

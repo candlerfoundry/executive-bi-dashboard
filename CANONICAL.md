@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-09 (On-Demand lookbook + per-card tile + font sizes)
+Last updated: 2026-05-09 (lookbook tilt/flat + editor cleanup)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -454,9 +454,11 @@ Open: `http://127.0.0.1:4177/index.html`
 
 **Editor-driven config:** `assets/page-config/mission-page.json` -> `cards[<slug>]` carries `backLayout: 'lookbook'`, `lookbookImage`, `lookbookUrl`, `lookbookAlt`, plus an `actions[]` whose first item becomes the navy primary CTA and second becomes the navy-outline secondary. The right-side lookbook tile is also a click target to `lookbookUrl` (or, if blank, the primary action's url).
 
-Optional per-card tuning (all numeric):
+Optional per-card tuning:
 - `lookbookTileWidth` / `lookbookTileHeight` (pixels) - tile dimensions on the right; defaults to 196 x 205 if unset. Use a wider/shorter tile for landscape covers (e.g. Sabbath: 220 x 145).
-- `lookbookTitleSize` / `lookbookLeadSize` (pixels) - font-size overrides for `.lb-title` and `.lb-lead`. Defaults: 24 / 13.5. Useful when copy length differs from the default cards.
+- `lookbookTitleSize` / `lookbookLeadSize` (pixels) - font-size overrides for `.lb-title` and `.lb-lead`. Defaults: 24 / 13.5.
+- `lookbookTileTilt` (degrees, default -2.5) - tile rotation. Set to `0` for a level photographic cover.
+- `lookbookTileFlat` (boolean, default false) - when `true`, suppresses the stacked-page rectangles behind the cover and removes the rotated hover. Use for photographic/banner covers where the book-cover treatment doesn't apply (e.g. Sabbath).
 
 **Assets:**
 - Courses card: `assets/flipbook/courses-flipbook-cover.png` (1500 x 1560, ~0.96 aspect, near-square). Tile defaults to 196 x 205.
