@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-09 (lookbook tilt/flat + editor cleanup)
+Last updated: 2026-05-09 (hi-res Webflow vignettes + editor cleanup)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -481,7 +481,27 @@ Optional per-card tuning:
 
 ---
 
-## 22. LINE-ENDING NORMALIZATION
+## 22. HI-RES MISSION CARD VIGNETTES
+**Rule:** Front-of-card vignettes on the Mission & Offerings tab now use hi-res illustrations sourced from Webflow. Prior 190-385 px thumbnails were too small and visibly upscaled. The hi-res files live in `assets/Graphic Vignettes/` with a `vignette-` prefix.
+
+**Files:**
+- `vignette-city-life.png` (8000 x 4500) - city scene with cyclist, cafe, bleacher reading group, walking pedestrians.
+- `vignette-screens-presenter.png` (8000 x 4500) - multi-device screens (TV / phone / tablet) with a presenter visible on screen, audience watching.
+- `vignette-pavilion-readers.png` (8000 x 4500) - cozy reading group in a pavilion with dog and tablets.
+- `vignette-bridge-meeting.png` (8000 x 4500) - four people meeting on a bridge with city skyline behind.
+- `vignette-easel-teaching.png` (8000 x 4500) - presenter at an easel/board with audience learning.
+- `vignette-walking-campus.png` (1920 x 1080) - three people walking toward a campus building.
+- `vignette-city-life-banner.png` (1920 x 1080) - smaller variant of city-life with a subheader area.
+
+All seven appear in the editor's `Front artwork` dropdown so any card can opt in. The five fuzzy cards (`courses-in-community`, `on-demand-courses`, `sunday-school-simplified`, `3-minute-bible`, `theoed`) have been reassigned to hi-res images with neutral scale (1.5x) and opacity (0.45) defaults; tune per-card via the editor sliders.
+
+**Editor zoom range:** the `Artwork size` slider has been raised from 0.4-3.6x to 0.4-6x to accommodate the much larger hi-res sources where you may want to crop down to a single character.
+
+**Filename hygiene:** Webflow exports come with a 24-char hash prefix and may include spaces, parens, and `+` characters in their filenames. Always rename them to kebab-case (`vignette-<descriptive>.png`) before adding to the dropdown so URLs stay clean.
+
+---
+
+## 23. LINE-ENDING NORMALIZATION
 **Rule:** The repo has a top-level `.gitattributes` with `* text=auto eol=lf`. All text files are stored in Git with LF line endings. Working copies on Windows may appear with CRLF, which is fine as long as `.gitattributes` is present.
 
 **Why:** Without this, Dropbox-synced copies of repo files flip between CRLF and LF and every unrelated file shows as "modified" in `git status`, causing noisy commits and phantom merge conflicts with the Netlify editor.

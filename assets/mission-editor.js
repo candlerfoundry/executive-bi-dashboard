@@ -104,7 +104,14 @@
     { value: '/assets/Graphic Vignettes/graphic-1-seated-conversation.png', label: 'Seated conversation' },
     { value: '/assets/Graphic Vignettes/homepage-tablet-standing-seated.png', label: 'Tablet vignette' },
     { value: '/assets/Graphic Vignettes/graphic-3-booktop-pair.png', label: 'Booktop pair' },
-    { value: '/assets/Graphic Vignettes/graphic-3-reader-dog.png', label: 'Reader with dog' }
+    { value: '/assets/Graphic Vignettes/graphic-3-reader-dog.png', label: 'Reader with dog' },
+    { value: '/assets/Graphic Vignettes/vignette-city-life.png', label: 'City life (hi-res)' },
+    { value: '/assets/Graphic Vignettes/vignette-screens-presenter.png', label: 'Screens & presenter (hi-res)' },
+    { value: '/assets/Graphic Vignettes/vignette-pavilion-readers.png', label: 'Pavilion readers (hi-res)' },
+    { value: '/assets/Graphic Vignettes/vignette-bridge-meeting.png', label: 'Bridge meeting (hi-res)' },
+    { value: '/assets/Graphic Vignettes/vignette-easel-teaching.png', label: 'Easel & teaching (hi-res)' },
+    { value: '/assets/Graphic Vignettes/vignette-walking-campus.png', label: 'Walking to campus (hi-res)' },
+    { value: '/assets/Graphic Vignettes/vignette-city-life-banner.png', label: 'City life banner (hi-res)' }
   ];
 
   var PROTECTED_ASSET_PATHS = [
@@ -1135,7 +1142,7 @@
       runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -320, 320, 0);
       runtime.ui.cardArtWidth.value = clamp(card.frontGraphicWidth, 80, 560, card.section === 'community' ? 164 : 144);
       runtime.ui.cardArtOpacity.value = card.frontGraphicOpacity != null ? card.frontGraphicOpacity : 0.9;
-      runtime.ui.cardArtScale.value = card.frontGraphicScale != null ? clamp(card.frontGraphicScale, 0.4, 3.6, 1) : 1;
+      runtime.ui.cardArtScale.value = card.frontGraphicScale != null ? clamp(card.frontGraphicScale, 0.4, 6, 1) : 1;
       runtime.ui.cardArtFadeX.value = clamp(card.frontGraphicFadeLeft != null ? card.frontGraphicFadeLeft : card.frontGraphicFadeX, 0, 100, 0);
       runtime.ui.cardArtFadeRight.value = clamp(card.frontGraphicFadeRight != null ? card.frontGraphicFadeRight : card.frontGraphicFadeX, 0, 100, 0);
       runtime.ui.cardArtFadeY.value = clamp(card.frontGraphicFadeY, 0, 100, 0);
