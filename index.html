@@ -680,6 +680,9 @@ body.page-config-loading .panel.active::before,
 .page-editor-apply, .page-editor-reset { flex:1; border-radius:999px; padding:13px 18px; font-size:0.74rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; }
 .page-editor-apply { border:none; background:#c84826; color:#fafaf2; }
 .page-editor-reset { border:1px solid rgba(30,37,48,0.16); background:#ffffff; color:#1e2530; }
+.page-editor-undo { flex:0 0 auto; border:1px solid rgba(30,37,48,0.18); border-radius:999px; padding:11px 16px; font-size:0.66rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; background:#fafaf2; color:#1e2530; transition:background 0.18s ease, opacity 0.18s ease, border-color 0.18s ease; }
+.page-editor-undo:hover:not([disabled]) { background:#f0ead8; border-color:rgba(30,37,48,0.34); }
+.page-editor-undo[disabled] { opacity:0.45; cursor:not-allowed; }
 .page-editor-card-meta { font-size:0.68rem; color:rgba(30,37,48,0.56); margin-top:-4px; margin-bottom:10px; }
 
 /* TAB: THEOED */
@@ -2595,6 +2598,7 @@ body.page-config-loading .panel.active::before,
     </div>
 
     <div class="page-editor-actions">
+      <button class="page-editor-undo" id="mission-editor-undo" type="button" disabled>Undo last change</button>
       <button class="page-editor-reset" id="mission-editor-reset" type="button">Revert to Published</button>
       <button class="page-editor-apply" id="mission-editor-apply" type="button">Save Changes in Browser</button>
     </div>

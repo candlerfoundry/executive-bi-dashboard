@@ -137,7 +137,13 @@
     activeCardPreviewFace: 'front',
     activeEditorScope: 'hero',
     ui: {},
-    controlsReady: false
+    controlsReady: false,
+    // Undo support (CANONICAL section 24): in-memory only, max 50 entries.
+    history: [],
+    historyMax: 50,
+    historyLastSnapshot: null,
+    historyLastChangeAt: 0,
+    historyPoller: null
   };
 
   window.missionEditorRuntime = runtime;
@@ -149,6 +155,43 @@
   function deepClone(value) {
     return value == null ? value : JSON.parse(JSON.stringify(value));
   }
+
+  // Undo support: serialize draftConfig, push old serialization to history when state stabilizes.
+  function startHistoryPoller() {
+    if (runtime.historyPoller) return;
+    runtime.historyLastSnapshot = JSON.stringify(runtime.draftConfig || {});
+    runtime.historyLastChangeAt = Date.now();
+    runtime.historyPoller = setInterval(function() {
+      var current;
+      try { current = JSON.stringify(runtime.draftConfig || {}); } catch (e) { return; }
+      if (current !== runtime.historyLastSnapshot) {
+        // State just changed; check whether previous snapshot is the one we should push
+        // If the last snapshot is not yet in history (or is different from history's tail) push it.
+        var tail = runtime.history.length ? runtime.history[runtime.history.length - 1] : null;
+        if (tail !== runtime.historyLastSnapshot && runtime.historyLastSnapshot != null) {
+          runtime.history.push(runtime.historyLastSnapshot);
+          if (runtime.history.length > runtime.historyMax) runtime.history.shift();
+          if (runtime.ui && runtime.ui.undo) runtime.ui.undo.disabled = false;
+        }
+        runtime.historyLastSnapshot = current;
+        runtime.historyLastChangeAt = Date.now();
+      }
+    }, 250);
+  }
+
+  function undoLastChange() {
+    if (!runtime.history || !runtime.history.length) return;
+    var prevSerialized = runtime.history.pop();
+    try {
+      runtime.draftConfig = JSON.parse(prevSerialized);
+    } catch (e) { return; }
+    runtime.historyLastSnapshot = prevSerialized;
+    if (runtime.ui && runtime.ui.undo) runtime.ui.undo.disabled = runtime.history.length === 0;
+    if (typeof window.renderOfferings === 'function') window.renderOfferings(runtime.baseOfferings);
+    if (window.pageEditorShowToast && runtime.ui && runtime.ui.shell) window.pageEditorShowToast(runtime.ui.shell, 'Undid last change');
+  }
+
+  window.missionEditorUndo = undoLastChange;
 
   function mergeDeep(target, source) {
     if (!source || typeof source !== 'object') return target;
@@ -1180,6 +1223,7 @@
       draftNotice: document.getElementById('mission-editor-draft-notice'),
       restoreDraft: document.getElementById('mission-editor-restore-draft'),
       discardDraft: document.getElementById('mission-editor-discard-draft'),
+      undo: document.getElementById('mission-editor-undo'),
       tabs: Array.prototype.slice.call(document.querySelectorAll('#mission-editor-shell [data-mission-editor-tab]')),
       heroHeadline: document.getElementById('mission-editor-hero-headline'),
       heroBody: document.getElementById('mission-editor-hero-body'),
@@ -1710,6 +1754,12 @@
       runtime.baselineConfig = deepClone(runtime.draftConfig);
       notifySaved('Changes saved in browser');
     });
+    if (runtime.ui.undo) {
+      runtime.ui.undo.addEventListener('click', function() {
+        undoLastChange();
+      });
+    }
+    startHistoryPoller();
     runtime.ui.reset.addEventListener('click', async function() {
       var originalText = runtime.ui.reset.textContent;
       runtime.ui.reset.disabled = true;

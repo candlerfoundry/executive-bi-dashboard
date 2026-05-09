@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-09 (PAT file location + .gitignore + zoom to 12x)
+Last updated: 2026-05-09 (Mission editor undo button)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -529,7 +529,36 @@ The file is gitignored via the top-level `.gitignore`, so even an accidental `gi
 
 ---
 
-## 24. LINE-ENDING NORMALIZATION
+## 24. MISSION EDITOR UNDO
+**Rule:** The Mission editor has an `Undo last change` button next to `Revert to Published` and `Save Changes in Browser`. It pops the most recent in-memory snapshot of `runtime.draftConfig` and re-renders.
+
+**How it works:**
+- A 250 ms `setInterval` poller compares `JSON.stringify(runtime.draftConfig)` against `runtime.historyLastSnapshot`. When they differ, the previous snapshot is pushed onto `runtime.history` (capped at 50 entries).
+- Clicking the button pops the latest entry and applies it. The button is disabled when the history stack is empty.
+- Snapshots live in JS memory only - no localStorage, no commits. Reloading the page wipes the undo history.
+
+**What it covers:**
+- Slider drags, dropdown changes, text edits, accidental artwork changes that wipe out tuning.
+- An accidental `Revert to Published` click is recoverable as long as the user clicks Undo before subsequent edits push the prior state out of the history window.
+
+**What it does NOT cover:**
+- Once `Save Changes in Browser` writes to localStorage or `Publish to Main` writes to `main`, those persistent stores are independent of undo. Undo affects only the current display state.
+- No redo. Once a state has been undone, making a new edit erases the chance to redo.
+- Page reload resets the history (it is in-memory only).
+
+**Implementation:**
+- State on `runtime`: `history`, `historyMax = 50`, `historyLastSnapshot`, `historyLastChangeAt`, `historyPoller`.
+- Helpers: `startHistoryPoller()`, `undoLastChange()` (also exposed as `window.missionEditorUndo`).
+- UI: `<button id="mission-editor-undo">Undo last change</button>` rendered as a pill next to Revert / Save.
+
+**Regression risk:**
+- Do not move snapshots into localStorage; that creates a sync nightmare with the existing `Save / Publish` flow.
+- Do not extend undo to include `Save Changes in Browser` or `Publish to Main` reversals; those are persistence-layer changes that need their own treatment if ever needed.
+- Do not bind undo state across editor sessions or page loads. In-memory keeps the surface area small.
+
+---
+
+## 25. LINE-ENDING NORMALIZATION
 **Rule:** The repo has a top-level `.gitattributes` with `* text=auto eol=lf`. All text files are stored in Git with LF line endings. Working copies on Windows may appear with CRLF, which is fine as long as `.gitattributes` is present.
 
 **Why:** Without this, Dropbox-synced copies of repo files flip between CRLF and LF and every unrelated file shows as "modified" in `git status`, causing noisy commits and phantom merge conflicts with the Netlify editor.
