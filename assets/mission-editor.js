@@ -26,14 +26,15 @@
     visual: {
       heroImage: '/assets/Graphic_1.png',
       heroImagePosition: 'center right',
+      heroImageFit: 'width',
       heroImageX: 78,
       heroImageY: 50,
       heroImageScale: 100,
       heroImageOpacity: 0.25,
       heroImageClarity: 0,
-      heroFadeStrength: 0.74,
-      heroFadeLeft: 74,
-      heroFadeRight: 8
+      heroFadeStrength: 0.32,
+      heroFadeLeft: 18,
+      heroFadeRight: 12
     },
     typography: {
       headingFont: "'Montserrat', sans-serif",
@@ -106,6 +107,15 @@
     { value: '/assets/Graphic Vignettes/graphic-3-reader-dog.png', label: 'Reader with dog' }
   ];
 
+  var PROTECTED_ASSET_PATHS = [
+    'assets/Graphic_1.png',
+    'assets/Graphic_1_mission_impact.png',
+    'assets/Graphic_2.png',
+    'assets/Graphic_3_growth.png',
+    'assets/TCF_Logo-Orange-Transparent.png',
+    'assets/TCF_Logomark-Orange-Transparent.png'
+  ];
+
   var runtime = {
     baseOfferings: [],
     defaultConfig: null,
@@ -118,7 +128,7 @@
     orderSectionId: 'community',
     activeCardId: null,
     activeCardPreviewFace: 'front',
-    activeEditorScope: 'page',
+    activeEditorScope: 'hero',
     ui: {},
     controlsReady: false
   };
@@ -219,6 +229,33 @@
     return 'linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) ' + Math.round(leftSoft) + '%, rgba(255,253,248,0.58) ' + Math.round(left) + '%, rgba(255,253,248,0.08) ' + Math.round(leftEdge) + '%, rgba(255,253,248,0.08) ' + Math.round(rightStart) + '%, rgba(255,253,248,0.58) ' + Math.round(rightSoft) + '%, rgba(255,253,248,0.90) 100%)';
   }
 
+  function getHeroImageSize(fit, scale) {
+    var value = clamp(scale, 70, 230, 100);
+    switch (fit) {
+      case 'cover':
+        return 'cover';
+      case 'contain':
+        return 'contain';
+      case 'height':
+        return 'auto ' + value + '%';
+      case 'width':
+      default:
+        return value + '% auto';
+    }
+  }
+
+  function computeImageMask(leftFade, rightFade, topFade, bottomFade) {
+    var left = clamp(leftFade, 0, 100, 0);
+    var right = clamp(rightFade, 0, 100, 0);
+    var top = clamp(topFade, 0, 100, 0);
+    var bottom = clamp(bottomFade, 0, 100, 0);
+    var horizontal = 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.18) ' + Math.round(left * 0.35) + '%, #000 ' + Math.round(left) + '%, #000 ' + Math.round(100 - right) + '%, rgba(0,0,0,0.18) ' + Math.round(100 - (right * 0.35)) + '%, transparent 100%)';
+    var vertical = 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.18) ' + Math.round(top * 0.35) + '%, #000 ' + Math.round(top) + '%, #000 ' + Math.round(100 - bottom) + '%, rgba(0,0,0,0.18) ' + Math.round(100 - (bottom * 0.35)) + '%, transparent 100%)';
+    if (!top && !bottom) return horizontal;
+    if (!left && !right) return vertical;
+    return horizontal + ', ' + vertical;
+  }
+
   function ensureSectionConfig(config, sectionId) {
     if (!config.sections) config.sections = {};
     if (!config.sections[sectionId]) config.sections[sectionId] = deepClone(DEFAULT_CONFIG.sections[sectionId] || { id: sectionId });
@@ -229,6 +266,82 @@
     if (!config.cards) config.cards = {};
     if (!config.cards[cardId]) config.cards[cardId] = {};
     return config.cards[cardId];
+  }
+
+  function isEditorOpen() {
+    return !!(runtime.controlsReady && runtime.ui.shell && !runtime.ui.shell.hasAttribute('hidden'));
+  }
+
+  function getCardMeta(cardId) {
+    return (window.MISSION_CARD_META && window.MISSION_CARD_META[cardId]) || {};
+  }
+
+  function getEffectiveCardActions(card, cardId) {
+    var meta = getCardMeta(cardId);
+    return deepClone((card && card.cardActions) || (card && card.links) || meta.actions || []);
+  }
+
+  function normalizeAssetPath(value) {
+    var path = String(value || '').trim().replace(/\\/g, '/').replace(/^\/+/, '');
+    if (!path) return '';
+    if (path.indexOf('assets/') !== 0) path = 'assets/' + path;
+    return path;
+  }
+
+  function pathForUploadAssetFunction(value) {
+    return normalizeAssetPath(value).replace(/^assets\//, '');
+  }
+
+  function getUploadPathError(value) {
+    var normalized = normalizeAssetPath(value);
+    if (!normalized) return 'Enter a new Git asset location before uploading.';
+    if (!/\.[a-zA-Z0-9]{2,8}$/.test(normalized)) return 'Git asset location must include a file name and extension.';
+    if (PROTECTED_ASSET_PATHS.indexOf(normalized) !== -1) {
+      return 'Choose a new asset path. Built-in graphics cannot be overwritten.';
+    }
+    return '';
+  }
+
+  function setSelectValueWithCustomOption(select, value, label) {
+    if (!select) return;
+    var normalized = value || '';
+    if (!normalized) return;
+    var option = Array.prototype.find.call(select.options, function(item) {
+      return item.value === normalized;
+    });
+    if (!option) {
+      option = document.createElement('option');
+      option.value = normalized;
+      option.textContent = label || 'Custom Git asset';
+      option.dataset.customAsset = 'true';
+      select.appendChild(option);
+    }
+    select.value = normalized;
+  }
+
+  async function uploadGitAsset(file, uploadPath) {
+    return await new Promise(function(resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = async function() {
+        try {
+          var base64 = String(reader.result || '').split(',')[1];
+          var response = await fetch('/.netlify/functions/upload-asset', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ path: uploadPath, content: base64 })
+          });
+          var data = await response.json().catch(function() { return {}; });
+          if (!response.ok) throw new Error(data.error || 'Upload failed');
+          resolve(data);
+        } catch (err) {
+          reject(err);
+        }
+      };
+      reader.onerror = function() {
+        reject(new Error('Unable to read selected file'));
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
   async function getPublishedConfig() {
@@ -246,6 +359,12 @@
   function loadPublishedDraft() {
     runtime.draftConfig = getEffectiveConfig(runtime.publishedConfig);
     runtime.baselineConfig = deepClone(runtime.draftConfig);
+  }
+
+  async function reloadPublishedDraft() {
+    var latestPublished = await getPublishedConfig();
+    if (latestPublished) runtime.publishedConfig = latestPublished;
+    loadPublishedDraft();
   }
 
   function restoreStoredDraft() {
@@ -276,14 +395,15 @@
     var cards = (offerings || []).map(function(offering, idx) {
       var slug = window.getOfferingSlug(offering, idx);
       var overrides = (effective.cards && effective.cards[slug]) || {};
+      var meta = getCardMeta(slug);
       var card = deepClone(offering);
       card.section = overrides.section || (window.MISSION_SECTION_BUCKETS && window.MISSION_SECTION_BUCKETS[slug]) || 'ministry';
       card.visible = overrides.visible !== undefined ? overrides.visible !== false : offering.visible !== false;
       card.order = clamp(overrides.order, 1, 50, offering.order || idx + 1);
       card.frontTitle = overrides.frontTitle || offering.frontTitle || offering.title || '';
-      card.frontDescription = overrides.frontDescription || offering.frontDescription || offering.tagline || offering.blurb || '';
+      card.frontDescription = overrides.frontDescription || offering.frontDescription || meta.copy || offering.tagline || offering.blurb || '';
       card.backHeading = overrides.backHeading || offering.backHeading || card.frontTitle;
-      card.backDescription = overrides.backDescription || offering.backDescription || card.frontDescription;
+      card.backDescription = overrides.backDescription || offering.backDescription || meta.backCopy || card.frontDescription;
       card.backBackground = overrides.backBackground || offering.backBackground || '';
       card.backStripColor = overrides.backStripColor || offering.backStripColor || '';
       card.backTextColor = overrides.backTextColor || offering.backTextColor || '';
@@ -291,15 +411,23 @@
       card.buttonTextColor = overrides.buttonTextColor || offering.buttonTextColor || '';
       card.frontTitleSize = overrides.frontTitleSize != null ? overrides.frontTitleSize : (offering.frontTitleSize != null ? offering.frontTitleSize : null);
       card.frontBodySize = overrides.frontBodySize != null ? overrides.frontBodySize : (offering.frontBodySize != null ? offering.frontBodySize : null);
+      card.backBodySize = overrides.backBodySize != null ? overrides.backBodySize : (offering.backBodySize != null ? offering.backBodySize : null);
       card.frontTextWidth = overrides.frontTextWidth != null ? overrides.frontTextWidth : (offering.frontTextWidth != null ? offering.frontTextWidth : null);
       card.frontGraphicUrl = overrides.frontGraphicUrl || offering.frontGraphicUrl || offering.imageUrl || '';
       card.frontGraphicPosition = overrides.frontGraphicPosition || offering.frontGraphicPosition || '';
       card.frontGraphicShiftX = overrides.frontGraphicShiftX != null ? overrides.frontGraphicShiftX : (offering.frontGraphicShiftX != null ? offering.frontGraphicShiftX : 0);
       card.frontGraphicShiftY = overrides.frontGraphicShiftY != null ? overrides.frontGraphicShiftY : (offering.frontGraphicShiftY != null ? offering.frontGraphicShiftY : 0);
+      card.frontGraphicWidth = overrides.frontGraphicWidth != null ? overrides.frontGraphicWidth : (offering.frontGraphicWidth != null ? offering.frontGraphicWidth : null);
       card.frontGraphicOpacity = overrides.frontGraphicOpacity != null ? overrides.frontGraphicOpacity : (offering.frontGraphicOpacity != null ? offering.frontGraphicOpacity : null);
       card.frontGraphicScale = overrides.frontGraphicScale != null ? overrides.frontGraphicScale : (offering.frontGraphicScale != null ? offering.frontGraphicScale : null);
+      card.frontGraphicFadeX = overrides.frontGraphicFadeX != null ? overrides.frontGraphicFadeX : (offering.frontGraphicFadeX != null ? offering.frontGraphicFadeX : 0);
+      card.frontGraphicFadeLeft = overrides.frontGraphicFadeLeft != null ? overrides.frontGraphicFadeLeft : (offering.frontGraphicFadeLeft != null ? offering.frontGraphicFadeLeft : null);
+      card.frontGraphicFadeRight = overrides.frontGraphicFadeRight != null ? overrides.frontGraphicFadeRight : (offering.frontGraphicFadeRight != null ? offering.frontGraphicFadeRight : null);
+      card.frontGraphicFadeY = overrides.frontGraphicFadeY != null ? overrides.frontGraphicFadeY : (offering.frontGraphicFadeY != null ? offering.frontGraphicFadeY : 0);
       if (overrides.actions && overrides.actions.length) {
         card.cardActions = deepClone(overrides.actions);
+      } else if (offering.cardActions || offering.links || meta.actions) {
+        card.cardActions = getEffectiveCardActions(offering, slug);
       }
       if (overrides.primaryActionLabel) {
         if (card.cardActions && card.cardActions[0]) card.cardActions[0].label = overrides.primaryActionLabel;
@@ -348,10 +476,11 @@
     panel.style.setProperty('--mission-public-columns', clamp(state.config.layout.publicColumns, 1, 4, 3));
     panel.style.setProperty('--mission-hero-image-url', 'url("' + (state.config.visual.heroImage || '/assets/Graphic_1.png') + '")');
     panel.style.setProperty('--mission-hero-image-position', clamp(state.config.visual.heroImageX, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).x) + '% ' + clamp(state.config.visual.heroImageY, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).y) + '%');
-    panel.style.setProperty('--mission-hero-image-size', clamp(state.config.visual.heroImageScale, 70, 230, 100) + '% auto');
+    panel.style.setProperty('--mission-hero-image-size', getHeroImageSize(state.config.visual.heroImageFit, state.config.visual.heroImageScale));
     panel.style.setProperty('--mission-hero-image-opacity', clamp(state.config.visual.heroImageOpacity, 0, 0.65, 0.25));
     panel.style.setProperty('--mission-hero-image-clarity', clamp(state.config.visual.heroImageClarity, 0, 100, 0));
     panel.style.setProperty('--mission-hero-overlay-gradient', computeOverlayGradient(state.config.visual.heroFadeLeft, state.config.visual.heroFadeRight, state.config.visual.heroFadeStrength));
+    panel.style.setProperty('--mission-hero-image-mask', computeImageMask(state.config.visual.heroFadeLeft, state.config.visual.heroFadeRight));
     panel.style.setProperty('--mission-heading-font', state.config.typography.headingFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-body-font', state.config.typography.bodyFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-hero-title-size', clamp(state.config.typography.heroTitleSize, 2.2, 6.8, 3.75) + 'rem');
@@ -373,20 +502,20 @@
     panel.style.setProperty('--mission-button-size', clamp(state.config.typography.buttonSize, 0.58, 1, 0.76) + 'rem');
     if (bar) {
       bar.style.minHeight = heroMinHeight + 'px';
-      bar.style.height = '';
+      bar.style.height = heroMinHeight + 'px';
     }
     if (overlay) {
       overlay.style.minHeight = heroMinHeight + 'px';
-      overlay.style.height = '';
+      overlay.style.height = heroMinHeight + 'px';
     }
     if (grid) {
       grid.style.minHeight = heroMinHeight + 'px';
-      grid.style.height = '';
+      grid.style.height = heroMinHeight + 'px';
       grid.style.gridTemplateColumns = 'minmax(0,' + heroTextMax + 'px) minmax(0,1fr)';
     }
     if (visual) {
       visual.style.minHeight = heroMinHeight + 'px';
-      visual.style.height = '';
+      visual.style.height = heroMinHeight + 'px';
     }
     if (intro) {
       intro.style.width = heroTextMax + 'px';
@@ -436,6 +565,7 @@
 
     var visible = offerings.filter(function(offering) { return offering.visible !== false; });
     visible.sort(function(a, b) { return (a.order || 99) - (b.order || 99); });
+    var editorOpen = isEditorOpen();
 
     visible.forEach(function(offering, idx) {
       var slug = window.getOfferingSlug(offering, idx);
@@ -459,8 +589,8 @@
       flip.setAttribute('aria-expanded', 'false');
       flip.dataset.flipEnabled = useFlip ? 'true' : 'false';
       flip.dataset.cardId = slug;
-      flip.classList.toggle('is-edit-selected', runtime.activeCardId === slug);
-      if (runtime.activeCardId === slug && runtime.activeCardPreviewFace === 'back' && useFlip) {
+      flip.classList.toggle('is-edit-selected', editorOpen && runtime.activeCardId === slug);
+      if (editorOpen && runtime.activeCardId === slug && runtime.activeCardPreviewFace === 'back' && useFlip) {
         flip.classList.add('is-flipped');
         flip.setAttribute('aria-expanded', 'true');
       }
@@ -472,10 +602,17 @@
       if (offering.frontGraphicPosition) flip.style.setProperty('--card-bg-pos', offering.frontGraphicPosition);
       if (offering.frontGraphicShiftX != null) flip.style.setProperty('--card-graphic-shift-x', offering.frontGraphicShiftX + 'px');
       if (offering.frontGraphicShiftY != null) flip.style.setProperty('--card-graphic-shift-y', offering.frontGraphicShiftY + 'px');
+      if (offering.frontGraphicWidth != null) flip.style.setProperty('--card-graphic-width', offering.frontGraphicWidth + 'px');
       if (offering.frontGraphicOpacity != null) flip.style.setProperty('--card-graphic-opacity', offering.frontGraphicOpacity);
       if (offering.frontGraphicScale != null) flip.style.setProperty('--card-graphic-scale', offering.frontGraphicScale);
+      var frontGraphicFadeLeft = offering.frontGraphicFadeLeft != null ? offering.frontGraphicFadeLeft : offering.frontGraphicFadeX;
+      var frontGraphicFadeRight = offering.frontGraphicFadeRight != null ? offering.frontGraphicFadeRight : offering.frontGraphicFadeX;
+      if (frontGraphicFadeLeft || frontGraphicFadeRight || offering.frontGraphicFadeY) {
+        flip.style.setProperty('--card-graphic-mask', computeImageMask(frontGraphicFadeLeft, frontGraphicFadeRight, offering.frontGraphicFadeY, offering.frontGraphicFadeY));
+      }
       if (offering.frontTitleSize != null) flip.style.setProperty('--mission-card-title-size-local', offering.frontTitleSize + 'rem');
       if (offering.frontBodySize != null) flip.style.setProperty('--mission-card-body-size-local', offering.frontBodySize + 'rem');
+      if (offering.backBodySize != null) flip.style.setProperty('--mission-card-back-body-size-local', offering.backBodySize + 'rem');
       if (offering.frontTextWidth != null) flip.style.setProperty('--mission-card-front-text-width-local', offering.frontTextWidth + 'px');
       if (offering.backBackground) flip.style.setProperty('--mission-card-back-bg', offering.backBackground);
       if (offering.backStripColor) flip.style.setProperty('--mission-card-back-strip-bg', offering.backStripColor);
@@ -518,7 +655,7 @@
           '<div class="card-back">' +
             '<div class="cb-strip">' + escapeHtml(backHeading) + '</div>' +
             '<div class="cb-body">' +
-              '<div class="cb-hook">' + escapeHtml(backCopy) + '</div>' +
+              '<div class="cb-hook" style="font-size:var(--mission-card-back-body-size-local, var(--mission-card-body-size));">' + escapeHtml(backCopy) + '</div>' +
               '<div class="cb-icon">' + window.getIconSVG(offering.icon, '#c84826') + '</div>' +
               backLinksHtml +
             '</div>' +
@@ -584,16 +721,17 @@
 
   function syncEditorScopeVisibility() {
     if (!runtime.ui.shell) return;
-    var scope = runtime.activeEditorScope || 'page';
+    var scope = runtime.activeEditorScope || 'hero';
     var groups = runtime.ui.shell.querySelectorAll('[data-mission-editor-scope]');
     groups.forEach(function(group) {
-      if (scope === 'page') {
-        group.hidden = false;
-        return;
-      }
       var tokens = String(group.getAttribute('data-mission-editor-scope') || '').split(/\s+/).filter(Boolean);
-      group.hidden = tokens.indexOf(scope) === -1;
+      if (scope === 'hero') {
+        group.hidden = tokens.indexOf('hero') === -1;
+      } else {
+        group.hidden = tokens.indexOf('hero') !== -1 || (tokens.indexOf('section') === -1 && tokens.indexOf('page') === -1 && tokens.indexOf('card') === -1);
+      }
     });
+    syncEditorTabs();
   }
 
     async function publishDraft() {
@@ -629,8 +767,54 @@
       }
     };
 
+  function getCardById(cardId) {
+    if (!runtime.currentState || !cardId) return null;
+    for (var i = 0; i < runtime.currentState.cards.length; i += 1) {
+      var card = runtime.currentState.cards[i];
+      if (window.getOfferingSlug(card, i) === cardId) return card;
+    }
+    return null;
+  }
+
+  function getCardsForEditorSection() {
+    if (!runtime.currentState) return [];
+    if (runtime.activeEditorScope !== 'section') {
+      return runtime.currentState.cards.slice();
+    }
+    return runtime.currentState.cards.filter(function(card) {
+      return (card.section || 'ministry') === runtime.activeSectionId;
+    });
+  }
+
+  function ensureActiveCardForSection() {
+    var cards = getCardsForEditorSection();
+    if (!cards.length) {
+      runtime.activeCardId = null;
+      return;
+    }
+    var current = getCardById(runtime.activeCardId);
+    if (!current || (runtime.activeEditorScope === 'section' && current.section !== runtime.activeSectionId)) {
+      runtime.activeCardId = window.getOfferingSlug(cards[0], runtime.currentState.cards.indexOf(cards[0]));
+      runtime.activeCardPreviewFace = 'front';
+    }
+  }
+
+  function syncEditorTabs() {
+    if (!runtime.ui || !runtime.ui.tabs) return;
+    runtime.ui.tabs.forEach(function(tab) {
+      var tabScope = tab.getAttribute('data-mission-editor-tab');
+      var tabSection = tab.getAttribute('data-mission-editor-section');
+      var active = runtime.activeEditorScope === tabScope && (tabScope !== 'section' || tabSection === runtime.activeSectionId);
+      tab.classList.toggle('is-active', active);
+      tab.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+  }
+
   function openEditor(scope) {
-    runtime.activeEditorScope = scope || runtime.activeEditorScope || 'page';
+    runtime.activeEditorScope = scope || runtime.activeEditorScope || 'hero';
+    if (runtime.activeEditorScope === 'section') {
+      ensureActiveCardForSection();
+    }
     runtime.ui.shell.removeAttribute('hidden');
     runtime.ui.toggle.setAttribute('aria-expanded', 'true');
     syncEditorScopeVisibility();
@@ -651,14 +835,20 @@
     }
     runtime.ui.shell.setAttribute('hidden', '');
     runtime.ui.toggle.setAttribute('aria-expanded', 'false');
+    window.renderOfferings(runtime.baseOfferings);
     return true;
   }
 
   function selectCardFromCanvas(cardId, face) {
     runtime.activeCardId = cardId;
     runtime.activeCardPreviewFace = face || 'front';
+    var selectedCard = getCardById(cardId);
+    if (selectedCard && selectedCard.section) {
+      runtime.activeSectionId = selectedCard.section;
+      runtime.orderSectionId = selectedCard.section;
+    }
     if (runtime.controlsReady) {
-      openEditor('card');
+      openEditor('section');
       syncEditorFromState();
     }
   }
@@ -740,14 +930,17 @@
     if (!runtime.currentState) return;
     var previous = runtime.activeCardId;
     runtime.ui.cardSelect.innerHTML = '';
-    runtime.currentState.cards.forEach(function(card, idx) {
+    var cards = getCardsForEditorSection();
+    cards.forEach(function(card) {
+      var idx = runtime.currentState.cards.indexOf(card);
       var slug = window.getOfferingSlug(card, idx);
       var option = document.createElement('option');
       option.value = slug;
       option.textContent = card.frontTitle || card.title || slug;
       runtime.ui.cardSelect.appendChild(option);
     });
-    runtime.activeCardId = previous || (runtime.currentState.cards[0] ? window.getOfferingSlug(runtime.currentState.cards[0], 0) : null);
+    runtime.activeCardId = previous;
+    ensureActiveCardForSection();
     if (runtime.activeCardId) runtime.ui.cardSelect.value = runtime.activeCardId;
   }
 
@@ -759,7 +952,8 @@
     var card = runtime.currentState.cards.find(function(item, idx) {
       return window.getOfferingSlug(item, idx) === runtime.activeCardId;
     });
-    var actions = card && card.cardActions && card.cardActions.length ? card.cardActions.slice(0, 3) : [];
+    var actions = card ? getEffectiveCardActions(card, runtime.activeCardId).slice(0, 3) : [];
+    while (actions.length < 3) actions.push({ label: '', url: '', type: 'resource', visible: true });
     actions.forEach(function(action, index) {
       var block = document.createElement('div');
       block.className = 'editor-field';
@@ -776,16 +970,18 @@
       bindLiveInput(labelInput, function() {
         runtime.activeCardPreviewFace = 'back';
         var cfg = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
-        if (!cfg.actions || !cfg.actions.length) cfg.actions = deepClone(card.cardActions || []);
+        if (!cfg.actions || !cfg.actions.length) cfg.actions = getEffectiveCardActions(card, runtime.activeCardId);
         if (!cfg.actions[index]) cfg.actions[index] = { label: '', url: '', type: 'resource', visible: true };
+        cfg.actions[index].visible = true;
         cfg.actions[index].label = labelInput.value;
         window.renderOfferings(runtime.baseOfferings);
       });
       bindLiveInput(urlInput, function() {
         runtime.activeCardPreviewFace = 'back';
         var cfg = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
-        if (!cfg.actions || !cfg.actions.length) cfg.actions = deepClone(card.cardActions || []);
+        if (!cfg.actions || !cfg.actions.length) cfg.actions = getEffectiveCardActions(card, runtime.activeCardId);
         if (!cfg.actions[index]) cfg.actions[index] = { label: '', url: '', type: 'resource', visible: true };
+        cfg.actions[index].visible = true;
         cfg.actions[index].url = urlInput.value;
         window.renderOfferings(runtime.baseOfferings);
       });
@@ -829,8 +1025,13 @@
     runtime.ui.buttonSizeValue.textContent = Number(runtime.ui.buttonSize.value).toFixed(2) + 'rem';
     runtime.ui.cardArtOpacityValue.textContent = formatPercent(runtime.ui.cardArtOpacity.value);
     runtime.ui.cardArtScaleValue.textContent = Number(runtime.ui.cardArtScale.value).toFixed(2) + 'x';
+    runtime.ui.cardArtWidthValue.textContent = formatPx(runtime.ui.cardArtWidth.value);
+    runtime.ui.cardArtFadeXValue.textContent = Math.round(Number(runtime.ui.cardArtFadeX.value) || 0) + '%';
+    runtime.ui.cardArtFadeRightValue.textContent = Math.round(Number(runtime.ui.cardArtFadeRight.value) || 0) + '%';
+    runtime.ui.cardArtFadeYValue.textContent = Math.round(Number(runtime.ui.cardArtFadeY.value) || 0) + '%';
     runtime.ui.cardTitleSizeLocalValue.textContent = Number(runtime.ui.cardTitleSizeLocal.value).toFixed(2) + 'rem';
     runtime.ui.cardBodySizeLocalValue.textContent = Number(runtime.ui.cardBodySizeLocal.value).toFixed(2) + 'rem';
+    runtime.ui.cardBackBodySizeLocalValue.textContent = Number(runtime.ui.cardBackBodySizeLocal.value).toFixed(2) + 'rem';
     runtime.ui.cardFrontBoxWidthLocalValue.textContent = formatPx(runtime.ui.cardFrontBoxWidthLocal.value);
     runtime.ui.cardArtShiftXValue.textContent = formatPx(runtime.ui.cardArtShiftX.value);
     runtime.ui.cardArtShiftYValue.textContent = formatPx(runtime.ui.cardArtShiftY.value);
@@ -871,16 +1072,19 @@
     runtime.ui.communityColumns.value = String(clamp(config.layout.communityColumns, 1, 4, 2));
     runtime.ui.ministryColumns.value = String(clamp(config.layout.ministryColumns, 1, 4, 3));
     runtime.ui.publicColumns.value = String(clamp(config.layout.publicColumns, 1, 4, 3));
-    runtime.ui.heroImage.value = config.visual.heroImage || '/assets/Graphic_1.png';
+    var selectedHeroImage = config.visual.heroImage || '/assets/Graphic_1.png';
+    setSelectValueWithCustomOption(runtime.ui.heroImage, selectedHeroImage);
+    runtime.ui.heroImagePath.value = normalizeAssetPath(selectedHeroImage);
     runtime.ui.heroImagePosition.value = config.visual.heroImagePosition || 'center right';
+    runtime.ui.heroImageFit.value = config.visual.heroImageFit || 'width';
     runtime.ui.heroImageX.value = clamp(config.visual.heroImageX, 0, 100, getAnchorPercent(config.visual.heroImagePosition).x);
     runtime.ui.heroImageY.value = clamp(config.visual.heroImageY, 0, 100, getAnchorPercent(config.visual.heroImagePosition).y);
     runtime.ui.heroImageScale.value = clamp(config.visual.heroImageScale, 70, 230, 100);
     runtime.ui.heroImageOpacity.value = clamp(config.visual.heroImageOpacity, 0, 0.65, 0.25);
     runtime.ui.heroImageClarity.value = clamp(config.visual.heroImageClarity, 0, 100, 0);
-    runtime.ui.heroFadeStrength.value = clamp(config.visual.heroFadeStrength, 0.2, 0.98, 0.74);
-    runtime.ui.heroFadeLeft.value = clamp(config.visual.heroFadeLeft, 0, 100, clamp((config.visual.heroFadeStrength != null ? config.visual.heroFadeStrength : 0.74) * 100, 20, 98, 74));
-    runtime.ui.heroFadeRight.value = clamp(config.visual.heroFadeRight, 0, 100, 8);
+    runtime.ui.heroFadeStrength.value = clamp(config.visual.heroFadeStrength, 0.2, 0.98, 0.32);
+    runtime.ui.heroFadeLeft.value = clamp(config.visual.heroFadeLeft, 0, 100, 18);
+    runtime.ui.heroFadeRight.value = clamp(config.visual.heroFadeRight, 0, 100, 12);
     runtime.ui.headingFont.value = config.typography.headingFont || "'Montserrat', sans-serif";
     runtime.ui.bodyFont.value = config.typography.bodyFont || "'Montserrat', sans-serif";
     runtime.ui.heroTitleSize.value = clamp(config.typography.heroTitleSize, 2.2, 6.8, 3.75);
@@ -906,15 +1110,22 @@
       runtime.ui.cardMeta.textContent = (SECTION_META[card.section] ? SECTION_META[card.section].label : 'Mission') + ' card';
       runtime.ui.cardTitle.value = card.frontTitle || card.title || '';
       runtime.ui.cardDescription.value = card.frontDescription || '';
-      runtime.ui.cardArtwork.value = card.frontGraphicUrl || ((window.MISSION_CARD_GRAPHICS && window.MISSION_CARD_GRAPHICS[runtime.activeCardId] && window.MISSION_CARD_GRAPHICS[runtime.activeCardId].url) || CARD_ART_OPTIONS[0].value);
+      var selectedArtwork = card.frontGraphicUrl || ((window.MISSION_CARD_GRAPHICS && window.MISSION_CARD_GRAPHICS[runtime.activeCardId] && window.MISSION_CARD_GRAPHICS[runtime.activeCardId].url) || CARD_ART_OPTIONS[0].value);
+      setSelectValueWithCustomOption(runtime.ui.cardArtwork, selectedArtwork);
+      runtime.ui.cardArtworkPath.value = normalizeAssetPath(selectedArtwork);
       runtime.ui.cardArtPosition.value = card.frontGraphicPosition || ((window.MISSION_CARD_GRAPHICS && window.MISSION_CARD_GRAPHICS[runtime.activeCardId] && window.MISSION_CARD_GRAPHICS[runtime.activeCardId].pos) || 'center right');
       runtime.ui.cardTitleSizeLocal.value = clamp(card.frontTitleSize, 0.9, 1.9, clamp(config.typography.cardTitleSize, 0.9, 1.8, 1.45));
       runtime.ui.cardBodySizeLocal.value = clamp(card.frontBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
+      runtime.ui.cardBackBodySizeLocal.value = clamp(card.backBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
       runtime.ui.cardFrontBoxWidthLocal.value = clamp(card.frontTextWidth, 180, 420, clamp(config.typography.cardFrontTextWidth, 140, 420, 260));
-      runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -180, 180, 0);
-      runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -180, 180, 0);
+      runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -360, 360, 0);
+      runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -320, 320, 0);
+      runtime.ui.cardArtWidth.value = clamp(card.frontGraphicWidth, 80, 560, card.section === 'community' ? 164 : 144);
       runtime.ui.cardArtOpacity.value = card.frontGraphicOpacity != null ? card.frontGraphicOpacity : 0.9;
-      runtime.ui.cardArtScale.value = card.frontGraphicScale != null ? card.frontGraphicScale : 1;
+      runtime.ui.cardArtScale.value = card.frontGraphicScale != null ? clamp(card.frontGraphicScale, 0.4, 3.6, 1) : 1;
+      runtime.ui.cardArtFadeX.value = clamp(card.frontGraphicFadeLeft != null ? card.frontGraphicFadeLeft : card.frontGraphicFadeX, 0, 100, 0);
+      runtime.ui.cardArtFadeRight.value = clamp(card.frontGraphicFadeRight != null ? card.frontGraphicFadeRight : card.frontGraphicFadeX, 0, 100, 0);
+      runtime.ui.cardArtFadeY.value = clamp(card.frontGraphicFadeY, 0, 100, 0);
       runtime.ui.cardBackTitle.value = card.backHeading || '';
       runtime.ui.cardBackDescription.value = card.backDescription || '';
       runtime.ui.cardButtonLabel.value = cardConfig.primaryActionLabel || (((card.cardActions || [])[0] || {}).label || '');
@@ -934,6 +1145,7 @@
   }
 
   function bindLiveInput(element, handler) {
+    if (!element) return;
     element.addEventListener('input', handler);
     element.addEventListener('change', handler);
   }
@@ -948,6 +1160,7 @@
       draftNotice: document.getElementById('mission-editor-draft-notice'),
       restoreDraft: document.getElementById('mission-editor-restore-draft'),
       discardDraft: document.getElementById('mission-editor-discard-draft'),
+      tabs: Array.prototype.slice.call(document.querySelectorAll('#mission-editor-shell [data-mission-editor-tab]')),
       heroHeadline: document.getElementById('mission-editor-hero-headline'),
       heroBody: document.getElementById('mission-editor-hero-body'),
       sectionSelect: document.getElementById('mission-editor-section-select'),
@@ -980,7 +1193,12 @@
       ministryColumns: document.getElementById('mission-editor-ministry-columns'),
       publicColumns: document.getElementById('mission-editor-public-columns'),
       heroImage: document.getElementById('mission-editor-hero-image'),
+      heroImagePath: document.getElementById('mission-editor-hero-image-path'),
+      heroImageUpload: document.getElementById('mission-editor-hero-image-upload'),
+      heroImageUploadButton: document.getElementById('mission-editor-hero-image-upload-button'),
+      heroImageUploadStatus: document.getElementById('mission-editor-hero-image-upload-status'),
       heroImagePosition: document.getElementById('mission-editor-hero-image-position'),
+      heroImageFit: document.getElementById('mission-editor-hero-image-fit'),
       heroImageX: document.getElementById('mission-editor-hero-image-x'),
       heroImageXValue: document.getElementById('mission-editor-hero-image-x-value'),
       heroImageY: document.getElementById('mission-editor-hero-image-y'),
@@ -1044,18 +1262,32 @@
       cardTitleSizeLocalValue: document.getElementById('mission-editor-card-title-size-local-value'),
       cardBodySizeLocal: document.getElementById('mission-editor-card-body-size-local'),
       cardBodySizeLocalValue: document.getElementById('mission-editor-card-body-size-local-value'),
+      cardBackBodySizeLocal: document.getElementById('mission-editor-card-back-body-size-local'),
+      cardBackBodySizeLocalValue: document.getElementById('mission-editor-card-back-body-size-local-value'),
       cardFrontBoxWidthLocal: document.getElementById('mission-editor-card-front-box-width-local'),
       cardFrontBoxWidthLocalValue: document.getElementById('mission-editor-card-front-box-width-local-value'),
       cardArtwork: document.getElementById('mission-editor-card-artwork'),
+      cardArtworkPath: document.getElementById('mission-editor-card-artwork-path'),
+      cardArtworkUpload: document.getElementById('mission-editor-card-artwork-upload'),
+      cardArtworkUploadButton: document.getElementById('mission-editor-card-artwork-upload-button'),
+      cardArtworkUploadStatus: document.getElementById('mission-editor-card-artwork-upload-status'),
       cardArtPosition: document.getElementById('mission-editor-card-art-position'),
       cardArtShiftX: document.getElementById('mission-editor-card-art-shift-x'),
       cardArtShiftXValue: document.getElementById('mission-editor-card-art-shift-x-value'),
       cardArtShiftY: document.getElementById('mission-editor-card-art-shift-y'),
       cardArtShiftYValue: document.getElementById('mission-editor-card-art-shift-y-value'),
+      cardArtWidth: document.getElementById('mission-editor-card-art-width'),
+      cardArtWidthValue: document.getElementById('mission-editor-card-art-width-value'),
       cardArtOpacity: document.getElementById('mission-editor-card-art-opacity'),
       cardArtOpacityValue: document.getElementById('mission-editor-card-art-opacity-value'),
       cardArtScale: document.getElementById('mission-editor-card-art-scale'),
       cardArtScaleValue: document.getElementById('mission-editor-card-art-scale-value'),
+      cardArtFadeX: document.getElementById('mission-editor-card-art-fade-x'),
+      cardArtFadeXValue: document.getElementById('mission-editor-card-art-fade-x-value'),
+      cardArtFadeRight: document.getElementById('mission-editor-card-art-fade-right'),
+      cardArtFadeRightValue: document.getElementById('mission-editor-card-art-fade-right-value'),
+      cardArtFadeY: document.getElementById('mission-editor-card-art-fade-y'),
+      cardArtFadeYValue: document.getElementById('mission-editor-card-art-fade-y-value'),
       cardBackTitle: document.getElementById('mission-editor-card-back-title'),
       cardBackDescription: document.getElementById('mission-editor-card-back-description'),
       cardButtonLabel: document.getElementById('mission-editor-card-button-label'),
@@ -1075,6 +1307,21 @@
     populateHeroImages();
     populateCardArtworkOptions();
 
+    runtime.ui.tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var scope = tab.getAttribute('data-mission-editor-tab') || 'hero';
+        var section = tab.getAttribute('data-mission-editor-section');
+        runtime.activeEditorScope = scope;
+        if (section) {
+          runtime.activeSectionId = section;
+          runtime.orderSectionId = section;
+          ensureActiveCardForSection();
+        }
+        openEditor(scope);
+        syncEditorFromState();
+      });
+    });
+
     if (window.attachPageEditorShellBehavior) {
       window.attachPageEditorShellBehavior({
         shell: runtime.ui.shell,
@@ -1086,7 +1333,7 @@
       });
     }
     runtime.ui.toggle.addEventListener('click', function() {
-      if (runtime.ui.shell.hasAttribute('hidden')) openEditor('page');
+      if (runtime.ui.shell.hasAttribute('hidden')) openEditor(runtime.activeEditorScope || 'hero');
       else closeEditor();
     });
 
@@ -1108,6 +1355,9 @@
     });
     runtime.ui.sectionSelect.addEventListener('change', function() {
       runtime.activeSectionId = runtime.ui.sectionSelect.value;
+      runtime.orderSectionId = runtime.activeSectionId;
+      if (runtime.activeEditorScope !== 'hero') runtime.activeEditorScope = 'section';
+      ensureActiveCardForSection();
       syncEditorFromState();
     });
     bindLiveInput(runtime.ui.sectionTitle, function() {
@@ -1146,7 +1396,7 @@
       });
     });
 
-    ['heroTextAlign', 'heroBalance', 'communityColumns', 'ministryColumns', 'publicColumns', 'heroImage', 'heroImagePosition', 'headingFont', 'bodyFont'].forEach(function(key) {
+    ['heroTextAlign', 'heroBalance', 'communityColumns', 'ministryColumns', 'publicColumns', 'heroImage', 'heroImagePosition', 'heroImageFit', 'headingFont', 'bodyFont'].forEach(function(key) {
       runtime.ui[key].addEventListener('change', function() {
         var map = {
           heroTextAlign: 'heroTextAlign',
@@ -1155,18 +1405,48 @@
           ministryColumns: 'ministryColumns',
           publicColumns: 'publicColumns'
         };
-        if (key === 'heroImage') runtime.draftConfig.visual.heroImage = runtime.ui.heroImage.value;
+        if (key === 'heroImage') {
+          runtime.draftConfig.visual.heroImage = runtime.ui.heroImage.value;
+          runtime.ui.heroImagePath.value = normalizeAssetPath(runtime.ui.heroImage.value);
+        }
         else if (key === 'heroImagePosition') {
           var preset = getAnchorPercent(runtime.ui.heroImagePosition.value);
           runtime.draftConfig.visual.heroImagePosition = runtime.ui.heroImagePosition.value;
           runtime.draftConfig.visual.heroImageX = preset.x;
           runtime.draftConfig.visual.heroImageY = preset.y;
         }
+        else if (key === 'heroImageFit') runtime.draftConfig.visual.heroImageFit = runtime.ui.heroImageFit.value;
         else if (key === 'headingFont') runtime.draftConfig.typography.headingFont = runtime.ui.headingFont.value;
         else if (key === 'bodyFont') runtime.draftConfig.typography.bodyFont = runtime.ui.bodyFont.value;
         else runtime.draftConfig.layout[map[key]] = key.indexOf('Columns') !== -1 ? Number(runtime.ui[key].value) : runtime.ui[key].value;
         window.renderOfferings(runtime.baseOfferings);
       });
+    });
+    bindLiveInput(runtime.ui.heroImagePath, function() {
+      var path = normalizeAssetPath(runtime.ui.heroImagePath.value);
+      runtime.draftConfig.visual.heroImage = path ? '/' + path : '';
+      setSelectValueWithCustomOption(runtime.ui.heroImage, runtime.draftConfig.visual.heroImage);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    runtime.ui.heroImageUploadButton.addEventListener('click', async function() {
+      var file = runtime.ui.heroImageUpload.files && runtime.ui.heroImageUpload.files[0];
+      var pathError = getUploadPathError(runtime.ui.heroImagePath.value);
+      var uploadPath = pathForUploadAssetFunction(runtime.ui.heroImagePath.value);
+      if (!file || pathError) {
+        runtime.ui.heroImageUploadStatus.textContent = !file ? 'Choose a file before uploading.' : pathError;
+        return;
+      }
+      runtime.ui.heroImageUploadStatus.textContent = 'Uploading to Git...';
+      try {
+        var data = await uploadGitAsset(file, uploadPath);
+        runtime.draftConfig.visual.heroImage = data.url || ('/assets/' + uploadPath);
+        runtime.ui.heroImagePath.value = normalizeAssetPath(runtime.draftConfig.visual.heroImage);
+        setSelectValueWithCustomOption(runtime.ui.heroImage, runtime.draftConfig.visual.heroImage, 'Uploaded Git asset');
+        runtime.ui.heroImageUploadStatus.textContent = 'Uploaded: ' + runtime.draftConfig.visual.heroImage;
+        window.renderOfferings(runtime.baseOfferings);
+      } catch (err) {
+        runtime.ui.heroImageUploadStatus.textContent = err.message || 'Upload failed';
+      }
     });
     bindLiveInput(runtime.ui.heroImageX, function() {
       runtime.draftConfig.visual.heroImageX = Number(runtime.ui.heroImageX.value);
@@ -1189,10 +1469,10 @@
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.heroFadeStrength, function() {
-      runtime.draftConfig.visual.heroFadeStrength = Number(runtime.ui.heroFadeStrength.value);
-      if (runtime.draftConfig.visual.heroFadeLeft == null) {
-        runtime.draftConfig.visual.heroFadeLeft = clamp(Number(runtime.ui.heroFadeStrength.value) * 100, 20, 98, 74);
-      }
+      var strength = Number(runtime.ui.heroFadeStrength.value);
+      runtime.draftConfig.visual.heroFadeStrength = strength;
+      runtime.draftConfig.visual.heroFadeLeft = clamp(strength * 55, 0, 50, 18);
+      runtime.draftConfig.visual.heroFadeRight = clamp(strength * 40, 0, 50, 12);
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.heroFadeLeft, function() {
@@ -1229,6 +1509,8 @@
     });
     runtime.ui.orderSectionSelect.addEventListener('change', function() {
       runtime.orderSectionId = runtime.ui.orderSectionSelect.value;
+      runtime.activeSectionId = runtime.orderSectionId;
+      if (runtime.activeEditorScope !== 'hero') runtime.activeEditorScope = 'section';
       syncEditorFromState();
     });
     runtime.ui.orderSectionValue.addEventListener('change', function() {
@@ -1238,14 +1520,46 @@
     runtime.ui.cardSelect.addEventListener('change', function() {
       runtime.activeCardId = runtime.ui.cardSelect.value;
       runtime.activeCardPreviewFace = 'front';
-      openEditor('card');
+      openEditor('section');
       syncEditorFromState();
     });
     runtime.ui.cardArtwork.addEventListener('change', function() {
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
       card.frontGraphicUrl = runtime.ui.cardArtwork.value;
+      runtime.ui.cardArtworkPath.value = normalizeAssetPath(runtime.ui.cardArtwork.value);
       window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtworkPath, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var path = normalizeAssetPath(runtime.ui.cardArtworkPath.value);
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicUrl = path ? '/' + path : '';
+      setSelectValueWithCustomOption(runtime.ui.cardArtwork, card.frontGraphicUrl);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    runtime.ui.cardArtworkUploadButton.addEventListener('click', function() {
+      var file = runtime.ui.cardArtworkUpload.files && runtime.ui.cardArtworkUpload.files[0];
+      var pathError = getUploadPathError(runtime.ui.cardArtworkPath.value);
+      var uploadPath = pathForUploadAssetFunction(runtime.ui.cardArtworkPath.value);
+      if (!file || pathError) {
+        runtime.ui.cardArtworkUploadStatus.textContent = !file ? 'Choose a file before uploading.' : pathError;
+        return;
+      }
+      runtime.ui.cardArtworkUploadStatus.textContent = 'Uploading to Git...';
+      uploadGitAsset(file, uploadPath)
+        .then(function(data) {
+          runtime.activeCardPreviewFace = 'front';
+          var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+          card.frontGraphicUrl = data.url || ('/assets/' + uploadPath);
+          runtime.ui.cardArtworkPath.value = normalizeAssetPath(card.frontGraphicUrl);
+          setSelectValueWithCustomOption(runtime.ui.cardArtwork, card.frontGraphicUrl, 'Uploaded Git asset');
+          runtime.ui.cardArtworkUploadStatus.textContent = 'Uploaded: ' + card.frontGraphicUrl;
+          window.renderOfferings(runtime.baseOfferings);
+        })
+        .catch(function(err) {
+          runtime.ui.cardArtworkUploadStatus.textContent = err.message || 'Upload failed';
+        });
     });
     runtime.ui.cardArtPosition.addEventListener('change', function() {
       runtime.activeCardPreviewFace = 'front';
@@ -1265,6 +1579,32 @@
       card.frontGraphicScale = Number(runtime.ui.cardArtScale.value);
       window.renderOfferings(runtime.baseOfferings);
     });
+    bindLiveInput(runtime.ui.cardArtWidth, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicWidth = Number(runtime.ui.cardArtWidth.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtFadeX, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicFadeLeft = Number(runtime.ui.cardArtFadeX.value);
+      delete card.frontGraphicFadeX;
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtFadeRight, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicFadeRight = Number(runtime.ui.cardArtFadeRight.value);
+      delete card.frontGraphicFadeX;
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtFadeY, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicFadeY = Number(runtime.ui.cardArtFadeY.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
     bindLiveInput(runtime.ui.cardTitleSizeLocal, function() {
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
@@ -1275,6 +1615,12 @@
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
       card.frontBodySize = Number(runtime.ui.cardBodySizeLocal.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardBackBodySizeLocal, function() {
+      runtime.activeCardPreviewFace = 'back';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.backBodySize = Number(runtime.ui.cardBackBodySizeLocal.value);
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardFrontBoxWidthLocal, function() {
@@ -1299,14 +1645,12 @@
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
       card.frontTitle = runtime.ui.cardTitle.value;
-      card.backHeading = runtime.ui.cardTitle.value;
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardDescription, function() {
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
       card.frontDescription = runtime.ui.cardDescription.value;
-      card.backDescription = runtime.ui.cardDescription.value;
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardBackTitle, function() {
@@ -1327,6 +1671,8 @@
     runtime.ui.cardSection.addEventListener('change', function() {
       runtime.activeCardPreviewFace = 'front';
       ensureCardConfig(runtime.draftConfig, runtime.activeCardId).section = runtime.ui.cardSection.value;
+      runtime.activeSectionId = runtime.ui.cardSection.value;
+      runtime.orderSectionId = runtime.ui.cardSection.value;
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardOrder, function() {
@@ -1358,13 +1704,21 @@
       runtime.baselineConfig = deepClone(runtime.draftConfig);
       notifySaved('Changes saved in browser');
     });
-    runtime.ui.reset.addEventListener('click', function() {
+    runtime.ui.reset.addEventListener('click', async function() {
+      var originalText = runtime.ui.reset.textContent;
+      runtime.ui.reset.disabled = true;
+      runtime.ui.reset.textContent = 'Loading...';
+      updateStatus('Loading published version...');
       clearStoredConfig();
       runtime.storedDraftConfig = null;
-      runtime.draftConfig = deepClone(runtime.defaultConfig);
-      runtime.baselineConfig = deepClone(runtime.draftConfig);
-      window.renderOfferings(runtime.baseOfferings);
-      notifySaved('Reset to default preview');
+      try {
+        await reloadPublishedDraft();
+        window.renderOfferings(runtime.baseOfferings);
+        notifySaved('Reverted to published version');
+      } finally {
+        runtime.ui.reset.disabled = false;
+        runtime.ui.reset.textContent = originalText;
+      }
     });
     runtime.ui.restoreDraft.addEventListener('click', function() {
       if (!runtime.storedDraftConfig) return;
@@ -1372,10 +1726,11 @@
       window.renderOfferings(runtime.baseOfferings);
       notifySaved('Local draft restored');
     });
-    runtime.ui.discardDraft.addEventListener('click', function() {
+    runtime.ui.discardDraft.addEventListener('click', async function() {
       clearStoredConfig();
       runtime.storedDraftConfig = null;
-      loadPublishedDraft();
+      updateStatus('Loading published version...');
+      await reloadPublishedDraft();
       window.renderOfferings(runtime.baseOfferings);
       notifySaved('Local draft discarded');
     });
@@ -1393,6 +1748,8 @@
     runtime.baseOfferings = deepClone((missionData.offerings && missionData.offerings.length) ? missionData.offerings : (window.FALLBACK_OFFERINGS || []));
     window.renderOfferings(runtime.baseOfferings);
     initEditor();
+    if (window.dashboardMarkConfigReady) window.dashboardMarkConfigReady('whoweare');
+    else if (document.body) document.body.classList.remove('page-config-loading');
   }
 
   document.addEventListener('DOMContentLoaded', function() {

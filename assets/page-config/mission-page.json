@@ -8,7 +8,7 @@
   "layout": {
     "shellMax": 1780,
     "heroTextMax": 960,
-    "heroMinHeight": 340,
+    "heroMinHeight": 420,
     "heroOffsetY": 10,
     "heroColumns": "1.05fr 0.95fr",
     "heroTextAlign": "left",
@@ -23,23 +23,25 @@
     "sectionGap": 24
   },
   "visual": {
-    "heroImage": "/assets/Graphic_1.png",
+    "heroImage": "/assets/student_photos/Master Class Student Talking 1.jpg",
     "heroImagePosition": "center right",
+    "heroImageFit": "width",
     "heroImageX": 100,
-    "heroImageY": 47,
-    "heroImageScale": 104,
-    "heroImageOpacity": 0.56,
-    "heroFadeStrength": 0.56,
-    "heroFadeLeft": 26,
-    "heroFadeRight": 20
+    "heroImageY": 31,
+    "heroImageScale": 78,
+    "heroImageOpacity": 0.48,
+    "heroImageClarity": 17,
+    "heroFadeStrength": 0.27,
+    "heroFadeLeft": 46,
+    "heroFadeRight": 22
   },
   "typography": {
     "headingFont": "'Montserrat', sans-serif",
     "bodyFont": "'Montserrat', sans-serif",
     "heroTitleSize": 3.4,
     "bodySize": 1,
-    "heroBodyWidth": 670,
-    "heroBodyMinHeight": 8,
+    "heroBodyWidth": 680,
+    "heroBodyMinHeight": 4,
     "heroTitleWidth": 700,
     "heroTitleGap": 20,
     "sectionTitleSize": 1.65,
@@ -87,6 +89,17 @@
       "backHeading": "Courses in the Community",
       "backDescription": "Page through our Partner Lookbook for a feel of a Foundry course, then see what's currently being offered.",
       "primaryActionLabel": "Open the Partner Lookbook",
+      "backBackground": "#1e2530",
+      "backStripColor": "#c84826",
+      "backTextColor": "#fafaf2",
+      "buttonColor": "#c84826",
+      "buttonTextColor": "#fafaf2",
+      "frontGraphicScale": 2.56,
+      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-1-seated-conversation.png",
+      "frontGraphicShiftX": -6,
+      "frontGraphicFadeRight": 13,
+      "frontGraphicShiftY": -76,
+      "frontGraphicOpacity": 0.45,
       "backLayout": "lookbook",
       "lookbookImage": "/assets/flipbook/courses-flipbook-cover.png",
       "lookbookUrl": "#flipbook",
@@ -104,9 +117,7 @@
           "type": "course",
           "visible": true
         }
-      ],
-      "frontGraphicScale": 1.6,
-      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-1-seated-conversation.png"
+      ]
     },
     "on-demand-courses": {
       "section": "community",
@@ -118,7 +129,11 @@
       "backDescription": "Asynchronous, pre-recorded Bible & theology courses for groups & individuals.",
       "primaryActionLabel": "Browse On-Demand Library",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-1-reader-presenter.png",
-      "frontGraphicScale": 1.6
+      "frontGraphicScale": 2.84,
+      "frontGraphicOpacity": 0.4,
+      "frontGraphicShiftY": 28,
+      "frontGraphicShiftX": 20,
+      "frontGraphicFadeLeft": 15
     },
     "sunday-school-simplified": {
       "section": "ministry",
@@ -130,9 +145,11 @@
       "backDescription": "Easy, no-prep Sunday School & Bible study lessons.",
       "primaryActionLabel": "Free Lesson 1",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-booktop-pair.png",
-      "frontGraphicScale": 1.6,
-      "frontGraphicOpacity": 0.73,
-      "frontGraphicShiftX": 38
+      "frontGraphicScale": 3.14,
+      "frontGraphicOpacity": 0.26,
+      "frontGraphicShiftX": 158,
+      "frontGraphicFadeLeft": 15,
+      "frontGraphicFadeRight": 40
     },
     "3-minute-bible": {
       "section": "ministry",
@@ -144,7 +161,10 @@
       "backDescription": "3-minute video lessons Biblical and theological concepts for lay & ordained leaders",
       "primaryActionLabel": "Watch What Is a Covenant?",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-phone-user.png",
-      "frontGraphicScale": 1.52
+      "frontGraphicScale": 3.6,
+      "frontGraphicOpacity": 0.38,
+      "frontGraphicShiftY": 174,
+      "frontGraphicShiftX": 24
     },
     "unstuck": {
       "section": "ministry",
@@ -155,10 +175,14 @@
       "backHeading": "Unstuck",
       "backDescription": "Video resources for vocational and spiritual discernment.",
       "primaryActionLabel": "Watch Belonging & Purpose",
-      "frontGraphicScale": 1.6,
+      "frontGraphicScale": 2.44,
       "frontGraphicUrl": "/assets/Graphic Vignettes/homepage-tablet-standing-seated.png",
-      "frontGraphicShiftX": 58,
-      "frontGraphicShiftY": -10
+      "frontGraphicShiftX": 126,
+      "frontGraphicShiftY": 20,
+      "frontGraphicOpacity": 0.42,
+      "frontGraphicFadeY": 35,
+      "frontGraphicFadeRight": 53,
+      "frontGraphicFadeLeft": 5
     },
     "scholars-blog": {
       "section": "public",
@@ -180,9 +204,14 @@
       "backDescription": "TED-style talks on theology, spirituality, & faith. Free discussion guides.",
       "primaryActionLabel": "Browse TheoEd Talks",
       "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-side-reader.png",
-      "frontGraphicScale": 1.58,
-      "frontGraphicShiftX": 86,
-      "frontGraphicShiftY": -30
+      "frontGraphicScale": 2.24,
+      "frontGraphicShiftX": 172,
+      "frontGraphicShiftY": -44,
+      "frontGraphicOpacity": 0.35,
+      "frontGraphicWidth": 230,
+      "frontGraphicFadeLeft": 49,
+      "frontGraphicFadeRight": 55,
+      "frontGraphicFadeY": 31
     },
     "candler-in-conversation": {
       "section": "public",
