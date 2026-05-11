@@ -127,9 +127,9 @@
       "backHeading": "On-Demand Courses",
       "backDescription": "Try our free Sabbath course as a sample, then explore the rest of the on-demand library.",
       "primaryActionLabel": "Take a Free Course",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-screens-presenter.png",
-      "frontGraphicScale": 1.5,
-      "frontGraphicOpacity": 0.45,
+      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-city-life-banner.png",
+      "frontGraphicScale": 10.3,
+      "frontGraphicOpacity": 0.4,
       "backLayout": "lookbook",
       "lookbookImage": "/assets/Other Images/Sabbath_compressed.jpg",
       "lookbookUrl": "#sabbath-course",
@@ -151,7 +151,8 @@
         }
       ],
       "lookbookTileTilt": 0,
-      "lookbookTileFlat": true
+      "lookbookTileFlat": true,
+      "frontGraphicShiftY": -244
     },
     "sunday-school-simplified": {
       "section": "ministry",
@@ -162,9 +163,11 @@
       "backHeading": "Sunday School Simplified",
       "backDescription": "Easy, no-prep Sunday School & Bible study lessons.",
       "primaryActionLabel": "Free Lesson 1",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-pavilion-readers.png",
-      "frontGraphicScale": 1.5,
-      "frontGraphicOpacity": 0.45
+      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-city-life-banner.png",
+      "frontGraphicScale": 6.5,
+      "frontGraphicOpacity": 0.45,
+      "frontGraphicShiftX": 360,
+      "frontGraphicShiftY": -118
     },
     "3-minute-bible": {
       "section": "ministry",
