@@ -294,13 +294,21 @@
     }
   }
 
-  function computeImageMask(leftFade, rightFade, topFade, bottomFade) {
+  function computeImageMask(leftFade, rightFade, topFade, bottomFade, edgeStrength) {
     var left = clamp(leftFade, 0, 100, 0);
     var right = clamp(rightFade, 0, 100, 0);
     var top = clamp(topFade, 0, 100, 0);
     var bottom = clamp(bottomFade, 0, 100, 0);
-    var horizontal = 'linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.18) ' + Math.round(left * 0.35) + '%, #000 ' + Math.round(left) + '%, #000 ' + Math.round(100 - right) + '%, rgba(0,0,0,0.18) ' + Math.round(100 - (right * 0.35)) + '%, transparent 100%)';
-    var vertical = 'linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.18) ' + Math.round(top * 0.35) + '%, #000 ' + Math.round(top) + '%, #000 ' + Math.round(100 - bottom) + '%, rgba(0,0,0,0.18) ' + Math.round(100 - (bottom * 0.35)) + '%, transparent 100%)';
+    // edgeStrength 0..100 -> edge alpha 0..0.72 (so at 100 the edge still has a
+    // visible veil rather than being fully opaque). At 0 the gradient is the
+    // original full-erase behavior (transparent at the edge).
+    var strength = clamp(edgeStrength, 0, 100, 0) / 100;
+    var edgeA = strength * 0.72;
+    var midA = edgeA + (1 - edgeA) * 0.18;
+    var edgeColor = 'rgba(0,0,0,' + edgeA.toFixed(3) + ')';
+    var midColor = 'rgba(0,0,0,' + midA.toFixed(3) + ')';
+    var horizontal = 'linear-gradient(90deg, ' + edgeColor + ' 0%, ' + midColor + ' ' + Math.round(left * 0.35) + '%, #000 ' + Math.round(left) + '%, #000 ' + Math.round(100 - right) + '%, ' + midColor + ' ' + Math.round(100 - (right * 0.35)) + '%, ' + edgeColor + ' 100%)';
+    var vertical = 'linear-gradient(180deg, ' + edgeColor + ' 0%, ' + midColor + ' ' + Math.round(top * 0.35) + '%, #000 ' + Math.round(top) + '%, #000 ' + Math.round(100 - bottom) + '%, ' + midColor + ' ' + Math.round(100 - (bottom * 0.35)) + '%, ' + edgeColor + ' 100%)';
     if (!top && !bottom) return horizontal;
     if (!left && !right) return vertical;
     return horizontal + ', ' + vertical;
@@ -474,6 +482,7 @@
       card.frontGraphicFadeLeft = overrides.frontGraphicFadeLeft != null ? overrides.frontGraphicFadeLeft : (offering.frontGraphicFadeLeft != null ? offering.frontGraphicFadeLeft : null);
       card.frontGraphicFadeRight = overrides.frontGraphicFadeRight != null ? overrides.frontGraphicFadeRight : (offering.frontGraphicFadeRight != null ? offering.frontGraphicFadeRight : null);
       card.frontGraphicFadeY = overrides.frontGraphicFadeY != null ? overrides.frontGraphicFadeY : (offering.frontGraphicFadeY != null ? offering.frontGraphicFadeY : 0);
+      card.frontGraphicFadeStrength = overrides.frontGraphicFadeStrength != null ? overrides.frontGraphicFadeStrength : (offering.frontGraphicFadeStrength != null ? offering.frontGraphicFadeStrength : 0);
       if (overrides.actions && overrides.actions.length) {
         card.cardActions = deepClone(overrides.actions);
       } else if (offering.cardActions || offering.links || meta.actions) {
@@ -666,8 +675,8 @@
       if (offering.frontGraphicScale != null) flip.style.setProperty('--card-graphic-scale', offering.frontGraphicScale);
       var frontGraphicFadeLeft = offering.frontGraphicFadeLeft != null ? offering.frontGraphicFadeLeft : offering.frontGraphicFadeX;
       var frontGraphicFadeRight = offering.frontGraphicFadeRight != null ? offering.frontGraphicFadeRight : offering.frontGraphicFadeX;
-      if (frontGraphicFadeLeft || frontGraphicFadeRight || offering.frontGraphicFadeY) {
-        flip.style.setProperty('--card-graphic-mask', computeImageMask(frontGraphicFadeLeft, frontGraphicFadeRight, offering.frontGraphicFadeY, offering.frontGraphicFadeY));
+      if (frontGraphicFadeLeft || frontGraphicFadeRight || offering.frontGraphicFadeY || offering.frontGraphicFadeStrength) {
+        flip.style.setProperty('--card-graphic-mask', computeImageMask(frontGraphicFadeLeft, frontGraphicFadeRight, offering.frontGraphicFadeY, offering.frontGraphicFadeY, offering.frontGraphicFadeStrength));
       }
       if (offering.frontTitleSize != null) flip.style.setProperty('--mission-card-title-size-local', offering.frontTitleSize + 'rem');
       if (offering.frontBodySize != null) flip.style.setProperty('--mission-card-body-size-local', offering.frontBodySize + 'rem');
@@ -1095,6 +1104,7 @@
     runtime.ui.cardArtFadeXValue.textContent = Math.round(Number(runtime.ui.cardArtFadeX.value) || 0) + '%';
     runtime.ui.cardArtFadeRightValue.textContent = Math.round(Number(runtime.ui.cardArtFadeRight.value) || 0) + '%';
     runtime.ui.cardArtFadeYValue.textContent = Math.round(Number(runtime.ui.cardArtFadeY.value) || 0) + '%';
+    runtime.ui.cardArtFadeStrengthValue.textContent = Math.round(Number(runtime.ui.cardArtFadeStrength.value) || 0) + '%';
     runtime.ui.cardTitleSizeLocalValue.textContent = Number(runtime.ui.cardTitleSizeLocal.value).toFixed(2) + 'rem';
     runtime.ui.cardBodySizeLocalValue.textContent = Number(runtime.ui.cardBodySizeLocal.value).toFixed(2) + 'rem';
     runtime.ui.cardBackBodySizeLocalValue.textContent = Number(runtime.ui.cardBackBodySizeLocal.value).toFixed(2) + 'rem';
@@ -1181,7 +1191,7 @@
       runtime.ui.cardBodySizeLocal.value = clamp(card.frontBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
       runtime.ui.cardBackBodySizeLocal.value = clamp(card.backBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
       runtime.ui.cardFrontBoxWidthLocal.value = clamp(card.frontTextWidth, 180, 420, clamp(config.typography.cardFrontTextWidth, 140, 420, 260));
-      runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -1500, 1500, 0);
+      runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -2400, 2400, 0);
       runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -800, 800, 0);
       runtime.ui.cardArtWidth.value = clamp(card.frontGraphicWidth, 80, 560, card.section === 'community' ? 164 : 144);
       runtime.ui.cardArtOpacity.value = card.frontGraphicOpacity != null ? card.frontGraphicOpacity : 0.9;
@@ -1189,6 +1199,7 @@
       runtime.ui.cardArtFadeX.value = clamp(card.frontGraphicFadeLeft != null ? card.frontGraphicFadeLeft : card.frontGraphicFadeX, 0, 100, 0);
       runtime.ui.cardArtFadeRight.value = clamp(card.frontGraphicFadeRight != null ? card.frontGraphicFadeRight : card.frontGraphicFadeX, 0, 100, 0);
       runtime.ui.cardArtFadeY.value = clamp(card.frontGraphicFadeY, 0, 100, 0);
+      runtime.ui.cardArtFadeStrength.value = clamp(card.frontGraphicFadeStrength, 0, 100, 0);
       runtime.ui.cardBackTitle.value = card.backHeading || '';
       runtime.ui.cardBackDescription.value = card.backDescription || '';
       runtime.ui.cardButtonLabel.value = cardConfig.primaryActionLabel || (((card.cardActions || [])[0] || {}).label || '');
@@ -1349,6 +1360,8 @@
       cardArtFadeRightValue: document.getElementById('mission-editor-card-art-fade-right-value'),
       cardArtFadeY: document.getElementById('mission-editor-card-art-fade-y'),
       cardArtFadeYValue: document.getElementById('mission-editor-card-art-fade-y-value'),
+      cardArtFadeStrength: document.getElementById('mission-editor-card-art-fade-strength'),
+      cardArtFadeStrengthValue: document.getElementById('mission-editor-card-art-fade-strength-value'),
       cardBackTitle: document.getElementById('mission-editor-card-back-title'),
       cardBackDescription: document.getElementById('mission-editor-card-back-description'),
       cardButtonLabel: document.getElementById('mission-editor-card-button-label'),
@@ -1653,6 +1666,12 @@
       runtime.activeCardPreviewFace = 'front';
       var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
       card.frontGraphicFadeY = Number(runtime.ui.cardArtFadeY.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.cardArtFadeStrength, function() {
+      runtime.activeCardPreviewFace = 'front';
+      var card = ensureCardConfig(runtime.draftConfig, runtime.activeCardId);
+      card.frontGraphicFadeStrength = Number(runtime.ui.cardArtFadeStrength.value);
       window.renderOfferings(runtime.baseOfferings);
     });
     bindLiveInput(runtime.ui.cardTitleSizeLocal, function() {
