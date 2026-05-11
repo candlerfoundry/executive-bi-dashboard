@@ -163,11 +163,13 @@
       "backHeading": "Sunday School Simplified",
       "backDescription": "Easy, no-prep Sunday School & Bible study lessons.",
       "primaryActionLabel": "Free Lesson 1",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-city-life-banner.png",
-      "frontGraphicScale": 6.5,
+      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-city-life.png",
+      "frontGraphicScale": 8.74,
       "frontGraphicOpacity": 0.45,
-      "frontGraphicShiftX": 360,
-      "frontGraphicShiftY": -118
+      "frontGraphicShiftX": 1020,
+      "frontGraphicShiftY": 15,
+      "frontGraphicFadeLeft": 0,
+      "frontGraphicFadeStrength": 41
     },
     "3-minute-bible": {
       "section": "ministry",
@@ -178,9 +180,12 @@
       "backHeading": "3-Minute Bible",
       "backDescription": "3-minute video lessons Biblical and theological concepts for lay & ordained leaders",
       "primaryActionLabel": "Watch What Is a Covenant?",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-city-life.png",
-      "frontGraphicScale": 1.5,
-      "frontGraphicOpacity": 0.45
+      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-walking-campus.png",
+      "frontGraphicScale": 4.44,
+      "frontGraphicOpacity": 0.45,
+      "frontGraphicShiftY": -20,
+      "frontGraphicShiftX": 300,
+      "frontGraphicFadeStrength": 33
     },
     "unstuck": {
       "section": "ministry",
@@ -208,7 +213,11 @@
       "frontDescription": "Timely reflections on faith, theology, and spirituality from Candler voices.",
       "backHeading": "Scholar’s Blog",
       "backDescription": "Timely reflections on faith, theology, and spirituality from Candler voices.",
-      "primaryActionLabel": "Read Scholar’s Blog"
+      "primaryActionLabel": "Read Scholar’s Blog",
+      "frontGraphicShiftX": 300,
+      "frontGraphicShiftY": -10,
+      "frontGraphicScale": 3.7,
+      "frontGraphicOpacity": 0.57
     },
     "theoed": {
       "section": "public",
@@ -219,9 +228,11 @@
       "backHeading": "TheoEd",
       "backDescription": "TED-style talks on theology, spirituality, & faith. Free discussion guides.",
       "primaryActionLabel": "Browse TheoEd Talks",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-easel-teaching.png",
-      "frontGraphicScale": 1.5,
-      "frontGraphicOpacity": 0.45
+      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-screens-presenter.png",
+      "frontGraphicScale": 8.16,
+      "frontGraphicOpacity": 0.45,
+      "frontGraphicShiftX": 570,
+      "frontGraphicShiftY": -30
     },
     "candler-in-conversation": {
       "section": "public",
@@ -232,9 +243,13 @@
       "backHeading": "Candler in Conversation",
       "backDescription": "Candler's flagship podcast, hosted & produced by The Foundry.",
       "primaryActionLabel": "Listen to Podcast Episode",
-      "frontGraphicScale": 1.22,
-      "frontGraphicUrl": "/assets/Graphic Vignettes/homepage-presenter-audience.png",
-      "frontGraphicPosition": "center right"
+      "frontGraphicScale": 2.72,
+      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-booktop-pair.png",
+      "frontGraphicPosition": "center right",
+      "frontGraphicShiftX": 160,
+      "frontGraphicFadeStrength": 0,
+      "frontGraphicFadeRight": 0,
+      "frontGraphicOpacity": 0.6
     }
   }
 }
