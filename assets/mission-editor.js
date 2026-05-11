@@ -1181,8 +1181,8 @@
       runtime.ui.cardBodySizeLocal.value = clamp(card.frontBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
       runtime.ui.cardBackBodySizeLocal.value = clamp(card.backBodySize, 0.68, 1.25, clamp(config.typography.cardBodySize, 0.68, 1.15, 0.94));
       runtime.ui.cardFrontBoxWidthLocal.value = clamp(card.frontTextWidth, 180, 420, clamp(config.typography.cardFrontTextWidth, 140, 420, 260));
-      runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -360, 360, 0);
-      runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -320, 320, 0);
+      runtime.ui.cardArtShiftX.value = clamp(card.frontGraphicShiftX, -1500, 1500, 0);
+      runtime.ui.cardArtShiftY.value = clamp(card.frontGraphicShiftY, -800, 800, 0);
       runtime.ui.cardArtWidth.value = clamp(card.frontGraphicWidth, 80, 560, card.section === 'community' ? 164 : 144);
       runtime.ui.cardArtOpacity.value = card.frontGraphicOpacity != null ? card.frontGraphicOpacity : 0.9;
       runtime.ui.cardArtScale.value = card.frontGraphicScale != null ? clamp(card.frontGraphicScale, 0.4, 12, 1) : 1;
