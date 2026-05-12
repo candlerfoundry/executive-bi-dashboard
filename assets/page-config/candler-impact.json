@@ -3,7 +3,7 @@
     "kicker": "",
     "headline": "Strengthening Candler, Inside & Out",
     "body": "The world-class resources of The Foundry empower Candler's faculty, staff, and students to reach further than ever before in their teaching, learning, and ministries.\n",
-    "image": "/assets/Graphic_2.png",
+    "image": "/assets/Graphic Vignettes/vignette-city-life-banner.png",
     "imagePosition": "center center",
     "imageScale": 230,
     "imageOpacity": 0.65,
@@ -12,10 +12,11 @@
     "imageClarity": 0,
     "imageFadeLeft": 39,
     "imageFadeRight": 20,
-    "offsetX": -46,
+    "offsetX": 0,
     "offsetY": 6
   },
   "layout": {
+    "heroHeight": 360,
     "cardGap": 18,
     "cardHeight": 344,
     "quotePanelWidth": 54,

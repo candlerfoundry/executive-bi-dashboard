@@ -237,7 +237,7 @@ body.page-config-loading .panel.active::before,
   --ci-font-family:'Montserrat', sans-serif;
   --ci-hero-headline-size: clamp(2.3rem, 1.95rem + 1.85vw, 3.8rem);
   --ci-hero-body-size: 0.96rem;
-  --ci-hero-image-url: url('/assets/Graphic_1_mission_impact.png');
+  --ci-hero-image-url: url('/assets/Graphic Vignettes/vignette-city-life-banner.png');
   --ci-hero-image-position: right center;
   --ci-hero-image-size: auto 110%;
   --ci-hero-image-opacity: 0.22;
@@ -249,6 +249,7 @@ body.page-config-loading .panel.active::before,
   --ci-hero-title-width: 700px;
   --ci-hero-body-width: 620px;
   --ci-hero-title-gap: 24px;
+  --ci-hero-min-height: 360px;
   --ci-hero-fade-left: 48%;
   --ci-hero-fade-right: 10%;
   --ci-row-title-size: clamp(1.45rem, 1.1rem + 0.9vw, 2rem);
@@ -266,10 +267,10 @@ body.page-config-loading .panel.active::before,
 .ci-story-page { width:100%; margin:0 auto; padding:0 0 48px; position:relative; }
 .ci-editor-launch { position:absolute; top:18px; right:var(--ci-gutter); z-index:4; display:flex; justify-content:flex-end; margin:0; }
 .ci-story-page > #ci-story-rows { width:min(100%, var(--ci-shell-max)); margin:0 auto; padding:10px var(--ci-gutter) 0; }
-.ci-story-hero { position:relative; overflow:hidden; border-radius:0; background:#fffdf8; box-shadow:none; margin-bottom:22px; min-height:360px; border-bottom:1px solid rgba(30,37,48,0.14); }
+.ci-story-hero { position:relative; overflow:hidden; border-radius:0; background:#fffdf8; box-shadow:none; margin-bottom:22px; min-height:var(--ci-hero-min-height); border-bottom:1px solid rgba(30,37,48,0.14); }
 .ci-story-hero::before { content:''; position:absolute; inset:0; background-image:var(--ci-hero-image-url); background-position:var(--ci-hero-image-position); background-size:var(--ci-hero-image-size); background-repeat:no-repeat; opacity:var(--ci-hero-image-opacity); filter:saturate(calc(1 + (var(--ci-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--ci-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--ci-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translate(var(--ci-hero-image-offset-x), var(--ci-hero-image-offset-y)) translateZ(0); pointer-events:none; }
 .ci-story-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--ci-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--ci-hero-fade-left), rgba(255,253,248,0.08) calc(var(--ci-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--ci-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--ci-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
-.ci-story-hero-inner { position:relative; z-index:1; width:min(100%, var(--ci-shell-max)); min-height:360px; margin:0 auto; padding:0 var(--ci-gutter); display:flex; align-items:stretch; }
+.ci-story-hero-inner { position:relative; z-index:1; width:min(100%, var(--ci-shell-max)); min-height:var(--ci-hero-min-height); margin:0 auto; padding:0 var(--ci-gutter); display:flex; align-items:stretch; }
 .ci-hero-copy { width:min(100%, var(--ci-hero-title-width)); max-width:var(--ci-hero-title-width); min-height:100%; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:0; transform:translate(var(--ci-hero-copy-offset-x), var(--ci-hero-copy-offset)); }
 .ci-kicker,
 .ci-hero-jumps { display:none !important; }
@@ -1455,7 +1456,7 @@ body.page-config-loading .panel.active::before,
               <label class="editor-label" for="impact-editor-hero-image">Hero artwork</label>
               <select id="impact-editor-hero-image">
                 <option value="/assets/Graphic_1_mission_impact.png">Foundry illustration</option>
-                <option value="/assets/Graphic_2.png">Alternate illustration</option>
+                <option value="/assets/Graphic Vignettes/vignette-city-life-banner.png">City life banner</option>
                 <option value="/assets/Graphic Vignettes/homepage-tablet-standing-seated.png">Tablet vignette</option>
                 <option value="/assets/Graphic Vignettes/homepage-presenter-audience.png">Audience vignette</option>
               </select>
@@ -1531,22 +1532,29 @@ body.page-config-loading .panel.active::before,
         <h4>Layout</h4>
         <div class="editor-grid-2">
           <div class="editor-field">
+            <label class="editor-label" for="impact-editor-hero-height">Hero banner height</label>
+            <input id="impact-editor-hero-height" type="range" min="260" max="620" step="4">
+            <div class="editor-inline-meta"><span>Shorter</span><span id="impact-editor-hero-height-value"></span></div>
+          </div>
+          <div class="editor-field">
             <label class="editor-label" for="impact-editor-card-gap">Card gap</label>
             <input id="impact-editor-card-gap" type="range" min="8" max="36" step="1">
             <div class="editor-inline-meta"><span>Tighter</span><span id="impact-editor-card-gap-value"></span></div>
           </div>
+        </div>
+        <div class="editor-grid-2">
           <div class="editor-field">
             <label class="editor-label" for="impact-editor-card-height">Card height</label>
             <input id="impact-editor-card-height" type="range" min="260" max="460" step="4">
             <div class="editor-inline-meta"><span>Shorter</span><span id="impact-editor-card-height-value"></span></div>
           </div>
-        </div>
-        <div class="editor-grid-2">
           <div class="editor-field">
             <label class="editor-label" for="impact-editor-quote-width">Quote block width</label>
             <input id="impact-editor-quote-width" type="range" min="36" max="68" step="1">
             <div class="editor-inline-meta"><span>Smaller</span><span id="impact-editor-quote-width-value"></span></div>
           </div>
+        </div>
+        <div class="editor-grid-2">
           <div class="editor-field">
             <label class="editor-label" for="impact-editor-portrait-scale">Portrait scale</label>
             <input id="impact-editor-portrait-scale" type="range" min="0.6" max="1.05" step="0.01">
@@ -4320,10 +4328,10 @@ var IMPACT_EDITOR_DEFAULTS = {
     kicker: '',
     headline: 'The Foundry strengthens Candler from the inside out',
     body: 'The Foundry provides faculty, students, and alumni with the resources and opportunities that allow teaching and preaching ministries to thrive.',
-    image: '/assets/Graphic_1_mission_impact.png',
-    imagePosition: 'right center',
-    imageScale: 110,
-    imageOpacity: 0.22,
+    image: '/assets/Graphic Vignettes/vignette-city-life-banner.png',
+    imagePosition: 'center center',
+    imageScale: 230,
+    imageOpacity: 0.65,
     imageOffsetX: 0,
     imageOffsetY: 0,
     imageClarity: 0,
@@ -4333,6 +4341,7 @@ var IMPACT_EDITOR_DEFAULTS = {
     offsetY: 0
   },
   layout: {
+    heroHeight: 360,
     cardGap: 18,
     cardHeight: 344,
     quotePanelWidth: 54,
@@ -4691,6 +4700,7 @@ function impactApplyCssVars(config) {
   if (!panel) return;
   panel.style.setProperty('--ci-card-gap', (config.layout.cardGap || 18) + 'px');
   panel.style.setProperty('--ci-card-height', (config.layout.cardHeight || 344) + 'px');
+  panel.style.setProperty('--ci-hero-min-height', (config.layout.heroHeight || 360) + 'px');
   panel.style.setProperty('--ci-quote-panel-width', (config.layout.quotePanelWidth || 54) + '%');
   panel.style.setProperty('--ci-portrait-scale', String(config.layout.portraitScale || 0.86));
   panel.style.setProperty('--ci-font-family', config.typography.fontFamily || "'Montserrat', sans-serif");
@@ -4705,7 +4715,7 @@ function impactApplyCssVars(config) {
   panel.style.setProperty('--ci-card-quote-size', (config.typography.quoteSize || 1.28) + 'rem');
   panel.style.setProperty('--ci-card-support-size', (config.typography.supportSize || 0.96) + 'rem');
   panel.style.setProperty('--ci-card-name-size', (config.typography.nameSize || 0.9) + 'rem');
-  panel.style.setProperty('--ci-hero-image-url', 'url("' + ((config.hero && config.hero.image) || '/assets/Graphic_1_mission_impact.png') + '")');
+  panel.style.setProperty('--ci-hero-image-url', 'url("' + ((config.hero && config.hero.image) || '/assets/Graphic Vignettes/vignette-city-life-banner.png') + '")');
   panel.style.setProperty('--ci-hero-image-position', (config.hero && config.hero.imagePosition) || 'center right');
   panel.style.setProperty('--ci-hero-image-size', 'auto ' + (((config.hero && config.hero.imageScale) != null ? config.hero.imageScale : 110)) + '%');
   panel.style.setProperty('--ci-hero-image-opacity', String((config.hero && config.hero.imageOpacity) != null ? config.hero.imageOpacity : 0.26));
@@ -5503,7 +5513,7 @@ function impactPopulateEditorFields() {
   document.getElementById('impact-editor-hero-kicker').value = hero.kicker || '';
   document.getElementById('impact-editor-hero-headline').value = hero.headline || '';
   document.getElementById('impact-editor-hero-body').value = hero.body || '';
-  document.getElementById('impact-editor-hero-image').value = hero.image || '/assets/Graphic_1_mission_impact.png';
+  document.getElementById('impact-editor-hero-image').value = hero.image || '/assets/Graphic Vignettes/vignette-city-life-banner.png';
   document.getElementById('impact-editor-hero-image-position').value = hero.imagePosition || 'center right';
   document.getElementById('impact-editor-hero-image-scale').value = hero.imageScale != null ? hero.imageScale : 110;
   document.getElementById('impact-editor-hero-image-scale-value').textContent = Math.round(hero.imageScale != null ? hero.imageScale : 110) + '%';
@@ -5523,6 +5533,8 @@ function impactPopulateEditorFields() {
   document.getElementById('impact-editor-hero-offset-x-value').textContent = ((hero.offsetX || 0) > 0 ? '+' : '') + (hero.offsetX || 0) + 'px';
   document.getElementById('impact-editor-hero-offset-y').value = hero.offsetY || 0;
   document.getElementById('impact-editor-hero-offset-y-value').textContent = ((hero.offsetY || 0) > 0 ? '+' : '') + (hero.offsetY || 0) + 'px';
+  document.getElementById('impact-editor-hero-height').value = config.layout.heroHeight != null ? config.layout.heroHeight : 360;
+  document.getElementById('impact-editor-hero-height-value').textContent = impactFormatPx(config.layout.heroHeight != null ? config.layout.heroHeight : 360);
   document.getElementById('impact-editor-card-gap').value = config.layout.cardGap;
   document.getElementById('impact-editor-card-gap-value').textContent = impactFormatPx(config.layout.cardGap);
   document.getElementById('impact-editor-card-height').value = config.layout.cardHeight;
@@ -5804,6 +5816,7 @@ function impactBindEditor() {
   onInput('impact-editor-hero-fade-right', ['hero', 'imageFadeRight'], Number);
   onInput('impact-editor-hero-offset-x', ['hero', 'offsetX'], Number);
   onInput('impact-editor-hero-offset-y', ['hero', 'offsetY'], Number);
+  onInput('impact-editor-hero-height', ['layout', 'heroHeight'], Number);
   onInput('impact-editor-card-gap', ['layout', 'cardGap'], Number);
   onInput('impact-editor-card-height', ['layout', 'cardHeight'], Number);
   onInput('impact-editor-quote-width', ['layout', 'quotePanelWidth'], Number);

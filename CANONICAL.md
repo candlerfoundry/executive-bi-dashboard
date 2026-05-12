@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-09 (Mission editor undo button)
+Last updated: 2026-05-12 (Candler Impact hero banner image + height control)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -52,7 +52,15 @@ Internal divider lines, awkward L-shaped photo sections, and accidental nested b
 
 **Implementation:** Hero content and artwork settings are editor-controlled through the Candler Impact config and editor controls in [index.html](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/index.html).
 
+**Current editable data:** Published Candler Impact state lives in [assets/page-config/candler-impact.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/candler-impact.json). The hero image is `hero.image`; the hero banner height is `layout.heroHeight`.
+
+**Hero image note (2026-05-12):** The published/default hero artwork is now `/assets/Graphic Vignettes/vignette-city-life-banner.png`, a higher-resolution city-life banner. Keep this option in the Candler Impact editor dropdown (`#impact-editor-hero-image`) so browser edits can round-trip through the Git-backed config.
+
+**Hero height note (2026-05-12):** The Candler Impact editor exposes `#impact-editor-hero-height`, which writes `layout.heroHeight`. Runtime rendering maps that value to the Candler-only CSS variable `--ci-hero-min-height`, used by both `.ci-story-hero` and `.ci-story-hero-inner`. Do not move this into global CSS or shared editor infrastructure.
+
 **Regression risk:** Do not restore the oversized early hero, the side stats, or redundant “sample story” copy.
+
+**Testing notes (2026-05-12):** Previewed locally from `python -m http.server 4177` at `http://127.0.0.1:4177/index.html`. Headless Chrome/CDP confirmed the Candler Impact page loads the new banner from `candler-impact.json`, the editor dropdown selects `City life banner`, and moving the hero-height slider from `360` to `420` updates the live hero min-height. A localStorage draft with a different image/height did not auto-apply on reload; the draft notice appeared instead. Only logged browser issue was the existing missing `favicon.ico` 404.
 
 ---
 
