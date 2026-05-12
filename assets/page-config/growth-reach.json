@@ -20,6 +20,7 @@
     "artOpacity": 0.72,
     "artClarity": 18,
     "artFit": "cover",
+    "artFocusX": 50,
     "artFocusY": 30,
     "fadeLeft": 55,
     "fadeRight": 18

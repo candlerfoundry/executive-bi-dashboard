@@ -1054,10 +1054,18 @@ body.page-config-loading .panel.active::before,
         <textarea id="growth-editor-hero-subtitle"></textarea>
       </div>
       <div class="editor-field">
-        <label class="editor-label" for="growth-editor-hero-image">Hero artwork</label>
+        <label class="editor-label" for="growth-editor-hero-image-custom">Hero image Git asset path</label>
+        <input id="growth-editor-hero-image-custom" type="text" placeholder="/assets/student_photos/Master Class Student Talking 6.jpg">
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" id="growth-editor-hero-image-custom-apply" type="button">Apply Hero Image</button>
+        </div>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="growth-editor-hero-image">Preset image helper</label>
         <select id="growth-editor-hero-image">
-          <option value="/assets/Graphic_3_growth.png">Book illustration</option>
+          <option value="">Choose a preset</option>
           <option value="/assets/student_photos/Master Class Student Talking 6.jpg">Student classroom photo</option>
+          <option value="/assets/Graphic_3_growth.png">Book illustration</option>
           <option value="/assets/Graphic_1_mission_impact.png">City illustration</option>
           <option value="/assets/Graphic_2.png">Alternate illustration</option>
         </select>
@@ -1118,6 +1126,13 @@ body.page-config-loading .panel.active::before,
 
     <div class="page-editor-group">
       <h4>Artwork</h4>
+      <div class="editor-field">
+        <label class="editor-label" for="growth-editor-art-fit">Image layout</label>
+        <select id="growth-editor-art-fit">
+          <option value="cover">Photo crop</option>
+          <option value="artwork">Floating artwork</option>
+        </select>
+      </div>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="growth-editor-art-width">Graphic width</label>
@@ -1139,12 +1154,24 @@ body.page-config-loading .panel.active::before,
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
-          <label class="editor-label" for="growth-editor-fade-left">Left fade</label>
+          <label class="editor-label" for="growth-editor-art-focus-x">Photo focal point horizontal</label>
+          <input id="growth-editor-art-focus-x" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Left</span><span id="growth-editor-art-focus-x-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-art-focus-y">Photo focal point vertical</label>
+          <input id="growth-editor-art-focus-y" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Higher</span><span id="growth-editor-art-focus-y-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-fade-left">Left fade coverage</label>
           <input id="growth-editor-fade-left" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Less cover</span><span id="growth-editor-fade-left-value"></span></div>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="growth-editor-fade-right">Right fade</label>
+          <label class="editor-label" for="growth-editor-fade-right">Right fade coverage</label>
           <input id="growth-editor-fade-right" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Less cover</span><span id="growth-editor-fade-right-value"></span></div>
         </div>
@@ -6202,6 +6229,7 @@ var GROWTH_EDITOR_DEFAULTS = {
     artOpacity: 0.72,
     artClarity: 18,
     artFit: 'cover',
+    artFocusX: 50,
     artFocusY: 30,
     fadeLeft: 55,
     fadeRight: 18
@@ -6297,6 +6325,39 @@ function growthCalcPosition(base, offset) {
   return 'calc(' + base + (n > 0 ? ' + ' : ' - ') + Math.abs(n) + 'px)';
 }
 
+function growthNormalizeAssetPath(value) {
+  var path = String(value || '').trim();
+  if (!path) return '';
+  if (path.indexOf('\\') !== -1) path = path.replace(/\\/g, '/');
+  var marker = '/assets/';
+  var markerIndex = path.toLowerCase().indexOf(marker);
+  if (markerIndex >= 0) path = path.slice(markerIndex);
+  else if (path.toLowerCase().indexOf('assets/') === 0) path = '/' + path;
+  return path;
+}
+
+function growthApplyPhotoDefaults(layout) {
+  layout.artFit = 'cover';
+  if (layout.artFocusX == null) layout.artFocusX = 50;
+  if (layout.artFocusY == null) layout.artFocusY = 30;
+  layout.artWidth = Math.max(Number(layout.artWidth || 0), 1680);
+  layout.artOpacity = Math.max(Number(layout.artOpacity || 0), 0.72);
+  layout.fadeLeft = Math.max(Number(layout.fadeLeft || 0), 55);
+  layout.fadeRight = Math.max(Number(layout.fadeRight || 0), 18);
+}
+
+function growthApplyArtworkDefaults(layout) {
+  layout.artFit = 'artwork';
+  layout.artFocusX = 50;
+  layout.artFocusY = 50;
+  layout.artWidth = 420;
+  layout.artOffsetX = -20;
+  layout.artOffsetY = 0;
+  layout.artOpacity = 0.22;
+  layout.fadeLeft = 48;
+  layout.fadeRight = 10;
+}
+
 function growthApplyConfig(config) {
   var panel = document.getElementById('panel-numreach');
   if (!panel) return;
@@ -6321,7 +6382,7 @@ function growthApplyConfig(config) {
   panel.style.setProperty('--gr-hero-art-clarity', String((layout.artClarity != null) ? layout.artClarity : 0));
   if (layout.artFit === 'cover') {
     panel.style.setProperty('--gr-hero-image-size', 'cover');
-    panel.style.setProperty('--gr-hero-image-position', growthCalcPosition('50%', artOffsetX) + ' ' + growthCalcPosition(((layout.artFocusY != null) ? layout.artFocusY : 34) + '%', artOffsetY));
+    panel.style.setProperty('--gr-hero-image-position', growthCalcPosition(((layout.artFocusX != null) ? layout.artFocusX : 50) + '%', artOffsetX) + ' ' + growthCalcPosition(((layout.artFocusY != null) ? layout.artFocusY : 34) + '%', artOffsetY));
   } else {
     panel.style.setProperty('--gr-hero-image-size', artWidth + 'px auto');
     panel.style.setProperty('--gr-hero-image-position', growthCalcPosition('100%', artOffsetX) + ' ' + growthCalcPosition('50%', artOffsetY));
@@ -6407,9 +6468,13 @@ function growthRestoreSavedConfig() {
 function growthPopulateEditorFields() {
   var config = growthEditorRuntime.config;
   if (!config) return;
+  var heroImage = (config.hero && config.hero.image) || GROWTH_EDITOR_DEFAULTS.hero.image;
+  var heroSelect = document.getElementById('growth-editor-hero-image');
   document.getElementById('growth-editor-hero-title').value = config.hero.title || '';
   document.getElementById('growth-editor-hero-subtitle').value = config.hero.subtitle || '';
-  document.getElementById('growth-editor-hero-image').value = config.hero.image || GROWTH_EDITOR_DEFAULTS.hero.image;
+  heroSelect.value = heroImage;
+  if (heroSelect.value !== heroImage) heroSelect.value = '';
+  document.getElementById('growth-editor-hero-image-custom').value = heroImage;
   document.getElementById('growth-editor-shell-max').value = Number(config.layout.shellMax || 1680);
   document.getElementById('growth-editor-hero-height').value = Number(config.layout.heroHeight || 360);
   document.getElementById('growth-editor-copy-width').value = Number(config.layout.copyWidth || 760);
@@ -6421,6 +6486,9 @@ function growthPopulateEditorFields() {
   document.getElementById('growth-editor-art-width').value = Number(config.layout.artWidth || 420);
   document.getElementById('growth-editor-art-opacity').value = Number((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22);
   document.getElementById('growth-editor-art-clarity').value = Number((config.layout.artClarity != null) ? config.layout.artClarity : 0);
+  document.getElementById('growth-editor-art-fit').value = config.layout.artFit || 'artwork';
+  document.getElementById('growth-editor-art-focus-x').value = Number((config.layout.artFocusX != null) ? config.layout.artFocusX : 50);
+  document.getElementById('growth-editor-art-focus-y').value = Number((config.layout.artFocusY != null) ? config.layout.artFocusY : 50);
   document.getElementById('growth-editor-fade-left').value = Number((config.layout.fadeLeft != null) ? config.layout.fadeLeft : 48);
   document.getElementById('growth-editor-fade-right').value = Number((config.layout.fadeRight != null) ? config.layout.fadeRight : 10);
   document.getElementById('growth-editor-art-offset-x').value = Number(config.layout.artOffsetX || 0);
@@ -6441,6 +6509,8 @@ function growthPopulateEditorFields() {
   document.getElementById('growth-editor-art-width-value').textContent = Math.round(Number(config.layout.artWidth || 420)) + 'px';
   document.getElementById('growth-editor-art-opacity-value').textContent = Math.round(Number((config.layout.artOpacity != null) ? config.layout.artOpacity : 0.22) * 100) + '%';
   document.getElementById('growth-editor-art-clarity-value').textContent = Math.round(Number((config.layout.artClarity != null) ? config.layout.artClarity : 0)) + '%';
+  document.getElementById('growth-editor-art-focus-x-value').textContent = Math.round(Number((config.layout.artFocusX != null) ? config.layout.artFocusX : 50)) + '%';
+  document.getElementById('growth-editor-art-focus-y-value').textContent = Math.round(Number((config.layout.artFocusY != null) ? config.layout.artFocusY : 50)) + '%';
   document.getElementById('growth-editor-fade-left-value').textContent = Math.round(Number((config.layout.fadeLeft != null) ? config.layout.fadeLeft : 48)) + '%';
   document.getElementById('growth-editor-fade-right-value').textContent = Math.round(Number((config.layout.fadeRight != null) ? config.layout.fadeRight : 10)) + '%';
   document.getElementById('growth-editor-art-offset-x-value').textContent = Math.round(Number(config.layout.artOffsetX || 0)) + 'px';
@@ -6527,26 +6597,47 @@ function growthBindEditor() {
 
   bindInput('growth-editor-hero-title', 'hero', 'title');
   bindInput('growth-editor-hero-subtitle', 'hero', 'subtitle');
-  document.getElementById('growth-editor-hero-image').addEventListener('input', function(event) {
+  function updateGrowthHeroImage(value, mode) {
+    var path = growthNormalizeAssetPath(value);
+    if (!path) {
+      growthSetStatus('Enter a Git asset path before applying the hero image', false);
+      return;
+    }
     if (!growthEditorRuntime.config.hero) growthEditorRuntime.config.hero = {};
     if (!growthEditorRuntime.config.layout) growthEditorRuntime.config.layout = {};
-    growthEditorRuntime.config.hero.image = event.target.value;
-    if (event.target.value.indexOf('/assets/student_photos/') === 0) {
+    growthEditorRuntime.config.hero.image = path;
+    if (mode === 'preset') {
+      if (path.indexOf('/assets/student_photos/') === 0) growthApplyPhotoDefaults(growthEditorRuntime.config.layout);
+      else growthApplyArtworkDefaults(growthEditorRuntime.config.layout);
+    }
+    growthApplyConfig(growthEditorRuntime.config);
+    growthPopulateEditorFields();
+    growthSetStatus('Hero image path applied to live preview', false);
+  }
+
+  document.getElementById('growth-editor-hero-image').addEventListener('input', function(event) {
+    if (!event.target.value) return;
+    updateGrowthHeroImage(event.target.value, 'preset');
+  });
+  document.getElementById('growth-editor-hero-image-custom-apply').addEventListener('click', function() {
+    updateGrowthHeroImage(document.getElementById('growth-editor-hero-image-custom').value, 'custom');
+  });
+  document.getElementById('growth-editor-hero-image-custom').addEventListener('change', function(event) {
+    updateGrowthHeroImage(event.target.value, 'custom');
+  });
+  document.getElementById('growth-editor-hero-image-custom').addEventListener('keydown', function(event) {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    updateGrowthHeroImage(event.target.value, 'custom');
+  });
+  document.getElementById('growth-editor-art-fit').addEventListener('input', function(event) {
+    if (!growthEditorRuntime.config.layout) growthEditorRuntime.config.layout = {};
+    if (event.target.value === 'cover') {
       growthEditorRuntime.config.layout.artFit = 'cover';
-      growthEditorRuntime.config.layout.artFocusY = 30;
-      growthEditorRuntime.config.layout.artWidth = Math.max(Number(growthEditorRuntime.config.layout.artWidth || 0), 1680);
-      growthEditorRuntime.config.layout.artOpacity = Math.max(Number(growthEditorRuntime.config.layout.artOpacity || 0), 0.72);
-      growthEditorRuntime.config.layout.fadeLeft = Math.max(Number(growthEditorRuntime.config.layout.fadeLeft || 0), 55);
-      growthEditorRuntime.config.layout.fadeRight = Math.max(Number(growthEditorRuntime.config.layout.fadeRight || 0), 18);
+      if (growthEditorRuntime.config.layout.artFocusX == null) growthEditorRuntime.config.layout.artFocusX = 50;
+      if (growthEditorRuntime.config.layout.artFocusY == null) growthEditorRuntime.config.layout.artFocusY = 30;
     } else {
       growthEditorRuntime.config.layout.artFit = 'artwork';
-      growthEditorRuntime.config.layout.artFocusY = null;
-      growthEditorRuntime.config.layout.artWidth = 420;
-      growthEditorRuntime.config.layout.artOffsetX = -20;
-      growthEditorRuntime.config.layout.artOffsetY = 0;
-      growthEditorRuntime.config.layout.artOpacity = 0.22;
-      growthEditorRuntime.config.layout.fadeLeft = 48;
-      growthEditorRuntime.config.layout.fadeRight = 10;
     }
     growthApplyConfig(growthEditorRuntime.config);
     growthPopulateEditorFields();
@@ -6563,6 +6654,8 @@ function growthBindEditor() {
   bindInput('growth-editor-art-width', 'layout', 'artWidth', Number);
   bindInput('growth-editor-art-opacity', 'layout', 'artOpacity', Number);
   bindInput('growth-editor-art-clarity', 'layout', 'artClarity', Number);
+  bindInput('growth-editor-art-focus-x', 'layout', 'artFocusX', Number);
+  bindInput('growth-editor-art-focus-y', 'layout', 'artFocusY', Number);
   bindInput('growth-editor-fade-left', 'layout', 'fadeLeft', Number);
   bindInput('growth-editor-fade-right', 'layout', 'fadeRight', Number);
   bindInput('growth-editor-art-offset-x', 'layout', 'artOffsetX', Number);
