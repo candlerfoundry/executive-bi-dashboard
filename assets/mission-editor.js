@@ -506,6 +506,7 @@
       card.tileStyle = overrides.tileStyle || offering.tileStyle || '';
       card.cardBackVariant = overrides.cardBackVariant || offering.cardBackVariant || '';
       card.gridItems = (overrides.gridItems && overrides.gridItems.length) ? overrides.gridItems : (offering.gridItems || []);
+      card.cardLabelStyle = overrides.cardLabelStyle || offering.cardLabelStyle || '';
       if (card.cardActions && overrides.secondaryActionLabel && card.cardActions[1]) {
         card.cardActions[1].label = overrides.secondaryActionLabel;
       }
