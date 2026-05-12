@@ -257,26 +257,31 @@
             "cardBackVariant": "unstuck",
             "gridItems": [
                 {
-                    "title": "Puanani & Jonathan Calvillo - Sacred Spaces",
-                    "thumbnail": "/assets/unstuck-thumbs/UNST-241-sacred-spaces.jpg",
-                    "href": "https://www.dropbox.com/scl/fi/6u6rurw0qmudytxd1m30y/UNST-241-Sacred-Spaces-Calvillo-Uncaptioned.mp4?rlkey=73gahu8wwx4ubflsuy4plge5b&raw=1"
+                    "title": "Dr. Joel LeMon - Twists in Calling (Pt. 1)",
+                    "thumbnail": "/assets/unstuck-thumbs/UNST-227-lemon.jpg",
+                    "label": "Dr. Joel LeMon",
+                    "href": "https://www.dropbox.com/scl/fi/b5th0qznf9wpuyp18tqk1/UNST-227-Twists-in-Calling-Pt.-1-LeMon-Uncaptioned.mp4?rlkey=sxd04ngxkugh3551qmh1g74lg&raw=1"
                 },
                 {
                     "title": "Emmanuel Lartey - Identity and Purpose (Pt. 1)",
                     "thumbnail": "/assets/unstuck-thumbs/UNST-231-lartey.jpg",
+                    "label": "Dr. Emmanuel Lartey",
                     "href": "https://www.dropbox.com/scl/fi/mnsgl4gh37jhggwculgas/UNST-231-Identity-and-Purpose-Pt.-1-Lartey-Uncaptioned.mp4?rlkey=fv413i4rkgth0fcf6d09vto7b&raw=1"
                 },
                 {
                     "title": "Puanani Calvillo - Belonging (Pt. 1)",
                     "thumbnail": "/assets/unstuck-thumbs/UNST-221-belonging-pt1.jpg",
+                    "label": "Puanani Calvillo",
                     "href": "https://www.dropbox.com/scl/fi/uk4gu0awqsvllph4ga1e8/UNST-221-Belonging-Pt.-1-Calvillo-Uncaptioned.mp4?rlkey=gjyumnofdisxfu87pnmnqcv9n&raw=1"
                 },
                 {
                     "title": "Dr. Elizabeth Corrie - Vocation & Well-Being (Pt. 3)",
                     "thumbnail": "/assets/unstuck-thumbs/UNST-238-corrie.jpg",
+                    "label": "Dr. Elizabeth Corrie",
                     "href": "https://www.dropbox.com/scl/fi/0hmpeih90dkd21p8yksxj/UNST-238-Vocation-and-Well-Being-Pt.-3-Corrie-Uncaptioned.mp4?rlkey=rcgntad7v5t6ci61ufz6ex86y&raw=1"
                 }
-            ]
+            ],
+            "cardLabelStyle": "unstuck"
         },
         "scholars-blog": {
             "section": "public",
@@ -331,7 +336,9 @@
                     "theoedVid": "zLfpaRhsSUI",
                     "theoedName": "Dr. Wil Gafney",
                     "theoedLoc": "TheoEd ATL (2020 - Winter)",
-                    "theoedGuide": "assets/theoed/discussion-guides/THEO-180-dr-wil-gafney-biblical-language-for-a-god-who-transcends-gender-discussion-guide.pdf"
+                    "theoedGuide": "assets/theoed/discussion-guides/THEO-180-dr-wil-gafney-biblical-language-for-a-god-who-transcends-gender-discussion-guide.pdf",
+                    "label": "Dr. Wil Gafney",
+                    "labelPosition": "left"
                 },
                 {
                     "title": "Cole Arthur Riley",
@@ -339,7 +346,9 @@
                     "theoedVid": "UdjfTkpk6Lg",
                     "theoedName": "Cole Arthur Riley",
                     "theoedLoc": "TheoEd Macon (2024)",
-                    "theoedGuide": "assets/theoed/discussion-guides/THEO-174-cole-arthur-riley-the-silence-of-god-discussion-guide.pdf"
+                    "theoedGuide": "assets/theoed/discussion-guides/THEO-174-cole-arthur-riley-the-silence-of-god-discussion-guide.pdf",
+                    "label": "Cole Arthur Riley",
+                    "labelPosition": "right"
                 },
                 {
                     "title": "Pete Enns",
@@ -347,7 +356,9 @@
                     "theoedVid": "YDirRZLtifE",
                     "theoedName": "Pete Enns",
                     "theoedLoc": "TheoEd ATL (2019 - Winter)",
-                    "theoedGuide": "assets/theoed/discussion-guides/THEO-138-pete-enns-reimagining-an-ancient-god-discussion-guide.pdf"
+                    "theoedGuide": "assets/theoed/discussion-guides/THEO-138-pete-enns-reimagining-an-ancient-god-discussion-guide.pdf",
+                    "label": "Pete Enns",
+                    "labelPosition": "right"
                 },
                 {
                     "title": "Dr. Amy-Jill Levine",
@@ -355,9 +366,12 @@
                     "theoedVid": "AFy_jjP2WzU",
                     "theoedName": "Dr. Amy-Jill Levine",
                     "theoedLoc": "TheoEd ATL (2017)",
-                    "theoedGuide": "assets/theoed/discussion-guides/THEO-128-amy-jill-levine-life-after-death-jesus-judiasm-and-justice-discussion-guide.pdf"
+                    "theoedGuide": "assets/theoed/discussion-guides/THEO-128-amy-jill-levine-life-after-death-jesus-judiasm-and-justice-discussion-guide.pdf",
+                    "label": "Dr. Amy-Jill Levine",
+                    "labelPosition": "right"
                 }
-            ]
+            ],
+            "cardLabelStyle": "theoed"
         },
         "candler-in-conversation": {
             "section": "public",
@@ -381,24 +395,29 @@
                 {
                     "title": "Womanist Discourse · Dr. Teresa Fry Brown",
                     "thumbnail": "/assets/podcast-thumbs/POD-3.1-fry-brown.jpg",
-                    "href": "https://www.dropbox.com/scl/fi/xrei1se6alvl7y7j96tcv/POD-3.1-Womanist-Discourse-Teresa-Fry-Brown-Captioned.mp4?rlkey=vkqqzbuqw86k8j7ako5owsog9&raw=1"
+                    "href": "https://www.dropbox.com/scl/fi/xrei1se6alvl7y7j96tcv/POD-3.1-Womanist-Discourse-Teresa-Fry-Brown-Captioned.mp4?rlkey=vkqqzbuqw86k8j7ako5owsog9&raw=1",
+                    "label": "Dr. Teresa Fry Brown"
                 },
                 {
                     "title": "Ministry & Digital Innovation · Bo Adams",
                     "thumbnail": "/assets/podcast-thumbs/POD-ADAM0126-bo-adams.jpg",
-                    "href": "https://www.dropbox.com/scl/fi/g5pau826mtn74jf4kyzgf/Bo-Adams-Ministry-Digital-Innovation.mp4?rlkey=helikj35rrou8m18lkdieqhl1&raw=1"
+                    "href": "https://www.dropbox.com/scl/fi/g5pau826mtn74jf4kyzgf/Bo-Adams-Ministry-Digital-Innovation.mp4?rlkey=helikj35rrou8m18lkdieqhl1&raw=1",
+                    "label": "Bo Adams"
                 },
                 {
                     "title": "The Scholar, Unscripted · Sarah Bogue",
                     "thumbnail": "/assets/podcast-thumbs/POD-BOGU0426-bogue.jpg",
-                    "href": "https://www.dropbox.com/scl/fi/074avefi6lfeesbxnn8lp/POD-BOGU0426-Scholar-Unscripted-Sarah-Bogue-Uncaptioned.mp4?rlkey=2341s17u4phtao6q6w63oq0om&raw=1"
+                    "href": "https://www.dropbox.com/scl/fi/074avefi6lfeesbxnn8lp/POD-BOGU0426-Scholar-Unscripted-Sarah-Bogue-Uncaptioned.mp4?rlkey=2341s17u4phtao6q6w63oq0om&raw=1",
+                    "label": "Sarah Bogue"
                 },
                 {
                     "title": "Silent Echoes · Dr. Luther Smith",
                     "thumbnail": "/assets/podcast-thumbs/POD-5.3-luther-smith.jpg",
-                    "href": "https://www.dropbox.com/scl/fi/lfad0cxsj6bnkm8x8efd2/POD-5.3-Silent-Echoes-Luther-Smith-Uncaptioned.mp4?rlkey=81f9z884fcz50gu95xprl1vat&raw=1"
+                    "href": "https://www.dropbox.com/scl/fi/lfad0cxsj6bnkm8x8efd2/POD-5.3-Silent-Echoes-Luther-Smith-Uncaptioned.mp4?rlkey=81f9z884fcz50gu95xprl1vat&raw=1",
+                    "label": "Dr. Luther Smith"
                 }
-            ]
+            ],
+            "cardLabelStyle": "podcast"
         }
     }
 }

@@ -689,6 +689,25 @@ body.page-config-loading .panel.active::before,
 .mission-page .card-back--grid .cbg-tile--blog .cbg-blog-date { position:absolute; left:0; right:0; bottom:0; padding:18px 10px 8px; color:white; font-size:10px; font-weight:700; letter-spacing:0.10em; text-transform:uppercase; background:linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.70) 100%); text-shadow:0 1px 3px rgba(0,0,0,0.6); }
 
 
+
+/* Tile label overlays (TheoEd / Podcast / Unstuck card backs) ----------- */
+.mission-page .card-back--grid .cbg-tile-label { position:absolute; z-index:3; pointer-events:none; }
+
+/* theoed : Fraunces italic text in a soft dark pill, corner-positioned */
+.mission-page .card-back--grid .cbg-tile-label--theoed { bottom:8px; right:10px; padding:3px 8px; border-radius:4px; background:rgba(15,40,64,0.65); -webkit-backdrop-filter:blur(2px); backdrop-filter:blur(2px); box-shadow:0 2px 4px rgba(0,0,0,0.25); }
+.mission-page .card-back--grid .cbg-tile-label--theoed.is-left { right:auto; left:10px; }
+.mission-page .card-back--grid .cbg-tile-label--theoed .lab-text { font-family:'Fraunces','Montserrat',serif; font-style:italic; font-weight:600; font-size:11px; color:#fafaf2; letter-spacing:0.01em; text-shadow:0 1px 2px rgba(0,0,0,0.5); }
+
+/* podcast : rounded white pill, speaker name + TCF F mark on the right */
+.mission-page .card-back--grid .cbg-tile-label--podcast { left:8px; right:8px; bottom:8px; background:rgba(250,250,242,0.95); border-radius:6px; padding:5px 6px 5px 9px; display:flex; align-items:center; justify-content:space-between; gap:6px; box-shadow:0 2px 6px rgba(0,0,0,0.25); }
+.mission-page .card-back--grid .cbg-tile-label--podcast .lab-text { font-family:'Montserrat',sans-serif; font-weight:700; font-size:10.5px; line-height:1.15; letter-spacing:-0.01em; color:#1e2530; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; flex:1 1 auto; }
+.mission-page .card-back--grid .cbg-tile-label--podcast .lab-mark { width:18px; height:18px; flex-shrink:0; background-image:url("/assets/TCF_Logomark-Orange-Transparent.png"); background-size:contain; background-repeat:no-repeat; background-position:center; }
+
+/* unstuck : dark cream pill with small green wave accent */
+.mission-page .card-back--grid .cbg-tile-label--unstuck { left:8px; bottom:8px; padding:5px 9px; border-radius:4px; background:rgba(15,40,64,0.88); display:inline-flex; align-items:center; gap:6px; box-shadow:0 2px 4px rgba(0,0,0,0.25); }
+.mission-page .card-back--grid .cbg-tile-label--unstuck .lab-accent { width:14px; height:8px; flex-shrink:0; color:#3e957b; }
+.mission-page .card-back--grid .cbg-tile-label--unstuck .lab-text { font-family:'Montserrat',sans-serif; font-weight:700; font-size:10px; letter-spacing:0.05em; text-transform:uppercase; color:#fafaf2; }
+
 .mission-page .is-hidden { display:none !important; }
 
 /* Shared editable-page shell */
@@ -6813,9 +6832,22 @@ function buildGridBackHtml(o, backHeading, backCopy) {
         ? ' data-theoed-vid="' + attr(item.theoedVid) + '" data-theoed-name="' + attr(item.theoedName || '') + '" data-theoed-loc="' + attr(item.theoedLoc || '') + '" data-theoed-guide="' + attr(item.theoedGuide || '') + '"'
         : '';
       var linkAttrs = hasTheoed ? ' href="#theoed"' : ' href="' + attr(item.href || '#') + '" target="_blank" rel="noopener"';
+      var labelHtml = '';
+      if (item.label && o.cardLabelStyle) {
+        if (o.cardLabelStyle === 'theoed') {
+          var pos = (item.labelPosition === 'left') ? ' is-left' : '';
+          labelHtml = '<div class="cbg-tile-label cbg-tile-label--theoed' + pos + '"><span class="lab-text">' + attr(item.label) + '</span></div>';
+        } else if (o.cardLabelStyle === 'podcast') {
+          labelHtml = '<div class="cbg-tile-label cbg-tile-label--podcast"><span class="lab-text">' + attr(item.label) + '</span><span class="lab-mark" aria-hidden="true"></span></div>';
+        } else if (o.cardLabelStyle === 'unstuck') {
+          labelHtml = '<div class="cbg-tile-label cbg-tile-label--unstuck"><svg class="lab-accent" viewBox="0 0 28 12" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M2 8 C 6 2, 10 14, 14 8 S 22 2, 26 8"/></svg><span class="lab-text">' + attr(item.label) + '</span></div>';
+        }
+      }
       return '<a class="cb-cta cbg-tile cbg-tile--video-thumb"' + linkAttrs + ' data-action-type="video"' + theoedAttrs + '>' +
                '<img src="' + attr(item.thumbnail || '') + '" alt="' + attr(item.title || '') + '" loading="eager" decoding="async" />' +
-               '<div class="cbg-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg></div>' +
+               '<div class="cbg-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg>' +
+               '</div>' +
+               labelHtml +
              '</a>';
     }
     if (tileStyle === 'video-text') {
