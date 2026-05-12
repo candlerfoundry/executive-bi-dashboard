@@ -503,6 +503,9 @@
       card.lookbookLeadSize = overrides.lookbookLeadSize != null ? overrides.lookbookLeadSize : (offering.lookbookLeadSize != null ? offering.lookbookLeadSize : null);
       card.lookbookTileTilt = overrides.lookbookTileTilt != null ? overrides.lookbookTileTilt : (offering.lookbookTileTilt != null ? offering.lookbookTileTilt : null);
       card.lookbookTileFlat = overrides.lookbookTileFlat != null ? overrides.lookbookTileFlat : (offering.lookbookTileFlat != null ? offering.lookbookTileFlat : false);
+      card.tileStyle = overrides.tileStyle || offering.tileStyle || '';
+      card.cardBackVariant = overrides.cardBackVariant || offering.cardBackVariant || '';
+      card.gridItems = (overrides.gridItems && overrides.gridItems.length) ? overrides.gridItems : (offering.gridItems || []);
       if (card.cardActions && overrides.secondaryActionLabel && card.cardActions[1]) {
         card.cardActions[1].label = overrides.secondaryActionLabel;
       }
@@ -725,6 +728,8 @@
               '</a>' +
             '</div>' +
           '</div>';
+      } else if (offering.backLayout === 'grid' && offering.gridItems && offering.gridItems.length) {
+        cardBackHtml = window.buildGridBackHtml(offering, backHeading, backCopy);
       } else {
         cardBackHtml =
           '<div class="card-back">' +

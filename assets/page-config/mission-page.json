@@ -1,255 +1,404 @@
 {
-  "content": {
-    "hero": {
-      "headline": "Theological Education for Everyone.",
-      "body": "The Candler Foundry aims to bring the best of Candler's scholarship and teaching into churches, communities, and homes across the country."
-    }
-  },
-  "layout": {
-    "shellMax": 1780,
-    "heroTextMax": 960,
-    "heroMinHeight": 420,
-    "heroOffsetY": 10,
-    "heroColumns": "1.05fr 0.95fr",
-    "heroTextAlign": "left",
-    "heroGap": 30,
-    "gutter": 20,
-    "sectionSpacing": 38,
-    "cardGap": 20,
-    "communityColumns": 2,
-    "ministryColumns": 3,
-    "publicColumns": 3,
-    "cardMinHeight": 320,
-    "sectionGap": 24
-  },
-  "visual": {
-    "heroImage": "/assets/student_photos/Master Class Student Talking 1.jpg",
-    "heroImagePosition": "center right",
-    "heroImageFit": "width",
-    "heroImageX": 100,
-    "heroImageY": 31,
-    "heroImageScale": 78,
-    "heroImageOpacity": 0.48,
-    "heroImageClarity": 17,
-    "heroFadeStrength": 0.27,
-    "heroFadeLeft": 46,
-    "heroFadeRight": 22
-  },
-  "typography": {
-    "headingFont": "'Montserrat', sans-serif",
-    "bodyFont": "'Montserrat', sans-serif",
-    "heroTitleSize": 3.4,
-    "bodySize": 1,
-    "heroBodyWidth": 680,
-    "heroBodyMinHeight": 4,
-    "heroTitleWidth": 700,
-    "heroTitleGap": 20,
-    "sectionTitleSize": 1.65,
-    "sectionCopySize": 0.96,
-    "sectionCopyWidth": 280,
-    "sectionCopyMinHeight": 0,
-    "cardTitleSize": 1.45,
-    "cardBodySize": 0.94,
-    "cardFrontTextWidth": 260,
-    "cardFrontTextMinHeight": 0,
-    "cardBackTextWidth": 280,
-    "cardBackTextMinHeight": 0,
-    "buttonSize": 0.76
-  },
-  "sections": {
-    "community": {
-      "id": "community",
-      "title": "Extending the reach of Candler's Scholarship.",
-      "copy": "In-depth courses designed for churches, lay leaders, pastors, and those just curious about faith. ",
-      "visible": true,
-      "order": 1
-    },
-    "ministry": {
-      "id": "ministry",
-      "title": "Equipping leaders and learners for everyday discipleship.",
-      "copy": "Practical, thoughtful tools to enrich learning, spiritual formation, and ministry for the church today.",
-      "visible": true,
-      "order": 2
-    },
-    "public": {
-      "id": "public",
-      "title": "Engaging the wider public in theological conversation",
-      "copy": "Creating accessible entry points for spiritual seekers and curious audiences to explore faith, meaning, and theology.",
-      "visible": true,
-      "order": 3
-    }
-  },
-  "cards": {
-    "courses-in-community": {
-      "section": "community",
-      "visible": true,
-      "order": 1,
-      "frontTitle": "Courses in the Community",
-      "frontDescription": "4-6 week courses facilitated by Candler scholars. Taught in-person & online.",
-      "backHeading": "Courses in the Community",
-      "backDescription": "Page through our Partner Lookbook for a feel of a Foundry course, then see what's currently being offered.",
-      "primaryActionLabel": "Open the Partner Lookbook",
-      "backBackground": "#1e2530",
-      "backStripColor": "#c84826",
-      "backTextColor": "#fafaf2",
-      "buttonColor": "#c84826",
-      "buttonTextColor": "#fafaf2",
-      "frontGraphicScale": 6.84,
-      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-bridge-meeting.png",
-      "frontGraphicOpacity": 0.45,
-      "backLayout": "lookbook",
-      "lookbookImage": "/assets/flipbook/courses-flipbook-cover.png",
-      "lookbookUrl": "#flipbook",
-      "lookbookAlt": "Courses in the Community — Partner Lookbook cover",
-      "actions": [
-        {
-          "label": "Open the Partner Lookbook",
-          "url": "#flipbook",
-          "type": "lookbook",
-          "visible": true
-        },
-        {
-          "label": "Browse Current Courses",
-          "url": "https://candlerfoundry.emory.edu/courses",
-          "type": "course",
-          "visible": true
+    "content": {
+        "hero": {
+            "headline": "Theological Education for Everyone.",
+            "body": "The Candler Foundry aims to bring the best of Candler's scholarship and teaching into churches, communities, and homes across the country."
         }
-      ],
-      "frontGraphicShiftY": 28,
-      "frontGraphicShiftX": 198
     },
-    "on-demand-courses": {
-      "section": "community",
-      "visible": true,
-      "order": 2,
-      "frontTitle": "On-Demand Courses",
-      "frontDescription": "Asynchronous, pre-recorded Bible & theology courses for groups & individuals.",
-      "backHeading": "On-Demand Courses",
-      "backDescription": "Try our free Sabbath course as a sample, then explore the rest of the on-demand library.",
-      "primaryActionLabel": "Take a Free Course",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-city-life-banner.png",
-      "frontGraphicScale": 10.3,
-      "frontGraphicOpacity": 0.4,
-      "backLayout": "lookbook",
-      "lookbookImage": "/assets/Other Images/Sabbath_compressed.jpg",
-      "lookbookUrl": "#sabbath-course",
-      "lookbookAlt": "Sabbath - a free on-demand course from The Candler Foundry",
-      "lookbookTileWidth": 220,
-      "lookbookTileHeight": 145,
-      "actions": [
-        {
-          "label": "Take a Free Course",
-          "url": "#sabbath-course",
-          "type": "course",
-          "visible": true
+    "layout": {
+        "shellMax": 1780,
+        "heroTextMax": 960,
+        "heroMinHeight": 420,
+        "heroOffsetY": 10,
+        "heroColumns": "1.05fr 0.95fr",
+        "heroTextAlign": "left",
+        "heroGap": 30,
+        "gutter": 20,
+        "sectionSpacing": 38,
+        "cardGap": 20,
+        "communityColumns": 2,
+        "ministryColumns": 3,
+        "publicColumns": 3,
+        "cardMinHeight": 320,
+        "sectionGap": 24
+    },
+    "visual": {
+        "heroImage": "/assets/student_photos/Master Class Student Talking 1.jpg",
+        "heroImagePosition": "center right",
+        "heroImageFit": "width",
+        "heroImageX": 100,
+        "heroImageY": 31,
+        "heroImageScale": 78,
+        "heroImageOpacity": 0.48,
+        "heroImageClarity": 17,
+        "heroFadeStrength": 0.27,
+        "heroFadeLeft": 46,
+        "heroFadeRight": 22
+    },
+    "typography": {
+        "headingFont": "'Montserrat', sans-serif",
+        "bodyFont": "'Montserrat', sans-serif",
+        "heroTitleSize": 3.4,
+        "bodySize": 1,
+        "heroBodyWidth": 680,
+        "heroBodyMinHeight": 4,
+        "heroTitleWidth": 700,
+        "heroTitleGap": 20,
+        "sectionTitleSize": 1.65,
+        "sectionCopySize": 0.96,
+        "sectionCopyWidth": 280,
+        "sectionCopyMinHeight": 0,
+        "cardTitleSize": 1.45,
+        "cardBodySize": 0.94,
+        "cardFrontTextWidth": 260,
+        "cardFrontTextMinHeight": 0,
+        "cardBackTextWidth": 280,
+        "cardBackTextMinHeight": 0,
+        "buttonSize": 0.76
+    },
+    "sections": {
+        "community": {
+            "id": "community",
+            "title": "Extending the reach of Candler's Scholarship.",
+            "copy": "In-depth courses designed for churches, lay leaders, pastors, and those just curious about faith. ",
+            "visible": true,
+            "order": 1
         },
-        {
-          "label": "Browse On-Demand Library",
-          "url": "https://candlerfoundry.emory.edu/courses",
-          "type": "library",
-          "visible": true
+        "ministry": {
+            "id": "ministry",
+            "title": "Equipping leaders and learners for everyday discipleship.",
+            "copy": "Practical, thoughtful tools to enrich learning, spiritual formation, and ministry for the church today.",
+            "visible": true,
+            "order": 2
+        },
+        "public": {
+            "id": "public",
+            "title": "Engaging the wider public in theological conversation",
+            "copy": "Creating accessible entry points for spiritual seekers and curious audiences to explore faith, meaning, and theology.",
+            "visible": true,
+            "order": 3
         }
-      ],
-      "lookbookTileTilt": 0,
-      "lookbookTileFlat": true,
-      "frontGraphicShiftY": -244
     },
-    "sunday-school-simplified": {
-      "section": "ministry",
-      "visible": true,
-      "order": 1,
-      "frontTitle": "Sunday School Simplified",
-      "frontDescription": "Easy, no-prep Sunday School & Bible study lessons.",
-      "backHeading": "Sunday School Simplified",
-      "backDescription": "Easy, no-prep Sunday School & Bible study lessons.",
-      "primaryActionLabel": "Free Lesson 1",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-city-life.png",
-      "frontGraphicScale": 8.74,
-      "frontGraphicOpacity": 0.45,
-      "frontGraphicShiftX": 1020,
-      "frontGraphicShiftY": 15,
-      "frontGraphicFadeLeft": 0,
-      "frontGraphicFadeStrength": 41
-    },
-    "3-minute-bible": {
-      "section": "ministry",
-      "visible": true,
-      "order": 2,
-      "frontTitle": "3-Minute Bible",
-      "frontDescription": "3-minute video lessons Biblical and theological concepts for lay & ordained leaders",
-      "backHeading": "3-Minute Bible",
-      "backDescription": "3-minute video lessons Biblical and theological concepts for lay & ordained leaders",
-      "primaryActionLabel": "Watch What Is a Covenant?",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-walking-campus.png",
-      "frontGraphicScale": 4.44,
-      "frontGraphicOpacity": 0.45,
-      "frontGraphicShiftY": -20,
-      "frontGraphicShiftX": 300,
-      "frontGraphicFadeStrength": 33
-    },
-    "unstuck": {
-      "section": "ministry",
-      "visible": true,
-      "order": 3,
-      "frontTitle": "Unstuck",
-      "frontDescription": "Video resources for vocational and spiritual discernment.",
-      "backHeading": "Unstuck",
-      "backDescription": "Video resources for vocational and spiritual discernment.",
-      "primaryActionLabel": "Watch Belonging & Purpose",
-      "frontGraphicScale": 2.44,
-      "frontGraphicUrl": "/assets/Graphic Vignettes/homepage-tablet-standing-seated.png",
-      "frontGraphicShiftX": 126,
-      "frontGraphicShiftY": 20,
-      "frontGraphicOpacity": 0.42,
-      "frontGraphicFadeY": 35,
-      "frontGraphicFadeRight": 53,
-      "frontGraphicFadeLeft": 5
-    },
-    "scholars-blog": {
-      "section": "public",
-      "visible": true,
-      "order": 1,
-      "frontTitle": "Scholar’s Blog",
-      "frontDescription": "Timely reflections on faith, theology, and spirituality from Candler voices.",
-      "backHeading": "Scholar’s Blog",
-      "backDescription": "Timely reflections on faith, theology, and spirituality from Candler voices.",
-      "primaryActionLabel": "Read Scholar’s Blog",
-      "frontGraphicShiftX": 300,
-      "frontGraphicShiftY": -10,
-      "frontGraphicScale": 3.7,
-      "frontGraphicOpacity": 0.57
-    },
-    "theoed": {
-      "section": "public",
-      "visible": true,
-      "order": 1,
-      "frontTitle": "TheoEd",
-      "frontDescription": "Short talks that explore the Bible, theology, and faith for spiritually curious audiences.",
-      "backHeading": "TheoEd",
-      "backDescription": "TED-style talks on theology, spirituality, & faith. Free discussion guides.",
-      "primaryActionLabel": "Browse TheoEd Talks",
-      "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-screens-presenter.png",
-      "frontGraphicScale": 8.16,
-      "frontGraphicOpacity": 0.45,
-      "frontGraphicShiftX": 570,
-      "frontGraphicShiftY": -30
-    },
-    "candler-in-conversation": {
-      "section": "public",
-      "visible": true,
-      "order": 1,
-      "frontTitle": "Candler in Conversation",
-      "frontDescription": "Candler's flagship podcast, hosted & produced by The Foundry.",
-      "backHeading": "Candler in Conversation",
-      "backDescription": "Candler's flagship podcast, hosted & produced by The Foundry.",
-      "primaryActionLabel": "Listen to Podcast Episode",
-      "frontGraphicScale": 2.72,
-      "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-booktop-pair.png",
-      "frontGraphicPosition": "center right",
-      "frontGraphicShiftX": 160,
-      "frontGraphicFadeStrength": 0,
-      "frontGraphicFadeRight": 0,
-      "frontGraphicOpacity": 0.6
+    "cards": {
+        "courses-in-community": {
+            "section": "community",
+            "visible": true,
+            "order": 1,
+            "frontTitle": "Courses in the Community",
+            "frontDescription": "4-6 week courses facilitated by Candler scholars. Taught in-person & online.",
+            "backHeading": "Courses in the Community",
+            "backDescription": "Page through our Partner Lookbook for a feel of a Foundry course, then see what's currently being offered.",
+            "primaryActionLabel": "Open the Partner Lookbook",
+            "backBackground": "#1e2530",
+            "backStripColor": "#c84826",
+            "backTextColor": "#fafaf2",
+            "buttonColor": "#c84826",
+            "buttonTextColor": "#fafaf2",
+            "frontGraphicScale": 6.84,
+            "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-bridge-meeting.png",
+            "frontGraphicOpacity": 0.45,
+            "backLayout": "lookbook",
+            "lookbookImage": "/assets/flipbook/courses-flipbook-cover.png",
+            "lookbookUrl": "#flipbook",
+            "lookbookAlt": "Courses in the Community — Partner Lookbook cover",
+            "actions": [
+                {
+                    "label": "Open the Partner Lookbook",
+                    "url": "#flipbook",
+                    "type": "lookbook",
+                    "visible": true
+                },
+                {
+                    "label": "Browse Current Courses",
+                    "url": "https://candlerfoundry.emory.edu/courses",
+                    "type": "course",
+                    "visible": true
+                }
+            ],
+            "frontGraphicShiftY": 28,
+            "frontGraphicShiftX": 198
+        },
+        "on-demand-courses": {
+            "section": "community",
+            "visible": true,
+            "order": 2,
+            "frontTitle": "On-Demand Courses",
+            "frontDescription": "Asynchronous, pre-recorded Bible & theology courses for groups & individuals.",
+            "backHeading": "On-Demand Courses",
+            "backDescription": "Try our free Sabbath course as a sample, then explore the rest of the on-demand library.",
+            "primaryActionLabel": "Take a Free Course",
+            "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-city-life-banner.png",
+            "frontGraphicScale": 10.3,
+            "frontGraphicOpacity": 0.4,
+            "backLayout": "lookbook",
+            "lookbookImage": "/assets/Other Images/Sabbath_compressed.jpg",
+            "lookbookUrl": "#sabbath-course",
+            "lookbookAlt": "Sabbath - a free on-demand course from The Candler Foundry",
+            "lookbookTileWidth": 220,
+            "lookbookTileHeight": 145,
+            "actions": [
+                {
+                    "label": "Take a Free Course",
+                    "url": "#sabbath-course",
+                    "type": "course",
+                    "visible": true
+                },
+                {
+                    "label": "Browse On-Demand Library",
+                    "url": "https://candlerfoundry.emory.edu/courses",
+                    "type": "library",
+                    "visible": true
+                }
+            ],
+            "lookbookTileTilt": 0,
+            "lookbookTileFlat": true,
+            "frontGraphicShiftY": -244
+        },
+        "sunday-school-simplified": {
+            "section": "ministry",
+            "visible": true,
+            "order": 1,
+            "frontTitle": "Sunday School Simplified",
+            "frontDescription": "Easy, no-prep Sunday School & Bible study lessons.",
+            "backHeading": "Sunday School Simplified",
+            "backDescription": "Easy, no-prep Sunday School & Bible study lessons.",
+            "primaryActionLabel": "Free Lesson 1",
+            "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-city-life.png",
+            "frontGraphicScale": 8.74,
+            "frontGraphicOpacity": 0.45,
+            "frontGraphicShiftX": 1020,
+            "frontGraphicShiftY": 15,
+            "frontGraphicFadeLeft": 0,
+            "frontGraphicFadeStrength": 41,
+            "backLayout": "grid",
+            "tileStyle": "pdf-thumb",
+            "gridItems": [
+                {
+                    "title": "Covenants",
+                    "thumbnail": "/assets/Sunday School Simplified/Living in Covenant Thumbnail.png",
+                    "href": "/assets/Sunday School Simplified/Sunday School Simplified - Covenants (Feb. 2026).pdf"
+                },
+                {
+                    "title": "Psalms of Lament",
+                    "thumbnail": "/assets/Sunday School Simplified/When God Feels Far Away.png",
+                    "href": "/assets/Sunday School Simplified/Sunday School Simplified - Psalms of Lament (Jan. 2026).pdf"
+                },
+                {
+                    "title": "Paul Meant Y'all",
+                    "thumbnail": "/assets/Sunday School Simplified/Paul Meant Y'all.png",
+                    "href": "/assets/Sunday School Simplified/Sunday School Simplified - Paul Meant Y'all.pdf"
+                },
+                {
+                    "title": "Literary Motifs in the Gospels",
+                    "thumbnail": "/assets/Sunday School Simplified/Mark's Secret.png",
+                    "href": "/assets/Sunday School Simplified/Sunday School Simplified - Literary Motifs in the Gospels.pdf"
+                }
+            ]
+        },
+        "3-minute-bible": {
+            "section": "ministry",
+            "visible": true,
+            "order": 2,
+            "frontTitle": "3-Minute Bible",
+            "frontDescription": "3-minute video lessons Biblical and theological concepts for lay & ordained leaders",
+            "backHeading": "3-Minute Bible",
+            "backDescription": "3-minute video lessons Biblical and theological concepts for lay & ordained leaders",
+            "primaryActionLabel": "Watch What Is a Covenant?",
+            "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-walking-campus.png",
+            "frontGraphicScale": 4.44,
+            "frontGraphicOpacity": 0.45,
+            "frontGraphicShiftY": -20,
+            "frontGraphicShiftX": 300,
+            "frontGraphicFadeStrength": 33,
+            "backLayout": "grid",
+            "tileStyle": "video-thumb",
+            "gridItems": [
+                {
+                    "title": "What is a Covenant?",
+                    "thumbnail": "/assets/3MB Thumbnails/What is a Covenant Thumbnail.png",
+                    "href": "https://www.dropbox.com/scl/fi/7bte85voxfsq0fjb7y4m4/Covenant-in-The-Old-Testament_captions.mp4?rlkey=20pcbhnv4u9h923n2hflbpapx&raw=1"
+                },
+                {
+                    "title": "Psalms of Lament",
+                    "thumbnail": "/assets/3MB Thumbnails/Psalm of Lament Thumbnail.png",
+                    "href": "https://www.dropbox.com/scl/fi/zltyhp2job4x27r6m6s7n/Psalm-of-Lament_Captions.mp4?rlkey=t3erwg9pe6d4uwxpa4ujxzhe9&raw=1"
+                },
+                {
+                    "title": "Paul Meant Y'all",
+                    "thumbnail": "/assets/3MB Thumbnails/Paul Meant Y'all Thumbnail.png",
+                    "href": "https://www.dropbox.com/scl/fi/vmaui710zxcpdq6x8k7g4/Paul-s-Audience-That-you-is-plural_v1-Captioned.mp4?rlkey=wnhhpzhdic8yvq06jzndl2sax&raw=1"
+                },
+                {
+                    "title": "Mark's Secrecy Motif",
+                    "thumbnail": "/assets/3MB Thumbnails/Mark Secrecy Motif Thumbnail.png",
+                    "href": "https://www.dropbox.com/scl/fi/vau0dysjaaxi3t3mnaizt/New-Testament-Gospels-have-motifs_v2-Captioned.mp4?rlkey=egxo2keo1nz1066kalfbyrfs7&raw=1"
+                }
+            ]
+        },
+        "unstuck": {
+            "section": "ministry",
+            "visible": true,
+            "order": 3,
+            "frontTitle": "Unstuck",
+            "frontDescription": "Video resources for vocational and spiritual discernment.",
+            "backHeading": "Unstuck",
+            "backDescription": "Video resources for vocational and spiritual discernment.",
+            "primaryActionLabel": "Watch Belonging & Purpose",
+            "frontGraphicScale": 2.44,
+            "frontGraphicUrl": "/assets/Graphic Vignettes/homepage-tablet-standing-seated.png",
+            "frontGraphicShiftX": 126,
+            "frontGraphicShiftY": 20,
+            "frontGraphicOpacity": 0.42,
+            "frontGraphicFadeY": 35,
+            "frontGraphicFadeRight": 53,
+            "frontGraphicFadeLeft": 5,
+            "backLayout": "grid",
+            "tileStyle": "video-text",
+            "cardBackVariant": "unstuck",
+            "gridItems": [
+                {
+                    "label": "Puanani & Jonathan Calvillo",
+                    "title": "Sacred Spaces",
+                    "href": "https://www.dropbox.com/scl/fi/6u6rurw0qmudytxd1m30y/Faith-Informants_Puanani-and-Jonathan_v1.mp4?rlkey=73gahu8wwx4ubflsuy4plge5b&raw=1"
+                },
+                {
+                    "label": "Dr. Gabrielle Thomas",
+                    "title": "Imago Dei (Pt. 1)",
+                    "href": "https://www.dropbox.com/scl/fi/ph9f8d8w9m9f3ixfz15on/Faith-Informants_Thomas_Pt1_v1.mp4?rlkey=74rkxk29ibw2s1bryz31ie229&raw=1"
+                },
+                {
+                    "label": "Dr. Danielle Tumminio Hansen",
+                    "title": "What does it mean to belong?",
+                    "href": "https://www.dropbox.com/scl/fi/osxxj0g2dx1m4g90gxnfa/Faith-Informants_Hansen_v1.mp4?rlkey=d58shww7nxadhc85lczjs4ru3&raw=1"
+                },
+                {
+                    "label": "Dr. Elizabeth Corrie",
+                    "title": "Vocation & Well-Being (Pt. 3)",
+                    "href": "https://www.dropbox.com/scl/fi/0hmpeih90dkd21p8yksxj/Faith-Informants_Corrie_Pt3_v1.mp4?rlkey=rcgntad7v5t6ci61ufz6ex86y&raw=1"
+                }
+            ]
+        },
+        "scholars-blog": {
+            "section": "public",
+            "visible": true,
+            "order": 1,
+            "frontTitle": "Scholar’s Blog",
+            "frontDescription": "Timely reflections on faith, theology, and spirituality from Candler voices.",
+            "backHeading": "Scholar’s Blog",
+            "backDescription": "Timely reflections on faith, theology, and spirituality from Candler voices.",
+            "primaryActionLabel": "Read Scholar’s Blog",
+            "frontGraphicShiftX": 300,
+            "frontGraphicShiftY": -10,
+            "frontGraphicScale": 3.7,
+            "frontGraphicOpacity": 0.57,
+            "backLayout": "grid",
+            "tileStyle": "blog",
+            "gridItems": [
+                {
+                    "title": "Revelation & K-Pop Demon Hunters",
+                    "image": "/assets/Blog Graphics/KPDH Blog Post Highlight [Chois].png",
+                    "date": "Aug 26, 2025",
+                    "href": "https://candlerfoundry.emory.edu/post/the-book-of-revelation-and-k-pop-demon-hunters"
+                },
+                {
+                    "title": "How a Beer Made Me a Better Christian",
+                    "image": "/assets/Blog Graphics/how beer made me a better christian.png",
+                    "date": "Sep 23, 2025",
+                    "href": "https://candlerfoundry.emory.edu/post/how-a-beer-made-me-a-better-christian"
+                }
+            ]
+        },
+        "theoed": {
+            "section": "public",
+            "visible": true,
+            "order": 1,
+            "frontTitle": "TheoEd",
+            "frontDescription": "Short talks that explore the Bible, theology, and faith for spiritually curious audiences.",
+            "backHeading": "TheoEd",
+            "backDescription": "TED-style talks on theology, spirituality, & faith. Free discussion guides.",
+            "primaryActionLabel": "Browse TheoEd Talks",
+            "frontGraphicUrl": "/assets/Graphic Vignettes/vignette-screens-presenter.png",
+            "frontGraphicScale": 8.16,
+            "frontGraphicOpacity": 0.45,
+            "frontGraphicShiftX": 570,
+            "frontGraphicShiftY": -30,
+            "backLayout": "grid",
+            "tileStyle": "video-thumb",
+            "gridItems": [
+                {
+                    "title": "Dr. Wil Gafney",
+                    "thumbnail": "/assets/theoed/Thumbnails/Dr. Gafney TheoEd Thumbnail.png",
+                    "theoedVid": "zLfpaRhsSUI",
+                    "theoedName": "Dr. Wil Gafney",
+                    "theoedLoc": "TheoEd ATL (2020 - Winter)",
+                    "theoedGuide": "assets/theoed/discussion-guides/THEO-180-dr-wil-gafney-biblical-language-for-a-god-who-transcends-gender-discussion-guide.pdf"
+                },
+                {
+                    "title": "Cole Arthur Riley",
+                    "thumbnail": "/assets/theoed/Thumbnails/Cole Arthur Riley TheoEd Thumbnail.png",
+                    "theoedVid": "UdjfTkpk6Lg",
+                    "theoedName": "Cole Arthur Riley",
+                    "theoedLoc": "TheoEd Macon (2024)",
+                    "theoedGuide": "assets/theoed/discussion-guides/THEO-174-cole-arthur-riley-the-silence-of-god-discussion-guide.pdf"
+                },
+                {
+                    "title": "Pete Enns",
+                    "thumbnail": "/assets/theoed/Thumbnails/Pete Enns TheoEd Thumbnail.png",
+                    "theoedVid": "YDirRZLtifE",
+                    "theoedName": "Pete Enns",
+                    "theoedLoc": "TheoEd ATL (2019 - Winter)",
+                    "theoedGuide": "assets/theoed/discussion-guides/THEO-138-pete-enns-reimagining-an-ancient-god-discussion-guide.pdf"
+                },
+                {
+                    "title": "Dr. Amy-Jill Levine",
+                    "thumbnail": "/assets/theoed/Thumbnails/Dr. Amy JL TheoEd Thumbnail.png",
+                    "theoedVid": "AFy_jjP2WzU",
+                    "theoedName": "Dr. Amy-Jill Levine",
+                    "theoedLoc": "TheoEd ATL (2017)",
+                    "theoedGuide": "assets/theoed/discussion-guides/THEO-128-amy-jill-levine-life-after-death-jesus-judiasm-and-justice-discussion-guide.pdf"
+                }
+            ]
+        },
+        "candler-in-conversation": {
+            "section": "public",
+            "visible": true,
+            "order": 1,
+            "frontTitle": "Candler in Conversation",
+            "frontDescription": "Candler's flagship podcast, hosted & produced by The Foundry.",
+            "backHeading": "Candler in Conversation",
+            "backDescription": "Candler's flagship podcast, hosted & produced by The Foundry.",
+            "primaryActionLabel": "Listen to Podcast Episode",
+            "frontGraphicScale": 2.72,
+            "frontGraphicUrl": "/assets/Graphic Vignettes/graphic-3-booktop-pair.png",
+            "frontGraphicPosition": "center right",
+            "frontGraphicShiftX": 160,
+            "frontGraphicFadeStrength": 0,
+            "frontGraphicFadeRight": 0,
+            "frontGraphicOpacity": 0.6,
+            "backLayout": "grid",
+            "tileStyle": "podcast",
+            "gridItems": [
+                {
+                    "series": "Womanist Discourse · 1",
+                    "speaker": "Dr. Teresa Fry Brown",
+                    "href": "https://www.dropbox.com/scl/fi/x75b11h8fcogwjfr27j6b/Teresa-Fry-Brown-Episode.mp4?rlkey=vfrjgzt67k5nvrfp0l6x3kcxi&raw=1"
+                },
+                {
+                    "series": "Womanist Discourse · 2",
+                    "speaker": "Dr. Musa Dube",
+                    "href": "https://www.dropbox.com/scl/fi/6my7p48qlf6yl1cr1mwyq/Musa-Dube-Interview.mp4?rlkey=4e7evzi6hxqgbw55hrxet6csc&raw=1"
+                },
+                {
+                    "series": "Scholar, Unscripted",
+                    "speaker": "Sarah Bogue",
+                    "href": "https://www.dropbox.com/scl/fi/074avefi6lfeesbxnn8lp/Sarah-B_.mp4?rlkey=2341s17u4phtao6q6w63oq0om&raw=1"
+                },
+                {
+                    "series": "Silent Echoes · 1",
+                    "speaker": "Dr. Walter Fluker",
+                    "href": "https://www.dropbox.com/scl/fi/ej6p7g96pkedvrf170srz/Walter-Earl-Fluker-Part-1.mp4?rlkey=blkkyg3kqlyfwzshhgs79ikqq&raw=1"
+                }
+            ]
+        }
     }
-  }
 }
