@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Mission cards 3-8 · back-of-card mockups · v4 (TheoEd thumbnails + Unstuck brand graphic)</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #1e2530;
+    --orange-red: #c84826;
+    --amber: #f6a85d;
+    --cream: #f0ead8;
+    --ivory: #fafaf2;
+    --taupe: #7a6b5a;
+    --paper: #fbf6e9;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; }
+  body {
+    font-family: 'Montserrat', system-ui, sans-serif;
+    background: #ece6d2;
+    color: var(--navy);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    padding: 48px 32px 96px;
+  }
+  .stage { max-width: 1200px; margin: 0 auto 28px; }
+  .stage h1 { font-size: 26px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 700; margin: 0 0 8px; }
+  .stage .meta { font-size: 11px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--orange-red); margin: 0 0 10px; }
+  .stage .lede { font-size: 14.5px; line-height: 1.6; color: rgba(30,37,48,0.78); margin: 0; max-width: 920px; }
+
+  .row {
+    max-width: 1200px; margin: 0 auto 56px;
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+  }
+  .row-label {
+    grid-column: 1 / -1;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--taupe);
+    margin: 4px 0 -8px;
+  }
+
+  .card-frame {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 18px 38px rgba(30,37,48,0.14), 0 6px 14px rgba(30,37,48,0.10);
+    border: 1px solid rgba(30,37,48,0.12);
+    background:
+      radial-gradient(120% 70% at 100% 0%, rgba(246,168,93,0.10) 0%, rgba(246,168,93,0) 60%),
+      linear-gradient(180deg, var(--ivory) 0%, var(--paper) 100%);
+    color: var(--navy);
+    display: flex; flex-direction: column;
+    padding: 22px 22px 20px;
+  }
+  .ministry-card { width: 366px; height: 432px; }
+  .public-card { width: 366px; height: 320px; }
+
+  /* Unstuck card with brand graphic background */
+  .unstuck-card {
+    background:
+      linear-gradient(180deg, rgba(250,250,242,0.55) 0%, rgba(251,246,233,0.62) 100%),
+      url("assets/Unstuck/Graphic%20Elements/Unstuck_Graphic%20Elements.svg") center / 130% no-repeat,
+      linear-gradient(180deg, var(--ivory) 0%, var(--paper) 100%);
+    background-color: var(--ivory);
+  }
+  .unstuck-card .c-lead { color: rgba(30,37,48,0.78); }
+
+  .card-caption { margin-top: 12px; font-size: 12px; line-height: 1.5; color: rgba(30,37,48,0.7); }
+  .card-caption strong { color: var(--navy); font-weight: 700; }
+
+  .c-title {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; font-size: 21px; line-height: 1.05;
+    letter-spacing: -0.04em; margin: 0 0 8px;
+    position: relative; z-index: 2;
+  }
+  .c-accent { display: block; width: 56px; min-height: 3px; height: 3px; flex-shrink: 0; background: var(--orange-red); border-radius: 2px; margin: 0 0 12px; position: relative; z-index: 5; }
+  .c-lead { font-size: 13px; line-height: 1.45; color: rgba(30,37,48,0.82); margin: 0 0 14px; position: relative; z-index: 2; }
+
+  /* =====================================================
+     Sunday School — 2×2 thumbnail tiles (16:9) with PDF badge
+     ===================================================== */
+  .pdf-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: relative; z-index: 2; }
+  .pdf-tile {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 7px;
+    overflow: hidden;
+    background: #1a1a1a;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(30,37,48,0.18);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    display: block;
+  }
+  .pdf-tile:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(30,37,48,0.24); }
+  .pdf-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .pdf-tile .pdf-badge {
+    position: absolute; top: 6px; right: 6px;
+    background: var(--orange-red);
+    color: white;
+    font-size: 7.5px; font-weight: 700; letter-spacing: 0.08em;
+    padding: 3px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    z-index: 2;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+  .pdf-tile .tcap {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 16px 8px 5px;
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9.5px; font-weight: 700; letter-spacing: 0.01em;
+    line-height: 1.18;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    background: linear-gradient(180deg, transparent 0%, transparent 40%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none;
+  }
+
+  /* =====================================================
+     Thumbnail tiles (3MB, TheoEd, Unstuck)
+     ===================================================== */
+  .thumb-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: relative; z-index: 2; }
+  .thumb-tile {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 7px;
+    overflow: hidden;
+    background: #1a1a1a;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(30,37,48,0.18);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    display: block;
+  }
+  .thumb-tile:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(30,37,48,0.24); }
+  .thumb-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .thumb-tile .play-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+    background: linear-gradient(180deg, transparent 0%, transparent 55%, rgba(0,0,0,0.55) 100%);
+  }
+  .thumb-tile .play-overlay svg {
+    width: 28px; height: 28px;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.45));
+  }
+  .thumb-tile .tcap {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 16px 8px 5px;
+    color: white;
+    font-size: 9.5px; font-weight: 700; letter-spacing: 0.01em;
+    line-height: 1.18;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.7);
+    pointer-events: none;
+  }
+
+  /* Typographic video tile for Unstuck (transparent over brand bg) */
+  .vid-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: relative; z-index: 2; }
+  .vid-tile {
+    position: relative;
+    background: rgba(255,255,255,0.86);
+    backdrop-filter: blur(2px);
+    border: 1px solid rgba(30,37,48,0.10);
+    border-left: 3px solid var(--orange-red);
+    border-radius: 6px;
+    padding: 8px 10px 9px;
+    text-decoration: none; color: var(--navy);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    overflow: hidden;
+    min-height: 92px;
+    display: flex; flex-direction: column;
+  }
+  .vid-tile:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(30,37,48,0.14); }
+  .vid-tile .vlabel {
+    font-size: 8px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--taupe);
+    padding-right: 14px;
+    margin-bottom: 4px;
+  }
+  .vid-tile .vtitle {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700; font-size: 11.5px; line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .vid-tile .vplay {
+    position: absolute; top: 6px; right: 7px;
+    width: 12px; height: 12px;
+    color: var(--orange-red);
+  }
+
+  /* =====================================================
+     Podcast — 2×2 dark tiles (16:9) matching 3MB / TheoEd sizing
+     ===================================================== */
+  .pod-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; position: relative; z-index: 2; }
+  .pod-tile {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 7px;
+    background: linear-gradient(140deg, #1e2530 0%, #2a3340 100%);
+    color: var(--ivory);
+    padding: 10px 12px 11px;
+    text-decoration: none;
+    display: flex; flex-direction: column; justify-content: space-between;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(30,37,48,0.18);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .pod-tile::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(120% 60% at 50% 100%, rgba(246,168,93,0.16) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .pod-tile:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(30,37,48,0.24); }
+  .pod-series {
+    position: relative; z-index: 1;
+    font-size: 8px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--amber);
+    line-height: 1.1;
+  }
+  .pod-speaker {
+    position: relative; z-index: 1;
+    font-family: 'Montserrat', sans-serif; font-weight: 700;
+    font-size: 11.5px; line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: rgba(250,250,242,0.96);
+  }
+  .pod-mic {
+    position: absolute; top: 8px; right: 8px;
+    width: 13px; height: 13px;
+    color: var(--orange-red);
+    z-index: 1;
+  }
+
+  /* =====================================================
+     Scholar's Blog — 2×2 graphic tiles (image-first)
+     ===================================================== */
+  .blog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; position: relative; z-index: 2; }
+  .blog-tile {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #1a1a1a;
+    text-decoration: none;
+    box-shadow: 0 3px 8px rgba(30,37,48,0.16);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    display: block;
+  }
+  .blog-tile:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(30,37,48,0.22); }
+  .blog-tile img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .blog-tile .bdate {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 12px 8px 5px;
+    color: white;
+    font-size: 8.5px; font-weight: 700; letter-spacing: 0.10em;
+    text-transform: uppercase;
+    background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.55) 70%);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+  }
+
+  /* notes */
+  .notes {
+    max-width: 1200px; margin: 0 auto;
+    background: var(--ivory);
+    border-radius: 12px; padding: 20px 26px;
+    border: 1px solid rgba(30,37,48,0.10);
+  }
+  .notes h2 { font-size: 15px; font-weight: 700; color: var(--navy); margin: 0 0 8px; }
+  .notes ul { margin: 0; padding-left: 18px; }
+  .notes li { font-size: 13px; line-height: 1.65; color: rgba(30,37,48,0.82); margin-bottom: 4px; }
+  .notes code { background: #efe9d3; padding: 1px 6px; border-radius: 4px; font-size: 12px; }
+</style>
+</head>
+<body>
+
+  <header class="stage">
+    <p class="meta">Mission cards 3-8 · back-of-card mockups · v4 · TheoEd thumbnails + Unstuck brand graphic</p>
+    <h1>Six remaining Mission cards — back-of-card v4</h1>
+    <p class="lede">TheoEd now uses your 4 widescreen speaker thumbnails (instead of circular portraits). Unstuck uses the brand SVG as a soft full-card background, with the typographic tiles floating on top via translucent/blurred white backgrounds — the graphic peeks through and gives the card a distinct Unstuck identity.</p>
+  </header>
+
+  <div class="row">
+    <span class="row-label">Ministry cards · 366 × 432</span>
+
+    <!-- 1. SUNDAY SCHOOL SIMPLIFIED -->
+    <div>
+      <div class="card-frame ministry-card">
+        <h3 class="c-title">Sunday School Simplified</h3>
+        <span class="c-accent"></span>
+        <p class="c-lead">No-prep, scholar-written Sunday School & Bible study lessons.</p>
+        <div class="pdf-grid">
+          <a class="pdf-tile" href="assets/Sunday School Simplified/Sunday School Simplified - Covenants (Feb. 2026).pdf" target="_blank">
+            <img src="assets/Sunday School Simplified/Living in Covenant Thumbnail.png" alt="Covenants" />
+            <span class="pdf-badge">PDF</span>
+          </a>
+          <a class="pdf-tile" href="assets/Sunday School Simplified/Sunday School Simplified - Psalms of Lament (Jan. 2026).pdf" target="_blank">
+            <img src="assets/Sunday School Simplified/When God Feels Far Away.png" alt="Psalms of Lament" />
+            <span class="pdf-badge">PDF</span>
+          </a>
+          <a class="pdf-tile" href="assets/Sunday School Simplified/Sunday School Simplified - Paul Meant Y'all.pdf" target="_blank">
+            <img src="assets/Sunday School Simplified/Paul Meant Y'all.png" alt="Paul Meant Y'all" />
+            <span class="pdf-badge">PDF</span>
+          </a>
+          <a class="pdf-tile" href="assets/Sunday School Simplified/Sunday School Simplified - Literary Motifs in the Gospels.pdf" target="_blank">
+            <img src="assets/Sunday School Simplified/Mark's Secret.png" alt="Literary Motifs in the Gospels" />
+            <span class="pdf-badge">PDF</span>
+          </a>
+        </div>
+      </div>
+      <p class="card-caption"><strong>Sunday School Simplified.</strong> Unchanged from v3.</p>
+    </div>
+
+    <!-- 2. 3-MINUTE BIBLE — real thumbnails -->
+    <div>
+      <div class="card-frame ministry-card">
+        <h3 class="c-title">3-Minute Bible</h3>
+        <span class="c-accent"></span>
+        <p class="c-lead">Short video lessons explaining big Biblical and theological concepts.</p>
+        <div class="thumb-grid">
+          <a class="thumb-tile" href="#3mb-78">
+            <img src="assets/3MB Thumbnails/What is a Covenant Thumbnail.png" alt="What is a Covenant" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg></div>
+          </a>
+          <a class="thumb-tile" href="#3mb-79">
+            <img src="assets/3MB Thumbnails/Psalm of Lament Thumbnail.png" alt="Psalms of Lament" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg></div>
+          </a>
+          <a class="thumb-tile" href="#3mb-15">
+            <img src="assets/3MB Thumbnails/Paul Meant Y'all Thumbnail.png" alt="Paul Meant Y'all" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg></div>
+          </a>
+          <a class="thumb-tile" href="#3mb-7">
+            <img src="assets/3MB Thumbnails/Mark Secrecy Motif Thumbnail.png" alt="Mark Secrecy Motif" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg></div>
+          </a>
+        </div>
+      </div>
+      <p class="card-caption"><strong>3-Minute Bible.</strong> Unchanged from v3. Pairs with the Sunday School lessons above.</p>
+    </div>
+
+    <!-- 3. UNSTUCK — brand graphic background + typographic tiles -->
+    <div>
+      <div class="card-frame ministry-card unstuck-card">
+        <h3 class="c-title">Unstuck</h3>
+        <span class="c-accent"></span>
+        <p class="c-lead">Short videos on vocation, belonging, and discernment.</p>
+        <div class="vid-grid">
+          <a class="vid-tile" href="#unst-241">
+            <svg class="vplay" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="11"/><polygon points="10,8 16,12 10,16" fill="white"/></svg>
+            <div class="vlabel">Puanani &amp; Jonathan Calvillo</div>
+            <div class="vtitle">Sacred Spaces</div>
+          </a>
+          <a class="vid-tile" href="#unst-240">
+            <svg class="vplay" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="11"/><polygon points="10,8 16,12 10,16" fill="white"/></svg>
+            <div class="vlabel">Dr. Gabrielle Thomas</div>
+            <div class="vtitle">Imago Dei (Pt. 1)</div>
+          </a>
+          <a class="vid-tile" href="#unst-239">
+            <svg class="vplay" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="11"/><polygon points="10,8 16,12 10,16" fill="white"/></svg>
+            <div class="vlabel">Dr. Danielle Tumminio Hansen</div>
+            <div class="vtitle">What does it mean to belong?</div>
+          </a>
+          <a class="vid-tile" href="#unst-238">
+            <svg class="vplay" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="11"/><polygon points="10,8 16,12 10,16" fill="white"/></svg>
+            <div class="vlabel">Dr. Elizabeth Corrie</div>
+            <div class="vtitle">Vocation &amp; Well-Being (Pt. 3)</div>
+          </a>
+        </div>
+      </div>
+      <p class="card-caption"><strong>Unstuck.</strong> Brand SVG sits behind everything at ~22% effective opacity (via an ivory overlay). Tiles are 86% white with a tiny backdrop blur so the graphic shows through subtly. Distinctive without losing legibility.</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <span class="row-label">Public cards · 366 × 320</span>
+
+    <!-- 4. THEOED — widescreen thumbnail tiles -->
+    <div>
+      <div class="card-frame public-card">
+        <h3 class="c-title">TheoEd</h3>
+        <span class="c-accent"></span>
+        <p class="c-lead">TED-style talks on theology, spirituality, & faith. Free discussion guides.</p>
+        <div class="thumb-grid">
+          <a class="thumb-tile" href="#theoed-180">
+            <img src="assets/theoed/Thumbnails/Dr. Gafney TheoEd Thumbnail.png" alt="Dr. Wil Gafney" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg></div>
+            <div class="tcap">Dr. Wil Gafney</div>
+          </a>
+          <a class="thumb-tile" href="#theoed-174">
+            <img src="assets/theoed/Thumbnails/Cole Arthur Riley TheoEd Thumbnail.png" alt="Cole Arthur Riley" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg></div>
+            <div class="tcap">Cole Arthur Riley</div>
+          </a>
+          <a class="thumb-tile" href="#theoed-138">
+            <img src="assets/theoed/Thumbnails/Pete Enns TheoEd Thumbnail.png" alt="Pete Enns" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg></div>
+            <div class="tcap">Pete Enns</div>
+          </a>
+          <a class="thumb-tile" href="#theoed-128">
+            <img src="assets/theoed/Thumbnails/Dr. Amy JL TheoEd Thumbnail.png" alt="Dr. Amy-Jill Levine" />
+            <div class="play-overlay"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg></div>
+            <div class="tcap">Dr. Amy-Jill Levine</div>
+          </a>
+        </div>
+      </div>
+      <p class="card-caption"><strong>TheoEd.</strong> 4 widescreen thumbnails using <code>assets/theoed/Thumbnails/</code>. Same opening-lightbox click behavior. Reads way richer than the circular portraits at this card size.</p>
+    </div>
+
+    <!-- 5. CANDLER IN CONVERSATION -->
+    <div>
+      <div class="card-frame public-card">
+        <h3 class="c-title">Candler in Conversation</h3>
+        <span class="c-accent"></span>
+        <p class="c-lead">Candler's flagship podcast — long-form conversations with Foundry scholars.</p>
+        <div class="pod-grid">
+          <a class="pod-tile" href="#pod-31">
+            <svg class="pod-mic" viewBox="0 0 24 24" fill="currentColor"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            <div class="pod-series">Womanist Discourse · 1</div>
+            <div class="pod-speaker">Dr. Teresa Fry Brown</div>
+          </a>
+          <a class="pod-tile" href="#pod-32">
+            <svg class="pod-mic" viewBox="0 0 24 24" fill="currentColor"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            <div class="pod-series">Womanist Discourse · 2</div>
+            <div class="pod-speaker">Dr. Musa Dube</div>
+          </a>
+          <a class="pod-tile" href="#pod-bogue">
+            <svg class="pod-mic" viewBox="0 0 24 24" fill="currentColor"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            <div class="pod-series">Scholar, Unscripted</div>
+            <div class="pod-speaker">Sarah Bogue</div>
+          </a>
+          <a class="pod-tile" href="#pod-51">
+            <svg class="pod-mic" viewBox="0 0 24 24" fill="currentColor"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+            <div class="pod-series">Silent Echoes · 1</div>
+            <div class="pod-speaker">Dr. Walter Fluker</div>
+          </a>
+        </div>
+      </div>
+      <p class="card-caption"><strong>Candler in Conversation.</strong> Unchanged from v3.</p>
+    </div>
+
+    <!-- 6. SCHOLAR'S BLOG — image-first graphic tiles -->
+    <div>
+      <div class="card-frame public-card">
+        <h3 class="c-title">Scholar's Blog</h3>
+        <span class="c-accent"></span>
+        <p class="c-lead">Bi-weekly reflections on faith, theology, and Scripture from Candler voices.</p>
+        <div class="blog-grid">
+          <a class="blog-tile" href="https://candlerfoundry.emory.edu/post/the-book-of-revelation-and-k-pop-demon-hunters" target="_blank">
+            <img src="assets/Blog Graphics/KPDH Blog Post Highlight [Chois].png" alt="Revelation &amp; K-Pop Demon Hunters" />
+            <div class="bdate">Aug 26, 2025</div>
+          </a>
+          <a class="blog-tile" href="https://candlerfoundry.emory.edu/post/how-a-beer-made-me-a-better-christian" target="_blank">
+            <img src="assets/Blog Graphics/how beer made me a better christian.png" alt="How a Beer Made Me a Better Christian" />
+            <div class="bdate">Sep 23, 2025</div>
+          </a>
+        </div>
+      </div>
+      <p class="card-caption"><strong>Scholar's Blog.</strong> Unchanged from v3.</p>
+    </div>
+  </div>
+
+  <section class="notes">
+    <h2>What changed from v3 → v4 → v4.1</h2>
+    <ul>
+      <li><strong>TheoEd.</strong> 4 widescreen thumbnails from <code>assets/theoed/Thumbnails/</code> instead of circular portraits.</li>
+      <li><strong>Unstuck.</strong> Brand SVG as full-card background (URL-encoded path, 55–62% veil so the graphic shows through clearly).</li>
+      <li><strong>Podcast tiles.</strong> Now 2×2 with 16:9 aspect — matches the 3MB and TheoEd tile sizing exactly.</li>
+      <li><strong>Typography.</strong> All tile titles switched from Fraunces serif to Montserrat 700 to match the front-of-card title font.</li>
+      <li><strong>Scholar's Blog.</strong> Reduced to 2 tiles (K-pop and Beer). Tiles are now larger and read more clearly. The orange accent line under the heading is still there and should now be visible with the reduced tile count.</li>
+    </ul>
+    <h2 style="margin-top:14px;">Tweaks you might want</h2>
+    <ul>
+      <li>Unstuck background opacity — easy to dial up/down further.</li>
+      <li>TheoEd thumbnail captions — currently overlay the speaker name at bottom. Could remove if your thumbnails already show the speaker name graphically.</li>
+    </ul>
+  </section>
+
+</body>
+</html>
+                                                                                                                                                                                                                                                                                                                                                                                                                     
