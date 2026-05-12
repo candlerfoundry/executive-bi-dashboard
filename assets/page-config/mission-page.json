@@ -253,28 +253,28 @@
             "frontGraphicFadeRight": 53,
             "frontGraphicFadeLeft": 5,
             "backLayout": "grid",
-            "tileStyle": "video-text",
+            "tileStyle": "video-thumb",
             "cardBackVariant": "unstuck",
             "gridItems": [
                 {
-                    "label": "Puanani & Jonathan Calvillo",
-                    "title": "Sacred Spaces",
-                    "href": "https://www.dropbox.com/scl/fi/6u6rurw0qmudytxd1m30y/Faith-Informants_Puanani-and-Jonathan_v1.mp4?rlkey=73gahu8wwx4ubflsuy4plge5b&raw=1"
+                    "title": "Puanani & Jonathan Calvillo - Sacred Spaces",
+                    "thumbnail": "/assets/unstuck-thumbs/UNST-241-sacred-spaces.jpg",
+                    "href": "https://www.dropbox.com/scl/fi/6u6rurw0qmudytxd1m30y/UNST-241-Sacred-Spaces-Calvillo-Uncaptioned.mp4?rlkey=73gahu8wwx4ubflsuy4plge5b&raw=1"
                 },
                 {
-                    "label": "Dr. Gabrielle Thomas",
-                    "title": "Imago Dei (Pt. 1)",
-                    "href": "https://www.dropbox.com/scl/fi/ph9f8d8w9m9f3ixfz15on/Faith-Informants_Thomas_Pt1_v1.mp4?rlkey=74rkxk29ibw2s1bryz31ie229&raw=1"
+                    "title": "Emmanuel Lartey - Identity and Purpose (Pt. 1)",
+                    "thumbnail": "/assets/unstuck-thumbs/UNST-231-lartey.jpg",
+                    "href": "https://www.dropbox.com/scl/fi/mnsgl4gh37jhggwculgas/UNST-231-Identity-and-Purpose-Pt.-1-Lartey-Uncaptioned.mp4?rlkey=fv413i4rkgth0fcf6d09vto7b&raw=1"
                 },
                 {
-                    "label": "Dr. Danielle Tumminio Hansen",
-                    "title": "What does it mean to belong?",
-                    "href": "https://www.dropbox.com/scl/fi/osxxj0g2dx1m4g90gxnfa/Faith-Informants_Hansen_v1.mp4?rlkey=d58shww7nxadhc85lczjs4ru3&raw=1"
+                    "title": "Puanani Calvillo - Belonging (Pt. 1)",
+                    "thumbnail": "/assets/unstuck-thumbs/UNST-221-belonging-pt1.jpg",
+                    "href": "https://www.dropbox.com/scl/fi/uk4gu0awqsvllph4ga1e8/UNST-221-Belonging-Pt.-1-Calvillo-Uncaptioned.mp4?rlkey=gjyumnofdisxfu87pnmnqcv9n&raw=1"
                 },
                 {
-                    "label": "Dr. Elizabeth Corrie",
-                    "title": "Vocation & Well-Being (Pt. 3)",
-                    "href": "https://www.dropbox.com/scl/fi/0hmpeih90dkd21p8yksxj/Faith-Informants_Corrie_Pt3_v1.mp4?rlkey=rcgntad7v5t6ci61ufz6ex86y&raw=1"
+                    "title": "Dr. Elizabeth Corrie - Vocation & Well-Being (Pt. 3)",
+                    "thumbnail": "/assets/unstuck-thumbs/UNST-238-corrie.jpg",
+                    "href": "https://www.dropbox.com/scl/fi/0hmpeih90dkd21p8yksxj/UNST-238-Vocation-and-Well-Being-Pt.-3-Corrie-Uncaptioned.mp4?rlkey=rcgntad7v5t6ci61ufz6ex86y&raw=1"
                 }
             ]
         },
@@ -376,27 +376,27 @@
             "frontGraphicFadeRight": 0,
             "frontGraphicOpacity": 0.6,
             "backLayout": "grid",
-            "tileStyle": "podcast",
+            "tileStyle": "video-thumb",
             "gridItems": [
                 {
-                    "series": "Womanist Discourse · 1",
-                    "speaker": "Dr. Teresa Fry Brown",
-                    "href": "https://www.dropbox.com/scl/fi/x75b11h8fcogwjfr27j6b/Teresa-Fry-Brown-Episode.mp4?rlkey=vfrjgzt67k5nvrfp0l6x3kcxi&raw=1"
+                    "title": "Womanist Discourse · Dr. Teresa Fry Brown",
+                    "thumbnail": "/assets/podcast-thumbs/POD-3.1-fry-brown.jpg",
+                    "href": "https://www.dropbox.com/scl/fi/xrei1se6alvl7y7j96tcv/POD-3.1-Womanist-Discourse-Teresa-Fry-Brown-Captioned.mp4?rlkey=vkqqzbuqw86k8j7ako5owsog9&raw=1"
                 },
                 {
-                    "series": "Womanist Discourse · 2",
-                    "speaker": "Dr. Musa Dube",
-                    "href": "https://www.dropbox.com/scl/fi/6my7p48qlf6yl1cr1mwyq/Musa-Dube-Interview.mp4?rlkey=4e7evzi6hxqgbw55hrxet6csc&raw=1"
+                    "title": "Ministry & Digital Innovation · Bo Adams",
+                    "thumbnail": "/assets/podcast-thumbs/POD-ADAM0126-bo-adams.jpg",
+                    "href": "https://www.dropbox.com/scl/fi/g5pau826mtn74jf4kyzgf/Bo-Adams-Ministry-Digital-Innovation.mp4?rlkey=helikj35rrou8m18lkdieqhl1&raw=1"
                 },
                 {
-                    "series": "Scholar, Unscripted",
-                    "speaker": "Sarah Bogue",
-                    "href": "https://www.dropbox.com/scl/fi/074avefi6lfeesbxnn8lp/Sarah-B_.mp4?rlkey=2341s17u4phtao6q6w63oq0om&raw=1"
+                    "title": "The Scholar, Unscripted · Sarah Bogue",
+                    "thumbnail": "/assets/podcast-thumbs/POD-BOGU0426-bogue.jpg",
+                    "href": "https://www.dropbox.com/scl/fi/074avefi6lfeesbxnn8lp/POD-BOGU0426-Scholar-Unscripted-Sarah-Bogue-Uncaptioned.mp4?rlkey=2341s17u4phtao6q6w63oq0om&raw=1"
                 },
                 {
-                    "series": "Silent Echoes · 1",
-                    "speaker": "Dr. Walter Fluker",
-                    "href": "https://www.dropbox.com/scl/fi/ej6p7g96pkedvrf170srz/Walter-Earl-Fluker-Part-1.mp4?rlkey=blkkyg3kqlyfwzshhgs79ikqq&raw=1"
+                    "title": "Silent Echoes · Dr. Luther Smith",
+                    "thumbnail": "/assets/podcast-thumbs/POD-5.3-luther-smith.jpg",
+                    "href": "https://www.dropbox.com/scl/fi/lfad0cxsj6bnkm8x8efd2/POD-5.3-Silent-Echoes-Luther-Smith-Uncaptioned.mp4?rlkey=81f9z884fcz50gu95xprl1vat&raw=1"
                 }
             ]
         }
