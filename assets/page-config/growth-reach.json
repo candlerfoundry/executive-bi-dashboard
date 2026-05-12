@@ -1,25 +1,28 @@
 {
   "hero": {
     "title": "Growth and Reach",
-    "subtitle": "Since its founding in 2020, The Candler Foundry has grown from the ground up, extending Candler’s scholarship globally to reach thousands of participants",
-    "image": "/assets/Graphic_3_growth.png"
+    "subtitle": "Since its founding in 2018, The Candler Foundry has grown from the ground up, extending Candler's scholarship globally to reach thousands of participants.",
+    "image": "/assets/student_photos/Master Class Student Talking 6.jpg"
   },
   "layout": {
     "shellMax": 1680,
     "gutter": 40,
-    "heroHeight": 364,
-    "copyWidth": 800,
+    "heroHeight": 420,
+    "copyWidth": 780,
     "titleWidth": 830,
-    "bodyWidth": 720,
-    "copyOffsetX": -84,
-    "copyOffsetY": 10,
+    "bodyWidth": 700,
+    "copyOffsetX": 0,
+    "copyOffsetY": 0,
     "titleGap": 14,
-    "artWidth": 1280,
-    "artOffsetX": -174,
-    "artOffsetY": -138,
-    "artOpacity": 0.48,
-    "fadeLeft": 44,
-    "fadeRight": 7
+    "artWidth": 1680,
+    "artOffsetX": 0,
+    "artOffsetY": 0,
+    "artOpacity": 0.72,
+    "artClarity": 18,
+    "artFit": "cover",
+    "artFocusY": 30,
+    "fadeLeft": 55,
+    "fadeRight": 18
   },
   "typography": {
     "fontFamily": "'Montserrat', sans-serif",

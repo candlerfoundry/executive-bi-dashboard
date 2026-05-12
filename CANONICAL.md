@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-12 (Candler Impact hero banner image + height control)
+Last updated: 2026-05-12 (Growth hero photo + scrollable timeline)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -189,9 +189,9 @@ Do not introduce decorative italics unless explicitly requested.
 ## 13. GROWTH AND REACH - CANONICAL LAYOUT
 **Rule:** Tab nav and panel id remain `numreach`. Tab button label: `Growth and Reach`. All `gr-` prefixed CSS classes.
 
-**Hero banner** (`.gr-hero`): background-image `url('/assets/Graphic_2.png')`, background-size cover, min-height 240px. Dark overlay `.gr-hero-overlay` rgba(26,37,48,0.72). Title 36px 700 white letter-spacing -0.5px. Subtitle 17px 400 white max-width 700px line-height 1.7. No eyebrow label.
+**Hero banner** (`.gr-hero`): published config lives in [assets/page-config/growth-reach.json](C:/Scripts/executive-bi-dashboard/assets/page-config/growth-reach.json). The hero photo is `/assets/student_photos/Master Class Student Talking 6.jpg` and is rendered as a cover background via `layout.artFit: "cover"`. The photo is 3414 x 2267, so the wide banner necessarily crops vertically; `layout.artFocusY: 30` anchors the crop high enough to preserve the instructor and seated students' heads. Side fades are controlled by `layout.fadeLeft` and `layout.fadeRight`; keep them strong enough for readable left-side copy.
 
-**Row 1 - Journey Timeline** (`.gr-timeline-row`): navy (`#1e2530`) background, padding 48px 60px. Eyebrow `.gr-eyebrow` orange 12px uppercase letter-spacing 2.5px. Title `.gr-row-title` cream 22px 700. Horizontal timeline with 5 nodes.
+**Row 1 - Journey Timeline** (`.gr-timeline-row`): navy (`#1e2530`) background, padding 48px 0. Eyebrow `.gr-eyebrow` orange 12px uppercase letter-spacing 2.5px. Title `.gr-row-title` cream 22px 700. The timeline is a horizontally scrollable rail (`.gr-timeline-frame` / `.gr-timeline-scroll`) with arrow controls bound by `growthInitTimelineControls()`. Keep the rail scrollable on mobile rather than reverting to a stacked column.
 
 **Row 2 - Stats + Map** (`.gr-stats-map-row`): cream (`#fafaf2`) background, padding 48px 60px, flex, gap 40px.
 - Left col (`.gr-stats-col`, about 40%): 3x3 stat grid
@@ -199,9 +199,11 @@ Do not introduce decorative italics unless explicitly requested.
 
 **Row 3 - Denom + Cities** (`.gr-denom-cities-row`): navy background, padding 48px 60px, flex, gap 40px.
 
-**JS functions:** `initNumbers()` runs animations and map behavior. `buildMap()` and `initReach()` remain stubs.
+**JS functions:** `initNumbers()` runs animations and map behavior. `initReach()` fetches `growth-reach.json`, applies the editor config, binds the Growth editor, and initializes timeline controls. `buildMap()` remains a no-op stub.
 
 **Regression risk:** Do not reintroduce the retired `.nr-block` / `.numreach-grid` layout. Do not replace the SVG map with CSS tile blocks.
+
+**Testing notes (2026-05-12):** Previewed locally from `python -m http.server 4177` at `http://127.0.0.1:4177/index.html`. Headless Chrome/CDP confirmed the Growth page loads the student photo, uses `background-size: cover`, preserves the 11-node scrollable timeline, and advances the timeline with the forward arrow. A localStorage draft with a different image/height did not auto-apply on reload; the draft notice appeared instead. Only logged browser issue was the existing missing `favicon.ico` 404.
 
 ---
 
@@ -251,11 +253,17 @@ Cities:
 - Birmingham AL: 45+
 
 Timeline milestones:
-- 2018: The Candler Foundry established at Emory University
-- 2020: Online courses launched; first Candler in Conversation podcast
-- 2022: 500th participant milestone reached
-- 2024: 2,000th participant milestone; TheoEd expands to 8 cities
-- 2025: On-Demand courses and Sunday School Simplified launched
+- Fall 2018: Candler hires the inaugural director of what would become The Candler Foundry.
+- Summer 2019: First Course in the Community offered.
+- Spring 2020: The Candler Foundry officially launches.
+- Summer 2021: 1,000th participant in courses enrolled.
+- Spring 2022: Foundations in Faith & Leadership certificate program launched.
+- Winter 2023: TheoEd views top 200K.
+- Summer 2023: 100th Course in the Community taught.
+- Winter 2024: TheoEd archive grows to over 50 talks.
+- Spring 2024: Podcast series on Womanist Theology drops.
+- Fall 2024: 3-Minute Bible series launched.
+- Summer 2025: On-Demand courses and Sunday School Simplified launched.
 
 ---
 
