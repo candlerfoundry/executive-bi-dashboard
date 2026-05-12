@@ -132,14 +132,14 @@
             "frontGraphicOpacity": 0.4,
             "backLayout": "lookbook",
             "lookbookImage": "/assets/Other Images/Sabbath_compressed.jpg",
-            "lookbookUrl": "#sabbath-course",
+            "lookbookUrl": "https://candlerfoundry.emory.edu/sabbath-gift-course",
             "lookbookAlt": "Sabbath - a free on-demand course from The Candler Foundry",
             "lookbookTileWidth": 220,
             "lookbookTileHeight": 145,
             "actions": [
                 {
                     "label": "Take a Free Course",
-                    "url": "#sabbath-course",
+                    "url": "https://candlerfoundry.emory.edu/sabbath-gift-course",
                     "type": "course",
                     "visible": true
                 },
