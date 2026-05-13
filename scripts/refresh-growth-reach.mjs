@@ -202,4 +202,24 @@ async function refresh() {
     return;
   }
 
-  // Semantic comparison: parse-and
+  // Semantic comparison: parse-and-re-serialize the original with the same
+  // formatter, so we don't write if values are deeply equal even after compaction.
+  let original;
+  try { original = JSON.parse(raw); } catch { original = null; }
+  const nextNorm = JSON.stringify(cfg);
+  const origNorm = original == null ? '' : JSON.stringify(original);
+  if (nextNorm === origNorm) {
+    console.log('  Values unchanged after refresh; not writing.');
+    return;
+  }
+
+  const next = JSON.stringify(cfg, null, 2) + '\n';
+  await fs.writeFile(CONFIG_PATH, next, 'utf-8');
+  console.log(`  Updated ${touched} field(s). Wrote updated file.`);
+}
+
+refresh().catch((err) => {
+  console.error('FATAL during refresh:', err);
+  // Fail the workflow loudly so the user gets notified.
+  process.exit(1);
+});
