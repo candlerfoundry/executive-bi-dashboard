@@ -4172,11 +4172,7 @@ async function initTheoEd() {
   theoedPopulateAllFields();
   theoedSetStatus(theoedEditorRuntime.storedDraftConfig ? 'Git-backed content loaded (local draft available)' : 'Saved browser version loaded', true);
 
-  var lbClose = document.getElementById('te-lb-close');
-  var lbBackdrop = document.getElementById('te-lb-backdrop');
-  if (lbClose) lbClose.addEventListener('click', closeLightbox);
-  if (lbBackdrop) lbBackdrop.addEventListener('click', closeLightbox);
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+  setupLightboxCloseControls();
 }
 
 function openLightbox(vid, name, loc, guide, dbxUrl) {
@@ -4295,6 +4291,19 @@ function closeLightbox() {
   if (guideLink) guideLink.setAttribute('href', '#');
 }
 window.closeLightbox = closeLightbox;
+
+function setupLightboxCloseControls() {
+  if (window.__lightboxCloseControlsBound) return;
+  var lbClose = document.getElementById('te-lb-close');
+  var lbBackdrop = document.getElementById('te-lb-backdrop');
+  if (!lbClose || !lbBackdrop) return;
+  window.__lightboxCloseControlsBound = true;
+  lbClose.addEventListener('click', closeLightbox);
+  lbBackdrop.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+}
+window.setupLightboxCloseControls = setupLightboxCloseControls;
+setupLightboxCloseControls();
 
 var dashboardPanelLoaded = {};
 var dashboardPanelLoads = {};
