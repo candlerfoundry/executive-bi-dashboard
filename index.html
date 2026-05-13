@@ -815,6 +815,10 @@ body.page-config-loading .panel.active::before,
 .theoed-tile-location { font-size:0.78rem; color:#c84826; letter-spacing:0.16em; text-transform:uppercase; font-weight:700; }
 .te-lightbox { display:none; position:fixed; inset:0; z-index:9000; align-items:center; justify-content:center; }
 .te-lightbox.open { display:flex; }
+.te-lb-frame-slot { width:100%; height:100%; position:relative; background:#000; display:flex; align-items:center; justify-content:center; }
+.te-lb-frame-slot > video, .te-lb-frame-slot > iframe { width:100%; height:100%; border:0; display:block; background:#000; }
+.mission-page .card-back--grid .cbg-tile { cursor:pointer; }
+
 .te-lb-backdrop { position:absolute; inset:0; background:rgba(10,14,22,0.88); }
 .te-lb-box { position:relative; z-index:1; width:70vw; max-width:1000px; }
 .te-lb-meta { display:flex; align-items:baseline; gap:12px; margin-bottom:10px; }
@@ -3200,7 +3204,7 @@ body.page-config-loading .panel.active::before,
         <span class="te-lb-loc" id="te-lb-loc"></span>
       </div>
       <div class="te-lb-video">
-        <iframe id="te-lb-frame" frameborder="0" allowfullscreen allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+        <div id="te-lb-frame" class="te-lb-frame-slot"></div>
       </div>
       <!-- Per-talk discussion guide banner. Populated by openLightbox(). -->
       <div class="te-lb-guide" id="te-lb-guide" data-state="empty">
@@ -3603,7 +3607,7 @@ function theoedRenderSpeakerGrid(config) {
           '<div class="theoed-tile-location">' + (sp.loc || '') + '</div>' +
         '</div>' +
       '</div>';
-    function launchTalk() { openLightbox(sp.vid, sp.name, sp.loc, sp.guide); }
+    function launchTalk() { openLightbox(sp.vid, sp.name, sp.loc, sp.guide, sp.dbxUrl); }
     tile.addEventListener('click', launchTalk);
     tile.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); launchTalk(); }
@@ -3622,8 +3626,14 @@ function theoedRenderArchive(config) {
     group.className = 'te-acc-group';
     var talks = Array.isArray(ev.talks) ? ev.talks : [];
     var talksHtml = talks.map(function(tk) {
+      var tkVid = '';
+      var ytMatch = (tk.u || '').match(/(?:v=|youtu\.be\/|\/embed\/)([\w-]{11})/);
+      if (ytMatch) tkVid = ytMatch[1];
+      var tkDbx = tk.dbxUrl ? ' data-theoed-dbx="' + String(tk.dbxUrl).replace(/"/g,'&quot;') + '"' : '';
+      var tkHref = tk.dbxUrl ? '#' : (tk.u || '#');
+      var tkTarget = tk.dbxUrl ? '' : ' target="_blank" rel="noopener"';
       return '<div class="te-acc-talk"><div class="te-acc-talk-spk">' + (tk.s || '') + '</div>' +
-             '<a href="' + (tk.u || '#') + '" target="_blank" rel="noopener">' + (tk.t || '') + '</a></div>';
+             '<a href="' + tkHref + '"' + tkTarget + ' data-theoed-archive-talk="1" data-theoed-vid-id="' + tkVid + '"' + tkDbx + ' data-theoed-name="' + String(tk.s || '').replace(/"/g,'&quot;') + '" data-theoed-loc="' + String(tk.t || '').replace(/"/g,'&quot;') + '">' + (tk.t || '') + '</a></div>';
     }).join('');
     group.innerHTML =
       '<button class="te-acc-btn"><span>' + (ev.label || '') + ' \xb7 ' + talks.length + ' talk' + (talks.length !== 1 ? 's' : '') + '</span>' +
@@ -4169,15 +4179,29 @@ async function initTheoEd() {
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
 }
 
-function openLightbox(vid, name, loc, guide) {
+function openLightbox(vid, name, loc, guide, dbxUrl) {
   var lb = document.getElementById('te-lightbox');
-  var frame = document.getElementById('te-lb-frame');
+  var slot = document.getElementById('te-lb-frame');
   var lbName = document.getElementById('te-lb-name');
   var lbLoc = document.getElementById('te-lb-loc');
-  if (!lb || !frame) return;
+  if (!lb || !slot) return;
   if (lbName) lbName.textContent = name || '';
   if (lbLoc) lbLoc.textContent = loc || '';
-  frame.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
+  slot.innerHTML = '';
+  if (dbxUrl) {
+    var v = document.createElement('video');
+    v.src = dbxUrl;
+    v.controls = true; v.autoplay = true; v.playsInline = true;
+    slot.appendChild(v);
+    var p = v.play(); if (p && p.catch) p.catch(function(){});
+  } else if (vid) {
+    var yt = document.createElement('iframe');
+    yt.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
+    yt.setAttribute('frameborder', '0');
+    yt.setAttribute('allowfullscreen', '');
+    yt.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
+    slot.appendChild(yt);
+  }
   var guideWrap = document.getElementById('te-lb-guide');
   var guideLink = document.getElementById('te-lb-guide-link');
   if (guideWrap && guideLink) {
@@ -4187,25 +4211,65 @@ function openLightbox(vid, name, loc, guide) {
       guideWrap.setAttribute('data-state', 'has-guide');
     } else {
       guideLink.setAttribute('href', '#');
-      // 'empty' state hides both the link and the fallback banner, per the
-      // missing-guide policy: no visible fallback for guide-less talks.
       guideWrap.setAttribute('data-state', 'empty');
     }
   }
   lb.classList.add('open');
+  document.body.classList.add('cb-lightbox-locked');
 }
+window.openLightbox = openLightbox;
+
+function openCardLightbox(opts) {
+  opts = opts || {};
+  var lb = document.getElementById('te-lightbox');
+  var slot = document.getElementById('te-lb-frame');
+  var lbName = document.getElementById('te-lb-name');
+  var lbLoc = document.getElementById('te-lb-loc');
+  if (!lb || !slot) return;
+  if (lbName) lbName.textContent = opts.name || '';
+  if (lbLoc) lbLoc.textContent = opts.loc || '';
+  slot.innerHTML = '';
+  if (opts.video) {
+    var v = document.createElement('video');
+    v.src = opts.video; v.controls = true; v.autoplay = true; v.playsInline = true;
+    slot.appendChild(v);
+    var p = v.play(); if (p && p.catch) p.catch(function(){});
+  } else if (opts.pdf || opts.embed) {
+    var iframe = document.createElement('iframe');
+    iframe.src = opts.pdf || opts.embed;
+    iframe.setAttribute('allowfullscreen', '');
+    slot.appendChild(iframe);
+  }
+  var guideWrap = document.getElementById('te-lb-guide');
+  var guideLink = document.getElementById('te-lb-guide-link');
+  if (guideWrap && guideLink) {
+    var url = (typeof opts.guide === 'string') ? opts.guide.trim() : '';
+    if (url) {
+      guideLink.setAttribute('href', url);
+      guideWrap.setAttribute('data-state', 'has-guide');
+    } else {
+      guideLink.setAttribute('href', '#');
+      guideWrap.setAttribute('data-state', 'empty');
+    }
+  }
+  lb.classList.add('open');
+  document.body.classList.add('cb-lightbox-locked');
+}
+window.openCardLightbox = openCardLightbox;
 
 function closeLightbox() {
   var lb = document.getElementById('te-lightbox');
-  var frame = document.getElementById('te-lb-frame');
+  var slot = document.getElementById('te-lb-frame');
   if (!lb) return;
   lb.classList.remove('open');
-  if (frame) frame.src = '';
+  document.body.classList.remove('cb-lightbox-locked');
+  if (slot) slot.innerHTML = '';
   var guideWrap = document.getElementById('te-lb-guide');
   var guideLink = document.getElementById('te-lb-guide-link');
   if (guideWrap) guideWrap.setAttribute('data-state', 'empty');
   if (guideLink) guideLink.setAttribute('href', '#');
 }
+window.closeLightbox = closeLightbox;
 
 var dashboardPanelLoaded = {};
 var dashboardPanelLoads = {};
@@ -6972,6 +7036,46 @@ function buildGridBackHtml(o, backHeading, backCopy) {
          '</div>';
 }
 window.buildGridBackHtml = buildGridBackHtml;
+
+// Generic in-page lightbox delegate for Mission back-of-card tiles
+// + TheoEd event-archive talks. Routes clicks into openCardLightbox/openLightbox.
+(function setupGenericLightboxDelegation() {
+  if (window.__cardLightboxDelegated) return;
+  window.__cardLightboxDelegated = true;
+  document.addEventListener('click', function(event) {
+    var tile = event.target.closest('.mission-page .card-back--grid .cbg-tile');
+    if (tile) {
+      if (tile.hasAttribute('data-theoed-vid')) return;
+      var action = tile.getAttribute('data-action-type');
+      var href = tile.getAttribute('href');
+      if (action === 'blog') return;
+      if (action === 'pdf') {
+        event.preventDefault(); event.stopPropagation();
+        var alt = tile.querySelector('img') ? (tile.querySelector('img').getAttribute('alt') || '') : '';
+        if (window.openCardLightbox) window.openCardLightbox({ pdf: href, name: alt });
+        return;
+      }
+      if (action === 'video' || action === 'podcast') {
+        event.preventDefault(); event.stopPropagation();
+        var nm = tile.querySelector('.lab-text');
+        var imgAlt = tile.querySelector('img') ? (tile.querySelector('img').getAttribute('alt') || '') : '';
+        if (window.openCardLightbox) window.openCardLightbox({ video: href, name: nm ? nm.textContent : imgAlt });
+        return;
+      }
+    }
+    var archive = event.target.closest('a[data-theoed-archive-talk]');
+    if (archive) {
+      var dbx = archive.getAttribute('data-theoed-dbx');
+      var vid = archive.getAttribute('data-theoed-vid-id') || '';
+      var name = archive.getAttribute('data-theoed-name') || '';
+      var loc = archive.getAttribute('data-theoed-loc') || '';
+      if (dbx) {
+        event.preventDefault(); event.stopPropagation();
+        if (window.openLightbox) window.openLightbox(vid, name, loc, '', dbx);
+      }
+    }
+  }, true);
+})();
 
 (function setupMissionTheoedTileDelegation() {
   if (window.__missionTheoedDelegated) return;
