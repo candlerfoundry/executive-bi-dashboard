@@ -33,67 +33,49 @@ if (!PAT) {
   process.exit(1);
 }
 
-/**
- * Mapping of "what to refresh from where".
- *
- *   tableId / viewId   : pulled from the Airtable list_tables output
- *   filterByFormula    : optional Airtable formula filter (e.g. "{Type}='CIC'")
- *   format(n)          : how to turn a record count into the value we store
- *                        (string for hero tiles, number for grid tiles)
- *   notes              : free-form so future maintainers know why this view
- *
- * Anything not in this list stays as-is in the JSON.
- */
 const SOURCES = {
   heroLearners: {
-    tableId: 'tbl0jx0urjA5KINjA',           // Student Insights (Individual)
-    viewId:  null,                          // count entire table = unique learners
-    format:  (n) => n.toLocaleString(),     // "4,237"
-    notes:   'One row per unique learner across all programs.',
+    tableId: 'tbl0jx0urjA5KINjA',
+    viewId:  null,
+    format:  (n) => n.toLocaleString(),
+    notes:   'Student Insights (Individual) — one row per unique learner.',
   },
   heroChurchPartners: {
-    tableId: 'tbloYQpUR7hVgkKtx',           // Church Partner CRM
+    tableId: 'tbloYQpUR7hVgkKtx',
     viewId:  null,
     format:  (n) => String(n),
-    notes:   'One row per partner congregation.',
+    notes:   'Church Partner CRM — one row per partner.',
   },
   registrations: {
-    tableId: 'tbldN1Ak4SHS41PvM',           // CRM Data
-    viewId:  'viwVxvcgfPXPldsr9',           // Master List
+    tableId: 'tbldN1Ak4SHS41PvM',
+    viewId:  'viwVxvcgfPXPldsr9',
     format:  (n) => n,
-    notes:   'Every paid/comped registration across all programs.',
+    notes:   'CRM Data → Master List.',
   },
   courses: {
-    tableId:         'tblQNAsrQcdnM8UZC',           // Course & OND Planner
-    viewId:          'viwphRt07t9l1ZNCV',           // Legacy/Comprehensive Course List
-    filterByFormula: "{Type}='CIC'",                // canonical "Courses in the Community" only
+    tableId:         'tblQNAsrQcdnM8UZC',
+    viewId:          'viwphRt07t9l1ZNCV',
+    filterByFormula: "{Type}='CIC'",
     format:          (n) => n,
-    notes:           'Comprehensive cumulative list filtered to Courses in the Community (Type=CIC).',
+    notes:           'Course & OND Planner → Legacy/Comprehensive Course List, Type=CIC only.',
   },
   theoedTalks: {
-    tableId: 'tblS1Bk29cXyGGUdo',           // 3MB, UNST, TheoEd, OND
-    viewId:  'viwAChcup7xsrlhmb',           // TheoEd Archive
+    tableId: 'tblS1Bk29cXyGGUdo',
+    viewId:  'viwAChcup7xsrlhmb',
     format:  (n) => n,
-    notes:   'Canonical TheoEd talk archive view.',
+    notes:   '3MB/UNS/TheoEd/OND → TheoEd Archive.',
   },
   podcast: {
-    tableId: 'tbloVdhcMFMaMw5KC',           // POD & YouTube
-    viewId:  'viwCvQIWI6Q5mYYVY',           // POD - All (Legacy & Current)
+    tableId: 'tbloVdhcMFMaMw5KC',
+    viewId:  'viwCvQIWI6Q5mYYVY',
     format:  (n) => n,
-    notes:   'All podcast episodes, legacy + current.',
+    notes:   'POD & YouTube → POD - All (Legacy & Current).',
   },
 };
-
-// --------------------------------------------------------------------------
-// Airtable helpers
-// --------------------------------------------------------------------------
 
 async function airtableFetchPage(tableId, { viewId, offset, filterByFormula } = {}) {
   const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${tableId}`);
   url.searchParams.set('pageSize', '100');
-  // We only need to count records; we don't filter on field values. Don't pass
-  // fields[] because Airtable rejects `fields[]=` (empty value) with
-  // UNKNOWN_FIELD_NAME. Returning full records is fine — these tables are small.
   if (viewId) url.searchParams.set('view', viewId);
   if (offset) url.searchParams.set('offset', offset);
   if (filterByFormula) url.searchParams.set('filterByFormula', filterByFormula);
@@ -118,15 +100,10 @@ async function airtableCount(tableId, viewId, filterByFormula) {
     const data = await airtableFetchPage(tableId, { viewId, offset, filterByFormula });
     count += (data.records || []).length;
     offset = data.offset;
-    // Polite pacing — Airtable allows 5 req/sec/base; we sit far below.
     if (offset) await new Promise((r) => setTimeout(r, 220));
   } while (offset);
   return count;
 }
-
-// --------------------------------------------------------------------------
-// Refresh
-// --------------------------------------------------------------------------
 
 async function refresh() {
   const raw = await fs.readFile(CONFIG_PATH, 'utf-8');
@@ -146,7 +123,6 @@ async function refresh() {
     }
   }
 
-  // ---- Hero: Individual Learners
   if (cfg.hero?.stats?.[1]) {
     const s = SOURCES.heroLearners;
     await tryRefresh(`Individual Learners [${s.tableId}]`,
@@ -154,7 +130,6 @@ async function refresh() {
       (v) => { cfg.hero.stats[1].value = String(v); });
   }
 
-  // ---- Hero: Church Partners
   if (cfg.hero?.stats?.[2]) {
     const s = SOURCES.heroChurchPartners;
     await tryRefresh(`Church Partners [${s.tableId}]`,
@@ -162,7 +137,6 @@ async function refresh() {
       (v) => { cfg.hero.stats[2].value = String(v); });
   }
 
-  // ---- Grid stats by id
   const gridMap = [
     ['registrations', SOURCES.registrations],
     ['courses',       SOURCES.courses],
@@ -181,8 +155,6 @@ async function refresh() {
       (v) => { stat.value = Number(v) || 0; });
   }
 
-  // ---- Churches We Serve absolute counts — recompute from latest partner count
-  // so the "~22 partners" labels stay consistent with the hero number.
   const partnerStr = String(cfg.hero?.stats?.[2]?.value ?? '');
   const partnerNum = parseInt(partnerStr.replace(/[^\d]/g, ''), 10);
   if (Number.isFinite(partnerNum) && partnerNum > 0 && Array.isArray(cfg.churchSizes?.rows)) {
@@ -194,9 +166,6 @@ async function refresh() {
     log.push(`  ✓ churchSizes.count labels recomputed against ${partnerNum} partners`);
   }
 
-  // ---- Write back. Only write if at least one Airtable-sourced field actually
-  // changed. Otherwise the workflow's `git diff --quiet` check would still detect
-  // the JSON pretty-print noise and commit on every run.
   console.log('Growth & Reach refresh:');
   for (const line of log) console.log(line);
 
@@ -205,9 +174,21 @@ async function refresh() {
     return;
   }
 
-  // Semantic comparison: parse-and-re-serialize the original with the same
-  // formatter, so we don't write if values are deeply equal even after compaction.
   let original;
   try { original = JSON.parse(raw); } catch { original = null; }
   const nextNorm = JSON.stringify(cfg);
-  const origNorm = original == null ? '' : 
+  const origNorm = original == null ? '' : JSON.stringify(original);
+  if (nextNorm === origNorm) {
+    console.log('  Values unchanged after refresh; not writing.');
+    return;
+  }
+
+  const next = JSON.stringify(cfg, null, 2) + '\n';
+  await fs.writeFile(CONFIG_PATH, next, 'utf-8');
+  console.log(`  Updated ${touched} field(s). Wrote updated file.`);
+}
+
+refresh().catch((err) => {
+  console.error('FATAL during refresh:', err);
+  process.exit(1);
+});
