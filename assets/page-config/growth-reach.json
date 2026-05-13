@@ -4,10 +4,26 @@
     "subtitle": "Since its founding in 2018, The Candler Foundry has grown from the ground up, extending Candler's scholarship globally to reach thousands of participants.",
     "image": "/assets/student_photos/Master Class Student Talking 4.jpg",
     "stats": [
-      { "value": "300K+", "label": "TheoEd Views", "sub": "Across YouTube and the TheoEd archive" },
-      { "value": "4,200", "label": "Individual Learners", "sub": "Unique registrants since 2018" },
-      { "value": "74", "label": "Church Partners", "sub": "Partner congregations" },
-      { "value": "72%", "label": "Faculty Participating", "sub": "Of Candler's faculty" }
+      {
+        "value": "300K+",
+        "label": "TheoEd Views",
+        "sub": "Across YouTube and the TheoEd archive"
+      },
+      {
+        "value": "4,200",
+        "label": "Individual Learners",
+        "sub": "Unique registrants since 2018"
+      },
+      {
+        "value": "74",
+        "label": "Church Partners",
+        "sub": "Partner congregations"
+      },
+      {
+        "value": "72%",
+        "label": "Faculty Participating",
+        "sub": "Of Candler's faculty"
+      }
     ]
   },
   "layout": {
@@ -37,27 +53,113 @@
     "bodySize": 1
   },
   "stats": [
-    { "id": "registrations", "value": 6200, "suffix": "+", "prefix": "", "label": "Total Registrations", "sub": "All programs since founding in 2018" },
-    { "id": "courses", "value": 150, "suffix": "", "prefix": "", "label": "Courses Offered", "sub": "Since founding" },
-    { "id": "theoed-talks", "value": 50, "suffix": "+", "prefix": "", "label": "TheoEd Talks Produced", "sub": "Scholar-led theology talks" },
-    { "id": "theoed-events", "value": 14, "suffix": "", "prefix": "", "label": "TheoEd Events Hosted", "sub": "Live events hosted" },
-    { "id": "programs", "value": 7, "suffix": "", "prefix": "", "label": "Programs Created", "sub": "Distinct Foundry initiatives" },
-    { "id": "podcast", "value": 50, "suffix": "", "prefix": "", "label": "Podcast Episodes", "sub": "Candler in Conversation" },
-    { "id": "social", "value": 6500, "suffix": "", "prefix": "~", "label": "Social Followers", "sub": "YouTube + Instagram combined" },
-    { "id": "email", "value": 6000, "suffix": "", "prefix": "~", "label": "Email Subscribers", "sub": "Mailchimp community" },
-    { "id": "years", "dynamic": "yearsSince", "since": 2018, "label": "Years of Impact", "sub": "Founded in 2018" }
+    {
+      "id": "registrations",
+      "value": 6200,
+      "suffix": "+",
+      "prefix": "",
+      "label": "Total Registrations",
+      "sub": "All programs since founding in 2018"
+    },
+    {
+      "id": "courses",
+      "value": 150,
+      "suffix": "",
+      "prefix": "",
+      "label": "Courses Offered",
+      "sub": "Since founding"
+    },
+    {
+      "id": "theoed-talks",
+      "value": 50,
+      "suffix": "+",
+      "prefix": "",
+      "label": "TheoEd Talks Produced",
+      "sub": "Scholar-led theology talks"
+    },
+    {
+      "id": "theoed-events",
+      "value": 14,
+      "suffix": "",
+      "prefix": "",
+      "label": "TheoEd Events Hosted",
+      "sub": "Live events hosted"
+    },
+    {
+      "id": "programs",
+      "value": 7,
+      "suffix": "",
+      "prefix": "",
+      "label": "Programs Created",
+      "sub": "Distinct Foundry initiatives"
+    },
+    {
+      "id": "podcast",
+      "value": 50,
+      "suffix": "",
+      "prefix": "",
+      "label": "Podcast Episodes",
+      "sub": "Candler in Conversation"
+    },
+    {
+      "id": "social",
+      "value": 6500,
+      "suffix": "",
+      "prefix": "~",
+      "label": "Social Followers",
+      "sub": "YouTube + Instagram combined"
+    },
+    {
+      "id": "email",
+      "value": 6000,
+      "suffix": "",
+      "prefix": "~",
+      "label": "Email Subscribers",
+      "sub": "Mailchimp community"
+    },
+    {
+      "id": "years",
+      "dynamic": "yearsSince",
+      "since": 2018,
+      "label": "Years of Impact",
+      "sub": "Founded in 2018"
+    }
   ],
   "denominations": {
     "eyebrow": "Faith Traditions",
     "title": "Denominational Reach",
     "note": "Approximate — denomination not always collected at registration. Based on ~4,200 unique registrants.",
     "rows": [
-      { "name": "Methodist / UMC", "pct": 35, "count": "35% ~1,470" },
-      { "name": "Presbyterian", "pct": 22, "count": "22% ~924" },
-      { "name": "Episcopal / Anglican", "pct": 14, "count": "14% ~588" },
-      { "name": "Baptist", "pct": 12, "count": "12% ~504" },
-      { "name": "Non-denominational", "pct": 10, "count": "10% ~420" },
-      { "name": "Other (Catholic, AME, and UCC)", "pct": 7, "count": "7% ~294" }
+      {
+        "name": "Methodist / UMC",
+        "pct": 35,
+        "count": "35% ~1,470"
+      },
+      {
+        "name": "Presbyterian",
+        "pct": 22,
+        "count": "22% ~924"
+      },
+      {
+        "name": "Episcopal / Anglican",
+        "pct": 14,
+        "count": "14% ~588"
+      },
+      {
+        "name": "Baptist",
+        "pct": 12,
+        "count": "12% ~504"
+      },
+      {
+        "name": "Non-denominational",
+        "pct": 10,
+        "count": "10% ~420"
+      },
+      {
+        "name": "Other (Catholic, AME, and UCC)",
+        "pct": 7,
+        "count": "7% ~294"
+      }
     ]
   },
   "churchSizes": {
@@ -65,9 +167,21 @@
     "title": "Churches We Serve",
     "note": "Estimated size mix of the 74 partner congregations. Sized by average weekend worship attendance.",
     "rows": [
-      { "name": "Small congregations (under 200)", "pct": 30, "count": "30% ~22 partners" },
-      { "name": "Mid-sized congregations (200–800)", "pct": 40, "count": "40% ~30 partners" },
-      { "name": "Large congregations (800+)", "pct": 30, "count": "30% ~22 partners" }
+      {
+        "name": "Small congregations (under 200)",
+        "pct": 30,
+        "count": "30% ~22 partners"
+      },
+      {
+        "name": "Mid-sized congregations (200–800)",
+        "pct": 40,
+        "count": "40% ~30 partners"
+      },
+      {
+        "name": "Large congregations (800+)",
+        "pct": 30,
+        "count": "30% ~22 partners"
+      }
     ]
   }
 }
