@@ -36,10 +36,11 @@ if (!PAT) {
 /**
  * Mapping of "what to refresh from where".
  *
- *   tableId / viewId : pulled from the Airtable list_tables output
- *   format(n)        : how to turn a record count into the value we store
- *                      (string for hero tiles, number for grid tiles)
- *   notes            : free-form so future maintainers know why this view
+ *   tableId / viewId   : pulled from the Airtable list_tables output
+ *   filterByFormula    : optional Airtable formula filter (e.g. "{Type}='CIC'")
+ *   format(n)          : how to turn a record count into the value we store
+ *                        (string for hero tiles, number for grid tiles)
+ *   notes              : free-form so future maintainers know why this view
  *
  * Anything not in this list stays as-is in the JSON.
  */
@@ -63,10 +64,11 @@ const SOURCES = {
     notes:   'Every paid/comped registration across all programs.',
   },
   courses: {
-    tableId: 'tblQNAsrQcdnM8UZC',           // Course & OND Planner
-    viewId:  'viwDF8FxwmW2hhBc7',           // DW - Master List (excludes drafts)
-    format:  (n) => n,
-    notes:   'Master list of offered courses; excludes the DRAFTS view.',
+    tableId:         'tblQNAsrQcdnM8UZC',           // Course & OND Planner
+    viewId:          'viwphRt07t9l1ZNCV',           // Legacy/Comprehensive Course List
+    filterByFormula: "{Type}='CIC'",                // canonical "Courses in the Community" only
+    format:          (n) => n,
+    notes:           'Comprehensive cumulative list filtered to Courses in the Community (Type=CIC).',
   },
   theoedTalks: {
     tableId: 'tblS1Bk29cXyGGUdo',           // 3MB, UNST, TheoEd, OND
@@ -86,7 +88,7 @@ const SOURCES = {
 // Airtable helpers
 // --------------------------------------------------------------------------
 
-async function airtableFetchPage(tableId, { viewId, offset } = {}) {
+async function airtableFetchPage(tableId, { viewId, offset, filterByFormula } = {}) {
   const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${tableId}`);
   url.searchParams.set('pageSize', '100');
   // We only need to count records; we don't filter on field values. Don't pass
@@ -94,6 +96,7 @@ async function airtableFetchPage(tableId, { viewId, offset } = {}) {
   // UNKNOWN_FIELD_NAME. Returning full records is fine — these tables are small.
   if (viewId) url.searchParams.set('view', viewId);
   if (offset) url.searchParams.set('offset', offset);
+  if (filterByFormula) url.searchParams.set('filterByFormula', filterByFormula);
 
   const res = await fetch(url, {
     headers: {
@@ -108,11 +111,11 @@ async function airtableFetchPage(tableId, { viewId, offset } = {}) {
   return res.json();
 }
 
-async function airtableCount(tableId, viewId) {
+async function airtableCount(tableId, viewId, filterByFormula) {
   let count = 0;
   let offset;
   do {
-    const data = await airtableFetchPage(tableId, { viewId, offset });
+    const data = await airtableFetchPage(tableId, { viewId, offset, filterByFormula });
     count += (data.records || []).length;
     offset = data.offset;
     // Polite pacing — Airtable allows 5 req/sec/base; we sit far below.
@@ -147,7 +150,7 @@ async function refresh() {
   if (cfg.hero?.stats?.[1]) {
     const s = SOURCES.heroLearners;
     await tryRefresh(`Individual Learners [${s.tableId}]`,
-      async () => s.format(await airtableCount(s.tableId, s.viewId)),
+      async () => s.format(await airtableCount(s.tableId, s.viewId, s.filterByFormula)),
       (v) => { cfg.hero.stats[1].value = String(v); });
   }
 
@@ -155,7 +158,7 @@ async function refresh() {
   if (cfg.hero?.stats?.[2]) {
     const s = SOURCES.heroChurchPartners;
     await tryRefresh(`Church Partners [${s.tableId}]`,
-      async () => s.format(await airtableCount(s.tableId, s.viewId)),
+      async () => s.format(await airtableCount(s.tableId, s.viewId, s.filterByFormula)),
       (v) => { cfg.hero.stats[2].value = String(v); });
   }
 
@@ -173,8 +176,8 @@ async function refresh() {
       log.push(`  – stats[id=${id}] not present in JSON — skipped`);
       continue;
     }
-    await tryRefresh(`stats[id=${id}] [${src.tableId}${src.viewId ? '/' + src.viewId : ''}]`,
-      async () => src.format(await airtableCount(src.tableId, src.viewId)),
+    await tryRefresh(`stats[id=${id}] [${src.tableId}${src.viewId ? '/' + src.viewId : ''}${src.filterByFormula ? ' (filter)' : ''}]`,
+      async () => src.format(await airtableCount(src.tableId, src.viewId, src.filterByFormula)),
       (v) => { stat.value = Number(v) || 0; });
   }
 
@@ -207,19 +210,4 @@ async function refresh() {
   let original;
   try { original = JSON.parse(raw); } catch { original = null; }
   const nextNorm = JSON.stringify(cfg);
-  const origNorm = original == null ? '' : JSON.stringify(original);
-  if (nextNorm === origNorm) {
-    console.log('  Values unchanged after refresh; not writing.');
-    return;
-  }
-
-  const next = JSON.stringify(cfg, null, 2) + '\n';
-  await fs.writeFile(CONFIG_PATH, next, 'utf-8');
-  console.log(`  Updated ${touched} field(s). Wrote updated file.`);
-}
-
-refresh().catch((err) => {
-  console.error('FATAL during refresh:', err);
-  // Fail the workflow loudly so the user gets notified.
-  process.exit(1);
-});
+  const origNorm = original == null ? '' : 
