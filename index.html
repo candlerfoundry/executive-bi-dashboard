@@ -6922,7 +6922,7 @@ function buildGridBackHtml(o, backHeading, backCopy) {
     if (tileStyle === 'video-thumb') {
       var hasTheoed = !!item.theoedVid;
       var theoedAttrs = hasTheoed
-        ? ' data-theoed-vid="' + attr(item.theoedVid) + '" data-theoed-name="' + attr(item.theoedName || '') + '" data-theoed-loc="' + attr(item.theoedLoc || '') + '" data-theoed-guide="' + attr(item.theoedGuide || '') + '"'
+        ? ' data-theoed-vid="' + attr(item.theoedVid) + '" data-theoed-name="' + attr(item.theoedName || '') + '" data-theoed-loc="' + attr(item.theoedLoc || '') + '" data-theoed-guide="' + attr(item.theoedGuide || '') + '" data-theoed-dbx="' + attr(item.theoedDbxUrl || '') + '"'
         : '';
       var linkAttrs = hasTheoed ? ' href="#theoed"' : ' href="' + attr(item.href || '#') + '" target="_blank" rel="noopener"';
       var labelHtml = '';
@@ -6993,7 +6993,8 @@ window.buildGridBackHtml = buildGridBackHtml;
     } catch (e) {}
     try {
       if (typeof window.openLightbox === 'function') {
-        window.openLightbox(vid, name, loc, guide);
+        var dbx = link.getAttribute('data-theoed-dbx') || '';
+        window.openLightbox(vid, name, loc, guide, dbx);
       }
     } catch (e) {}
   }, true);

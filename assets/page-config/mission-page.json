@@ -338,7 +338,8 @@
                     "theoedLoc": "TheoEd ATL (2020 - Winter)",
                     "theoedGuide": "assets/theoed/discussion-guides/THEO-180-dr-wil-gafney-biblical-language-for-a-god-who-transcends-gender-discussion-guide.pdf",
                     "label": "Dr. Wil Gafney",
-                    "labelPosition": "left"
+                    "labelPosition": "left",
+                    "theoedDbxUrl": "https://www.dropbox.com/scl/fi/0poitdhd4ds0nvkpnnqjl/THEO-180-Dr.-Wil-Gafney-Biblical-Language-for-a-God-Who-Transcends-Gender-Gafney-Captioned.mp4?rlkey=44rubmrmgzsgmae42uzrr4me5&raw=1"
                 },
                 {
                     "title": "Cole Arthur Riley",
@@ -348,7 +349,8 @@
                     "theoedLoc": "TheoEd Macon (2024)",
                     "theoedGuide": "assets/theoed/discussion-guides/THEO-174-cole-arthur-riley-the-silence-of-god-discussion-guide.pdf",
                     "label": "Cole Arthur Riley",
-                    "labelPosition": "right"
+                    "labelPosition": "right",
+                    "theoedDbxUrl": "https://www.dropbox.com/scl/fi/jdaajcwjngcn20ww1iwd1/THEO-174-Cole-Arthur-Riley-The-Silence-of-God-Cole-Arthur-Riley-Captioned.mp4?rlkey=a092m5mhsgsiko9haevcw546u&raw=1"
                 },
                 {
                     "title": "Pete Enns",
@@ -358,7 +360,8 @@
                     "theoedLoc": "TheoEd ATL (2019 - Winter)",
                     "theoedGuide": "assets/theoed/discussion-guides/THEO-138-pete-enns-reimagining-an-ancient-god-discussion-guide.pdf",
                     "label": "Pete Enns",
-                    "labelPosition": "right"
+                    "labelPosition": "right",
+                    "theoedDbxUrl": "https://www.dropbox.com/scl/fi/nmg8uah39psx1rsq5wjwq/THEO-138-Pete-Enns-Reimagining-an-Ancient-God-Enns-Captioned.mp4?rlkey=bsu763ysx1swfj3gc2j69fz7g&raw=1"
                 },
                 {
                     "title": "Dr. Amy-Jill Levine",
@@ -368,7 +371,8 @@
                     "theoedLoc": "TheoEd ATL (2017)",
                     "theoedGuide": "assets/theoed/discussion-guides/THEO-128-amy-jill-levine-life-after-death-jesus-judiasm-and-justice-discussion-guide.pdf",
                     "label": "Dr. Amy-Jill Levine",
-                    "labelPosition": "right"
+                    "labelPosition": "right",
+                    "theoedDbxUrl": "https://www.dropbox.com/scl/fi/4dcomi64glroel95nk1rl/THEO-128-Amy-Jill-Levine-Life-After-Death-Jesus-Judiasm-and-Justice-Levine-Captioned.mp4?rlkey=6pdn9czhta1ohlvlzkpwe3nt4&raw=1"
                 }
             ],
             "cardLabelStyle": "theoed"
