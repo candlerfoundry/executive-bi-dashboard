@@ -2,12 +2,12 @@
   "hero": {
     "title": "Growth and Reach",
     "subtitle": "Since its founding in 2018, The Candler Foundry has grown from the ground up, extending Candler's scholarship globally to reach thousands of participants.",
-    "image": "/assets/student_photos/Master Class Student Talking 6.jpg"
+    "image": "/assets/student_photos/Master Class Student Talking 4.jpg"
   },
   "layout": {
     "shellMax": 1680,
     "gutter": 40,
-    "heroHeight": 420,
+    "heroHeight": 380,
     "copyWidth": 780,
     "titleWidth": 830,
     "bodyWidth": 700,
@@ -15,15 +15,15 @@
     "copyOffsetY": 0,
     "titleGap": 14,
     "artWidth": 1680,
-    "artOffsetX": 0,
-    "artOffsetY": 0,
-    "artOpacity": 0.72,
+    "artOffsetX": -98,
+    "artOffsetY": 220,
+    "artOpacity": 0.41,
     "artClarity": 18,
-    "artFit": "cover",
-    "artFocusX": 50,
-    "artFocusY": 30,
-    "fadeLeft": 55,
-    "fadeRight": 18
+    "artFit": "artwork",
+    "artFocusX": 45,
+    "artFocusY": 27,
+    "fadeLeft": 17,
+    "fadeRight": 24
   },
   "typography": {
     "fontFamily": "'Montserrat', sans-serif",
