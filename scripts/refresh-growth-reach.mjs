@@ -89,9 +89,9 @@ const SOURCES = {
 async function airtableFetchPage(tableId, { viewId, offset } = {}) {
   const url = new URL(`https://api.airtable.com/v0/${BASE_ID}/${tableId}`);
   url.searchParams.set('pageSize', '100');
-  // We only need the count, not the field data. Asking for a single id-only
-  // field keeps the payload small.
-  url.searchParams.set('fields[]', '');
+  // We only need to count records; we don't filter on field values. Don't pass
+  // fields[] because Airtable rejects `fields[]=` (empty value) with
+  // UNKNOWN_FIELD_NAME. Returning full records is fine — these tables are small.
   if (viewId) url.searchParams.set('view', viewId);
   if (offset) url.searchParams.set('offset', offset);
 
@@ -191,19 +191,15 @@ async function refresh() {
     log.push(`  ✓ churchSizes.count labels recomputed against ${partnerNum} partners`);
   }
 
-  // ---- Write back. Always pretty-print so diffs are reviewable.
-  const next = JSON.stringify(cfg, null, 2) + '\n';
-  if (next !== raw) {
-    await fs.writeFile(CONFIG_PATH, next, 'utf-8');
-  }
-
+  // ---- Write back. Only write if at least one Airtable-sourced field actually
+  // changed. Otherwise the workflow's `git diff --quiet` check would still detect
+  // the JSON pretty-print noise and commit on every run.
   console.log('Growth & Reach refresh:');
   for (const line of log) console.log(line);
-  console.log(`  Updated ${touched} field(s). Wrote ${next === raw ? 'no changes' : 'updated'} file.`);
-}
 
-refresh().catch((err) => {
-  console.error('FATAL during refresh:', err);
-  // Fail the workflow loudly so the user gets notified.
-  process.exit(1);
-});
+  if (touched === 0) {
+    console.log('  No fields refreshed; leaving growth-reach.json untouched.');
+    return;
+  }
+
+  // Semantic comparison: parse-and
