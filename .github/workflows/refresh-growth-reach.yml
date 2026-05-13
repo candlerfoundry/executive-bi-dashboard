@@ -1,0 +1,59 @@
+name: Monthly Growth & Reach refresh
+
+# Pulls fresh metrics from Airtable and rewrites
+# assets/page-config/growth-reach.json so the dashboard always shows
+# up-to-date numbers without any runtime API calls.
+#
+# Trigger: 10:00 UTC on the 1st of every month
+#   - During EDT (UTC-4, ~March-November) this is 06:00 ET.
+#   - During EST (UTC-5, ~November-March)   this is 05:00 ET.
+# Manual trigger: run via "Run workflow" in the GitHub Actions tab.
+#
+# Required repo secret:
+#   AIRTABLE_PAT  — fine-grained Airtable personal access token with
+#                   data.records:read on base appiL0Z2RilcAT2Cw
+#                   (Candler Foundry: Master CRM)
+
+on:
+  schedule:
+    - cron: '0 10 1 * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: growth-reach-refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run refresh script
+        env:
+          AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+        run: node scripts/refresh-growth-reach.mjs
+
+      - name: Commit + push if changed
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [[ -n "$(git status --porcelain assets/page-config/growth-reach.json)" ]]; then
+            git add assets/page-config/growth-reach.json
+            git commit -m "Monthly refresh of growth-reach.json (automated)" \
+                       -m "Refreshed from Airtable on $(date -u +'%Y-%m-%d %H:%M UTC')."
+            git push
+            echo "Committed and pushed updated growth-reach.json."
+          else
+            echo "No changes to growth-reach.json — nothing to commit."
+          fi
