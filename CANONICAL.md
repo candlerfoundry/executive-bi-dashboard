@@ -585,7 +585,111 @@ The file is gitignored via the top-level `.gitignore`, so even an accidental `gi
 
 ---
 
+---
+
+## 26. MISSION BACK-OF-CARD GRID LAYOUT
+**Rule:** Six of the Mission cards (Sunday School Simplified, 3-Minute Bible, Unstuck, TheoEd, Candler in Conversation, Scholar's Blog) render their back face from a generic tile grid system controlled by per-card `backLayout: 'grid'` + `tileStyle` fields in [assets/page-config/mission-page.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/mission-page.json). This is parallel to (and distinct from) the existing `backLayout: 'lookbook'` system documented in section 23.
+
+**Tile styles:**
+- `pdf-thumb` — Sunday School. 2×2 thumbnail tiles with an orange "PDF" badge. Click opens the PDF in the in-page lightbox (see section 28).
+- `video-thumb` — 3-Minute Bible, TheoEd, Podcast (Candler in Conversation). 2×2 thumbnail tiles with a play overlay. Click opens the video in the lightbox. TheoEd tiles additionally carry `theoedVid` / `theoedDbxUrl` / `theoedGuide` data attributes so they invoke the existing `openLightbox()` flow with the speaker's discussion-guide download button visible.
+- `video-text` — *(legacy, no longer used after the Unstuck switch to `video-thumb`)*. Kept in code as a fallback.
+- `podcast` — *(legacy, no longer used after the Podcast switch to `video-thumb`)*. Kept in code as a fallback.
+- `blog` — Scholar's Blog. 2 image-first tiles (1×2 row layout via `cbg-tiles--1x2`) using social-media graphics. Click opens the blog post in a NEW TAB (intentional — the blog post is a full external webpage; donors get the original UX).
+
+**CSS:** Block under `.mission-page .card-back--grid` (and `.cbg-*` children) in [index.html](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/index.html), inserted just before `.mission-page .is-hidden`. Scoped — must not leak.
+
+**Render branch:** Both `renderOfferings` (fallback in `index.html`) and `renderOfferingsWithConfig` (live editor render in `assets/mission-editor.js`) check `offering.backLayout === 'grid' && offering.gridItems && offering.gridItems.length` and delegate to the shared `window.buildGridBackHtml(offering, backHeading, backCopy)` helper defined in `index.html`. The helper inspects `offering.tileStyle` and emits the matching markup per tile.
+
+**Editor plumbing:** `buildMissionState` in `mission-editor.js` plumbs `tileStyle`, `cardBackVariant`, `gridItems`, and `cardLabelStyle` through to the runtime card state. Without these in `buildMissionState`, the editor's render path drops the new fields entirely (we hit this bug; see commit a295607).
+
+**Unstuck brand variant:** Unstuck cards opt into a translucent ivory veil over a centered tiled SVG via `cardBackVariant: 'unstuck'` → `.card-back--grid.is-unstuck` CSS rule. The SVG sits in `assets/Unstuck/Graphic Elements/Unstuck_Graphic Elements.svg`. The URL is URL-encoded in the CSS background shorthand (`%20` for spaces) so Netlify resolves the path.
+
+**Asset folders (added in 646f04b):**
+- `assets/Sunday School Simplified/` — lesson PDFs + corresponding 16:9 thumbnail PNGs. Filenames must not contain apostrophes (Netlify 404s on URL-encoded `%27` for some paths); the originals "Paul Meant Y'all.png" and "Mark's Secret.png" were renamed to drop the apostrophe (commit c7d64af).
+- `assets/3MB Thumbnails/` — 4 thumbnail PNGs (1280×720).
+- `assets/Blog Graphics/` — 4 social-media PNGs (1080×1350), downscaled to 720px wide in commit 994aa2b for sharper rendering at the small tile size.
+- `assets/Unstuck/Graphic Elements/` — brand SVG.
+- `assets/theoed/Thumbnails/` — 4 widescreen speaker thumbnails for the featured TheoEd tiles.
+- `assets/podcast-thumbs/`, `assets/unstuck-thumbs/` — frame-extracted JPGs (resized to 720px wide).
+
+**Regression risk:**
+- Do not let the `.cbg-*` CSS leak. Keep every selector under `.mission-page .card-back--grid`.
+- Do not remove the `cardLabelStyle` / `tileStyle` / `cardBackVariant` / `gridItems` plumbing in `buildMissionState`; the editor render path silently drops fields that aren't explicitly copied.
+- Do not reintroduce apostrophes into Sunday School filenames without updating both the JSON paths and the rename rules.
+- Do not change the buildGridBackHtml signature without also updating both renderOfferings and renderOfferingsWithConfig.
+
+---
+
+## 27. MISSION TILE LABELS
+**Rule:** Three of the back-of-card grids carry per-tile name labels overlaid on the thumbnail: TheoEd, Candler in Conversation, Unstuck. The label style is picked per-card via `cardLabelStyle` on the card object in mission-page.json; the label text is per-tile via `label` on the gridItem; an optional per-tile `labelPosition` flips a TheoEd label from bottom-right to bottom-left.
+
+**Three styles:**
+- `theoed` — Fraunces italic text in a soft dark pill, bottom-right by default. `labelPosition: 'left'` overrides to bottom-left (used for Wil Gafney because her thumbnail crowds the right side).
+- `podcast` — Narrow ivory pill at bottom-left, TCF "F" logomark next to the speaker name. Background is rgba(250,250,242,0.55) with `backdrop-filter: blur(3px)` so the speaker isn't covered. The logomark file is `assets/TCF_Logomark-Orange-Transparent.png`.
+- `unstuck` — Compact dark pill at bottom-left, uppercase Montserrat 700 text. Background rgba(15,40,64,0.55) + blur for the same speaker-visibility reason.
+
+**CSS:** Lives under `.mission-page .card-back--grid .cbg-tile-label[--theoed|--podcast|--unstuck]` in `index.html`. Each variant has a distinct positioning, padding, and typography treatment.
+
+**Render branch:** In `buildGridBackHtml`'s `video-thumb` arm, after the play overlay, an optional `labelHtml` string is appended when `item.label && offering.cardLabelStyle` are both truthy. The label is positioned absolutely inside the tile (the tile itself is `position:relative` via `.cbg-tile`).
+
+**Regression risk:**
+- Do not move the label into the play overlay; the overlay has `pointer-events:none` and the gradient backdrop will fight the label background.
+- Do not let the `.cb-cta::after { content:'›' }` chevron rule leak into grid tiles. The chevron is explicitly suppressed via `.cbg-tile::after { content:none !important }` (commit 15137ef). If the chevron reappears, recheck CSS specificity.
+
+---
+
+## 28. IN-PAGE LIGHTBOX FOR BACK-OF-CARD + THEOED
+**Rule:** All back-of-card asset clicks (PDFs, Dropbox videos, Vimeo videos, TheoEd talks from any tab) open inside the shared `#te-lightbox` modal in `index.html`. Blog tiles intentionally still open in a new tab because the linked content is a full external webpage.
+
+**Lightbox markup:** `<div id="te-lightbox">` containing `#te-lb-frame` (the content slot — was an iframe, is now a generic `<div class="te-lb-frame-slot">` so we can mount different element types), `#te-lb-name`/`#te-lb-loc` meta strip, the close button, and the optional `#te-lb-guide` discussion-guide banner used only by TheoEd. Lives originally inside `#panel-theoed` but is hoisted to `document.body` on page load by `setupGenericLightboxDelegation`; without the hoist the modal is 0×0 from any other tab because the panel has `display:none` (bug + fix in commit b4f4b66).
+
+**Lightbox API:**
+- `openLightbox(vid, name, loc, guide, dbxUrl)` — TheoEd-facing entry point. Backward-compatible 5-arg signature; the 5th arg can be a Dropbox raw URL or a Vimeo URL. When `dbxUrl` is a Vimeo URL (`vimeo.com/<id>[/<hash>]`), mounts a `<iframe src="https://player.vimeo.com/video/<id>?autoplay=1&dnt=1[&h=<hash>]">`. Otherwise mounts an HTML5 `<video src=dbxUrl autoplay controls preload=auto>`. If only `vid` is provided, falls back to a YouTube iframe.
+- `openCardLightbox({ video, pdf, embed, poster, name, loc, guide })` — generic entry point for Mission back-of-card tiles. Same Vimeo/Dropbox detection logic. PDF/embed render in an `<iframe>`.
+- `closeLightbox()` — wipes the slot via `innerHTML = ''` to stop any playing media, removes `.open` from the lightbox, and removes `cb-lightbox-locked` from `document.body`.
+
+**Click delegation:** Two document-level click handlers in `index.html`:
+1. `setupGenericLightboxDelegation` (added with the lightbox refactor in commit 9050a6d): intercepts `.mission-page .card-back--grid .cbg-tile` clicks. Branches on `data-action-type`. Skips TheoEd-marked tiles (handled by handler #2) and `blog` tiles (which keep target=_blank).
+2. `setupMissionTheoedTileDelegation` (older, kept): intercepts `[data-theoed-vid]` clicks, calls `switchTab('theoed')` + `openLightbox(vid, name, loc, guide, dbxUrl)`. The `dbxUrl` is read from a `data-theoed-dbx` attribute that `buildGridBackHtml` now emits on TheoEd tiles.
+
+**TheoEd event archive:** The accordion talk rows (`<a class="te-acc-talk">`) now carry `data-theoed-archive-talk + data-theoed-dbx + data-theoed-vid-id` attributes and are picked up by handler #1, so clicking an archive talk opens the same shared lightbox instead of jumping to YouTube in a new tab. Archive rows without a `dbxUrl` (no Airtable match) fall back to their original `<a target="_blank" href="<youtube>">` behavior.
+
+**Vimeo URL convention:** Share URLs from Vimeo come in two forms — `https://vimeo.com/<id>` (publicly listed videos) and `https://vimeo.com/<id>/<hash>` (Unlisted videos; the hash is the embed-permission token). The lightbox detects both and constructs the matching `https://player.vimeo.com/video/<id>?autoplay=1&dnt=1[&h=<hash>]` embed URL.
+
+**Regression risk:**
+- Do not move `#te-lightbox` back into `#panel-theoed` without removing the hoist; we'd reintroduce the 0×0 bug on every non-TheoEd tab.
+- Do not remove the `<div class="te-lb-frame-slot">` slot from inside `<div class="te-lb-video">` — the parent uses `padding-top:56.25%` for its 16:9 aspect ratio; the slot needs `position:absolute; inset:0` to fill it. Without that, `<video>` inside is 0×0 and only audio plays (commit a3d9286).
+- Do not remove `closeLightbox`'s `slot.innerHTML = ''` — without it the previous video keeps playing audio after the modal closes.
+
+---
+
+## 29. THEOED → DROPBOX / VIMEO VIDEO MIGRATION
+**Rule:** All TheoEd playback (the featured 9 + the event-archive talks) prefers a Dropbox raw URL or a Vimeo embed URL when available, falling back to the original YouTube embed only when nothing else is set. This was driven by a donor-facing requirement to keep playback ad-free.
+
+**Where the URLs live:**
+- `assets/page-config/theoed.json` — each `speakers[]` entry has a `dbxUrl` field (Captioned Dropbox URL); each `events[].talks[]` entry has a `dbxUrl` field too. Populated in commit 270fd09 by mapping THEO-codes (from speaker `guide` paths) and YouTube IDs (from talk `u` URLs) against the Airtable "TheoEd Archive" view (`Video - Dropbox URL (Captioned)` field).
+- `assets/page-config/mission-page.json` — each TheoEd grid item has a `theoedDbxUrl` mirror so the Mission card's TheoEd tile delegate can forward the same URL into the lightbox.
+
+**Render flow:**
+- Featured speakers (TheoEd tab): `launchTalk()` calls `openLightbox(sp.vid, sp.name, sp.loc, sp.guide, sp.dbxUrl)`.
+- Event-archive talks (TheoEd tab): the accordion render emits `<a data-theoed-archive-talk data-theoed-dbx="…">` and the generic delegate picks it up.
+- TheoEd tiles on the Mission card back: the tile carries `data-theoed-dbx` (emitted by buildGridBackHtml from `item.theoedDbxUrl`). The existing TheoEd delegate reads the attribute and passes it to `openLightbox`.
+
+**Adding more Vimeo URLs:** As Vimeo encoding for the remaining talks completes, swap a Dropbox URL for the Vimeo share URL in the same `dbxUrl` / `theoedDbxUrl` / Mission grid `href` field. The lightbox detects the Vimeo URL form and mounts the iframe automatically — no other code change required. **Unlisted is the correct Vimeo privacy setting** for our use case: it keeps videos out of Vimeo's public search but allows embedding in our iframe via the `?h=<hash>` token. Do not use Private (requires login) or Public (shows in Vimeo search).
+
+**Regression risk:**
+- Do not strip the YouTube `vid` fallback from `openLightbox`. We still need it for any future TheoEd talks that haven't been uploaded to Dropbox or Vimeo yet, and the discussion guide banner still keys off the speaker entry.
+- Do not break the `dbxUrl` plumbing in `buildMissionState`; without it the editor render path drops the Mission-side TheoEd Dropbox/Vimeo URLs and the lightbox falls back to YouTube ads.
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
+[ ] Mission grid layout: card-back--grid CSS scoped, buildGridBackHtml shared between renderOfferings and renderOfferingsWithConfig, buildMissionState plumbs tileStyle + cardBackVariant + gridItems + cardLabelStyle
+[ ] Tile labels: cbg-tile-label--{theoed,podcast,unstuck} render correctly; cb-cta chevron suppressed via cbg-tile::after { content:none !important }
+[ ] In-page lightbox: #te-lightbox is hoisted to document.body on load; slot is <div class=te-lb-frame-slot> with position:absolute inset:0; closeLightbox wipes innerHTML
+[ ] TheoEd Dropbox/Vimeo migration: theoed.json speakers + events.talks carry dbxUrl; mission-page.json TheoEd grid items carry theoedDbxUrl; openLightbox detects Vimeo URLs and falls back to YouTube only when nothing else is set
+
 [ ] Candler Impact still uses hero + 3 story rows, not the retired faculty grid
 [ ] Candler Impact cards still render as unified editorial story cards
 [ ] Candler Impact nav position is second
