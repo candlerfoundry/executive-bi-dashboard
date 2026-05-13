@@ -7045,6 +7045,20 @@ window.buildGridBackHtml = buildGridBackHtml;
 (function setupGenericLightboxDelegation() {
   if (window.__cardLightboxDelegated) return;
   window.__cardLightboxDelegated = true;
+  // The lightbox markup lives inside #panel-theoed, which sets display:none
+  // when any other tab is active. Hoist it to document.body so it's visible
+  // from any tab.
+  function hoistLightbox() {
+    var lb = document.getElementById('te-lightbox');
+    if (lb && lb.parentElement !== document.body) {
+      document.body.appendChild(lb);
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', hoistLightbox);
+  } else {
+    hoistLightbox();
+  }
   document.addEventListener('click', function(event) {
     var tile = event.target.closest('.mission-page .card-back--grid .cbg-tile');
     if (tile) {
