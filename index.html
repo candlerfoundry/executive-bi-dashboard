@@ -4226,7 +4226,7 @@ function openLightbox(vid, name, loc, guide, dbxUrl) {
 }
 window.openLightbox = openLightbox;
 
-function lbIsVimeo(url) { return typeof url === 'string' && /(?:^|\.)vimeo\.com\//.test(url); }
+function lbIsVimeo(url) { return typeof url === 'string' && /(?:^|\/\/|\.)vimeo\.com\//.test(url); }
 function lbVimeoEmbed(url) {
   var m = String(url || '').match(/vimeo\.com\/(\d+)(?:\/(\w+))?/);
   if (!m) return url;

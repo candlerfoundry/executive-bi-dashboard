@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-12 (Growth hero photo + scrollable timeline)
+Last updated: 2026-05-13 (Vimeo lightbox debug)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -677,6 +677,8 @@ The file is gitignored via the top-level `.gitignore`, so even an accidental `gi
 - TheoEd tiles on the Mission card back: the tile carries `data-theoed-dbx` (emitted by buildGridBackHtml from `item.theoedDbxUrl`). The existing TheoEd delegate reads the attribute and passes it to `openLightbox`.
 
 **Adding more Vimeo URLs:** As Vimeo encoding for the remaining talks completes, swap a Dropbox URL for the Vimeo share URL in the same `dbxUrl` / `theoedDbxUrl` / Mission grid `href` field. The lightbox detects the Vimeo URL form and mounts the iframe automatically — no other code change required. **Unlisted is the correct Vimeo privacy setting** for our use case: it keeps videos out of Vimeo's public search but allows embedding in our iframe via the `?h=<hash>` token. Do not use Private (requires login) or Public (shows in Vimeo search).
+
+**Debugging note (2026-05-13):** `lbIsVimeo()` must recognize protocol-prefixed share URLs like `https://vimeo.com/<id>/<hash>`. A prior detector only matched `vimeo.com/` at the start of the string or after a dot, so `https://vimeo.com/...` fell through to the native `<video>` branch. Chrome then tried to load a Vimeo HTML page as a video source and blocked it with `net::ERR_BLOCKED_BY_ORB`, leaving the lightbox stuck. Also verify unlisted Vimeo links include the hash segment: five Mission URLs without hashes (`1191938880`, `1191938085`, `1191941119`, `1191937770`, `1191933577`) returned `403 Sorry` from `player.vimeo.com` during local testing until their full unlisted share URLs or Vimeo privacy settings are corrected.
 
 **Regression risk:**
 - Do not strip the YouTube `vid` fallback from `openLightbox`. We still need it for any future TheoEd talks that haven't been uploaded to Dropbox or Vimeo yet, and the discussion guide banner still keys off the speaker entry.
