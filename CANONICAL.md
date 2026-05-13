@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-13 (Vimeo lightbox close controls)
+Last updated: 2026-05-13 (Growth & Reach: hero stat strip, JSON-driven stats/denominations/churchSizes, scroll-triggered animation, retired Cities Served, GitHub Actions monthly refresh)
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -191,19 +191,26 @@ Do not introduce decorative italics unless explicitly requested.
 
 **Hero banner** (`.gr-hero`): published config lives in [assets/page-config/growth-reach.json](C:/Scripts/executive-bi-dashboard/assets/page-config/growth-reach.json). The hero photo is `/assets/student_photos/Master Class Student Talking 6.jpg` and is rendered as a cover background via `layout.artFit: "cover"`. The photo is 3414 x 2267, so the wide banner necessarily crops vertically; `layout.artFocusX: 50` and `layout.artFocusY: 30` anchor the crop to preserve the instructor and seated students' heads. Side fades are controlled by `layout.fadeLeft` and `layout.fadeRight`; keep them strong enough for readable left-side copy.
 
+**Hero marquee stat strip (added 2026-05-13):** The hero now carries a 2×2 stat strip on its right side, rendered from `hero.stats[]` in the JSON config into `<div class="gr-hero-stats" id="growth-hero-stats">`. Each tile has `value`, `label`, and optional `sub` fields. These stats are static (no count-up) because they sit above the fold and the count-up animation was previously wasted there. Default lineup: 300K+ TheoEd Views · 4,200 Individual Learners · 74 Church Partners · 72% Faculty Participating. On mobile (≤900px) the hero stacks: copy, then stats below as a 2×2 grid. Do not animate hero stats; do not relocate them inside `.gr-hero-copy` (they live as a sibling for the space-between flex layout).
+
 **Growth hero editor controls (2026-05-12):** The Growth editor exposes the hero image as a primary free-form Git asset path in `#growth-editor-hero-image-custom`; it accepts repo paths like `/assets/...`, `assets/...`, or a local absolute path containing `/assets/` and normalizes to a site path before saving `hero.image`. The `#growth-editor-hero-image` dropdown is only a preset helper and should not be the only way to swap the hero image. `#growth-editor-art-fit` switches between `cover` photo-crop mode and `artwork` floating-image mode. `#growth-editor-art-focus-x` and `#growth-editor-art-focus-y` write `layout.artFocusX` / `layout.artFocusY` and control the percentage focal point used when `artFit === "cover"`. Pixel offset sliders still exist for fine positioning, and fade sliders write `layout.fadeLeft` / `layout.fadeRight`.
 
 **Row 1 - Journey Timeline** (`.gr-timeline-row`): navy (`#1e2530`) background, padding 48px 0. Eyebrow `.gr-eyebrow` orange 12px uppercase letter-spacing 2.5px. Title `.gr-row-title` cream 22px 700. The timeline is a horizontally scrollable rail (`.gr-timeline-frame` / `.gr-timeline-scroll`) with arrow controls bound by `growthInitTimelineControls()`. Keep the rail scrollable on mobile rather than reverting to a stacked column.
 
 **Row 2 - Stats + Map** (`.gr-stats-map-row`): cream (`#fafaf2`) background, padding 48px 60px, flex, gap 40px.
-- Left col (`.gr-stats-col`, about 40%): 3x3 stat grid
+- Left col (`.gr-stats-col`, about 40%): 3x3 stat grid. The 9 tiles are rendered from `stats[]` in `growth-reach.json` (added 2026-05-13) — the markup is just an empty `<div class="gr-sc-grid" id="growth-stats-grid">` and `growthRenderStatsGrid(config)` populates it. The count-up animation is gated by an IntersectionObserver (`growthEnsureGridObserver()`) so it fires only when the grid actually enters the viewport, not on tab click.
 - Right col (`.gr-map-col`, about 60%): path-based SVG USA map
 
-**Row 3 - Denom + Cities** (`.gr-denom-cities-row`): navy background, padding 48px 60px, flex, gap 40px.
+**Row 3 - Faith Traditions + Churches We Serve** (`.gr-denom-cities-row`): navy background, padding 48px 60px, flex, gap 40px. (Renamed conceptually from "Denom + Cities" in 2026-05-13 — Cities Served was retired.)
+- Left col (`.gr-denom-col`): rendered from `denominations` in the JSON config via `growthRenderDenominations(config)`. Uses `.gr-denom-row` bars.
+- Right col (`.gr-churches-col`): rendered from `churchSizes` via `growthRenderChurchSizes(config)`. Reuses the same `.gr-denom-row` bar markup. Replaces the retired `.gr-cities-col`/`.gr-cities-grid` panel.
+- Bar fill animations live in `growthAnimateBars()` and are gated by `growthEnsureBarsObserver()` so they fill only when the row scrolls into view.
 
-**JS functions:** `initNumbers()` runs animations and map behavior. `initReach()` fetches `growth-reach.json`, applies the editor config, binds the Growth editor, and initializes timeline controls. `buildMap()` remains a no-op stub.
+**JS render contract:** `growthApplyConfig(config)` orchestrates four renderers — `growthRenderHeroStats`, `growthRenderStatsGrid`, `growthRenderDenominations`, `growthRenderChurchSizes` — plus the existing hero/layout/typography CSS variables. After each re-render it calls `growthResetStatAnimation()` (via `growthRenderStatsGrid`) and `growthResetBarsAnimation()` so the IntersectionObserver path can re-arm against the new DOM. `initNumbers()` no longer runs the count-up directly; it only sets up the SVG map tooltip and arms the two observers. `initReach()` fetches `growth-reach.json`, applies the config, binds the Growth editor, and initializes timeline controls.
 
-**Regression risk:** Do not reintroduce the retired `.nr-block` / `.numreach-grid` layout. Do not replace the SVG map with CSS tile blocks.
+**Editor data tab (added 2026-05-13):** The Growth editor exposes four JSON textareas with Apply buttons for `hero.stats`, `stats`, `denominations`, `churchSizes`. Apply parses + validates the JSON, mutates `growthEditorRuntime.config`, calls `growthApplyConfig`, and repopulates the editor fields. Invalid JSON or wrong shape rejects with a status-pill error. These textareas are the manual-override path; the monthly GitHub Actions workflow (see `docs/growth-reach-monthly-refresh.md`) is the primary refresh mechanism — it rewrites the JSON file directly via the GitHub Contents API, so no runtime API calls happen in the browser.
+
+**Regression risk:** Do not reintroduce the retired `.nr-block` / `.numreach-grid` layout. Do not replace the SVG map with CSS tile blocks. Do not move the count-up animation back into `initNumbers()` un-gated — the grid sits below the fold and the animation would be wasted again. Do not hard-code the 9 grid stats, the 6 denomination rows, or the church-size bars back into the HTML — they must render from `growth-reach.json` so the Zap can refresh them.
 
 **Testing notes (2026-05-12):** Previewed locally from `python -m http.server 4177` at `http://127.0.0.1:4177/index.html`. Headless Chrome/CDP confirmed the Growth page loads the student photo, uses `background-size: cover`, preserves the 11-node scrollable timeline, and advances the timeline with the forward arrow. A localStorage draft with a different image/height did not auto-apply on reload; the draft notice appeared instead. Follow-up browser checks confirmed the editor opens, the custom Git asset path field appears before the preset helper, normalizes `assets/...` to `/assets/...`, applies on blur/button/Enter, and the focal-point sliders update `layout.artFocusX` / `layout.artFocusY` plus `--gr-hero-image-position`. The alternate illustration preset `/assets/Graphic_2.png` also loads successfully. Only logged browser issue was the existing missing `favicon.ico` 404.
 
@@ -224,35 +231,45 @@ Do not introduce decorative italics unless explicitly requested.
 ---
 
 ## 14. GROWTH AND REACH - CANONICAL DATA
-**Rule:** Use only these numbers. Do not revive retired counts such as `2,815`.
+**Rule:** Numbers are sourced from `assets/page-config/growth-reach.json` (the GitHub Actions workflow rewrites this monthly). The values below are the published defaults as of 2026-05-13. Do not revive retired counts such as `2,815`.
 
-Unique individual learners: `4,200`
-Total registrations: `6,200+`
-Church partners: `74`
-Courses offered: `150`
-TheoEd talks: `50+`
-TheoEd events hosted: `14`
-Social followers: `~6,500`
-Email subscribers: `~6,000`
-Years of Impact: dynamic (`new Date().getFullYear() - 2018`)
+**Hero marquee stats (`hero.stats[]`):**
+- TheoEd Views: `300K+`
+- Individual Learners: `4,200`
+- Church Partners: `74`
+- Faculty Participating: `72%`
 
-Denomination breakdown:
+**Grid stats (`stats[]`):**
+- Total Registrations: `6,200+`
+- Courses Offered: `150`
+- TheoEd Talks Produced: `50+`
+- TheoEd Events Hosted: `14`
+- Programs Created: `7`
+- Podcast Episodes: `50`
+- Social Followers: `~6,500`
+- Email Subscribers: `~6,000`
+- Years of Impact: dynamic (`new Date().getFullYear() - 2018`), via `dynamic: "yearsSince", since: 2018`
+
+**Denomination breakdown (`denominations.rows[]`):**
 - Methodist / UMC: 35%
 - Presbyterian: 22%
 - Episcopal / Anglican: 14%
 - Baptist: 12%
-- Interdenominational: 10%
-- Other / Unknown: 7%
+- Non-denominational: 10%
+- Other (Catholic, AME, and UCC): 7%
 
-Cities:
-- Atlanta GA: 680+
-- Nashville TN: 140+
-- Orlando FL: 95+
-- Charlotte NC: 80+
-- Austin TX: 75+
-- Knoxville TN: 60+
-- Macon GA: 55+
-- Birmingham AL: 45+
+(AME and Catholic are intentionally bundled into "Other" because the actual headcounts are small. The label calls them out so donors see they're represented.)
+
+**Churches We Serve — size mix (`churchSizes.rows[]`):**
+- Small congregations (under 200): 30% (~22 partners)
+- Mid-sized congregations (200–800): 40% (~30 partners)
+- Large congregations (800+): 30% (~22 partners)
+
+Sized by average weekend worship attendance. Numbers are estimated; revisit when partner-church metadata in Airtable is firmed up. The absolute count labels ("~22 partners") are recomputed by `scripts/refresh-growth-reach.mjs` on every monthly refresh, so they always reconcile with the latest hero Church Partners number.
+
+**Monthly automated refresh (added 2026-05-13):** `.github/workflows/refresh-growth-reach.yml` runs at 10:00 UTC on the 1st of every month (≈6am ET). It executes `scripts/refresh-growth-reach.mjs`, which reads canonical counts from the *Candler Foundry: Master CRM* Airtable base via a fine-grained PAT in repo secret `AIRTABLE_PAT`, rewrites `assets/page-config/growth-reach.json`, and commits/pushes if anything changed. The script never touches a field whose Airtable lookup fails — fallback is "preserve the existing JSON value." Fields currently sourced from Airtable: hero Individual Learners, hero Church Partners, grid Total Registrations, grid Courses Offered, grid TheoEd Talks, grid Podcast Episodes, plus the absolute counts on Churches We Serve. Other fields (Faculty %, TheoEd Views, TheoEd Events, Programs Created, Social Followers, Email Subscribers, Years of Impact) stay manual or dynamic. The workflow can also be triggered on demand via "Run workflow" in the Actions tab.
+
+(Retired 2026-05-13: the Cities Served panel with Atlanta/Nashville/Orlando/Charlotte/Austin/Knoxville/Macon/Birmingham counts. Do not reintroduce the city counts.)
 
 Timeline milestones:
 - Fall 2018: Candler hires the inaugural director of what would become The Candler Foundry.

@@ -153,10 +153,17 @@ body.page-config-loading .panel.active::before,
 .gr-hero { position:relative; min-height:var(--gr-hero-min); overflow:hidden; background:#fffdf8; }
 .gr-hero::before { content:''; position:absolute; inset:0; background-image:var(--gr-hero-image-url, url('/assets/Graphic_3_growth.png')); background-size:var(--gr-hero-image-size); background-position:var(--gr-hero-image-position); background-repeat:no-repeat; opacity:var(--gr-hero-art-opacity); filter:saturate(calc(1 + (var(--gr-hero-art-clarity) * 0.006))) contrast(calc(1 + (var(--gr-hero-art-clarity) * 0.004))) drop-shadow(0 0 calc(var(--gr-hero-art-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; }
 .gr-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--gr-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--gr-hero-fade-left), rgba(255,253,248,0.08) calc(var(--gr-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--gr-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--gr-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
-.gr-hero-content { position:relative; z-index:1; width:min(100%, var(--gr-shell-max)); min-height:var(--gr-hero-min); margin:0 auto; padding:0 var(--gr-gutter); display:flex; align-items:center; }
-.gr-hero-copy { max-width:var(--gr-hero-copy-max); transform:translate(var(--gr-hero-copy-offset-x), var(--gr-hero-copy-offset-y)); }
+.gr-hero-content { position:relative; z-index:1; width:min(100%, var(--gr-shell-max)); min-height:var(--gr-hero-min); margin:0 auto; padding:0 var(--gr-gutter); display:flex; align-items:center; justify-content:space-between; gap:clamp(32px, 4vw, 72px); }
+.gr-hero-copy { max-width:var(--gr-hero-copy-max); transform:translate(var(--gr-hero-copy-offset-x), var(--gr-hero-copy-offset-y)); flex:0 1 auto; }
 .gr-hero-title { width:min(100%, var(--gr-hero-title-width)); max-width:var(--gr-hero-title-width); font-size:var(--gr-hero-title-size); line-height:0.96; font-weight:700; color:#1e2530; letter-spacing:-0.05em; margin:0 0 var(--gr-hero-title-gap); font-family:'Montserrat',sans-serif; text-wrap:balance; }
 .gr-hero-subtitle { width:min(100%, var(--gr-hero-body-width)); max-width:var(--gr-hero-body-width); font-size:var(--gr-hero-body-size); font-weight:500; color:rgba(30,37,48,0.84); margin:0; line-height:1.7; font-family:'Montserrat',sans-serif; }
+/* Growth and Reach — Hero marquee stat strip */
+.gr-hero-stats { flex:0 0 auto; display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:30px 44px; width:clamp(340px, 30vw, 460px); align-self:center; padding:6px 0; }
+.gr-hs-tile { display:flex; flex-direction:column; min-width:0; }
+.gr-hs-rule { width:32px; height:3px; background:#c84826; margin-bottom:12px; border-radius:2px; }
+.gr-hs-num { font-size:clamp(34px, 1.4vw + 1.5rem, 46px); font-weight:700; color:#1e2530; line-height:1; font-family:'Montserrat',sans-serif; letter-spacing:-0.03em; }
+.gr-hs-label { font-size:12px; font-weight:700; color:#c84826; text-transform:uppercase; letter-spacing:2px; margin-top:10px; font-family:'Montserrat',sans-serif; line-height:1.2; }
+.gr-hs-sub { font-size:13px; color:rgba(30,37,48,0.62); margin-top:6px; line-height:1.45; font-family:'Montserrat',sans-serif; max-width:200px; }
 /* Growth and Reach — Row 1: Journey Timeline */
 .gr-timeline-row { background:#1e2530; padding:48px 0; }
 .gr-eyebrow { font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:2.5px; color:#c84826; margin-bottom:14px; font-family:'Montserrat',sans-serif; }
@@ -202,6 +209,7 @@ body.page-config-loading .panel.active::before,
 .gr-denom-cities-row { background:#1e2530; padding:48px 0; display:flex; gap:40px; }
 .gr-denom-col { flex:1; min-width:0; }
 .gr-cities-col { flex:1; min-width:0; }
+.gr-churches-col { flex:1; min-width:0; }
 .gr-col-title { font-size:20px; font-weight:700; color:#fafaf2; margin:0 0 8px; font-family:'Montserrat',sans-serif; }
 .gr-col-note { font-size:14px; color:rgba(250,250,242,0.55); margin:0 0 24px; line-height:1.5; font-family:'Montserrat',sans-serif; }
 .gr-denom-row { margin-bottom:16px; }
@@ -222,6 +230,9 @@ body.page-config-loading .panel.active::before,
   .gr-timeline-nav { width:36px; height:36px; font-size:18px; }
   .gr-tnode { flex-basis:210px; }
   .gr-tnode-desc { text-align:left; max-width:none; }
+  .gr-hero-content { flex-direction:column; align-items:flex-start; gap:32px; padding:36px var(--gr-gutter); }
+  .gr-hero-stats { width:100%; max-width:100%; gap:24px 32px; }
+  .gr-hs-num { font-size:32px; }
   .gr-stats-map-row { flex-direction:column; }
   .gr-shell-split { flex-direction:column; }
   .gr-stats-col { width:100%; }
@@ -1226,6 +1237,39 @@ body.page-config-loading .panel.active::before,
       </div>
     </div>
 
+    <div class="page-editor-group">
+      <h4>Page Data (Advanced)</h4>
+      <p class="page-editor-note" style="margin:0 0 12px;">JSON blocks for the hero marquee stats, the 3×3 grid, the denomination bars, and the Churches We Serve bars. Edit then click <strong>Apply</strong>. Validation is on Apply — invalid JSON is rejected. These blocks are also what the monthly refresh Zap rewrites.</p>
+      <div class="editor-field">
+        <label class="editor-label" for="growth-editor-hero-stats-json">Hero marquee stats (hero.stats[])</label>
+        <textarea id="growth-editor-hero-stats-json" rows="6" spellcheck="false" style="font-family:ui-monospace,Menlo,monospace;font-size:12px;"></textarea>
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" id="growth-editor-hero-stats-apply" type="button">Apply Hero Stats</button>
+        </div>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="growth-editor-stats-json">3×3 grid stats (stats[])</label>
+        <textarea id="growth-editor-stats-json" rows="10" spellcheck="false" style="font-family:ui-monospace,Menlo,monospace;font-size:12px;"></textarea>
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" id="growth-editor-stats-apply" type="button">Apply Grid Stats</button>
+        </div>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="growth-editor-denoms-json">Denominational Reach (denominations)</label>
+        <textarea id="growth-editor-denoms-json" rows="8" spellcheck="false" style="font-family:ui-monospace,Menlo,monospace;font-size:12px;"></textarea>
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" id="growth-editor-denoms-apply" type="button">Apply Denominations</button>
+        </div>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="growth-editor-churches-json">Churches We Serve (churchSizes)</label>
+        <textarea id="growth-editor-churches-json" rows="8" spellcheck="false" style="font-family:ui-monospace,Menlo,monospace;font-size:12px;"></textarea>
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" id="growth-editor-churches-apply" type="button">Apply Church Sizes</button>
+        </div>
+      </div>
+    </div>
+
     <div class="page-editor-actions">
       <button class="page-editor-reset" id="growth-editor-reset" type="button">Reset to Default</button>
       <button class="page-editor-apply" id="growth-editor-apply" type="button">Save Changes in Browser</button>
@@ -1239,6 +1283,7 @@ body.page-config-loading .panel.active::before,
         <div class="gr-hero-title" id="growth-hero-title">Growth and Reach</div>
         <p class="gr-hero-subtitle" id="growth-hero-subtitle">Since its founding in 2018, The Candler Foundry has grown from the ground up, extending Candler&rsquo;s scholarship through courses, media, and shared learning experiences that now reach thousands of participants.</p>
       </div>
+      <div class="gr-hero-stats" id="growth-hero-stats" aria-label="Marquee impact statistics"></div>
     </div>
   </div>
 
@@ -1319,53 +1364,7 @@ body.page-config-loading .panel.active::before,
   <div class="gr-stats-map-row">
     <div class="gr-shell gr-shell-split">
     <div class="gr-stats-col">
-      <div class="gr-sc-grid">
-        <div class="gr-sc" data-val="4200" data-suffix="" data-prefix="">
-          <div class="gr-sc-num">0</div>
-          <div class="gr-sc-label">Individual Learners</div>
-          <div class="gr-sc-sub">Unique registrants across all programs</div>
-        </div>
-        <div class="gr-sc" data-val="6200" data-suffix="+" data-prefix="">
-          <div class="gr-sc-num">0</div>
-          <div class="gr-sc-label">Total Registrations</div>
-          <div class="gr-sc-sub">All programs since founding in 2018</div>
-        </div>
-        <div class="gr-sc" data-val="74" data-suffix="" data-prefix="">
-          <div class="gr-sc-num">0</div>
-          <div class="gr-sc-label">Church Partners</div>
-          <div class="gr-sc-sub">Partner congregations</div>
-        </div>
-        <div class="gr-sc" data-val="150" data-suffix="" data-prefix="">
-          <div class="gr-sc-num">0</div>
-          <div class="gr-sc-label">Courses Offered</div>
-          <div class="gr-sc-sub">Since founding</div>
-        </div>
-        <div class="gr-sc" data-val="50" data-suffix="+" data-prefix="">
-          <div class="gr-sc-num">0</div>
-          <div class="gr-sc-label">TheoEd Talks</div>
-          <div class="gr-sc-sub">Scholar-led theology talks</div>
-        </div>
-        <div class="gr-sc" data-val="14" data-suffix="" data-prefix="">
-          <div class="gr-sc-num">0</div>
-          <div class="gr-sc-label">TheoEd Events</div>
-          <div class="gr-sc-sub">Live events hosted</div>
-        </div>
-        <div class="gr-sc" data-val="6500" data-suffix="" data-prefix="~">
-          <div class="gr-sc-num">0</div>
-          <div class="gr-sc-label">Social Followers</div>
-          <div class="gr-sc-sub">YouTube + Instagram combined</div>
-        </div>
-        <div class="gr-sc" data-val="6000" data-suffix="" data-prefix="~">
-          <div class="gr-sc-num">0</div>
-          <div class="gr-sc-label">Email Subscribers</div>
-          <div class="gr-sc-sub">Mailchimp community</div>
-        </div>
-        <div class="gr-sc" data-years="true">
-          <div class="gr-sc-num" id="gr-years-num">8</div>
-          <div class="gr-sc-label">Years of Impact</div>
-          <div class="gr-sc-sub">Founded in 2018</div>
-        </div>
-      </div>
+      <div class="gr-sc-grid" id="growth-stats-grid"></div>
     </div>
     <div class="gr-map-col">
       <div class="gr-map-title">Where Our Learners Are</div>
@@ -1436,71 +1435,11 @@ body.page-config-loading .panel.active::before,
     </div>
   </div>
 
-  <!-- Row 3: Faith Traditions + Partner Cities -->
+  <!-- Row 3: Faith Traditions + Partner Congregations (size mix) -->
   <div class="gr-denom-cities-row">
     <div class="gr-shell gr-shell-split">
-    <div class="gr-denom-col">
-      <div class="gr-eyebrow">Faith Traditions</div>
-      <div class="gr-col-title">Denominational Reach</div>
-      <div class="gr-col-note">Approximate &#8212; denomination not always collected at registration. Based on ~4,200 unique registrants.</div>
-      <div class="gr-denom-row">
-        <span class="gr-denom-name">Methodist / UMC</span>
-        <div class="gr-denom-bar-wrap">
-          <div class="gr-denom-track"><div class="gr-denom-fill" data-pct="35"></div></div>
-          <span class="gr-denom-pct">35% ~1,470</span>
-        </div>
-      </div>
-      <div class="gr-denom-row">
-        <span class="gr-denom-name">Presbyterian</span>
-        <div class="gr-denom-bar-wrap">
-          <div class="gr-denom-track"><div class="gr-denom-fill" data-pct="22"></div></div>
-          <span class="gr-denom-pct">22% ~924</span>
-        </div>
-      </div>
-      <div class="gr-denom-row">
-        <span class="gr-denom-name">Episcopal / Anglican</span>
-        <div class="gr-denom-bar-wrap">
-          <div class="gr-denom-track"><div class="gr-denom-fill" data-pct="14"></div></div>
-          <span class="gr-denom-pct">14% ~588</span>
-        </div>
-      </div>
-      <div class="gr-denom-row">
-        <span class="gr-denom-name">Baptist</span>
-        <div class="gr-denom-bar-wrap">
-          <div class="gr-denom-track"><div class="gr-denom-fill" data-pct="12"></div></div>
-          <span class="gr-denom-pct">12% ~504</span>
-        </div>
-      </div>
-      <div class="gr-denom-row">
-        <span class="gr-denom-name">Interdenominational</span>
-        <div class="gr-denom-bar-wrap">
-          <div class="gr-denom-track"><div class="gr-denom-fill" data-pct="10"></div></div>
-          <span class="gr-denom-pct">10% ~420</span>
-        </div>
-      </div>
-      <div class="gr-denom-row">
-        <span class="gr-denom-name">Other / Unknown</span>
-        <div class="gr-denom-bar-wrap">
-          <div class="gr-denom-track"><div class="gr-denom-fill" data-pct="7"></div></div>
-          <span class="gr-denom-pct">7% ~294</span>
-        </div>
-      </div>
-    </div>
-    <div class="gr-cities-col">
-      <div class="gr-eyebrow">Partner Congregations</div>
-      <div class="gr-col-title">Cities Served</div>
-      <div class="gr-col-note">Participant counts by metro area &#8212; all programs combined.</div>
-      <div class="gr-cities-grid">
-        <div class="gr-city-entry"><div class="gr-city-dot"></div><div class="gr-city-info"><span class="gr-city-name">Atlanta, GA</span><span class="gr-city-count">680+</span></div></div>
-        <div class="gr-city-entry"><div class="gr-city-dot"></div><div class="gr-city-info"><span class="gr-city-name">Nashville, TN</span><span class="gr-city-count">140+</span></div></div>
-        <div class="gr-city-entry"><div class="gr-city-dot"></div><div class="gr-city-info"><span class="gr-city-name">Orlando, FL</span><span class="gr-city-count">95+</span></div></div>
-        <div class="gr-city-entry"><div class="gr-city-dot"></div><div class="gr-city-info"><span class="gr-city-name">Charlotte, NC</span><span class="gr-city-count">80+</span></div></div>
-        <div class="gr-city-entry"><div class="gr-city-dot"></div><div class="gr-city-info"><span class="gr-city-name">Austin, TX</span><span class="gr-city-count">75+</span></div></div>
-        <div class="gr-city-entry"><div class="gr-city-dot"></div><div class="gr-city-info"><span class="gr-city-name">Knoxville, TN</span><span class="gr-city-count">60+</span></div></div>
-        <div class="gr-city-entry"><div class="gr-city-dot"></div><div class="gr-city-info"><span class="gr-city-name">Macon, GA</span><span class="gr-city-count">55+</span></div></div>
-        <div class="gr-city-entry"><div class="gr-city-dot"></div><div class="gr-city-info"><span class="gr-city-name">Birmingham, AL</span><span class="gr-city-count">45+</span></div></div>
-      </div>
-    </div>
+    <div class="gr-denom-col" id="growth-denom-col"></div>
+    <div class="gr-churches-col" id="growth-churches-col"></div>
     </div>
   </div>
 </div>
@@ -4402,17 +4341,20 @@ function countUp(el, target, duration) {
 })();
 
 var numbersReady = false;
-function initNumbers() {
-  if (numbersReady) return;
-  numbersReady = true;
+// Growth & Reach — scroll-triggered animation state
+var growthStatsAnimated = false;
+var growthBarsAnimated = false;
+var growthGridObserver = null;
+var growthBarsObserver = null;
 
-  // Years of Impact (dynamic, no count-up)
-  var yearsEl = document.getElementById('gr-years-num');
-  if (yearsEl) yearsEl.textContent = new Date().getFullYear() - 2018;
+function growthEaseOut(t) { return 1 - Math.pow(1 - t, 3); }
 
-  // Count-up animation for stat cards
-  function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
-  document.querySelectorAll('.gr-sc[data-val]').forEach(function(card) {
+function growthAnimateGridStats() {
+  if (growthStatsAnimated) return;
+  var tiles = document.querySelectorAll('#panel-numreach .gr-sc-grid .gr-sc[data-val]');
+  if (!tiles.length) return; // grid hasn't been rendered yet
+  growthStatsAnimated = true;
+  tiles.forEach(function(card) {
     var target = parseInt(card.getAttribute('data-val'), 10);
     var suffix = card.getAttribute('data-suffix') || '';
     var prefix = card.getAttribute('data-prefix') || '';
@@ -4424,12 +4366,98 @@ function initNumbers() {
       if (!start) start = ts;
       var elapsed = ts - start;
       var progress = Math.min(elapsed / duration, 1);
-      var val = Math.round(easeOut(progress) * target);
+      var val = Math.round(growthEaseOut(progress) * target);
       numEl.textContent = prefix + val.toLocaleString() + suffix;
       if (progress < 1) requestAnimationFrame(step);
     }
     requestAnimationFrame(step);
   });
+}
+
+function growthAnimateBars() {
+  if (growthBarsAnimated) return;
+  var bars = document.querySelectorAll('#panel-numreach .gr-denom-fill');
+  if (!bars.length) return;
+  growthBarsAnimated = true;
+  bars.forEach(function(bar, i) {
+    var pct = bar.getAttribute('data-pct');
+    setTimeout(function() { bar.style.width = pct + '%'; }, 150 + i * 80);
+  });
+}
+
+function growthIsInViewport(el) {
+  if (!el || !el.getBoundingClientRect) return false;
+  var rect = el.getBoundingClientRect();
+  var vh = window.innerHeight || document.documentElement.clientHeight;
+  return rect.top < vh && rect.bottom > 0;
+}
+
+function growthEnsureGridObserver() {
+  var grid = document.querySelector('#panel-numreach .gr-sc-grid');
+  if (!grid) return;
+  if (growthIsInViewport(grid)) { growthAnimateGridStats(); return; }
+  if (growthGridObserver || !('IntersectionObserver' in window)) {
+    if (!('IntersectionObserver' in window)) growthAnimateGridStats();
+    return;
+  }
+  growthGridObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        growthAnimateGridStats();
+        if (growthStatsAnimated && growthGridObserver) {
+          growthGridObserver.disconnect();
+          growthGridObserver = null;
+        }
+      }
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+  growthGridObserver.observe(grid);
+}
+
+function growthEnsureBarsObserver() {
+  var row = document.querySelector('#panel-numreach .gr-denom-cities-row');
+  if (!row) return;
+  if (growthIsInViewport(row)) { growthAnimateBars(); return; }
+  if (growthBarsObserver || !('IntersectionObserver' in window)) {
+    if (!('IntersectionObserver' in window)) growthAnimateBars();
+    return;
+  }
+  growthBarsObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        growthAnimateBars();
+        if (growthBarsAnimated && growthBarsObserver) {
+          growthBarsObserver.disconnect();
+          growthBarsObserver = null;
+        }
+      }
+    });
+  }, { rootMargin: '0px 0px -10% 0px', threshold: 0.15 });
+  growthBarsObserver.observe(row);
+}
+
+function growthResetStatAnimation() {
+  // Called after grid re-renders so animation can fire against the new tiles
+  // (e.g. when editor changes are applied or the JSON config is re-loaded).
+  growthStatsAnimated = false;
+  if (growthGridObserver) { growthGridObserver.disconnect(); growthGridObserver = null; }
+  growthEnsureGridObserver();
+}
+
+function growthResetBarsAnimation() {
+  // Called after denom/churches re-render so bars can re-fill on the new tracks.
+  growthBarsAnimated = false;
+  // Force bars back to width 0 so the transition runs again
+  document.querySelectorAll('#panel-numreach .gr-denom-fill').forEach(function(bar) {
+    bar.style.width = '0';
+  });
+  if (growthBarsObserver) { growthBarsObserver.disconnect(); growthBarsObserver = null; }
+  growthEnsureBarsObserver();
+}
+
+function initNumbers() {
+  if (numbersReady) return;
+  numbersReady = true;
 
   // SVG map tooltip
   var tip = document.getElementById('gr-map-tip');
@@ -4458,11 +4486,9 @@ function initNumbers() {
     });
   }
 
-  // Denomination bar animations
-  document.querySelectorAll('.gr-denom-fill').forEach(function(bar, i) {
-    var pct = bar.getAttribute('data-pct');
-    setTimeout(function() { bar.style.width = pct + '%'; }, 150 + i * 80);
-  });
+  // Scroll-triggered count-up + bar fills (run only when the user has scrolled to the row)
+  growthEnsureGridObserver();
+  growthEnsureBarsObserver();
 }
 
 var peopleReady = false;
@@ -6309,7 +6335,13 @@ var GROWTH_EDITOR_DEFAULTS = {
   hero: {
     title: 'Growth and Reach',
     subtitle: 'Since its founding in 2018, The Candler Foundry has grown from the ground up, extending Candler’s scholarship through courses, media, and shared learning experiences that now reach thousands of participants.',
-    image: '/assets/student_photos/Master Class Student Talking 6.jpg'
+    image: '/assets/student_photos/Master Class Student Talking 6.jpg',
+    stats: [
+      { value: '300K+', label: 'TheoEd Views', sub: 'Across YouTube and the TheoEd archive' },
+      { value: '4,200', label: 'Individual Learners', sub: 'Unique registrants since 2018' },
+      { value: '74', label: 'Church Partners', sub: 'Partner congregations' },
+      { value: '72%', label: 'Faculty Participating', sub: 'Of Candler’s faculty' }
+    ]
   },
   layout: {
     shellMax: 1680,
@@ -6336,6 +6368,40 @@ var GROWTH_EDITOR_DEFAULTS = {
     fontFamily: "'Montserrat', sans-serif",
     titleSize: 4.2,
     bodySize: 1.0
+  },
+  stats: [
+    { id: 'registrations', value: 6200, suffix: '+', prefix: '', label: 'Total Registrations', sub: 'All programs since founding in 2018' },
+    { id: 'courses', value: 150, suffix: '', prefix: '', label: 'Courses Offered', sub: 'Since founding' },
+    { id: 'theoed-talks', value: 50, suffix: '+', prefix: '', label: 'TheoEd Talks Produced', sub: 'Scholar-led theology talks' },
+    { id: 'theoed-events', value: 14, suffix: '', prefix: '', label: 'TheoEd Events Hosted', sub: 'Live events hosted' },
+    { id: 'programs', value: 7, suffix: '', prefix: '', label: 'Programs Created', sub: 'Distinct Foundry initiatives' },
+    { id: 'podcast', value: 50, suffix: '', prefix: '', label: 'Podcast Episodes', sub: 'Candler in Conversation' },
+    { id: 'social', value: 6500, suffix: '', prefix: '~', label: 'Social Followers', sub: 'YouTube + Instagram combined' },
+    { id: 'email', value: 6000, suffix: '', prefix: '~', label: 'Email Subscribers', sub: 'Mailchimp community' },
+    { id: 'years', dynamic: 'yearsSince', since: 2018, label: 'Years of Impact', sub: 'Founded in 2018' }
+  ],
+  denominations: {
+    eyebrow: 'Faith Traditions',
+    title: 'Denominational Reach',
+    note: 'Approximate — denomination not always collected at registration. Based on ~4,200 unique registrants.',
+    rows: [
+      { name: 'Methodist / UMC', pct: 35, count: '35% ~1,470' },
+      { name: 'Presbyterian', pct: 22, count: '22% ~924' },
+      { name: 'Episcopal / Anglican', pct: 14, count: '14% ~588' },
+      { name: 'Baptist', pct: 12, count: '12% ~504' },
+      { name: 'Non-denominational', pct: 10, count: '10% ~420' },
+      { name: 'Other (Catholic, AME, and UCC)', pct: 7, count: '7% ~294' }
+    ]
+  },
+  churchSizes: {
+    eyebrow: 'Partner Congregations',
+    title: 'Churches We Serve',
+    note: 'Estimated size mix of the 74 partner congregations. Sized by average weekend worship attendance.',
+    rows: [
+      { name: 'Small congregations (under 200)', pct: 30, count: '30% ~22 partners' },
+      { name: 'Mid-sized congregations (200–800)', pct: 40, count: '40% ~30 partners' },
+      { name: 'Large congregations (800+)', pct: 30, count: '30% ~22 partners' }
+    ]
   }
 };
 var growthEditorRuntime = {
@@ -6505,6 +6571,144 @@ function growthApplyConfig(config) {
     hero.style.setProperty('--gr-hero-image-url-local', 'url("' + config.hero.image + '")');
     hero.classList.add('has-editor-image');
   }
+  growthRenderHeroStats(config);
+  growthRenderStatsGrid(config);
+  growthRenderDenominations(config);
+  growthRenderChurchSizes(config);
+  if (typeof growthResetBarsAnimation === 'function') growthResetBarsAnimation();
+}
+
+function growthEscapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function growthRenderHeroStats(config) {
+  var host = document.getElementById('growth-hero-stats');
+  if (!host) return;
+  var stats = (config.hero && Array.isArray(config.hero.stats)) ? config.hero.stats : [];
+  if (!stats.length) { host.innerHTML = ''; host.hidden = true; return; }
+  host.hidden = false;
+  host.innerHTML = stats.map(function(s) {
+    var value = growthEscapeHtml(s.value || '');
+    var label = growthEscapeHtml(s.label || '');
+    var sub = s.sub ? '<div class="gr-hs-sub">' + growthEscapeHtml(s.sub) + '</div>' : '';
+    return '<div class="gr-hs-tile">'
+      + '<span class="gr-hs-rule" aria-hidden="true"></span>'
+      + '<div class="gr-hs-num">' + value + '</div>'
+      + '<div class="gr-hs-label">' + label + '</div>'
+      + sub
+      + '</div>';
+  }).join('');
+}
+
+function growthResolveStatValue(stat) {
+  if (stat && stat.dynamic === 'yearsSince') {
+    var since = parseInt(stat.since, 10) || 2018;
+    return Math.max(0, new Date().getFullYear() - since);
+  }
+  return (stat && stat.value != null) ? stat.value : 0;
+}
+
+function growthRenderStatsGrid(config) {
+  var host = document.querySelector('#panel-numreach .gr-sc-grid');
+  if (!host) return;
+  var stats = Array.isArray(config.stats) ? config.stats : [];
+  if (!stats.length) { host.innerHTML = ''; return; }
+  host.innerHTML = stats.map(function(s) {
+    var resolved = growthResolveStatValue(s);
+    var prefix = growthEscapeHtml(s.prefix || '');
+    var suffix = growthEscapeHtml(s.suffix || '');
+    var label = growthEscapeHtml(s.label || '');
+    var sub = growthEscapeHtml(s.sub || '');
+    var isDynamic = s && s.dynamic === 'yearsSince';
+    var initial = isDynamic ? String(resolved) : '0';
+    var attrs = 'class="gr-sc"';
+    if (isDynamic) {
+      attrs += ' data-dynamic="yearsSince" data-since="' + (parseInt(s.since, 10) || 2018) + '"';
+    } else {
+      attrs += ' data-val="' + (parseInt(resolved, 10) || 0) + '" data-prefix="' + prefix + '" data-suffix="' + suffix + '"';
+    }
+    if (s && s.id) attrs += ' data-id="' + growthEscapeHtml(s.id) + '"';
+    return '<div ' + attrs + '>'
+      + '<div class="gr-sc-num">' + (isDynamic ? initial : (prefix + '0' + suffix)) + '</div>'
+      + '<div class="gr-sc-label">' + label + '</div>'
+      + (sub ? '<div class="gr-sc-sub">' + sub + '</div>' : '')
+      + '</div>';
+  }).join('');
+  // After re-render, reset count-up state so the IntersectionObserver path can re-run.
+  if (typeof growthResetStatAnimation === 'function') growthResetStatAnimation();
+}
+
+function growthRenderDenominations(config) {
+  var col = document.querySelector('#panel-numreach .gr-denom-col');
+  if (!col) return;
+  var d = config.denominations || {};
+  var eyebrow = growthEscapeHtml(d.eyebrow || 'Faith Traditions');
+  var title = growthEscapeHtml(d.title || 'Denominational Reach');
+  var note = growthEscapeHtml(d.note || '');
+  var rows = Array.isArray(d.rows) ? d.rows : [];
+  var rowsHtml = rows.map(function(r) {
+    var pct = Math.max(0, Math.min(100, Number(r.pct) || 0));
+    var name = growthEscapeHtml(r.name || '');
+    var count = growthEscapeHtml(r.count || (pct + '%'));
+    return '<div class="gr-denom-row">'
+      + '<span class="gr-denom-name">' + name + '</span>'
+      + '<div class="gr-denom-bar-wrap">'
+      + '<div class="gr-denom-track"><div class="gr-denom-fill" data-pct="' + pct + '"></div></div>'
+      + '<span class="gr-denom-pct">' + count + '</span>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+  col.innerHTML = '<div class="gr-eyebrow">' + eyebrow + '</div>'
+    + '<div class="gr-col-title">' + title + '</div>'
+    + (note ? '<div class="gr-col-note">' + note + '</div>' : '')
+    + rowsHtml;
+}
+
+function growthRenderChurchSizes(config) {
+  // Replace the legacy .gr-cities-col with a .gr-churches-col rendered from config.
+  var split = document.querySelector('#panel-numreach .gr-denom-cities-row .gr-shell-split');
+  if (!split) return;
+  var legacy = split.querySelector('.gr-cities-col');
+  var col = split.querySelector('.gr-churches-col');
+  if (legacy && !col) {
+    col = document.createElement('div');
+    col.className = 'gr-churches-col';
+    legacy.parentNode.replaceChild(col, legacy);
+  }
+  if (!col) {
+    col = document.createElement('div');
+    col.className = 'gr-churches-col';
+    split.appendChild(col);
+  }
+  var cs = config.churchSizes || {};
+  var eyebrow = growthEscapeHtml(cs.eyebrow || 'Partner Congregations');
+  var title = growthEscapeHtml(cs.title || 'Churches We Serve');
+  var note = growthEscapeHtml(cs.note || '');
+  var rows = Array.isArray(cs.rows) ? cs.rows : [];
+  if (!rows.length) { col.innerHTML = ''; return; }
+  var rowsHtml = rows.map(function(r) {
+    var pct = Math.max(0, Math.min(100, Number(r.pct) || 0));
+    var name = growthEscapeHtml(r.name || '');
+    var count = growthEscapeHtml(r.count || (pct + '%'));
+    return '<div class="gr-denom-row">'
+      + '<span class="gr-denom-name">' + name + '</span>'
+      + '<div class="gr-denom-bar-wrap">'
+      + '<div class="gr-denom-track"><div class="gr-denom-fill" data-pct="' + pct + '"></div></div>'
+      + '<span class="gr-denom-pct">' + count + '</span>'
+      + '</div>'
+      + '</div>';
+  }).join('');
+  col.innerHTML = '<div class="gr-eyebrow">' + eyebrow + '</div>'
+    + '<div class="gr-col-title">' + title + '</div>'
+    + (note ? '<div class="gr-col-note">' + note + '</div>' : '')
+    + rowsHtml;
 }
 
 function growthSetStatus(message, isSaved) {
@@ -6616,6 +6820,16 @@ function growthPopulateEditorFields() {
   document.getElementById('growth-editor-title-size-value').textContent = Number(config.typography.titleSize || 4.2).toFixed(2) + 'rem';
   document.getElementById('growth-editor-body-size-value').textContent = Number(config.typography.bodySize || 1).toFixed(2) + 'rem';
   document.getElementById('growth-editor-gutter-value').textContent = Math.round(Number(config.layout.gutter || 40)) + 'px';
+
+  // Data JSON textareas
+  var heroStatsTa = document.getElementById('growth-editor-hero-stats-json');
+  if (heroStatsTa) heroStatsTa.value = JSON.stringify((config.hero && config.hero.stats) || GROWTH_EDITOR_DEFAULTS.hero.stats, null, 2);
+  var statsTa = document.getElementById('growth-editor-stats-json');
+  if (statsTa) statsTa.value = JSON.stringify(config.stats || GROWTH_EDITOR_DEFAULTS.stats, null, 2);
+  var denomsTa = document.getElementById('growth-editor-denoms-json');
+  if (denomsTa) denomsTa.value = JSON.stringify(config.denominations || GROWTH_EDITOR_DEFAULTS.denominations, null, 2);
+  var churchesTa = document.getElementById('growth-editor-churches-json');
+  if (churchesTa) churchesTa.value = JSON.stringify(config.churchSizes || GROWTH_EDITOR_DEFAULTS.churchSizes, null, 2);
 }
 
 function growthBindEditor() {
@@ -6762,6 +6976,49 @@ function growthBindEditor() {
   bindInput('growth-editor-title-size', 'typography', 'titleSize', Number);
   bindInput('growth-editor-body-size', 'typography', 'bodySize', Number);
   bindInput('growth-editor-gutter', 'layout', 'gutter', Number);
+
+  // Apply JSON data textareas (hero stats, grid stats, denominations, churchSizes)
+  function bindJsonApply(buttonId, textareaId, validator, applyToConfig, successMsg) {
+    var btn = document.getElementById(buttonId);
+    var ta = document.getElementById(textareaId);
+    if (!btn || !ta) return;
+    btn.addEventListener('click', function() {
+      var parsed;
+      try { parsed = JSON.parse(ta.value); }
+      catch (err) {
+        growthSetStatus('Invalid JSON — fix the syntax and try again', false);
+        return;
+      }
+      var ok = validator ? validator(parsed) : true;
+      if (!ok) {
+        growthSetStatus('JSON shape is invalid — check the fields', false);
+        return;
+      }
+      applyToConfig(parsed);
+      growthApplyConfig(growthEditorRuntime.config);
+      growthPopulateEditorFields();
+      growthSetStatus(successMsg || 'Data applied (browser only — Publish to save)', true);
+    });
+  }
+  bindJsonApply('growth-editor-hero-stats-apply', 'growth-editor-hero-stats-json',
+    function(v) { return Array.isArray(v); },
+    function(v) {
+      if (!growthEditorRuntime.config.hero) growthEditorRuntime.config.hero = {};
+      growthEditorRuntime.config.hero.stats = v;
+    },
+    'Hero stats applied');
+  bindJsonApply('growth-editor-stats-apply', 'growth-editor-stats-json',
+    function(v) { return Array.isArray(v); },
+    function(v) { growthEditorRuntime.config.stats = v; },
+    'Grid stats applied');
+  bindJsonApply('growth-editor-denoms-apply', 'growth-editor-denoms-json',
+    function(v) { return v && typeof v === 'object' && Array.isArray(v.rows); },
+    function(v) { growthEditorRuntime.config.denominations = v; },
+    'Denomination rows applied');
+  bindJsonApply('growth-editor-churches-apply', 'growth-editor-churches-json',
+    function(v) { return v && typeof v === 'object' && Array.isArray(v.rows); },
+    function(v) { growthEditorRuntime.config.churchSizes = v; },
+    'Church sizes applied');
 
   document.getElementById('growth-editor-apply').addEventListener('click', function() {
     growthSaveConfig('Changes saved in browser');

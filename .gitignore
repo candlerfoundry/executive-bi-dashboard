@@ -2,6 +2,7 @@
 .claude-git-token.txt
 .codex-git-token.txt
 .git-token.txt
+.vimeo-token.txt
 
 # Local working scratchpads (untracked by convention; see CANONICAL section 20)
 .codex-review/
