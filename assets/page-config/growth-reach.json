@@ -10,7 +10,7 @@
         "sub": "Across YouTube and the TheoEd archive"
       },
       {
-        "value": "4,200",
+        "value": "4,194",
         "label": "Individual Learners",
         "sub": "Unique registrants since 2018"
       },
@@ -55,7 +55,7 @@
   "stats": [
     {
       "id": "registrations",
-      "value": 6200,
+      "value": 6319,
       "suffix": "+",
       "prefix": "",
       "label": "Total Registrations",
@@ -63,7 +63,7 @@
     },
     {
       "id": "courses",
-      "value": 150,
+      "value": 6,
       "suffix": "",
       "prefix": "",
       "label": "Courses Offered",
@@ -71,7 +71,7 @@
     },
     {
       "id": "theoed-talks",
-      "value": 50,
+      "value": 53,
       "suffix": "+",
       "prefix": "",
       "label": "TheoEd Talks Produced",
@@ -95,7 +95,7 @@
     },
     {
       "id": "podcast",
-      "value": 50,
+      "value": 49,
       "suffix": "",
       "prefix": "",
       "label": "Podcast Episodes",
