@@ -815,8 +815,8 @@ body.page-config-loading .panel.active::before,
 .theoed-tile-location { font-size:0.78rem; color:#c84826; letter-spacing:0.16em; text-transform:uppercase; font-weight:700; }
 .te-lightbox { display:none; position:fixed; inset:0; z-index:9000; align-items:center; justify-content:center; }
 .te-lightbox.open { display:flex; }
-.te-lb-frame-slot { width:100%; height:100%; position:relative; background:#000; display:flex; align-items:center; justify-content:center; }
-.te-lb-frame-slot > video, .te-lb-frame-slot > iframe { width:100%; height:100%; border:0; display:block; background:#000; }
+.te-lb-frame-slot { position:absolute; inset:0; width:100%; height:100%; background:#000; display:flex; align-items:center; justify-content:center; }
+.te-lb-frame-slot > video, .te-lb-frame-slot > iframe { width:100%; height:100%; border:0; display:block; background:#000; object-fit:contain; }
 .mission-page .card-back--grid .cbg-tile { cursor:pointer; }
 
 .te-lb-backdrop { position:absolute; inset:0; background:rgba(10,14,22,0.88); }
@@ -4192,6 +4192,7 @@ function openLightbox(vid, name, loc, guide, dbxUrl) {
     var v = document.createElement('video');
     v.src = dbxUrl;
     v.controls = true; v.autoplay = true; v.playsInline = true;
+    v.preload = 'auto';
     slot.appendChild(v);
     var p = v.play(); if (p && p.catch) p.catch(function(){});
   } else if (vid) {
@@ -4232,6 +4233,8 @@ function openCardLightbox(opts) {
   if (opts.video) {
     var v = document.createElement('video');
     v.src = opts.video; v.controls = true; v.autoplay = true; v.playsInline = true;
+    v.preload = 'auto';
+    if (opts.poster) v.poster = opts.poster;
     slot.appendChild(v);
     var p = v.play(); if (p && p.catch) p.catch(function(){});
   } else if (opts.pdf || opts.embed) {
@@ -7058,8 +7061,10 @@ window.buildGridBackHtml = buildGridBackHtml;
       if (action === 'video' || action === 'podcast') {
         event.preventDefault(); event.stopPropagation();
         var nm = tile.querySelector('.lab-text');
-        var imgAlt = tile.querySelector('img') ? (tile.querySelector('img').getAttribute('alt') || '') : '';
-        if (window.openCardLightbox) window.openCardLightbox({ video: href, name: nm ? nm.textContent : imgAlt });
+        var img = tile.querySelector('img');
+        var imgAlt = img ? (img.getAttribute('alt') || '') : '';
+        var poster = img ? img.getAttribute('src') : '';
+        if (window.openCardLightbox) window.openCardLightbox({ video: href, name: nm ? nm.textContent : imgAlt, poster: poster });
         return;
       }
     }
