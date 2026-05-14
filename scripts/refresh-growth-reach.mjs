@@ -57,7 +57,7 @@ const SOURCES = {
     viewId:          'viwphRt07t9l1ZNCV',
     filterByFormula: "{Type}='CIC'",
     format:          (n) => n,
-    notes:           'Course & OND Planner → Legacy/Comprehensive Course List, Type=CIC only.',
+    notes:           'Course 'Course & OND Planner → Legacy/Comprehensive Course List, Type=CIC only.' OND Planner — whole table, filtered to Courses in the Community (Type=CIC). Avoids any view-level pre-filter that could exclude historical CIC records.',
   },
   theoedTalks: {
     tableId: 'tblS1Bk29cXyGGUdo',
