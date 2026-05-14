@@ -55,9 +55,9 @@ const SOURCES = {
   courses: {
     tableId:         'tblQNAsrQcdnM8UZC',
     viewId:          null,
-    filterByFormula: "{Type}='CIC'",
+    filterByFormula: "OR({Type}='CIC', {Type}='FFL', {Type}='On-Demand')",
     format:          (n) => n,
-    notes:           'Course & OND Planner, whole table filtered to Type=CIC (Courses in the Community).',
+    notes:           'Course & OND Planner, whole table filtered to courses we count publicly: CIC + FFL + On-Demand.',
   },
   theoedTalks: {
     tableId: 'tblS1Bk29cXyGGUdo',
