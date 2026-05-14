@@ -9,10 +9,16 @@ name: Monthly Growth & Reach refresh
 #   - During EST (UTC-5, ~November-March)   this is 05:00 ET.
 # Manual trigger: run via "Run workflow" in the GitHub Actions tab.
 #
-# Required repo secret:
-#   AIRTABLE_PAT  — fine-grained Airtable personal access token with
-#                   data.records:read on base appiL0Z2RilcAT2Cw
-#                   (Candler Foundry: Master CRM)
+# Required repo secrets:
+#   AIRTABLE_PAT         — fine-grained Airtable PAT, data.records:read on
+#                          base appiL0Z2RilcAT2Cw (Candler Foundry: Master CRM)
+#   (no GMAIL_USER secret needed; sender hardcoded as thecandlerfoundry@gmail.com)
+#                          (e.g. candlerfoundry@gmail.com)
+#   GMAIL_APP_PASSWORD   — 16-character Google "app password" for that Gmail
+#                          account (generated at myaccount.google.com/apppasswords)
+#
+# Notification recipient is currently hard-coded below — change the `to:` field
+# to redirect.
 
 on:
   schedule:
@@ -42,18 +48,54 @@ jobs:
       - name: Run refresh script
         env:
           AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}
+          RUNNER_TEMP: ${{ runner.temp }}
         run: node scripts/refresh-growth-reach.mjs
 
-      - name: Commit + push if changed
+      - name: Parse plain-English summary for commit message and email
+        if: always()
+        run: |
+          SUMMARY="${RUNNER_TEMP}/refresh-summary.txt"
+          if [[ -f "$SUMMARY" ]]; then
+            SUBJECT=$(head -n 1 "$SUMMARY")
+            echo "REFRESH_SUBJECT<<__EOF__" >> $GITHUB_ENV
+            echo "$SUBJECT" >> $GITHUB_ENV
+            echo "__EOF__" >> $GITHUB_ENV
+
+            echo "REFRESH_BODY<<__EOF__" >> $GITHUB_ENV
+            tail -n +3 "$SUMMARY" >> $GITHUB_ENV
+            echo "__EOF__" >> $GITHUB_ENV
+          else
+            echo "REFRESH_SUBJECT=Growth & Reach refresh hit a fatal error before producing a summary" >> $GITHUB_ENV
+            echo "REFRESH_BODY<<__EOF__" >> $GITHUB_ENV
+            echo "The workflow failed before the refresh script could write a summary file." >> $GITHUB_ENV
+            echo "Check the workflow run log at https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} for details." >> $GITHUB_ENV
+            echo "__EOF__" >> $GITHUB_ENV
+          fi
+
+      - name: Commit + push if growth-reach.json changed
+        if: always()
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if [[ -n "$(git status --porcelain assets/page-config/growth-reach.json)" ]]; then
             git add assets/page-config/growth-reach.json
-            git commit -m "Monthly refresh of growth-reach.json (automated)" \
-                       -m "Refreshed from Airtable on $(date -u +'%Y-%m-%d %H:%M UTC')."
+            git commit -m "$REFRESH_SUBJECT" -m "$REFRESH_BODY"
             git push
             echo "Committed and pushed updated growth-reach.json."
           else
             echo "No changes to growth-reach.json — nothing to commit."
           fi
+
+      - name: Send notification email
+        if: always()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: thecandlerfoundry@gmail.com
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: ${{ env.REFRESH_SUBJECT }}
+          to: emily.avant@emory.edu
+          from: Candler Foundry Refresh Bot <thecandlerfoundry@gmail.com>
+          body: ${{ env.REFRESH_BODY }}
