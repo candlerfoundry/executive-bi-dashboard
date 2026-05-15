@@ -3,7 +3,7 @@
     "eyebrow": "Past 12 Months",
     "title": "This Year's Courses",
     "subtitle": "A snapshot of The Candler Foundry's latest learning opportunities.",
-    "image": "/assets/student_photos/Master Class Student Talking 3.jpg"
+    "image": "/assets/student_photos/Master Class Student Talking 7.jpg"
   },
   "stats": [
     {
@@ -32,23 +32,6 @@
       "sub": "Across Foundry offerings"
     }
   ],
-  "filter": {
-    "windowMonths": 12,
-    "includeTypesForTiles": [
-      "CIC",
-      "On-Demand"
-    ],
-    "includeTypesForStats": [
-      "CIC",
-      "On-Demand",
-      "CCA",
-      "FFL"
-    ],
-    "requireGraphic": true,
-    "congregationalEnrollmentAvg": 50,
-    "_notes": "windowMonths is rolling. minStartDate is a hard floor — courses starting before this date are excluded regardless of the rolling window. Tiles only show types in includeTypesForTiles AND only courses with a Graphic. Banner stats are computed across includeTypesForStats. Each congregational CIC course contributes congregationalEnrollmentAvg enrollments since registrations aren't tracked for those.",
-    "minStartDate": "2025-08-01"
-  },
   "links": {
     "cicCTA": {
       "label": "Browse Current Courses",
@@ -234,5 +217,29 @@
       "startDate": "2025-11-25",
       "endDate": ""
     }
-  ]
+  ],
+  "filter": {
+    "windowMonths": 12,
+    "includeTypesForTiles": [
+      "CIC",
+      "On-Demand"
+    ],
+    "includeTypesForStats": [
+      "CIC",
+      "On-Demand",
+      "CCA",
+      "FFL"
+    ],
+    "requireGraphic": true,
+    "congregationalEnrollmentAvg": 50,
+    "_notes": "windowMonths is rolling. minStartDate is a hard floor — courses starting before this date are excluded regardless of the rolling window. Tiles only show types in includeTypesForTiles AND only courses with a Graphic. Banner stats are computed across includeTypesForStats. Each congregational CIC course contributes congregationalEnrollmentAvg enrollments since registrations aren't tracked for those.",
+    "minStartDate": "2025-08-01"
+  },
+  "layout": {
+    "heroHeight": 348,
+    "heroFocusY": 40,
+    "heroFocusX": 35,
+    "heroOffsetX": 240,
+    "heroOffsetY": 0
+  }
 }
