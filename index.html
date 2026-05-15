@@ -58,7 +58,7 @@ body.page-config-loading .panel.active::before,
 .section-subtitle { font-size: 18px; font-weight: 400; color: rgba(30,37,48,0.45); margin-top: 8px; line-height: 1.6; }
 
 /* ═══ SECTION: THIS YEAR / Current Offerings — donor-facing rewrite 2026-05-14 ═══ */
-.ty-page { background: var(--cream); }
+.ty-page { background: var(--cream); position: relative; }
 .ty-hero { position: relative; padding: 64px clamp(20px, 4vw, 60px) 56px; min-height: 440px; background: var(--cream); overflow: hidden; --ty-hero-image: none; --ty-hero-opacity: 0.6; --ty-hero-fade-right: 22; }
 .ty-hero::before { content: ''; position: absolute; inset: 0; background-image: var(--ty-hero-image); background-size: cover; background-position: center 32%; background-repeat: no-repeat; opacity: var(--ty-hero-opacity); pointer-events: none; }
 .ty-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(250,250,242,0.97) 0%, rgba(250,250,242,0.90) 28%, rgba(250,250,242,0.55) 48%, rgba(250,250,242,0.10) 72%, rgba(250,250,242,0.10) calc(100% - var(--ty-hero-fade-right) - 4%), rgba(250,250,242,0.55) calc(100% - var(--ty-hero-fade-right))); pointer-events: none; }
@@ -1055,6 +1055,151 @@ body.page-config-loading .panel.active::before,
 
 <!-- TAB 1: THIS YEAR -->
 <div id="panel-year" class="panel ty-page">
+  <div class="gr-editor-launch" style="top:24px;right:clamp(20px, 4vw, 60px);">
+    <button class="page-editor-toggle" id="ty-editor-toggle" type="button" aria-expanded="false" aria-controls="ty-editor-shell">Edit This Year</button>
+  </div>
+
+  <aside class="page-editor-shell" id="ty-editor-shell" hidden>
+    <div class="page-editor-header">
+      <div>
+        <div class="page-editor-title">This Year Editor</div>
+        <p class="page-editor-note">Edit hero copy, swap the hero photo with a Git asset path, tune stat labels, adjust filter rules, and override CTAs. Course tiles and stat values come from Airtable (auto-refreshed monthly).</p>
+      </div>
+      <button class="page-editor-close" id="ty-editor-close" type="button" aria-label="Close This Year editor">&times;</button>
+    </div>
+    <div class="page-editor-status" id="ty-editor-status">Previewing draft edits</div>
+    <div class="page-editor-draft-notice" id="ty-editor-draft-notice" hidden>
+      <div class="page-editor-draft-copy">A local browser draft exists. Git-backed content is loaded by default.</div>
+      <div class="page-editor-draft-actions">
+        <button class="impact-editor-secondary" id="ty-editor-restore-draft" type="button">Restore Draft</button>
+        <button class="impact-editor-secondary" id="ty-editor-discard-draft" type="button">Discard Draft</button>
+      </div>
+    </div>
+
+    <div class="page-editor-group">
+      <h4>Hero Content</h4>
+      <div class="editor-field">
+        <label class="editor-label" for="ty-editor-hero-eyebrow">Eyebrow</label>
+        <input id="ty-editor-hero-eyebrow" type="text">
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="ty-editor-hero-title">Hero title</label>
+        <textarea id="ty-editor-hero-title"></textarea>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="ty-editor-hero-subtitle">Hero subtitle</label>
+        <textarea id="ty-editor-hero-subtitle"></textarea>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="ty-editor-hero-image-custom">Hero image Git asset path</label>
+        <input id="ty-editor-hero-image-custom" type="text" placeholder="/assets/student_photos/Master Class Student Talking 3.jpg">
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" id="ty-editor-hero-image-custom-apply" type="button">Apply Hero Image</button>
+        </div>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="ty-editor-hero-image">Preset image helper</label>
+        <select id="ty-editor-hero-image">
+          <option value="">Choose a preset</option>
+          <option value="/assets/student_photos/Master Class Student Talking 3.jpg">Master class student photo 3</option>
+          <option value="/assets/student_photos/Master Class Student Talking 4.jpg">Master class student photo 4</option>
+          <option value="/assets/student_photos/Master Class Student Talking 6.jpg">Master class student photo 6</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="page-editor-group">
+      <h4>Stat Labels &amp; Sub-labels</h4>
+      <p class="page-editor-note" style="margin:0 0 12px;">The numeric values are written by the monthly Airtable refresh. The labels and sub-labels below are static copy you can edit here.</p>
+      <div class="editor-field">
+        <label class="editor-label" for="ty-editor-stats-json">Stats array (stats[])</label>
+        <textarea id="ty-editor-stats-json" rows="12" spellcheck="false" style="font-family:ui-monospace,Menlo,monospace;font-size:12px;"></textarea>
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" id="ty-editor-stats-apply" type="button">Apply Stats</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-editor-group">
+      <h4>Filter Rules</h4>
+      <p class="page-editor-note" style="margin:0 0 12px;">Tunes which Airtable courses appear as tiles and which contribute to the banner stats. Changes apply on the next refresh.</p>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-filter-window">Rolling window (months)</label>
+          <input id="ty-editor-filter-window" type="number" min="1" max="60" step="1">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-filter-min-start">Hard start-date floor</label>
+          <input id="ty-editor-filter-min-start" type="text" placeholder="YYYY-MM-DD">
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-filter-tile-types">Tile types (comma-separated)</label>
+          <input id="ty-editor-filter-tile-types" type="text" placeholder="CIC, On-Demand">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-filter-stat-types">Stat types (comma-separated)</label>
+          <input id="ty-editor-filter-stat-types" type="text" placeholder="CIC, On-Demand, CCA, FFL">
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-filter-require-graphic">Require Graphic for tiles</label>
+          <select id="ty-editor-filter-require-graphic">
+            <option value="true">Yes &mdash; only courses with a Graphic</option>
+            <option value="false">No &mdash; show all matching courses</option>
+          </select>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-filter-cong-avg">Congregational CIC avg enrollments</label>
+          <input id="ty-editor-filter-cong-avg" type="number" min="0" max="500" step="1">
+        </div>
+      </div>
+    </div>
+
+    <div class="page-editor-group">
+      <h4>CTAs &amp; Links</h4>
+      <p class="page-editor-note" style="margin:0 0 12px;">Default call-to-action used on each card back. Per-course overrides live in the JSON below.</p>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-cic-cta-label">CIC CTA label</label>
+          <input id="ty-editor-cic-cta-label" type="text">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-cic-cta-url">CIC CTA URL</label>
+          <input id="ty-editor-cic-cta-url" type="text">
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-ond-cta-label">On-Demand CTA label</label>
+          <input id="ty-editor-ond-cta-label" type="text">
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-ond-cta-url">On-Demand CTA URL</label>
+          <input id="ty-editor-ond-cta-url" type="text">
+        </div>
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="ty-editor-ond-discount">On-Demand discount code</label>
+        <input id="ty-editor-ond-discount" type="text">
+      </div>
+      <div class="editor-field">
+        <label class="editor-label" for="ty-editor-overrides-json">Per-course overrides (links.perCourseOverrides)</label>
+        <textarea id="ty-editor-overrides-json" rows="7" spellcheck="false" style="font-family:ui-monospace,Menlo,monospace;font-size:12px;"></textarea>
+        <div class="theoed-editor-row-actions">
+          <button class="impact-editor-secondary" id="ty-editor-overrides-apply" type="button">Apply Overrides</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-editor-actions">
+      <button class="page-editor-reset" id="ty-editor-reset" type="button">Reset to Default</button>
+      <button class="page-editor-apply" id="ty-editor-apply" type="button">Save Changes in Browser</button>
+    </div>
+  </aside>
+
   <div class="ty-hero">
     <div class="ty-hero-inner">
       <div class="ty-eyebrow" id="ty-eyebrow">Past 12 Months</div>
@@ -1527,10 +1672,18 @@ body.page-config-loading .panel.active::before,
             <label class="editor-label" for="impact-editor-hero-body">Subtext</label>
             <textarea id="impact-editor-hero-body"></textarea>
           </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-editor-hero-image-custom">Hero image Git asset path</label>
+            <input id="impact-editor-hero-image-custom" type="text" placeholder="/assets/Graphic_1_mission_impact.png">
+            <div class="theoed-editor-row-actions">
+              <button class="impact-editor-secondary" id="impact-editor-hero-image-custom-apply" type="button">Apply Hero Image</button>
+            </div>
+          </div>
           <div class="editor-grid-2">
             <div class="editor-field">
-              <label class="editor-label" for="impact-editor-hero-image">Hero artwork</label>
+              <label class="editor-label" for="impact-editor-hero-image">Preset image helper</label>
               <select id="impact-editor-hero-image">
+                <option value="">Choose a preset</option>
                 <option value="/assets/Graphic_1_mission_impact.png">Foundry illustration</option>
                 <option value="/assets/Graphic Vignettes/vignette-city-life-banner.png">City life banner</option>
                 <option value="/assets/Graphic Vignettes/homepage-tablet-standing-seated.png">Tablet vignette</option>
@@ -4368,18 +4521,25 @@ var thisYearStatsObserver = null;
 async function initThisYear() {
   if (thisYearReady) return;
   thisYearReady = true;
-  var config = THIS_YEAR_DEFAULTS;
+  var fetched = null;
   try {
-    var fetched = await window.pageEditorFetchJson('/assets/page-config/this-year.json');
-    if (fetched && typeof fetched === 'object') {
-      config = mergeThisYearConfig(THIS_YEAR_DEFAULTS, fetched);
-    }
+    fetched = await window.pageEditorFetchJson('/assets/page-config/this-year.json');
   } catch (e) {
     console.warn('this-year.json fetch failed; using defaults', e);
   }
-  thisYearApplyConfig(config);
+  thisYearEditorRuntime.publishedConfig = (fetched && typeof fetched === 'object') ? fetched : null;
+  thisYearEditorRuntime.storedDraftConfig = tyEditorGetStoredConfig();
+  if (thisYearEditorRuntime.storedDraftConfig) {
+    tyEditorRestoreStoredDraft();
+  } else {
+    tyEditorLoadPublishedDraft();
+  }
+  thisYearApplyConfig(thisYearEditorRuntime.config);
   thisYearBindFlipHandlers();
   thisYearEnsureStatsObserver();
+  tyEditorBind();
+  tyEditorPopulateFields();
+  tyEditorSetStatus('Saved browser version loaded', true);
 }
 
 function mergeThisYearConfig(base, override) {
@@ -4613,6 +4773,392 @@ function thisYearEnsureStatsObserver() {
   }, { rootMargin: '0px 0px -10% 0px', threshold: 0.2 });
   thisYearStatsObserver.observe(row);
 }
+
+// ===== This Year editor =====
+var TY_EDITOR_STORAGE_KEY = 'candler.thisYearEditor.draft.v1';
+var thisYearEditorRuntime = {
+  publishedConfig: null,
+  storedDraftConfig: null,
+  baselineConfig: null,
+  config: null,
+  isOpen: false,
+  controlsBound: false,
+  setOpen: null
+};
+window.thisYearEditorRuntime = thisYearEditorRuntime;
+
+function tyEditorClone(value) {
+  return value == null ? value : JSON.parse(JSON.stringify(value));
+}
+
+function tyEditorMerge(target, source) {
+  if (!source || typeof source !== 'object') return target;
+  Object.keys(source).forEach(function(key) {
+    var value = source[key];
+    if (Array.isArray(value)) {
+      target[key] = tyEditorClone(value);
+    } else if (value && typeof value === 'object') {
+      if (!target[key] || typeof target[key] !== 'object' || Array.isArray(target[key])) target[key] = {};
+      tyEditorMerge(target[key], value);
+    } else {
+      target[key] = value;
+    }
+  });
+  return target;
+}
+
+function tyEditorGetStoredConfig() {
+  try {
+    var raw = localStorage.getItem(TY_EDITOR_STORAGE_KEY);
+    return raw ? JSON.parse(raw) : null;
+  } catch (err) { return null; }
+}
+function tyEditorSetStoredConfig(config) {
+  try { localStorage.setItem(TY_EDITOR_STORAGE_KEY, JSON.stringify(config || {})); } catch (err) {}
+}
+function tyEditorClearStoredConfig() {
+  try { localStorage.removeItem(TY_EDITOR_STORAGE_KEY); } catch (err) {}
+}
+
+function tyEditorConfigsEqual(a, b) {
+  return JSON.stringify(a || {}) === JSON.stringify(b || {});
+}
+
+function tyEditorGetConfig() {
+  var config = tyEditorClone(THIS_YEAR_DEFAULTS);
+  tyEditorMerge(config, thisYearEditorRuntime.publishedConfig || {});
+  return config;
+}
+
+function tyEditorLoadPublishedDraft() {
+  thisYearEditorRuntime.config = tyEditorGetConfig();
+  thisYearEditorRuntime.baselineConfig = tyEditorClone(thisYearEditorRuntime.config);
+}
+
+function tyEditorRestoreStoredDraft() {
+  tyEditorLoadPublishedDraft();
+  tyEditorMerge(thisYearEditorRuntime.config, thisYearEditorRuntime.storedDraftConfig || {});
+  thisYearEditorRuntime.baselineConfig = tyEditorClone(thisYearEditorRuntime.config);
+}
+
+function tyEditorUpdateDraftNotice() {
+  var notice = document.getElementById('ty-editor-draft-notice');
+  if (!notice) return;
+  notice.hidden = !thisYearEditorRuntime.storedDraftConfig;
+}
+
+function tyEditorHasDraftChanges() {
+  return !tyEditorConfigsEqual(thisYearEditorRuntime.config, thisYearEditorRuntime.baselineConfig);
+}
+
+function tyEditorSetStatus(message, isSaved) {
+  var status = document.getElementById('ty-editor-status');
+  if (!status) return;
+  status.textContent = message;
+  status.classList.toggle('is-saved', !!isSaved);
+  tyEditorUpdateDraftNotice();
+}
+
+function tyEditorSaveConfig(message) {
+  thisYearEditorRuntime.storedDraftConfig = tyEditorClone(thisYearEditorRuntime.config);
+  tyEditorSetStoredConfig(thisYearEditorRuntime.storedDraftConfig);
+  thisYearEditorRuntime.baselineConfig = tyEditorClone(thisYearEditorRuntime.config);
+  tyEditorSetStatus(message || 'Changes saved in browser', true);
+  if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('ty-editor-shell'), message || 'Changes saved in browser');
+}
+
+function tyEditorRestoreSavedConfig() {
+  thisYearEditorRuntime.config = tyEditorClone(thisYearEditorRuntime.baselineConfig || tyEditorGetConfig());
+  thisYearApplyConfig(thisYearEditorRuntime.config);
+  tyEditorPopulateFields();
+  tyEditorSetStatus('Saved browser version loaded', true);
+}
+
+function tyEditorNormalizeAssetPath(value) {
+  var path = String(value || '').trim();
+  if (!path) return '';
+  if (path.indexOf('\\') !== -1) path = path.replace(/\\/g, '/');
+  var marker = '/assets/';
+  var markerIndex = path.toLowerCase().indexOf(marker);
+  if (markerIndex >= 0) path = path.slice(markerIndex);
+  else if (path.toLowerCase().indexOf('assets/') === 0) path = '/' + path;
+  return path;
+}
+
+function tyEditorPopulateFields() {
+  var config = thisYearEditorRuntime.config;
+  if (!config) return;
+  var hero = config.hero || {};
+  var setVal = function(id, v) { var el = document.getElementById(id); if (el) el.value = (v == null ? '' : v); };
+
+  setVal('ty-editor-hero-eyebrow', hero.eyebrow || '');
+  setVal('ty-editor-hero-title', hero.title || '');
+  setVal('ty-editor-hero-subtitle', hero.subtitle || '');
+
+  var heroImg = hero.image || '';
+  var heroSelect = document.getElementById('ty-editor-hero-image');
+  if (heroSelect) {
+    heroSelect.value = heroImg;
+    if (heroSelect.value !== heroImg) heroSelect.value = '';
+  }
+  setVal('ty-editor-hero-image-custom', heroImg);
+
+  var statsTa = document.getElementById('ty-editor-stats-json');
+  if (statsTa) statsTa.value = JSON.stringify(config.stats || [], null, 2);
+
+  var f = config.filter || {};
+  setVal('ty-editor-filter-window', f.windowMonths != null ? f.windowMonths : 12);
+  setVal('ty-editor-filter-min-start', f.minStartDate || '');
+  setVal('ty-editor-filter-tile-types', (f.includeTypesForTiles || []).join(', '));
+  setVal('ty-editor-filter-stat-types', (f.includeTypesForStats || []).join(', '));
+  var reqGraphicSel = document.getElementById('ty-editor-filter-require-graphic');
+  if (reqGraphicSel) reqGraphicSel.value = (f.requireGraphic === false ? 'false' : 'true');
+  setVal('ty-editor-filter-cong-avg', f.congregationalEnrollmentAvg != null ? f.congregationalEnrollmentAvg : 50);
+
+  var L = config.links || {};
+  var cicCTA = L.cicCTA || {};
+  var ondDef = L.ondDefault || {};
+  setVal('ty-editor-cic-cta-label', cicCTA.label || '');
+  setVal('ty-editor-cic-cta-url', cicCTA.url || '');
+  setVal('ty-editor-ond-cta-label', ondDef.label || '');
+  setVal('ty-editor-ond-cta-url', ondDef.url || '');
+  setVal('ty-editor-ond-discount', L.ondDiscountCode || '');
+
+  var overridesTa = document.getElementById('ty-editor-overrides-json');
+  if (overridesTa) overridesTa.value = JSON.stringify(L.perCourseOverrides || {}, null, 2);
+}
+
+function tyEditorReapply(message, isSaved) {
+  thisYearStatsAnimated = false;
+  thisYearApplyConfig(thisYearEditorRuntime.config);
+  thisYearBindFlipHandlers();
+  thisYearEnsureStatsObserver();
+  tyEditorPopulateFields();
+  tyEditorSetStatus(message || 'Live draft preview active', !!isSaved);
+}
+
+function tyEditorBind() {
+  if (thisYearEditorRuntime.controlsBound) return;
+  var shell = document.getElementById('ty-editor-shell');
+  var toggle = document.getElementById('ty-editor-toggle');
+  if (!shell || !toggle) return;
+  thisYearEditorRuntime.controlsBound = true;
+  var closeBtn = document.getElementById('ty-editor-close');
+  var header = shell.querySelector('.page-editor-header');
+
+  function setOpen(open) {
+    shell.hidden = !open;
+    thisYearEditorRuntime.isOpen = !!open;
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  thisYearEditorRuntime.setOpen = setOpen;
+
+  function requestClose() {
+    if (!tyEditorHasDraftChanges()) {
+      setOpen(false);
+      tyEditorSetStatus('Saved browser version loaded', true);
+      return true;
+    }
+    if (window.confirm('Save your This Year edits before closing? Click OK to save. Click Cancel for more options.')) {
+      tyEditorSaveConfig('Changes saved in browser');
+      setOpen(false);
+      return true;
+    }
+    if (!window.confirm('Discard unsaved This Year edits and close the editor?')) return false;
+    tyEditorRestoreSavedConfig();
+    setOpen(false);
+    return true;
+  }
+
+  if (window.attachPageEditorShellBehavior) {
+    window.attachPageEditorShellBehavior({
+      shell: shell,
+      toggle: toggle,
+      close: closeBtn,
+      header: header,
+      onCloseRequest: requestClose,
+      ignoreOutsideSelector: '#panel-year .ty-hero'
+    });
+  }
+
+  toggle.addEventListener('click', function() {
+    if (shell.hidden) setOpen(true);
+    else requestClose();
+  });
+
+  var restoreDraftBtn = document.getElementById('ty-editor-restore-draft');
+  if (restoreDraftBtn) restoreDraftBtn.addEventListener('click', function() {
+    if (!thisYearEditorRuntime.storedDraftConfig) return;
+    tyEditorRestoreStoredDraft();
+    tyEditorReapply('Local draft restored', true);
+  });
+  var discardDraftBtn = document.getElementById('ty-editor-discard-draft');
+  if (discardDraftBtn) discardDraftBtn.addEventListener('click', function() {
+    tyEditorClearStoredConfig();
+    thisYearEditorRuntime.storedDraftConfig = null;
+    tyEditorLoadPublishedDraft();
+    tyEditorReapply('Local draft discarded', true);
+  });
+
+  function bindText(id, path) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      var node = thisYearEditorRuntime.config;
+      for (var i = 0; i < path.length - 1; i++) {
+        if (!node[path[i]] || typeof node[path[i]] !== 'object') node[path[i]] = {};
+        node = node[path[i]];
+      }
+      node[path[path.length - 1]] = el.value;
+      tyEditorReapply();
+    });
+  }
+
+  bindText('ty-editor-hero-eyebrow', ['hero', 'eyebrow']);
+  bindText('ty-editor-hero-title', ['hero', 'title']);
+  bindText('ty-editor-hero-subtitle', ['hero', 'subtitle']);
+
+  function applyHeroImage(value) {
+    var path = tyEditorNormalizeAssetPath(value);
+    if (!path) { tyEditorSetStatus('Enter a Git asset path before applying the hero image', false); return; }
+    if (!thisYearEditorRuntime.config.hero) thisYearEditorRuntime.config.hero = {};
+    thisYearEditorRuntime.config.hero.image = path;
+    tyEditorReapply('Hero image path applied to live preview', false);
+  }
+  document.getElementById('ty-editor-hero-image').addEventListener('input', function(event) {
+    if (!event.target.value) return;
+    applyHeroImage(event.target.value);
+  });
+  document.getElementById('ty-editor-hero-image-custom-apply').addEventListener('click', function() {
+    applyHeroImage(document.getElementById('ty-editor-hero-image-custom').value);
+  });
+  document.getElementById('ty-editor-hero-image-custom').addEventListener('change', function(event) {
+    applyHeroImage(event.target.value);
+  });
+  document.getElementById('ty-editor-hero-image-custom').addEventListener('keydown', function(event) {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    applyHeroImage(event.target.value);
+  });
+
+  function bindFilterNumber(id, key, fallback) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      if (!thisYearEditorRuntime.config.filter) thisYearEditorRuntime.config.filter = {};
+      var n = Number(el.value);
+      thisYearEditorRuntime.config.filter[key] = isFinite(n) ? n : fallback;
+      tyEditorReapply();
+    });
+  }
+  bindFilterNumber('ty-editor-filter-window', 'windowMonths', 12);
+  bindFilterNumber('ty-editor-filter-cong-avg', 'congregationalEnrollmentAvg', 50);
+
+  var minStartEl = document.getElementById('ty-editor-filter-min-start');
+  if (minStartEl) minStartEl.addEventListener('input', function() {
+    if (!thisYearEditorRuntime.config.filter) thisYearEditorRuntime.config.filter = {};
+    thisYearEditorRuntime.config.filter.minStartDate = minStartEl.value.trim();
+    tyEditorReapply();
+  });
+
+  function parseTypesList(str) {
+    return String(str || '').split(',').map(function(s) { return s.trim(); }).filter(Boolean);
+  }
+  var tileTypesEl = document.getElementById('ty-editor-filter-tile-types');
+  if (tileTypesEl) tileTypesEl.addEventListener('input', function() {
+    if (!thisYearEditorRuntime.config.filter) thisYearEditorRuntime.config.filter = {};
+    thisYearEditorRuntime.config.filter.includeTypesForTiles = parseTypesList(tileTypesEl.value);
+    tyEditorReapply();
+  });
+  var statTypesEl = document.getElementById('ty-editor-filter-stat-types');
+  if (statTypesEl) statTypesEl.addEventListener('input', function() {
+    if (!thisYearEditorRuntime.config.filter) thisYearEditorRuntime.config.filter = {};
+    thisYearEditorRuntime.config.filter.includeTypesForStats = parseTypesList(statTypesEl.value);
+    tyEditorReapply();
+  });
+  var reqGraphicEl = document.getElementById('ty-editor-filter-require-graphic');
+  if (reqGraphicEl) reqGraphicEl.addEventListener('input', function() {
+    if (!thisYearEditorRuntime.config.filter) thisYearEditorRuntime.config.filter = {};
+    thisYearEditorRuntime.config.filter.requireGraphic = (reqGraphicEl.value === 'true');
+    tyEditorReapply();
+  });
+
+  function bindLink(id, parentKey, key) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      if (!thisYearEditorRuntime.config.links) thisYearEditorRuntime.config.links = {};
+      if (parentKey) {
+        if (!thisYearEditorRuntime.config.links[parentKey] || typeof thisYearEditorRuntime.config.links[parentKey] !== 'object') {
+          thisYearEditorRuntime.config.links[parentKey] = {};
+        }
+        thisYearEditorRuntime.config.links[parentKey][key] = el.value;
+      } else {
+        thisYearEditorRuntime.config.links[key] = el.value;
+      }
+      tyEditorReapply();
+    });
+  }
+  bindLink('ty-editor-cic-cta-label', 'cicCTA', 'label');
+  bindLink('ty-editor-cic-cta-url', 'cicCTA', 'url');
+  bindLink('ty-editor-ond-cta-label', 'ondDefault', 'label');
+  bindLink('ty-editor-ond-cta-url', 'ondDefault', 'url');
+  bindLink('ty-editor-ond-discount', null, 'ondDiscountCode');
+
+  function bindJsonApply(buttonId, textareaId, validator, applyToConfig, successMsg) {
+    var btn = document.getElementById(buttonId);
+    var ta = document.getElementById(textareaId);
+    if (!btn || !ta) return;
+    btn.addEventListener('click', function() {
+      var parsed;
+      try { parsed = JSON.parse(ta.value); }
+      catch (err) { tyEditorSetStatus('Invalid JSON — fix the syntax and try again', false); return; }
+      var ok = validator ? validator(parsed) : true;
+      if (!ok) { tyEditorSetStatus('JSON shape is invalid — check the fields', false); return; }
+      applyToConfig(parsed);
+      tyEditorReapply(successMsg || 'Data applied (browser only — Publish to save)', true);
+    });
+  }
+  bindJsonApply('ty-editor-stats-apply', 'ty-editor-stats-json',
+    function(v) { return Array.isArray(v); },
+    function(v) { thisYearEditorRuntime.config.stats = v; },
+    'Stats applied');
+  bindJsonApply('ty-editor-overrides-apply', 'ty-editor-overrides-json',
+    function(v) { return v && typeof v === 'object' && !Array.isArray(v); },
+    function(v) {
+      if (!thisYearEditorRuntime.config.links) thisYearEditorRuntime.config.links = {};
+      thisYearEditorRuntime.config.links.perCourseOverrides = v;
+    },
+    'Per-course overrides applied');
+
+  document.getElementById('ty-editor-apply').addEventListener('click', function() {
+    tyEditorSaveConfig('Changes saved in browser');
+  });
+
+  document.getElementById('ty-editor-reset').addEventListener('click', function() {
+    thisYearEditorRuntime.config = tyEditorClone(THIS_YEAR_DEFAULTS);
+    thisYearEditorRuntime.storedDraftConfig = null;
+    tyEditorClearStoredConfig();
+    thisYearEditorRuntime.baselineConfig = tyEditorClone(thisYearEditorRuntime.config);
+    tyEditorReapply('Reset to default preview', true);
+    if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Reset to default preview');
+  });
+}
+
+window.thisYearEditorBridge = {
+  getDraftConfig: function() {
+    return thisYearEditorRuntime.config ? tyEditorClone(thisYearEditorRuntime.config) : null;
+  },
+  markPublished: function(message) {
+    if (!thisYearEditorRuntime.config) return;
+    thisYearEditorRuntime.publishedConfig = tyEditorClone(thisYearEditorRuntime.config);
+    thisYearEditorRuntime.storedDraftConfig = null;
+    tyEditorClearStoredConfig();
+    thisYearEditorRuntime.baselineConfig = tyEditorClone(thisYearEditorRuntime.config);
+    tyEditorSetStatus(message || 'Published to main', true);
+    if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('ty-editor-shell'), message || 'Published to main');
+  }
+};
 
 var numbersReady = false;
 // Growth & Reach — scroll-triggered animation state
@@ -4998,6 +5544,12 @@ window.publishDashboardEdits = async function() {
       content: window.theoedEditorBridge.getDraftConfig()
     });
   }
+  if (window.thisYearEditorBridge && window.thisYearEditorBridge.getDraftConfig()) {
+    files.push({
+      path: 'assets/page-config/this-year.json',
+      content: window.thisYearEditorBridge.getDraftConfig()
+    });
+  }
   if (!files.length) throw new Error('No editable page drafts are ready to publish');
   return await window.pageEditorPublishConfig({
     commitMessage: 'Publish dashboard editor updates',
@@ -5010,7 +5562,7 @@ window.publishDashboardEdits = async function() {
   if (!button || button.dataset.bound === 'true') return;
   button.dataset.bound = 'true';
   button.addEventListener('click', async function() {
-    if (!window.confirm('Publish the current Mission, Candler Impact, Growth and Reach, and TheoEd drafts to main?')) return;
+    if (!window.confirm('Publish the current Mission, Candler Impact, Growth and Reach, TheoEd, and This Year drafts to main?')) return;
     var original = button.textContent;
     button.disabled = true;
     button.textContent = 'Publishing…';
@@ -5020,6 +5572,7 @@ window.publishDashboardEdits = async function() {
       if (window.impactEditorBridge) window.impactEditorBridge.markPublished('Published to main');
       if (window.growthEditorBridge) window.growthEditorBridge.markPublished('Published to main');
       if (window.theoedEditorBridge) window.theoedEditorBridge.markPublished('Published to main');
+      if (window.thisYearEditorBridge) window.thisYearEditorBridge.markPublished('Published to main');
       button.textContent = 'Published';
       setTimeout(function() {
         button.disabled = false;
@@ -6005,7 +6558,14 @@ function impactPopulateEditorFields() {
   document.getElementById('impact-editor-hero-kicker').value = hero.kicker || '';
   document.getElementById('impact-editor-hero-headline').value = hero.headline || '';
   document.getElementById('impact-editor-hero-body').value = hero.body || '';
-  document.getElementById('impact-editor-hero-image').value = hero.image || '/assets/Graphic Vignettes/vignette-city-life-banner.png';
+  var impHeroImg = hero.image || '/assets/Graphic Vignettes/vignette-city-life-banner.png';
+  var impHeroSelect = document.getElementById('impact-editor-hero-image');
+  if (impHeroSelect) {
+    impHeroSelect.value = impHeroImg;
+    if (impHeroSelect.value !== impHeroImg) impHeroSelect.value = '';
+  }
+  var impHeroCustom = document.getElementById('impact-editor-hero-image-custom');
+  if (impHeroCustom) impHeroCustom.value = impHeroImg;
   document.getElementById('impact-editor-hero-image-position').value = hero.imagePosition || 'center right';
   document.getElementById('impact-editor-hero-image-scale').value = hero.imageScale != null ? hero.imageScale : 110;
   document.getElementById('impact-editor-hero-image-scale-value').textContent = Math.round(hero.imageScale != null ? hero.imageScale : 110) + '%';
@@ -6287,11 +6847,38 @@ function impactBindEditor() {
   onInput('impact-editor-hero-kicker', ['hero', 'kicker']);
   onInput('impact-editor-hero-headline', ['hero', 'headline']);
   onInput('impact-editor-hero-body', ['hero', 'body']);
-  document.getElementById('impact-editor-hero-image').addEventListener('input', function(event) {
-    impactEditorRuntime.config.hero.image = event.target.value;
+  function impactNormalizeAssetPath(value) {
+    var path = String(value || '').trim();
+    if (!path) return '';
+    if (path.indexOf('\\') !== -1) path = path.replace(/\\/g, '/');
+    var marker = '/assets/';
+    var markerIndex = path.toLowerCase().indexOf(marker);
+    if (markerIndex >= 0) path = path.slice(markerIndex);
+    else if (path.toLowerCase().indexOf('assets/') === 0) path = '/' + path;
+    return path;
+  }
+  function impactApplyHeroImage(value) {
+    var path = impactNormalizeAssetPath(value);
+    if (!path) { impactSetStatus('Enter a Git asset path before applying the hero image', false); return; }
+    impactEditorRuntime.config.hero.image = path;
     impactRenderAll();
     impactPopulateEditorFields();
-    impactSetStatus('Live draft preview active', false);
+    impactSetStatus('Hero image path applied to live preview', false);
+  }
+  document.getElementById('impact-editor-hero-image').addEventListener('input', function(event) {
+    if (!event.target.value) return;
+    impactApplyHeroImage(event.target.value);
+  });
+  document.getElementById('impact-editor-hero-image-custom-apply').addEventListener('click', function() {
+    impactApplyHeroImage(document.getElementById('impact-editor-hero-image-custom').value);
+  });
+  document.getElementById('impact-editor-hero-image-custom').addEventListener('change', function(event) {
+    impactApplyHeroImage(event.target.value);
+  });
+  document.getElementById('impact-editor-hero-image-custom').addEventListener('keydown', function(event) {
+    if (event.key !== 'Enter') return;
+    event.preventDefault();
+    impactApplyHeroImage(event.target.value);
   });
   document.getElementById('impact-editor-hero-image-position').addEventListener('input', function(event) {
     impactEditorRuntime.config.hero.imagePosition = event.target.value;
