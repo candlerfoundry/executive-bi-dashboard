@@ -59,9 +59,9 @@ body.page-config-loading .panel.active::before,
 
 /* ═══ SECTION: THIS YEAR / Current Offerings — donor-facing rewrite 2026-05-14 ═══ */
 .ty-page { background: var(--cream); position: relative; }
-.ty-hero { position: relative; padding: 64px clamp(20px, 4vw, 60px) 56px; min-height: 440px; background: var(--cream); overflow: hidden; --ty-hero-image: none; --ty-hero-opacity: 0.6; --ty-hero-fade-right: 22; }
-.ty-hero::before { content: ''; position: absolute; inset: 0; background-image: var(--ty-hero-image); background-size: cover; background-position: center 32%; background-repeat: no-repeat; opacity: var(--ty-hero-opacity); pointer-events: none; }
-.ty-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(250,250,242,0.97) 0%, rgba(250,250,242,0.90) 28%, rgba(250,250,242,0.55) 48%, rgba(250,250,242,0.10) 72%, rgba(250,250,242,0.10) calc(100% - var(--ty-hero-fade-right) - 4%), rgba(250,250,242,0.55) calc(100% - var(--ty-hero-fade-right))); pointer-events: none; }
+.ty-hero { position: relative; padding: 64px clamp(20px, 4vw, 60px) 56px; min-height: var(--ty-hero-min-height, 440px); background: var(--cream); overflow: hidden; --ty-hero-image: none; --ty-hero-opacity: 0.6; --ty-hero-fade-left: 28; --ty-hero-fade-right: 22; --ty-hero-pos-x: 50; --ty-hero-pos-y: 32; --ty-hero-zoom: cover; --ty-hero-offset-x: 0; --ty-hero-offset-y: 0; }
+.ty-hero::before { content: ''; position: absolute; inset: 0; background-image: var(--ty-hero-image); background-size: var(--ty-hero-zoom); background-position: calc(var(--ty-hero-pos-x) * 1%) calc(var(--ty-hero-pos-y) * 1%); background-repeat: no-repeat; opacity: var(--ty-hero-opacity); transform: translate(calc(var(--ty-hero-offset-x) * 1px), calc(var(--ty-hero-offset-y) * 1px)); pointer-events: none; }
+.ty-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(250,250,242,0.97) 0%, rgba(250,250,242,0.92) calc(var(--ty-hero-fade-left) * 1% - 12%), rgba(250,250,242,0.55) calc(var(--ty-hero-fade-left) * 1%), rgba(250,250,242,0.10) calc(var(--ty-hero-fade-left) * 1% + 24%), rgba(250,250,242,0.10) calc(100% - var(--ty-hero-fade-right) * 1% - 4%), rgba(250,250,242,0.55) calc(100% - var(--ty-hero-fade-right) * 1%), rgba(250,250,242,0.90) 100%); pointer-events: none; }
 .ty-hero-inner { position: relative; z-index: 1; max-width: 1680px; margin: 0 auto; }
 .ty-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; font-family: 'Montserrat',sans-serif; }
 .ty-title { font-size: clamp(35px, 4.4vw, 58px); font-weight: 700; line-height: 1; color: var(--blue); letter-spacing: -0.04em; margin: 0 0 14px; font-family: 'Montserrat',sans-serif; }
@@ -82,9 +82,13 @@ body.page-config-loading .panel.active::before,
 .ty-flip:hover { filter: drop-shadow(0 6px 14px rgba(30,37,48,0.22)); }
 .ty-flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.2,0.8,0.2,1); }
 .ty-flip.is-flipped .ty-flip-inner { transform: rotateY(180deg); }
+@media (hover: hover) {
+  .ty-flip:hover .ty-flip-inner { transform: rotateY(180deg); }
+  .ty-flip.is-flipped:hover .ty-flip-inner { transform: rotateY(0deg); }
+}
 .ty-card-front, .ty-card-back { position: absolute; inset: 0; border-radius: 12px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 .ty-card-front { background: var(--blue); box-shadow: 0 14px 32px rgba(30,37,48,0.22), 0 4px 10px rgba(30,37,48,0.10); transition: box-shadow 0.25s ease; }
-.ty-card-back { transform: rotateY(180deg); background: #f0ead8; display: flex; flex-direction: column; padding: 22px 22px 20px; box-shadow: 0 14px 32px rgba(30,37,48,0.22), 0 4px 10px rgba(30,37,48,0.10); }
+.ty-card-back { transform: rotateY(180deg); background: #f0ead8; display: flex; flex-direction: column; padding: 18px 20px 16px; box-shadow: 0 14px 32px rgba(30,37,48,0.22), 0 4px 10px rgba(30,37,48,0.10); }
 .ty-card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .ty-card-ribbon { position: absolute; top: 12px; right: 0; font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; padding: 6px 12px 6px 14px; border-radius: 3px 0 0 3px; z-index: 2; font-family: 'Montserrat',sans-serif; box-shadow: 0 2px 6px rgba(0,0,0,0.18); }
 .ty-card-ribbon--ond { background: var(--orange); color: var(--cream); }
@@ -94,16 +98,16 @@ body.page-config-loading .panel.active::before,
 .ty-card-title { font-size: 22px; font-weight: 700; color: var(--cream); line-height: 1.15; margin: 0 0 4px; letter-spacing: -0.02em; font-family: 'Montserrat',sans-serif; }
 .ty-card-instr { font-size: 13px; font-weight: 500; color: rgba(250,250,242,0.82); font-family: 'Montserrat',sans-serif; }
 .ty-card-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); margin-bottom: 8px; font-family: 'Montserrat',sans-serif; }
-.ty-card-back-title { font-size: 19px; font-weight: 700; color: var(--blue); line-height: 1.18; margin: 0 0 4px; letter-spacing: -0.02em; font-family: 'Montserrat',sans-serif; }
-.ty-card-back-instr { font-size: 13px; font-weight: 500; color: rgba(30,37,48,0.55); margin-bottom: 10px; font-family: 'Montserrat',sans-serif; }
-.ty-card-back-rule { width: 36px; height: 2px; background: var(--orange); border-radius: 1px; margin: 0 0 12px; flex-shrink: 0; }
+.ty-card-back-title { font-size: 18px; font-weight: 700; color: var(--blue); line-height: 1.16; margin: 0 0 4px; letter-spacing: -0.02em; font-family: 'Montserrat',sans-serif; }
+.ty-card-back-instr { font-size: 12.5px; font-weight: 500; color: rgba(30,37,48,0.55); margin-bottom: 8px; font-family: 'Montserrat',sans-serif; }
+.ty-card-back-rule { width: 72px; height: 2px; background: var(--orange); border-radius: 1px; margin: 0 0 10px; flex-shrink: 0; }
 .ty-card-back-dates { font-size: 11.5px; font-weight: 600; letter-spacing: 0.4px; color: rgba(30,37,48,0.62); margin: 0 0 12px; font-family: 'Montserrat',sans-serif; }
-.ty-card-back-desc { font-size: 13.5px; color: rgba(30,37,48,0.78); line-height: 1.5; margin: 0 0 12px; font-family: 'Montserrat',sans-serif; flex: 1; overflow: hidden; }
-.ty-card-back-stats { display: flex; gap: 18px; margin-bottom: 12px; }
+.ty-card-back-desc { font-size: 14px; font-style: italic !important; color: rgba(30,37,48,0.82); line-height: 1.42; margin: 0 0 10px; font-family: 'Newsreader', Georgia, serif; flex: 1 1 auto; overflow: hidden; }
+.ty-card-back-stats { display: flex; gap: 18px; margin: 6px 0 10px; flex-shrink: 0; }
 .ty-back-stat { flex: 1; text-align: left; }
-.ty-back-num { font-size: 26px; font-weight: 700; color: var(--orange); line-height: 1; font-family: 'Montserrat',sans-serif; }
+.ty-back-num { font-size: 22px; font-weight: 700; color: var(--orange); line-height: 1; font-family: 'Montserrat',sans-serif; }
 .ty-back-lbl { font-size: 10.5px; font-weight: 700; color: rgba(30,37,48,0.55); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 4px; font-family: 'Montserrat',sans-serif; }
-.ty-card-cta { display: inline-flex; align-items: center; justify-content: center; padding: 11px 16px; background: var(--blue); color: var(--cream); font-size: 12.5px; font-weight: 700; letter-spacing: 0.5px; text-decoration: none; border-radius: 6px; transition: background 0.18s ease, transform 0.18s ease; font-family: 'Montserrat',sans-serif; text-align: center; line-height: 1.2; }
+.ty-card-cta { display: inline-flex; align-items: center; justify-content: center; padding: 9px 14px; background: var(--blue); color: var(--cream); font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-decoration: none; border-radius: 6px; transition: background 0.18s ease, transform 0.18s ease; font-family: 'Montserrat',sans-serif; text-align: center; line-height: 1.2; flex-shrink: 0; }
 .ty-card-cta:hover { background: var(--orange); transform: translateY(-1px); }
 .ty-empty { grid-column: 1 / -1; padding: 56px 24px; text-align: center; color: rgba(30,37,48,0.5); font-size: 15px; font-family: 'Montserrat',sans-serif; }
 @media (max-width: 1100px) {
@@ -1105,6 +1109,76 @@ body.page-config-loading .panel.active::before,
           <option value="/assets/student_photos/Master Class Student Talking 4.jpg">Master class student photo 4</option>
           <option value="/assets/student_photos/Master Class Student Talking 6.jpg">Master class student photo 6</option>
         </select>
+      </div>
+    </div>
+
+    <div class="page-editor-group">
+      <h4>Hero Layout &amp; Photo</h4>
+      <p class="page-editor-note" style="margin:0 0 12px;">Fine-tune how the hero photo sits behind the title — focal point, zoom, transparency, fades, and banner height. Edits preview live.</p>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-height">Banner height</label>
+          <input id="ty-editor-hero-height" type="range" min="280" max="700" step="4">
+          <div class="editor-inline-meta"><span>Shorter</span><span id="ty-editor-hero-height-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-opacity">Photo transparency</label>
+          <input id="ty-editor-hero-opacity" type="range" min="0" max="1" step="0.01">
+          <div class="editor-inline-meta"><span>Fainter</span><span id="ty-editor-hero-opacity-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-focus-x">Photo focal point horizontal</label>
+          <input id="ty-editor-hero-focus-x" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Left</span><span id="ty-editor-hero-focus-x-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-focus-y">Photo focal point vertical</label>
+          <input id="ty-editor-hero-focus-y" type="range" min="0" max="100" step="1">
+          <div class="editor-inline-meta"><span>Higher</span><span id="ty-editor-hero-focus-y-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-zoom">Photo zoom</label>
+          <select id="ty-editor-hero-zoom">
+            <option value="cover">Cover (fill)</option>
+            <option value="contain">Contain (whole photo)</option>
+            <option value="120%">120% zoom</option>
+            <option value="140%">140% zoom</option>
+            <option value="160%">160% zoom</option>
+            <option value="200%">200% zoom</option>
+            <option value="auto">Original size</option>
+          </select>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-offset-x">Photo horizontal nudge</label>
+          <input id="ty-editor-hero-offset-x" type="range" min="-240" max="240" step="2">
+          <div class="editor-inline-meta"><span>Left</span><span id="ty-editor-hero-offset-x-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-offset-y">Photo vertical nudge</label>
+          <input id="ty-editor-hero-offset-y" type="range" min="-200" max="200" step="2">
+          <div class="editor-inline-meta"><span>Higher</span><span id="ty-editor-hero-offset-y-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-fade-left">Left fade coverage</label>
+          <input id="ty-editor-hero-fade-left" type="range" min="0" max="80" step="1">
+          <div class="editor-inline-meta"><span>Less cover</span><span id="ty-editor-hero-fade-left-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-fade-right">Right fade coverage</label>
+          <input id="ty-editor-hero-fade-right" type="range" min="0" max="80" step="1">
+          <div class="editor-inline-meta"><span>Less cover</span><span id="ty-editor-hero-fade-right-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <!-- placeholder column to keep grid balanced -->
+        </div>
       </div>
     </div>
 
@@ -4616,7 +4690,19 @@ function thisYearApplyConfig(config) {
   var subEl = document.getElementById('ty-subtitle');
   if (subEl && h.subtitle != null) subEl.textContent = h.subtitle;
   var heroEl = document.querySelector('#panel-year .ty-hero');
-  if (heroEl) heroEl.style.setProperty('--ty-hero-image', h.image ? "url('" + h.image + "')" : 'none');
+  var L = config.layout || {};
+  if (heroEl) {
+    heroEl.style.setProperty('--ty-hero-image', h.image ? "url('" + h.image + "')" : 'none');
+    if (L.heroHeight != null) heroEl.style.setProperty('--ty-hero-min-height', Number(L.heroHeight) + 'px');
+    if (L.heroOpacity != null) heroEl.style.setProperty('--ty-hero-opacity', String(L.heroOpacity));
+    if (L.heroFocusX != null) heroEl.style.setProperty('--ty-hero-pos-x', String(L.heroFocusX));
+    if (L.heroFocusY != null) heroEl.style.setProperty('--ty-hero-pos-y', String(L.heroFocusY));
+    if (L.heroZoom != null) heroEl.style.setProperty('--ty-hero-zoom', String(L.heroZoom));
+    if (L.heroOffsetX != null) heroEl.style.setProperty('--ty-hero-offset-x', String(L.heroOffsetX));
+    if (L.heroOffsetY != null) heroEl.style.setProperty('--ty-hero-offset-y', String(L.heroOffsetY));
+    if (L.fadeLeft != null) heroEl.style.setProperty('--ty-hero-fade-left', String(L.fadeLeft));
+    if (L.fadeRight != null) heroEl.style.setProperty('--ty-hero-fade-right', String(L.fadeRight));
+  }
 
   var statsHost = document.getElementById('ty-stats-grid');
   if (statsHost) {
@@ -4903,6 +4989,25 @@ function tyEditorPopulateFields() {
   }
   setVal('ty-editor-hero-image-custom', heroImg);
 
+  var LL = config.layout || {};
+  var clamp = function(v, lo, hi, fb) { var n = Number(v); if (!isFinite(n)) n = fb; return Math.max(lo, Math.min(hi, n)); };
+  var setLayout = function(id, valueId, value, suffix, formatter) {
+    var el = document.getElementById(id);
+    if (el) el.value = value;
+    var vEl = document.getElementById(valueId);
+    if (vEl) vEl.textContent = formatter ? formatter(value) : (value + (suffix || ''));
+  };
+  setLayout('ty-editor-hero-height', 'ty-editor-hero-height-value', clamp(LL.heroHeight, 280, 700, 440), 'px');
+  setLayout('ty-editor-hero-opacity', 'ty-editor-hero-opacity-value', clamp(LL.heroOpacity != null ? LL.heroOpacity : 0.6, 0, 1, 0.6), '', function(v) { return Math.round(Number(v) * 100) + '%'; });
+  setLayout('ty-editor-hero-focus-x', 'ty-editor-hero-focus-x-value', clamp(LL.heroFocusX != null ? LL.heroFocusX : 50, 0, 100, 50), '%');
+  setLayout('ty-editor-hero-focus-y', 'ty-editor-hero-focus-y-value', clamp(LL.heroFocusY != null ? LL.heroFocusY : 32, 0, 100, 32), '%');
+  setLayout('ty-editor-hero-offset-x', 'ty-editor-hero-offset-x-value', clamp(LL.heroOffsetX || 0, -240, 240, 0), 'px');
+  setLayout('ty-editor-hero-offset-y', 'ty-editor-hero-offset-y-value', clamp(LL.heroOffsetY || 0, -200, 200, 0), 'px');
+  setLayout('ty-editor-hero-fade-left', 'ty-editor-hero-fade-left-value', clamp(LL.fadeLeft != null ? LL.fadeLeft : 28, 0, 80, 28), '%');
+  setLayout('ty-editor-hero-fade-right', 'ty-editor-hero-fade-right-value', clamp(LL.fadeRight != null ? LL.fadeRight : 22, 0, 80, 22), '%');
+  var zoomEl = document.getElementById('ty-editor-hero-zoom');
+  if (zoomEl) zoomEl.value = LL.heroZoom || 'cover';
+
   var statsTa = document.getElementById('ty-editor-stats-json');
   if (statsTa) statsTa.value = JSON.stringify(config.stats || [], null, 2);
 
@@ -5039,6 +5144,31 @@ function tyEditorBind() {
     if (event.key !== 'Enter') return;
     event.preventDefault();
     applyHeroImage(event.target.value);
+  });
+
+  function bindLayoutRange(id, key, formatter) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      if (!thisYearEditorRuntime.config.layout) thisYearEditorRuntime.config.layout = {};
+      var v = Number(el.value);
+      thisYearEditorRuntime.config.layout[key] = v;
+      tyEditorReapply();
+    });
+  }
+  bindLayoutRange('ty-editor-hero-height', 'heroHeight');
+  bindLayoutRange('ty-editor-hero-opacity', 'heroOpacity');
+  bindLayoutRange('ty-editor-hero-focus-x', 'heroFocusX');
+  bindLayoutRange('ty-editor-hero-focus-y', 'heroFocusY');
+  bindLayoutRange('ty-editor-hero-offset-x', 'heroOffsetX');
+  bindLayoutRange('ty-editor-hero-offset-y', 'heroOffsetY');
+  bindLayoutRange('ty-editor-hero-fade-left', 'fadeLeft');
+  bindLayoutRange('ty-editor-hero-fade-right', 'fadeRight');
+  var zoomBindEl = document.getElementById('ty-editor-hero-zoom');
+  if (zoomBindEl) zoomBindEl.addEventListener('input', function() {
+    if (!thisYearEditorRuntime.config.layout) thisYearEditorRuntime.config.layout = {};
+    thisYearEditorRuntime.config.layout.heroZoom = zoomBindEl.value;
+    tyEditorReapply();
   });
 
   function bindFilterNumber(id, key, fallback) {
