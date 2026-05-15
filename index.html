@@ -64,7 +64,7 @@ body.page-config-loading .panel.active::before,
 .ty-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(250,250,242,0.97) 0%, rgba(250,250,242,0.92) calc(var(--ty-hero-fade-left) * 1% - 12%), rgba(250,250,242,0.55) calc(var(--ty-hero-fade-left) * 1%), rgba(250,250,242,0.10) calc(var(--ty-hero-fade-left) * 1% + 24%), rgba(250,250,242,0.10) calc(100% - var(--ty-hero-fade-right) * 1% - 4%), rgba(250,250,242,0.55) calc(100% - var(--ty-hero-fade-right) * 1%), rgba(250,250,242,0.90) 100%); pointer-events: none; }
 /* Tight edge fade: feather the actual photo at left + right edges so the hard photo cutoff blends into cream */
 .ty-hero::before, .gr-hero::before, .ci-story-hero::before, .mission-hero::before {
-  --hero-edge-fade-left: 4%; --hero-edge-fade-right: 4%;
+  --hero-edge-fade-left: 8%; --hero-edge-fade-right: 8%;
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 var(--hero-edge-fade-left), #000 calc(100% - var(--hero-edge-fade-right)), transparent 100%);
           mask-image: linear-gradient(90deg, transparent 0%, #000 var(--hero-edge-fade-left), #000 calc(100% - var(--hero-edge-fade-right)), transparent 100%);
   -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
@@ -465,87 +465,12 @@ body.page-config-loading .panel.active::before,
 .ci-story-portrait-img { object-fit:contain; object-position:center bottom; transform:scale(var(--ci-portrait-scale)); transition:transform 0.35s ease; filter: saturate(0.88) contrast(0.96); }
 .ci-story-card:hover .ci-story-portrait-img { transform:scale(calc(var(--ci-portrait-scale) + 0.04)); }
 .ci-story-portrait-placeholder { display:flex; align-items:center; justify-content:center; font-size:clamp(2.2rem, 2rem + 0.8vw, 3.2rem); font-weight:700; letter-spacing:-0.06em; color:currentColor; background:transparent; }
-/* ===== Candler Impact — Editorial card style (G2) ===== */
-.ci-story-card { background: var(--cream, #fafaf2); }
-.ci-story-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0;
-  height: 8px; z-index: 5;
-  background: var(--ci-band-top, var(--ci-accent, #c84826));
-  pointer-events: none;
-}
-.ci-story-card::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
-  height: 10px; z-index: 5;
-  background: var(--ci-band-bottom, var(--ci-accent, #c84826));
-  pointer-events: none;
-}
-.ci-story-card .ci-story-front { background: var(--cream, #fafaf2); }
-.ci-story-card .ci-story-quote-panel {
-  background: var(--cream, #fafaf2);
-  color: var(--nv, #1e2530);
-  padding: 30px 26px 22px;
-  align-items: stretch;
-}
-.ci-story-card .ci-story-portrait-panel { background: var(--cream, #fafaf2); }
-.ci-story-card .ci-story-portrait-wrap { background: var(--cream, #fafaf2); }
-.ci-story-card .ci-story-caption {
-  background: var(--cream, #fafaf2);
-  color: var(--nv, #1e2530);
-  border-top: 1px solid rgba(30,37,48,0.08);
-}
-.ci-story-card .ci-story-caption .ci-story-role { color: rgba(30,37,48,0.62); }
-.ci-story-card .ci-story-caption .ci-story-name { color: var(--ci-band-top, var(--ci-accent, #c84826)); }
-.ci-story-card .ci-story-quote {
-  font-family: 'Newsreader', Georgia, serif;
-  font-size: clamp(1.18rem, 0.96rem + 0.6vw, 1.42rem);
-  line-height: 1.30;
-  font-weight: 400;
-  letter-spacing: -0.005em;
-  color: var(--nv, #1e2530);
-  max-width: 28ch;
-}
-.ci-story-card .ci-story-quote em,
-.ci-story-card .ci-story-quote i,
-.ci-story-card .ci-story-quote .ci-lead {
-  font-style: italic;
-  font-weight: 700;
-  color: var(--ci-band-top, var(--ci-accent, #c84826));
-}
-.ci-story-card .ci-story-panel-quote {
-  font-family: 'Newsreader', Georgia, serif;
-  font-size: clamp(1.18rem, 0.96rem + 0.6vw, 1.42rem);
-  line-height: 1.30;
-  font-weight: 400;
-  letter-spacing: -0.005em;
-  color: var(--nv, #1e2530);
-}
-.ci-story-card .ci-story-panel-quote em,
-.ci-story-card .ci-story-panel-quote i,
-.ci-story-card .ci-story-panel-quote .ci-lead {
-  font-style: italic;
-  font-weight: 700;
-  color: var(--ci-band-top, var(--ci-accent, #c84826));
-}
-.ci-story-card .ci-story-panel-quote-mark {
-  color: var(--ci-band-top, var(--ci-accent, #c84826));
-  opacity: 0.20;
-}
-.ci-story-card .ci-story-panel { background: var(--cream, #fafaf2); color: var(--nv, #1e2530); }
-.ci-story-card .ci-story-panel-headline,
-.ci-story-card .ci-story-panel-name { color: var(--nv, #1e2530); }
-.ci-story-card .ci-story-panel-role { color: rgba(30,37,48,0.62); }
-.ci-story-card .ci-story-panel-kicker { color: var(--ci-band-top, var(--ci-accent, #c84826)); opacity: 1; }
-/* Portrait fills its third more snugly, milder skin saturation */
-.ci-story-card .ci-story-portrait-img { object-fit: cover; object-position: center 22%; transform: none; filter: saturate(0.88) contrast(0.96); }
-.ci-story-card:hover .ci-story-portrait-img { transform: none; }
-/* Layout: quote 2/3, portrait 1/3 */
-.ci-story-card .ci-story-front.is-horizontal,
-.ci-story-card .ci-story-front.is-horizontal-reverse,
-.ci-story-card .ci-story-front { display: grid; grid-template-columns: 2fr 1fr; }
-.ci-story-card .ci-story-front.is-vertical,
-.ci-story-card .ci-story-front.is-vertical-reverse { grid-template-columns: 1fr; grid-template-rows: 2fr 1fr; }
-/* Stronger card shadow + hairline edge — feels distinct against cream */
+/* ===== Candler Impact — Editorial card style v2 (G2 refined) ===== */
 .ci-story-card {
+  background: var(--cream, #fafaf2);
+  --ci-mark-color: var(--or, #c84826);
+  --ci-card-height: clamp(360px, 32vw, 408px);
+  height: var(--ci-card-height);
   box-shadow:
     0 18px 38px rgba(30,37,48,0.10),
     0 4px 10px rgba(30,37,48,0.06),
@@ -557,7 +482,123 @@ body.page-config-loading .panel.active::before,
     0 6px 14px rgba(30,37,48,0.08),
     inset 0 0 0 1px rgba(30,37,48,0.05);
 }
-/* ===== /editorial card style ===== */
+.ci-story-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 9px; z-index: 5;
+  background: var(--ci-band-top, var(--ci-accent, #c84826));
+  pointer-events: none;
+}
+.ci-story-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 9px; z-index: 5;
+  background: var(--ci-band-bottom, var(--ci-band-top, var(--ci-accent, #c84826)));
+  pointer-events: none;
+}
+
+/* Front face: hand-rolled editorial layout (built in JS) */
+.ci-story-front.ci-ed {
+  display: grid;
+  grid-template-columns: 68fr 32fr;
+  grid-template-rows: 1fr auto;
+  grid-template-areas:
+    "quote portrait"
+    "footer footer";
+  background: var(--cream, #fafaf2);
+  width: 100%; height: 100%;
+}
+.ci-ed-quote-panel {
+  grid-area: quote;
+  padding: 26px 24px 14px 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  min-width: 0;
+}
+.ci-ed-mark {
+  font-family: 'Fraunces', 'Newsreader', Georgia, serif;
+  font-size: 5.6rem;
+  line-height: 0.62;
+  font-weight: 600;
+  color: var(--ci-mark-color, #c84826);
+  opacity: 0.95;
+  margin: 0 0 -2px -2px;
+  user-select: none;
+}
+.ci-ed-quote {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: var(--ci-ed-quote-size, 1.18rem);
+  line-height: 1.30;
+  letter-spacing: -0.005em;
+  color: var(--nv, #1e2530);
+  font-weight: 400;
+}
+.ci-ed-quote em,
+.ci-ed-quote i,
+.ci-ed-quote .ci-ed-lead {
+  font-style: italic !important;
+  font-weight: 700;
+  color: var(--ci-band-top, var(--ci-accent, #c84826));
+}
+.ci-ed-portrait {
+  grid-area: portrait;
+  position: relative;
+  background-color: var(--cream-2, #f5f0e2);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: var(--ci-portrait-pos, center 22%);
+  overflow: hidden;
+  filter: saturate(0.55) contrast(0.94) brightness(1.03);
+}
+.ci-ed-portrait::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(245,240,226,0.10) 0%, rgba(245,240,226,0.06) 40%, rgba(250,250,242,0.22) 100%);
+  pointer-events: none;
+}
+.ci-ed-footer {
+  grid-area: footer;
+  padding: 12px 26px 14px;
+  border-top: 1px solid rgba(30,37,48,0.10);
+  background: var(--cream, #fafaf2);
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.ci-ed-name {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ci-band-top, var(--ci-accent, #c84826));
+  letter-spacing: 0.005em;
+  white-space: nowrap;
+}
+.ci-ed-divider {
+  color: rgba(30,37,48,0.28);
+  font-weight: 400;
+  font-size: 13px;
+}
+.ci-ed-role {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(30,37,48,0.62);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* When the front uses editorial layout, hide any leftover panel-based markup (defensive) */
+.ci-story-front.ci-ed .ci-story-panel,
+.ci-story-front.ci-ed .ci-story-quote-panel,
+.ci-story-front.ci-ed .ci-story-portrait-panel { display: none !important; }
+/* ===== /editorial card style v2 ===== */
+
 .ci-story-caption { padding:14px 16px 16px; background:var(--ci-surface); color:var(--ci-ink); border-top:1px solid rgba(255,255,255,0.12); }
   .ci-story-headline { font-size:var(--ci-card-headline-size-local); line-height:0.95; letter-spacing:-0.045em; font-weight:700; margin-bottom:10px; text-wrap:balance; }
 .ci-story-person { display:grid; gap:2px; }
@@ -5695,12 +5736,12 @@ var CI_STORY_PAGE = {
         copy: 'How Foundry work sharpens faculty teaching, supports staff leadership, and turns Candler’s strengths into ministry-ready resources.',
         meta: '',
         stories: [
-        { headline: 'A distinct vision for public theology', quote: 'The Foundry helps set Candler apart from other theological schools by showing prospective students a new way of imagining a ministry of public theology.', support: 'This sample case study can later show how admissions storytelling and Foundry programming work together to help prospective students see Candler’s theological imagination in practice.', name: 'Sam Martinez', role: 'Associate Dean of Admissions & Financial Aid', image: '/assets/faculty-staff-headshots/Sam_Martinez.jpg', imagePosition: 'center 26%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 31vw, 440px)', quotePanelWidth: 58, quoteSize: 0.96, supportSize: 0.84 },
-        { headline: 'A public-facing studio for theological depth', quote: 'The Foundry gave my preaching work a wider reach without sacrificing theological depth.', support: 'This sample case study can later show how Teresa Fry Brown’s scholarship moved into polished preaching and teaching materials with the same intellectual rigor Candler is known for.', name: 'Teresa Fry Brown', role: 'Preaching', image: '/assets/faculty-staff-headshots/Dr._Teresa_Fry_Brown.jpg', imagePosition: 'center 54%', accent: '#b8d9ef', accentInk: '#1e2530', surface: '#c84826', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 44, quoteSize: 1.02, supportSize: 0.84 },
-        { headline: 'Ethics and public life translated for real ministry settings', quote: 'The Foundry helped me frame urgent public questions in ways ministers can actually teach.', support: 'This sample case study can later describe how Nichole Phillips used Foundry channels to carry scholarship on public life into practical ministry settings.', name: 'Nichole Phillips', role: 'Public Theology', image: '/assets/faculty-staff-headshots/Dr._Nichole_Phillips.jpg', imagePosition: 'center 56%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 62, quoteSize: 0.98, supportSize: 0.84 },
-        { headline: 'Teaching sharpened by real questions from the church', quote: 'The Foundry pushed me to make complex New Testament ideas more teachable for the church.', support: 'This sample case study can later focus on how Susan Hylen’s teaching adapted when real ministry questions shaped the way her scholarship was presented.', name: 'Susan Hylen', role: 'New Testament', image: '/assets/faculty-staff-headshots/Dr._Susan_Hylen.jpg', imagePosition: 'center 56%', accent: '#2e3a4a', accentInk: '#fafaf2', surface: '#f6a85d', ink: '#1e2530', width: 'clamp(360px, 30vw, 430px)', quotePanelWidth: 40, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Scholarship that reaches beyond campus walls', quote: 'The Foundry helped my scholarship travel farther than the classroom ever could on its own.', support: 'This sample case study can later document how Musa Dube’s work moved beyond campus into broader ministry and learning communities through Foundry storytelling.', name: 'Musa Dube', role: 'World Christianity', image: '/assets/faculty-staff-headshots/Dr._Musa_Dube.jpg', imagePosition: 'center 58%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 32vw, 455px)', quotePanelWidth: 55, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Faculty voice with practical use for the church', quote: 'The Foundry let my voice reach ministry leaders in ways that felt grounded and useful.', support: 'This sample case study can later trace how Deanna Womack’s participation shaped practical resources that strengthened Candler’s internal teaching ecosystem.', name: 'Deanna Womack', role: 'Interfaith Studies', image: '/assets/faculty-staff-headshots/Dr._Deanna_Womack.jpg', imagePosition: 'center 58%', accent: '#b8d9ef', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(350px, 28vw, 410px)', quotePanelWidth: 36, quoteSize: 1.01, supportSize: 0.84 }
+        { headline: 'A distinct vision for public theology', quote: 'The Foundry helps set Candler apart from other theological schools by showing prospective students a new way of imagining a ministry of public theology.', support: 'This sample case study can later show how admissions storytelling and Foundry programming work together to help prospective students see Candler’s theological imagination in practice.', name: 'Sam Martinez', leadPhrase: 'a new way of imagining a ministry of public theology', role: 'Associate Dean of Admissions & Financial Aid', image: '/assets/faculty-staff-headshots/Sam_Martinez.jpg', imagePosition: 'center 26%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 31vw, 440px)', quotePanelWidth: 58, quoteSize: 0.96, supportSize: 0.84 },
+        { headline: 'A public-facing studio for theological depth', quote: 'The Foundry gave my preaching work a wider reach without sacrificing theological depth.', support: 'This sample case study can later show how Teresa Fry Brown’s scholarship moved into polished preaching and teaching materials with the same intellectual rigor Candler is known for.', name: 'Teresa Fry Brown', leadPhrase: 'a wider reach', role: 'Preaching', image: '/assets/faculty-staff-headshots/Dr._Teresa_Fry_Brown.jpg', imagePosition: 'center 54%', accent: '#b8d9ef', accentInk: '#1e2530', surface: '#c84826', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 44, quoteSize: 1.02, supportSize: 0.84 },
+        { headline: 'Ethics and public life translated for real ministry settings', quote: 'The Foundry helped me frame urgent public questions in ways ministers can actually teach.', support: 'This sample case study can later describe how Nichole Phillips used Foundry channels to carry scholarship on public life into practical ministry settings.', name: 'Nichole Phillips', leadPhrase: 'urgent public questions', role: 'Public Theology', image: '/assets/faculty-staff-headshots/Dr._Nichole_Phillips.jpg', imagePosition: 'center 56%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 62, quoteSize: 0.98, supportSize: 0.84 },
+        { headline: 'Teaching sharpened by real questions from the church', quote: 'The Foundry pushed me to make complex New Testament ideas more teachable for the church.', support: 'This sample case study can later focus on how Susan Hylen’s teaching adapted when real ministry questions shaped the way her scholarship was presented.', name: 'Susan Hylen', leadPhrase: 'more teachable for the church', role: 'New Testament', image: '/assets/faculty-staff-headshots/Dr._Susan_Hylen.jpg', imagePosition: 'center 56%', accent: '#2e3a4a', accentInk: '#fafaf2', surface: '#f6a85d', ink: '#1e2530', width: 'clamp(360px, 30vw, 430px)', quotePanelWidth: 40, quoteSize: 1.01, supportSize: 0.84 },
+        { headline: 'Scholarship that reaches beyond campus walls', quote: 'The Foundry helped my scholarship travel farther than the classroom ever could on its own.', support: 'This sample case study can later document how Musa Dube’s work moved beyond campus into broader ministry and learning communities through Foundry storytelling.', name: 'Musa Dube', leadPhrase: 'travel farther than the classroom', role: 'World Christianity', image: '/assets/faculty-staff-headshots/Dr._Musa_Dube.jpg', imagePosition: 'center 58%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 32vw, 455px)', quotePanelWidth: 55, quoteSize: 1.01, supportSize: 0.84 },
+        { headline: 'Faculty voice with practical use for the church', quote: 'The Foundry let my voice reach ministry leaders in ways that felt grounded and useful.', support: 'This sample case study can later trace how Deanna Womack’s participation shaped practical resources that strengthened Candler’s internal teaching ecosystem.', name: 'Deanna Womack', leadPhrase: 'grounded and useful', role: 'Interfaith Studies', image: '/assets/faculty-staff-headshots/Dr._Deanna_Womack.jpg', imagePosition: 'center 58%', accent: '#b8d9ef', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(350px, 28vw, 410px)', quotePanelWidth: 36, quoteSize: 1.01, supportSize: 0.84 }
       ]
     },
     {
@@ -5710,11 +5751,11 @@ var CI_STORY_PAGE = {
       copy: 'How students use Foundry work to build practical ministry instincts, communication skills, and teaching confidence.',
       meta: '',
       stories: [
-        { headline: 'Learning how theology travels through design and digital teaching', quote: 'The Foundry taught me how digital storytelling can carry theology with clarity and care.', support: 'This sample case study can later describe how student design and production work became part of the Foundry’s public-facing teaching and formation efforts.', name: 'Michael Yorke', role: 'M.T.S. Student', image: 'https://candler.emory.edu/wp-content/uploads/2023/07/candler-school-theology-michael-yorke@2x-e1694120658224.jpg', imagePosition: 'center 22%', accent: '#1e2530', accentInk: '#fafaf2', surface: '#b8d9ef', ink: '#1e2530', width: 'clamp(360px, 31vw, 445px)', quotePanelWidth: 48, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'From collaboration to tools I could use immediately', quote: 'The Foundry gave me ministry tools I could use while I was still at Candler.', support: 'This sample case study can later spell out how Foundry collaboration translated into real teaching and leadership confidence.', name: 'Alley Masocco', role: 'M.T.S. Student', image: 'https://candler.emory.edu/wp-content/uploads/2023/09/alley-masocco-testimonial.jpeg', imagePosition: 'center 18%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 54, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Formation that feels connected to real communities', quote: 'The Foundry showed me how theological ideas can meet real people and real ministry needs.', support: 'This sample case study can later describe how practical storytelling and hands-on design work deepened vocational imagination.', name: 'Megan Fletcher', role: 'M.T.S. Student', image: 'https://candler.emory.edu/wp-content/uploads/2024/08/megan-fletcher-testimonial.jpg', imagePosition: 'center 18%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 60, quoteSize: 0.98, supportSize: 0.84 },
-        { headline: 'Sunday School leadership empowered in a new and profound way', quote: 'The Foundry’s Sunday School Simplified program helps me empower parishioners to lead Bible studies in a new and profound way.', support: 'This sample case study can later trace how the program strengthened lay formation instincts and practical ministry confidence.', name: 'Taniecia McFarlane', role: 'M.T.S. Student', image: 'https://candler.emory.edu/wp-content/uploads/2023/09/taniecia-mcfarlane-testimonial.jpg', imagePosition: 'center 18%', accent: '#2e3a4a', accentInk: '#fafaf2', surface: '#c84826', ink: '#fafaf2', width: 'clamp(355px, 30vw, 430px)', quotePanelWidth: 42, quoteSize: 0.96, supportSize: 0.84 },
-        { headline: 'Resources that stay useful beyond graduation', quote: 'The Foundry’s 3-Minute Bible videos have helped my M.Div. studies click in practical ways.', support: 'This sample case study can later bridge student formation and alumni connection by showing how these resources stay useful well beyond the classroom.', name: 'Larry Varghese', role: 'M.T.S. Student', image: 'https://candler.emory.edu/wp-content/uploads/2023/09/larry-varghese-testimonial.jpg', imagePosition: 'center 18%', accent: '#b8d9ef', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(350px, 28vw, 405px)', quotePanelWidth: 38, quoteSize: 1.01, supportSize: 0.84 }
+        { headline: 'Learning how theology travels through design and digital teaching', quote: 'The Foundry taught me how digital storytelling can carry theology with clarity and care.', support: 'This sample case study can later describe how student design and production work became part of the Foundry’s public-facing teaching and formation efforts.', name: 'Michael Yorke', leadPhrase: 'carry theology with clarity and care', role: 'M.T.S. Student', image: 'https://candler.emory.edu/wp-content/uploads/2023/07/candler-school-theology-michael-yorke@2x-e1694120658224.jpg', imagePosition: 'center 22%', accent: '#1e2530', accentInk: '#fafaf2', surface: '#b8d9ef', ink: '#1e2530', width: 'clamp(360px, 31vw, 445px)', quotePanelWidth: 48, quoteSize: 1.01, supportSize: 0.84 },
+        { headline: 'From collaboration to tools I could use immediately', quote: 'The Foundry gave me ministry tools I could use while I was still at Candler.', support: 'This sample case study can later spell out how Foundry collaboration translated into real teaching and leadership confidence.', name: 'Alley Masocco', leadPhrase: 'while I was still at Candler', role: 'M.T.S. Student', image: 'https://candler.emory.edu/wp-content/uploads/2023/09/alley-masocco-testimonial.jpeg', imagePosition: 'center 18%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 54, quoteSize: 1.01, supportSize: 0.84 },
+        { headline: 'Formation that feels connected to real communities', quote: 'The Foundry showed me how theological ideas can meet real people and real ministry needs.', support: 'This sample case study can later describe how practical storytelling and hands-on design work deepened vocational imagination.', name: 'Megan Fletcher', leadPhrase: 'meet real people and real ministry needs', role: 'M.T.S. Student', image: 'https://candler.emory.edu/wp-content/uploads/2024/08/megan-fletcher-testimonial.jpg', imagePosition: 'center 18%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 60, quoteSize: 0.98, supportSize: 0.84 },
+        { headline: 'Sunday School leadership empowered in a new and profound way', quote: 'The Foundry’s Sunday School Simplified program helps me empower parishioners to lead Bible studies in a new and profound way.', support: 'This sample case study can later trace how the program strengthened lay formation instincts and practical ministry confidence.', name: 'Taniecia McFarlane', leadPhrase: 'in a new and profound way', role: 'M.T.S. Student', image: 'https://candler.emory.edu/wp-content/uploads/2023/09/taniecia-mcfarlane-testimonial.jpg', imagePosition: 'center 18%', accent: '#2e3a4a', accentInk: '#fafaf2', surface: '#c84826', ink: '#fafaf2', width: 'clamp(355px, 30vw, 430px)', quotePanelWidth: 42, quoteSize: 0.96, supportSize: 0.84 },
+        { headline: 'Resources that stay useful beyond graduation', quote: 'The Foundry’s 3-Minute Bible videos have helped my M.Div. studies click in practical ways.', support: 'This sample case study can later bridge student formation and alumni connection by showing how these resources stay useful well beyond the classroom.', name: 'Larry Varghese', leadPhrase: 'click in practical ways', role: 'M.T.S. Student', image: 'https://candler.emory.edu/wp-content/uploads/2023/09/larry-varghese-testimonial.jpg', imagePosition: 'center 18%', accent: '#b8d9ef', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(350px, 28vw, 405px)', quotePanelWidth: 38, quoteSize: 1.01, supportSize: 0.84 }
       ]
     },
     {
@@ -5724,10 +5765,10 @@ var CI_STORY_PAGE = {
       copy: 'How Foundry programs keep alumni learning with Candler through practical formation and renewed connection.',
       meta: '',
       stories: [
-        { headline: 'A route back into Candler’s intellectual life', quote: 'The Foundry’s Back in the Classroom series reminded me of how special my Candler experience was.', support: 'This sample case study can later show how Back in the Classroom renews alumni connection and creates a fresh desire to learn with Candler again.', name: 'Rev. Dr. Blair Trygstad-Stowe', role: 'Candler Alumna', image: 'assets/alumni-headshots/Blair-Trygstad-Stowe.png', imagePosition: 'center 20%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 31vw, 445px)', quotePanelWidth: 52, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Resources that feel ready the moment I need them', quote: 'The Foundry gives me formation resources I can use the same week I discover them.', support: 'This sample case study can later become a fuller story about how Sunday School Simplified and related tools keep alumni connected to Candler.', name: 'Rev. Carmie McDonald', role: 'Candler Alumna', image: 'assets/alumni-headshots/Carmie-McDonald.jpeg', imagePosition: 'center 20%', accent: '#b8d9ef', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 46, quoteSize: 1.02, supportSize: 0.84 },
-        { headline: 'Rigorous, portable, and worth the time', quote: 'The Foundry keeps me connected to Candler’s ideas in a format ministry life can actually hold.', support: 'This sample case study can later explain why ministers return to Foundry resources and which formats best sustain continuing formation after graduation.', name: 'Rev. Dr. David Lower', role: 'Candler Alumnus', image: 'assets/alumni-headshots/David-Lower.jpg', imagePosition: 'center 18%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 60, quoteSize: 0.98, supportSize: 0.84 },
-        { headline: 'A living connection to Candler after graduation', quote: 'The Foundry’s Sunday School Simplified program helps me empower my parishioners to lead Bible studies in a new and profound way.', support: 'This sample case study can later tie together continuing formation, congregational leadership, and the Foundry’s role in keeping alumni connected to Candler.', name: 'Sergio Chois', role: 'Candler Alumnus', image: 'assets/alumni-headshots/Sergio-Chois.jpg', imagePosition: 'center 20%', accent: '#b8d9ef', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(355px, 30vw, 430px)', quotePanelWidth: 57, quoteSize: 0.96, supportSize: 0.84 }
+        { headline: 'A route back into Candler’s intellectual life', quote: 'The Foundry’s Back in the Classroom series reminded me of how special my Candler experience was.', support: 'This sample case study can later show how Back in the Classroom renews alumni connection and creates a fresh desire to learn with Candler again.', name: 'Rev. Dr. Blair Trygstad-Stowe', leadPhrase: 'how special my Candler experience was', role: 'Candler Alumna', image: 'assets/alumni-headshots/Blair-Trygstad-Stowe.png', imagePosition: 'center 20%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 31vw, 445px)', quotePanelWidth: 52, quoteSize: 1.01, supportSize: 0.84 },
+        { headline: 'Resources that feel ready the moment I need them', quote: 'The Foundry gives me formation resources I can use the same week I discover them.', support: 'This sample case study can later become a fuller story about how Sunday School Simplified and related tools keep alumni connected to Candler.', name: 'Rev. Carmie McDonald', leadPhrase: 'the same week I discover them', role: 'Candler Alumna', image: 'assets/alumni-headshots/Carmie-McDonald.jpeg', imagePosition: 'center 20%', accent: '#b8d9ef', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 46, quoteSize: 1.02, supportSize: 0.84 },
+        { headline: 'Rigorous, portable, and worth the time', quote: 'The Foundry keeps me connected to Candler’s ideas in a format ministry life can actually hold.', support: 'This sample case study can later explain why ministers return to Foundry resources and which formats best sustain continuing formation after graduation.', name: 'Rev. Dr. David Lower', leadPhrase: 'ministry life can actually hold', role: 'Candler Alumnus', image: 'assets/alumni-headshots/David-Lower.jpg', imagePosition: 'center 18%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 60, quoteSize: 0.98, supportSize: 0.84 },
+        { headline: 'A living connection to Candler after graduation', quote: 'The Foundry’s Sunday School Simplified program helps me empower my parishioners to lead Bible studies in a new and profound way.', support: 'This sample case study can later tie together continuing formation, congregational leadership, and the Foundry’s role in keeping alumni connected to Candler.', name: 'Sergio Chois', leadPhrase: 'in a new and profound way', role: 'Candler Alumnus', image: 'assets/alumni-headshots/Sergio-Chois.jpg', imagePosition: 'center 20%', accent: '#b8d9ef', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(355px, 30vw, 430px)', quotePanelWidth: 57, quoteSize: 0.96, supportSize: 0.84 }
         ]
       }
   ]
@@ -6796,6 +6837,77 @@ function impactCreatePanelMarkup(panel, story, face) {
   return panelEl;
 }
 
+function ciEscapeHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+function ciAllowEm(htmlString) {
+  // Allow <em> and <i> tags from JSON; strip everything else for safety.
+  var s = String(htmlString == null ? '' : htmlString);
+  s = s.replace(/&(?!(?:amp|lt|gt|quot|#39|#x27);)/g, '&amp;');
+  s = s.replace(/<(?!\/?(?:em|i)\b)[^>]*>/gi, '');
+  return s;
+}
+function ciInjectLeadPhrase(quoteText, leadPhrase) {
+  // quoteText is already HTML-escaped (via ciEscapeHtml); inject <em> around the
+  // first case-insensitive match of leadPhrase if present.
+  if (!leadPhrase) return quoteText;
+  var escapedLead = String(leadPhrase).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  var re = new RegExp('(' + escapedLead + ')', 'i');
+  return quoteText.replace(re, '<em>$1</em>');
+}
+function ciContrastMarkColor(accent) {
+  var v = String(accent || '').toLowerCase().replace(/\s+/g, '');
+  if (v === '#c84826' || v === '#f6a85d') return '#1e2530';   // orange / amber -> navy
+  if (v === '#b8d9ef') return '#c84826';                       // blue -> orange
+  if (v === '#2e3a4a' || v === '#1e2530') return '#c84826';   // navy -> orange
+  return '#c84826';
+}
+function ciEditorialQuoteSize(text) {
+  var len = (text || '').replace(/<[^>]+>/g, '').length;
+  if (len <= 55)  return '1.62rem';
+  if (len <= 75)  return '1.46rem';
+  if (len <= 100) return '1.30rem';
+  if (len <= 130) return '1.18rem';
+  if (len <= 165) return '1.06rem';
+  if (len <= 210) return '0.96rem';
+  return '0.88rem';
+}
+function ciBuildEditorialFront(card, front, story) {
+  // Clear existing panel content
+  front.innerHTML = '';
+  front.classList.add('ci-ed');
+
+  var quoteRaw = story.quote || '';
+  // Allow user-authored <em>; auto-wrap leadPhrase if no <em>/<i> already present
+  var quoteSafe;
+  if (/<em\b|<i\b/i.test(quoteRaw)) {
+    quoteSafe = ciAllowEm(quoteRaw);
+  } else {
+    quoteSafe = ciInjectLeadPhrase(ciEscapeHtml(quoteRaw), story.leadPhrase);
+  }
+  front.style.setProperty('--ci-ed-quote-size', ciEditorialQuoteSize(quoteRaw));
+
+  var portraitStyle = '';
+  if (story.image) portraitStyle += 'background-image: url(\'' + String(story.image).replace(/'/g, "%27") + '\');';
+  if (story.imagePosition) portraitStyle += ' --ci-portrait-pos: ' + story.imagePosition + ';';
+
+  front.innerHTML =
+    '<div class="ci-ed-quote-panel">' +
+      '<div class="ci-ed-mark" aria-hidden="true">&ldquo;</div>' +
+      '<p class="ci-ed-quote">' + quoteSafe + '</p>' +
+    '</div>' +
+    '<div class="ci-ed-portrait" style="' + portraitStyle + '" role="img" aria-label="' + ciEscapeHtml(story.name || '') + '"></div>' +
+    '<div class="ci-ed-footer">' +
+      '<span class="ci-ed-name">' + ciEscapeHtml(story.name || '') + '</span>' +
+      (story.name && story.role ? '<span class="ci-ed-divider">/</span>' : '') +
+      '<span class="ci-ed-role">' + ciEscapeHtml(story.role || '') + '</span>' +
+    '</div>';
+}
+
 function ciCreateStoryCard(story) {
   var card = document.createElement('article');
   var classNames = ['ci-story-card'];
@@ -6805,17 +6917,12 @@ function ciCreateStoryCard(story) {
   card.className = classNames.join(' ');
   var _ciAccent = story.accent || '#c84826';
   card.style.setProperty('--ci-accent', _ciAccent);
-  card.style.setProperty('--ci-band-top', story.bandTop || _ciAccent);
-  // Mismatched bottom band: rotate through Foundry colors based on the top band
-  function _ciRotateBand(c) {
-    var v = String(c || '').toLowerCase().replace(/\s+/g, '');
-    if (v === '#c84826') return '#f6a85d';   // orange  -> amber
-    if (v === '#f6a85d') return '#b8d9ef';   // amber   -> blue
-    if (v === '#b8d9ef') return '#c84826';   // blue    -> orange
-    if (v === '#2e3a4a' || v === '#1e2530') return '#f6a85d'; // navy/blue-deep -> amber
-    return '#f6a85d';
-  }
-  card.style.setProperty('--ci-band-bottom', story.bandBottom || _ciRotateBand(_ciAccent));
+  var _ciBandTop = story.bandTop || _ciAccent;
+  card.style.setProperty('--ci-band-top', _ciBandTop);
+  // Same color top + bottom bands by default
+  card.style.setProperty('--ci-band-bottom', story.bandBottom || _ciBandTop);
+  // Contrasting quote mark color (orange <-> navy, blue <-> orange)
+  card.style.setProperty('--ci-mark-color', story.markColor || ciContrastMarkColor(_ciBandTop));
   card.style.setProperty('--ci-surface', story.surface || '#fffdf8');
   card.style.setProperty('--ci-ink', story.ink || '#1e2530');
   card.style.setProperty('--ci-card-basis', story.width || 'clamp(380px, 38vw, 560px)');
@@ -6843,6 +6950,9 @@ function ciCreateStoryCard(story) {
   panels.forEach(function(panel) {
     front.appendChild(impactCreatePanelMarkup(panel, story, 'front'));
   });
+  // ----- Editorial overlay: replace front face with hand-rolled structure -----
+  ciBuildEditorialFront(card, front, story);
+
   var back = card.querySelector('.ci-story-back');
   backPanels.forEach(function(panel) {
     back.appendChild(impactCreatePanelMarkup(panel, story, 'back'));
