@@ -59,8 +59,10 @@ body.page-config-loading .panel.active::before,
 
 /* ═══ SECTION: THIS YEAR / Current Offerings — donor-facing rewrite 2026-05-14 ═══ */
 .ty-page { background: var(--cream); }
-.ty-hero { padding: 56px clamp(20px, 4vw, 60px) 24px; background: var(--cream); }
-.ty-hero-inner { max-width: 1680px; margin: 0 auto; }
+.ty-hero { position: relative; padding: 56px clamp(20px, 4vw, 60px) 40px; min-height: 320px; background: var(--cream); overflow: hidden; --ty-hero-image: none; --ty-hero-opacity: 0.62; --ty-hero-fade-right: 22; }
+.ty-hero::before { content: ''; position: absolute; inset: 0; background-image: var(--ty-hero-image); background-size: cover; background-position: center 32%; background-repeat: no-repeat; opacity: var(--ty-hero-opacity); pointer-events: none; }
+.ty-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(250,250,242,0.97) 0%, rgba(250,250,242,0.90) 28%, rgba(250,250,242,0.55) 48%, rgba(250,250,242,0.10) 72%, rgba(250,250,242,0.10) calc(100% - var(--ty-hero-fade-right) - 4%), rgba(250,250,242,0.55) calc(100% - var(--ty-hero-fade-right))); pointer-events: none; }
+.ty-hero-inner { position: relative; z-index: 1; max-width: 1680px; margin: 0 auto; }
 .ty-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; font-family: 'Montserrat',sans-serif; }
 .ty-title { font-size: clamp(35px, 4.4vw, 58px); font-weight: 700; line-height: 1; color: var(--blue); letter-spacing: -0.04em; margin: 0 0 14px; font-family: 'Montserrat',sans-serif; }
 .ty-subtitle { font-size: 18px; font-weight: 400; color: rgba(30,37,48,0.62); max-width: 760px; line-height: 1.55; margin: 0; font-family: 'Montserrat',sans-serif; }
@@ -84,7 +86,9 @@ body.page-config-loading .panel.active::before,
 .ty-card-front { background: var(--blue); box-shadow: 0 14px 32px rgba(30,37,48,0.22), 0 4px 10px rgba(30,37,48,0.10); transition: box-shadow 0.25s ease; }
 .ty-card-back { transform: rotateY(180deg); background: #f0ead8; display: flex; flex-direction: column; padding: 22px 22px 20px; box-shadow: 0 14px 32px rgba(30,37,48,0.22), 0 4px 10px rgba(30,37,48,0.10); }
 .ty-card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-.ty-card-ribbon { position: absolute; top: 12px; right: 0; background: var(--orange); color: var(--cream); font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; padding: 6px 12px 6px 14px; border-radius: 3px 0 0 3px; z-index: 2; font-family: 'Montserrat',sans-serif; box-shadow: 0 2px 6px rgba(0,0,0,0.18); }
+.ty-card-ribbon { position: absolute; top: 12px; right: 0; font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; padding: 6px 12px 6px 14px; border-radius: 3px 0 0 3px; z-index: 2; font-family: 'Montserrat',sans-serif; box-shadow: 0 2px 6px rgba(0,0,0,0.18); }
+.ty-card-ribbon--ond { background: var(--orange); color: var(--cream); }
+.ty-card-ribbon--cic { background: #f6a85d; color: var(--blue); }
 /* .ty-card-overlay removed — graphics carry their own typography */
 .ty-card-sem { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #f6a85d; margin-bottom: 6px; font-family: 'Montserrat',sans-serif; }
 .ty-card-title { font-size: 22px; font-weight: 700; color: var(--cream); line-height: 1.15; margin: 0 0 4px; letter-spacing: -0.02em; font-family: 'Montserrat',sans-serif; }
@@ -4397,6 +4401,12 @@ function tyFormatStartDate(iso) {
   return m[2] + '/' + m[1].slice(-2);
 }
 
+function tyShortTitle(s) {
+  if (!s) return '';
+  var idx = String(s).indexOf(':');
+  return (idx > 0 ? String(s).slice(0, idx) : String(s)).trim();
+}
+
 function tyParseDate(iso) {
   if (!iso) return null;
   var m = String(iso).match(/^(\d{4})-(\d{2})-(\d{2})/);
@@ -4444,6 +4454,8 @@ function thisYearApplyConfig(config) {
   if (titleEl && h.title != null) titleEl.textContent = h.title;
   var subEl = document.getElementById('ty-subtitle');
   if (subEl && h.subtitle != null) subEl.textContent = h.subtitle;
+  var heroEl = document.querySelector('#panel-year .ty-hero');
+  if (heroEl) heroEl.style.setProperty('--ty-hero-image', h.image ? "url('" + h.image + "')" : 'none');
 
   var statsHost = document.getElementById('ty-stats-grid');
   if (statsHost) {
@@ -4517,7 +4529,9 @@ function thisYearRenderCard(c, config) {
       + '</div>';
   }
   var dateLabel = thisYearEsc(c.semester || '');
-  var ribbonHtml = (type === 'On-Demand') ? '<div class="ty-card-ribbon">On-Demand</div>' : '';
+  var ribbonHtml = '';
+  if (type === 'On-Demand') ribbonHtml = '<div class="ty-card-ribbon ty-card-ribbon--ond">On-Demand</div>';
+  else if (type === 'CIC') ribbonHtml = '<div class="ty-card-ribbon ty-card-ribbon--cic">Zoom/Live</div>';
   return '<div class="ty-flip" tabindex="0" role="button" aria-label="' + thisYearEsc(c.title || '') + '">'
     + '<div class="ty-flip-inner">'
     + '<div class="ty-card-front">'
@@ -4526,8 +4540,8 @@ function thisYearRenderCard(c, config) {
     + '</div>'
     + '<div class="ty-card-back">'
     + '<div class="ty-card-eyebrow">' + thisYearEsc(eyebrow) + '</div>'
-    + '<div class="ty-card-back-title">' + thisYearEsc(c.title || '') + '</div>'
-    + '<div class="ty-card-back-instr">' + instr + '</div>'
+    + '<div class="ty-card-back-title">' + thisYearEsc(tyShortTitle(c.title || '')) + '</div>'
+    + '<div class="ty-card-back-instr">' + instr + (c.semester ? ' &nbsp;|&nbsp; ' + thisYearEsc(c.semester) : '') + '</div>'
     + (desc ? '<p class="ty-card-back-desc">' + desc + '</p>' : '<p class="ty-card-back-desc"></p>')
     + statsHtml
     + '<a class="ty-card-cta" href="' + thisYearEsc(ctaUrl) + '" target="_blank" rel="noopener noreferrer">' + thisYearEsc(ctaLabel) + '</a>'
