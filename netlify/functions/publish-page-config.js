@@ -129,6 +129,4 @@ exports.handler = async function(event) {
   return {
     statusCode: 200,
     headers: { ...CORS, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ success: true, files: results }),
-  };
-};
+    body: JSON.st
