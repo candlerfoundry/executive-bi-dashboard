@@ -75,10 +75,13 @@ jobs:
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/page-config/growth-reach.json \
-                  assets/page-config/this-year.json \
-                  assets/this-year-cards/ 2>/dev/null || true
-          if [[ -n "$(git status --porcelain --cached)" ]]; then
+          # Add each path independently so a missing one doesn't block the others
+          [[ -f assets/page-config/growth-reach.json ]] && git add assets/page-config/growth-reach.json || true
+          [[ -f assets/page-config/this-year.json   ]] && git add assets/page-config/this-year.json   || true
+          [[ -d assets/this-year-cards             ]] && git add assets/this-year-cards/             || true
+          echo "Working tree status after add:"
+          git status --short
+          if [[ -n "$(git diff --cached --name-only)" ]]; then
             git commit -m "$REFRESH_SUBJECT" -m "$REFRESH_BODY"
             git push
             echo "Committed and pushed dashboard data changes."
