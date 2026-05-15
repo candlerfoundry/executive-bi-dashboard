@@ -76,15 +76,16 @@ body.page-config-loading .panel.active::before,
 .ty-section-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin: 24px 0 10px; font-family: 'Montserrat',sans-serif; }
 .ty-courses-title { font-size: 22px; font-weight: 700; color: var(--blue); margin: 0 0 28px; font-family: 'Montserrat',sans-serif; }
 .ty-courses-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; }
-.ty-flip { position: relative; aspect-ratio: 3/2; perspective: 1400px; cursor: pointer; outline: none; }
+.ty-flip { position: relative; aspect-ratio: 3/2; perspective: 1400px; cursor: pointer; outline: none; transition: filter 0.2s ease; }
+.ty-flip:hover { filter: drop-shadow(0 6px 14px rgba(30,37,48,0.22)); }
 .ty-flip-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; transition: transform 0.55s cubic-bezier(0.2,0.8,0.2,1); }
 .ty-flip:not(.is-flipped):hover .ty-flip-inner, .ty-flip:not(.is-flipped):focus-within .ty-flip-inner, .ty-flip.is-flipped .ty-flip-inner { transform: rotateY(180deg); }
 .ty-card-front, .ty-card-back { position: absolute; inset: 0; border-radius: 12px; overflow: hidden; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-.ty-card-front { background: var(--blue); box-shadow: 0 8px 24px rgba(30,37,48,0.10); }
-.ty-card-back { transform: rotateY(180deg); background: #f0ead8; display: flex; flex-direction: column; padding: 22px 22px 20px; box-shadow: 0 8px 24px rgba(30,37,48,0.10); }
+.ty-card-front { background: var(--blue); box-shadow: 0 14px 32px rgba(30,37,48,0.22), 0 4px 10px rgba(30,37,48,0.10); transition: box-shadow 0.25s ease; }
+.ty-card-back { transform: rotateY(180deg); background: #f0ead8; display: flex; flex-direction: column; padding: 22px 22px 20px; box-shadow: 0 14px 32px rgba(30,37,48,0.22), 0 4px 10px rgba(30,37,48,0.10); }
 .ty-card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .ty-card-ribbon { position: absolute; top: 12px; right: 0; background: var(--orange); color: var(--cream); font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; padding: 6px 12px 6px 14px; border-radius: 3px 0 0 3px; z-index: 2; font-family: 'Montserrat',sans-serif; box-shadow: 0 2px 6px rgba(0,0,0,0.18); }
-.ty-card-overlay { position: absolute; inset: 0; padding: 20px 22px; display: flex; flex-direction: column; justify-content: flex-end; background: linear-gradient(180deg, rgba(30,37,48,0) 0%, rgba(30,37,48,0) 35%, rgba(30,37,48,0.82) 100%); }
+/* .ty-card-overlay removed — graphics carry their own typography */
 .ty-card-sem { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #f6a85d; margin-bottom: 6px; font-family: 'Montserrat',sans-serif; }
 .ty-card-title { font-size: 22px; font-weight: 700; color: var(--cream); line-height: 1.15; margin: 0 0 4px; letter-spacing: -0.02em; font-family: 'Montserrat',sans-serif; }
 .ty-card-instr { font-size: 13px; font-weight: 500; color: rgba(250,250,242,0.82); font-family: 'Montserrat',sans-serif; }
@@ -4465,6 +4466,10 @@ function thisYearApplyConfig(config) {
   if (!grid) return;
   var courses = (config.courses || []).slice();
   courses.sort(function(a, b) {
+    // CIC first, then On-Demand. Within each group: date desc.
+    var aOnd = a.type === 'On-Demand' ? 1 : 0;
+    var bOnd = b.type === 'On-Demand' ? 1 : 0;
+    if (aOnd !== bOnd) return aOnd - bOnd;
     var ad = String(a.startDate || '');
     var bd = String(b.startDate || '');
     return bd.localeCompare(ad);
@@ -4521,11 +4526,6 @@ function thisYearRenderCard(c, config) {
     + '<div class="ty-card-front">'
     + (img ? '<img class="ty-card-img" src="' + thisYearEsc(img) + '" alt="' + thisYearEsc(c.title || '') + '">' : '')
     + ribbonHtml
-    + '<div class="ty-card-overlay">'
-    + '<div class="ty-card-sem">' + dateLabel + '</div>'
-    + '<div class="ty-card-title">' + thisYearEsc(c.title || '') + '</div>'
-    + '<div class="ty-card-instr">' + instr + '</div>'
-    + '</div>'
     + '</div>'
     + '<div class="ty-card-back">'
     + '<div class="ty-card-eyebrow">' + thisYearEsc(eyebrow) + '</div>'
