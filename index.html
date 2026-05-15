@@ -4518,9 +4518,6 @@ function thisYearRenderCard(c, config) {
   }
   var dateLabel = thisYearEsc(c.semester || '');
   var ribbonHtml = (type === 'On-Demand') ? '<div class="ty-card-ribbon">On-Demand</div>' : '';
-  var dateRangeHtml = (type === 'CIC' && c.startDate)
-    ? '<div class="ty-card-back-dates">' + thisYearEsc(tyFormatDateRange(c.startDate, c.endDate)) + '</div>'
-    : '';
   return '<div class="ty-flip" tabindex="0" role="button" aria-label="' + thisYearEsc(c.title || '') + '">'
     + '<div class="ty-flip-inner">'
     + '<div class="ty-card-front">'
@@ -4531,7 +4528,6 @@ function thisYearRenderCard(c, config) {
     + '<div class="ty-card-eyebrow">' + thisYearEsc(eyebrow) + '</div>'
     + '<div class="ty-card-back-title">' + thisYearEsc(c.title || '') + '</div>'
     + '<div class="ty-card-back-instr">' + instr + '</div>'
-    + dateRangeHtml
     + (desc ? '<p class="ty-card-back-desc">' + desc + '</p>' : '<p class="ty-card-back-desc"></p>')
     + statsHtml
     + '<a class="ty-card-cta" href="' + thisYearEsc(ctaUrl) + '" target="_blank" rel="noopener noreferrer">' + thisYearEsc(ctaLabel) + '</a>'
