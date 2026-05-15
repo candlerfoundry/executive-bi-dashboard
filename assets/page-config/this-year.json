@@ -9,25 +9,25 @@
     {
       "id": "courses",
       "label": "Courses Offered",
-      "value": 50,
+      "value": 47,
       "sub": "Past 12 months · CIC + On-Demand"
     },
     {
       "id": "enrollments",
       "label": "Total Enrollments",
-      "value": 1913,
+      "value": 1792,
       "sub": "Across recent courses"
     },
     {
       "id": "alumni",
       "label": "Candler Alumni",
-      "value": 172,
+      "value": 166,
       "sub": "Alumni enrolled across recent courses"
     },
     {
       "id": "revenue",
       "label": "Operational Revenue",
-      "value": 41075,
+      "value": 37180,
       "prefix": "$",
       "sub": "Across Foundry offerings"
     }
@@ -173,36 +173,6 @@
       "landingUrl": "",
       "startDate": "2025-09-04",
       "endDate": "2025-09-25"
-    },
-    {
-      "id": "rec0Asw65NdNxb4yu",
-      "title": "How To Teach the Bible",
-      "instructor": "Jennifer Quigley",
-      "semester": "Summer 2025",
-      "type": "CIC",
-      "openType": "Open to public",
-      "description": "",
-      "image": "/assets/this-year-cards/rec0Asw65NdNxb4yu.png",
-      "registrations": 38,
-      "candlerAlumni": 3,
-      "landingUrl": "",
-      "startDate": "2025-06-09",
-      "endDate": "2025-06-30"
-    },
-    {
-      "id": "recntuYgxk21W2bqD",
-      "title": "Re-Gendering [Fox Center Key Word Lecture Series]",
-      "instructor": "Dr. Susan Hylen",
-      "semester": "Summer 2025",
-      "type": "CIC",
-      "openType": "Open to public",
-      "description": "",
-      "image": "/assets/this-year-cards/recntuYgxk21W2bqD.png",
-      "registrations": 42,
-      "candlerAlumni": 3,
-      "landingUrl": "",
-      "startDate": "2025-06-05",
-      "endDate": "2025-06-26"
     },
     {
       "id": "reckLVNu5j3Yom9OP",
