@@ -61,6 +61,9 @@ function parseNum(s) {
 }
 
 function deltaSuffix(before, after) {
+  // Only compute delta when both sides are simple numbers (no embedded words).
+  // Skip strings like "8 courses → 24 courses" — the summary already shows the diff in plain words.
+  if (/[a-zA-Z]/.test(String(before)) || /[a-zA-Z]/.test(String(after))) return '';
   const b = parseNum(before);
   const a = parseNum(after);
   if (b == null || a == null) return '';
@@ -247,6 +250,7 @@ const TY_FIELDS = [
   'Short Description (Webflow)',
   'Course Start/Release Date',
   'Course End Date',
+  'Status',
   '# Reg',
   '# Candler Alumni',
   'Landing Page',
@@ -362,13 +366,25 @@ async function refreshThisYear() {
   setStat('courses',     coursesCount, 'Courses Offered');
   setStat('enrollments', enrollments,  'Total Enrollments');
   setStat('alumni',      alumni,       'Candler Alumni');
-  setStat('revenue',     revenue,      'Operational Revenue');
+  setStat('revenue',     Math.round(revenue), 'Operational Revenue');
 
   // ---- Build tile course list ----
   const tileRecords = records
     .filter(r => tilesTypes.includes((r.fields || {})['Type']))
+    .filter(r => {
+      const f = r.fields || {};
+      const t = f['Type'];
+      const status = f['Status'];
+      if (status !== 'Final') return false;
+      if (t === 'CIC' && f['Open?'] !== 'Open to public') return false;
+      return true;
+    })
     .filter(r => !requireGraphic || ((r.fields || {})['Graphic'] || []).length > 0)
     .sort((a, b) => {
+      // CIC first, then On-Demand. Within each group: start date desc (newest first).
+      const at = (a.fields?.['Type'] === 'On-Demand') ? 1 : 0;
+      const bt = (b.fields?.['Type'] === 'On-Demand') ? 1 : 0;
+      if (at !== bt) return at - bt;
       const ad = String(a.fields?.['Course Start/Release Date'] || '');
       const bd = String(b.fields?.['Course Start/Release Date'] || '');
       return bd.localeCompare(ad);
