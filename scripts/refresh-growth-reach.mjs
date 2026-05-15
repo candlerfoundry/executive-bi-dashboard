@@ -437,7 +437,14 @@ async function refreshThisYear() {
       semester: f['Semester'] || '',
       type: f['Type'] || '',
       openType: f['Open?'] || '',
-      description: tyStripRichText(f['Framing Question'] || f['Short Description (Webflow)'] || ''),
+      description: tyStripRichText(
+        (function(fq){
+          if (!fq) return '';
+          if (typeof fq === 'string') return fq;
+          if (typeof fq === 'object' && fq.value) return String(fq.value);
+          return '';
+        })(f['Framing Question']) || f['Short Description (Webflow)'] || ''
+      ),
       image: imagePath,
       registrations: parseNum(f['# Reg']) || 0,
       candlerAlumni: parseNum(f['# Candler Alumni']) || 0,
