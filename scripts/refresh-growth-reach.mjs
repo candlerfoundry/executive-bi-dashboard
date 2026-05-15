@@ -375,7 +375,16 @@ async function refreshThisYear() {
       const f = r.fields || {};
       const t = f['Type'];
       const status = f['Status'];
-      if (status !== 'Final') return false;
+      const reg = Number(f['# Reg']) || 0;
+      // Status: 'Final' or blank both count (some real courses are untagged).
+      // For OND, also accept any course with > 1 registered (covers the
+      // "sometimes OND courses aren't properly marked" case).
+      const statusOk = (status === 'Final' || !status);
+      if (t === 'On-Demand') {
+        if (!statusOk && reg <= 1) return false;
+      } else {
+        if (!statusOk) return false;
+      }
       if (t === 'CIC' && f['Open?'] !== 'Open to public') return false;
       return true;
     })
