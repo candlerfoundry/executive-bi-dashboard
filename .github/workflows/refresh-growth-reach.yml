@@ -1,8 +1,9 @@
-name: Monthly Growth & Reach refresh
+name: Monthly dashboard refresh
 
-# Pulls fresh metrics from Airtable and rewrites
-# assets/page-config/growth-reach.json so the dashboard always shows
-# up-to-date numbers without any runtime API calls.
+# Pulls fresh metrics from Airtable and rewrites two donor-facing config files:
+#   - assets/page-config/growth-reach.json  (cumulative since 2018)
+#   - assets/page-config/this-year.json     (past 12 months snapshot)
+# Plus downloads course Graphic attachments to assets/this-year-cards/.
 #
 # Trigger: 10:00 UTC on the 1st of every month
 #   - During EDT (UTC-4, ~March-November) this is 06:00 ET.
@@ -12,13 +13,10 @@ name: Monthly Growth & Reach refresh
 # Required repo secrets:
 #   AIRTABLE_PAT         — fine-grained Airtable PAT, data.records:read on
 #                          base appiL0Z2RilcAT2Cw (Candler Foundry: Master CRM)
-#   (no GMAIL_USER secret needed; sender hardcoded as thecandlerfoundry@gmail.com)
-#                          (e.g. candlerfoundry@gmail.com)
-#   GMAIL_APP_PASSWORD   — 16-character Google "app password" for that Gmail
-#                          account (generated at myaccount.google.com/apppasswords)
+#   GMAIL_APP_PASSWORD   — 16-character Google "app password" for
+#                          thecandlerfoundry@gmail.com
 #
-# Notification recipient is currently hard-coded below — change the `to:` field
-# to redirect.
+# Notification recipient is hard-coded below — change the `to:` field to redirect.
 
 on:
   schedule:
@@ -29,7 +27,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: growth-reach-refresh
+  group: dashboard-refresh
   cancel-in-progress: false
 
 jobs:
@@ -65,25 +63,27 @@ jobs:
             tail -n +3 "$SUMMARY" >> $GITHUB_ENV
             echo "__EOF__" >> $GITHUB_ENV
           else
-            echo "REFRESH_SUBJECT=Growth & Reach refresh hit a fatal error before producing a summary" >> $GITHUB_ENV
+            echo "REFRESH_SUBJECT=Monthly refresh hit a fatal error before producing a summary" >> $GITHUB_ENV
             echo "REFRESH_BODY<<__EOF__" >> $GITHUB_ENV
             echo "The workflow failed before the refresh script could write a summary file." >> $GITHUB_ENV
             echo "Check the workflow run log at https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }} for details." >> $GITHUB_ENV
             echo "__EOF__" >> $GITHUB_ENV
           fi
 
-      - name: Commit + push if growth-reach.json changed
+      - name: Commit + push if any dashboard data changed
         if: always()
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if [[ -n "$(git status --porcelain assets/page-config/growth-reach.json)" ]]; then
-            git add assets/page-config/growth-reach.json
+          git add assets/page-config/growth-reach.json \
+                  assets/page-config/this-year.json \
+                  assets/this-year-cards/ 2>/dev/null || true
+          if [[ -n "$(git status --porcelain --cached)" ]]; then
             git commit -m "$REFRESH_SUBJECT" -m "$REFRESH_BODY"
             git push
-            echo "Committed and pushed updated growth-reach.json."
+            echo "Committed and pushed dashboard data changes."
           else
-            echo "No changes to growth-reach.json — nothing to commit."
+            echo "No dashboard data changes — nothing to commit."
           fi
 
       - name: Send notification email

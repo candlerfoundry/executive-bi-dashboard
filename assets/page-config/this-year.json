@@ -1,0 +1,181 @@
+{
+  "hero": {
+    "eyebrow": "Past 12 Months",
+    "title": "This Year's Courses",
+    "subtitle": "A snapshot of The Candler Foundry's latest learning opportunities."
+  },
+  "stats": [
+    {
+      "id": "courses",
+      "label": "Courses Offered",
+      "value": 8,
+      "sub": "Past 12 months · CIC + On-Demand"
+    },
+    {
+      "id": "enrollments",
+      "label": "Total Enrollments",
+      "value": 360,
+      "sub": "Across recent courses"
+    },
+    {
+      "id": "alumni",
+      "label": "Candler Alumni",
+      "value": 102,
+      "sub": "Alumni enrolled across recent courses"
+    },
+    {
+      "id": "revenue",
+      "label": "Operational Revenue",
+      "value": 30000,
+      "prefix": "$",
+      "sub": "Across Foundry offerings"
+    }
+  ],
+  "filter": {
+    "windowMonths": 12,
+    "includeTypesForTiles": [
+      "CIC",
+      "On-Demand"
+    ],
+    "includeTypesForStats": [
+      "CIC",
+      "On-Demand",
+      "CCA",
+      "FFL"
+    ],
+    "requireGraphic": true,
+    "congregationalEnrollmentAvg": 50,
+    "_notes": "windowMonths is rolling. Tiles only show types in includeTypesForTiles AND only courses with a Graphic. Banner stats are computed across includeTypesForStats (broader — includes CCA and FFL for the revenue stat). Each congregational CIC course contributes congregationalEnrollmentAvg enrollments since registrations aren't tracked for those."
+  },
+  "links": {
+    "cicCTA": {
+      "label": "Browse Current Courses",
+      "url": "https://candlerfoundry.emory.edu/courses"
+    },
+    "ondDefault": {
+      "label": "Take this course (25% off with code OND25)",
+      "url": "https://candlerfoundry.emory.edu/courses"
+    },
+    "ondDiscountCode": "OND25",
+    "perCourseOverrides": {
+      "_notes": "Keys are lowercased-alphanumeric substrings of course titles.",
+      "sabbath": {
+        "label": "Take this free course",
+        "url": "https://candlerfoundry.emory.edu/sabbath-gift-course",
+        "hideDiscountCode": true
+      }
+    }
+  },
+  "courses": [
+    {
+      "id": "ty-placeholder-preacher",
+      "title": "The PreacHER and the Word",
+      "instructor": "Dr. Teresa Fry Brown",
+      "semester": "Fall 2025",
+      "type": "CIC",
+      "openType": "Open to public",
+      "description": "Preaching as theological proclamation, shaped by Black women preachers across generations.",
+      "image": "",
+      "registrations": 113,
+      "candlerAlumni": 38,
+      "landingUrl": "https://candlerfoundry.emory.edu/courses",
+      "startDate": "2025-09-15",
+      "endDate": "2025-10-13"
+    },
+    {
+      "id": "ty-placeholder-black-theology",
+      "title": "Black Theology and Faith",
+      "instructor": "Dr. Noel Erskine",
+      "semester": "Spring 2026",
+      "type": "CIC",
+      "openType": "Congregational",
+      "description": "Foundational lectures on Black theology as faith-practice — its sources, its grammar, and its scripture.",
+      "image": "",
+      "registrations": 42,
+      "candlerAlumni": 17,
+      "landingUrl": "https://candlerfoundry.emory.edu/courses",
+      "startDate": "2026-02-10",
+      "endDate": "2026-03-10"
+    },
+    {
+      "id": "ty-placeholder-hebrew",
+      "title": "Hebrew Insights",
+      "instructor": "Dr. Ryan Bonfiglio",
+      "semester": "Fall 2025",
+      "type": "CIC",
+      "openType": "Open to public",
+      "description": "Twelve pivotal Hebrew words that change how you read the Old Testament.",
+      "image": "",
+      "registrations": 57,
+      "candlerAlumni": 13,
+      "landingUrl": "https://candlerfoundry.emory.edu/courses",
+      "startDate": "2025-10-08",
+      "endDate": "2025-11-05"
+    },
+    {
+      "id": "ty-placeholder-faith-wild",
+      "title": "Faith in the Wild",
+      "instructor": "Dr. Elizabeth Arnold",
+      "semester": "Fall 2025",
+      "type": "CIC",
+      "openType": "Open to public",
+      "description": "Biblical journeys through desolation and discovery, and what they ask of faith today.",
+      "image": "",
+      "registrations": 48,
+      "candlerAlumni": 14,
+      "landingUrl": "https://candlerfoundry.emory.edu/courses",
+      "startDate": "2025-11-03",
+      "endDate": "2025-12-01"
+    },
+    {
+      "id": "ty-placeholder-lies-pastor",
+      "title": "Lies My Pastor Told Me",
+      "instructor": "Dr. Brent Strawn",
+      "semester": "Spring 2026",
+      "type": "CIC",
+      "openType": "Open to public",
+      "description": "Plain-language correctives to common pulpit oversimplifications, grounded in close reading.",
+      "image": "",
+      "registrations": 30,
+      "candlerAlumni": 12,
+      "landingUrl": "https://candlerfoundry.emory.edu/courses",
+      "startDate": "2026-03-04",
+      "endDate": "2026-04-01"
+    },
+    {
+      "id": "ty-placeholder-sabbath",
+      "title": "Sabbath",
+      "instructor": "Dr. Susan Hylen",
+      "semester": "Spring 2026",
+      "type": "On-Demand",
+      "description": "A free four-session course on Sabbath — its roots, its demands, and what it can become.",
+      "image": "",
+      "landingUrl": "https://candlerfoundry.emory.edu/sabbath-gift-course",
+      "startDate": "2026-01-15"
+    },
+    {
+      "id": "ty-placeholder-resurrection",
+      "title": "Resurrection Stories",
+      "instructor": "Dr. Elizabeth Arnold",
+      "semester": "Spring 2026",
+      "type": "On-Demand",
+      "description": "How the resurrection accounts diverge — and what those differences ask of preachers.",
+      "image": "",
+      "registrations": 33,
+      "candlerAlumni": 8,
+      "landingUrl": "https://candlerfoundry.emory.edu/courses",
+      "startDate": "2026-04-07"
+    },
+    {
+      "id": "ty-placeholder-corinthians",
+      "title": "The Corinthians Conversation",
+      "instructor": "Dr. Jennifer Quigley",
+      "semester": "Fall 2025",
+      "type": "On-Demand",
+      "description": "Paul's Corinthian correspondence as living conversation — economic, ecclesial, theological.",
+      "image": "",
+      "landingUrl": "https://candlerfoundry.emory.edu/courses",
+      "startDate": "2025-08-22"
+    }
+  ]
+}
