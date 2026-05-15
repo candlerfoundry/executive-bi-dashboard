@@ -68,6 +68,36 @@
   },
   "courses": [
     {
+      "id": "recB2rtr76CFuMaN6",
+      "title": "Five Misconceptions of Paul",
+      "instructor": "Dr. Elizabeth Arnold",
+      "semester": "Summer 2026",
+      "type": "CIC",
+      "openType": "Open to public",
+      "description": "This four-week course revisits common misconceptions about the Apostle Paul, exploring his letters and context to better understand his faith, method, and enduring witness.",
+      "image": "/assets/this-year-cards/recB2rtr76CFuMaN6.png",
+      "registrations": 22,
+      "candlerAlumni": 5,
+      "landingUrl": "http://coursesinthecommunity.com/fivemisconceptions",
+      "startDate": "2026-07-07",
+      "endDate": "2026-07-28"
+    },
+    {
+      "id": "rec9FLuvg4AWszIo9",
+      "title": "Paul's Vision of the Church",
+      "instructor": "Dr. Luke Timothy Johnson",
+      "semester": "Summer 2026",
+      "type": "CIC",
+      "openType": "Open to public",
+      "description": "This course explores the historical context, structure, and spiritual life of Paul’s churches—examining his metaphors for community, his call to edification and holiness, and his vision for the church’s mission in the world.",
+      "image": "/assets/this-year-cards/rec9FLuvg4AWszIo9.png",
+      "registrations": 87,
+      "candlerAlumni": 43,
+      "landingUrl": "http://coursesinthecommunity.com/pauls-vision",
+      "startDate": "2026-05-06",
+      "endDate": "2026-05-27"
+    },
+    {
       "id": "recaHFGLshdcHLcjM",
       "title": "Lies My Pastor Told Me",
       "instructor": "Dr. Brent Strawn",
@@ -141,6 +171,36 @@
       "landingUrl": "",
       "startDate": "2025-09-04",
       "endDate": "2025-09-25"
+    },
+    {
+      "id": "rec0Asw65NdNxb4yu",
+      "title": "How To Teach the Bible",
+      "instructor": "Jennifer Quigley",
+      "semester": "Summer 2025",
+      "type": "CIC",
+      "openType": "Open to public",
+      "description": "",
+      "image": "/assets/this-year-cards/rec0Asw65NdNxb4yu.png",
+      "registrations": 38,
+      "candlerAlumni": 3,
+      "landingUrl": "",
+      "startDate": "2025-06-09",
+      "endDate": "2025-06-30"
+    },
+    {
+      "id": "recntuYgxk21W2bqD",
+      "title": "Re-Gendering [Fox Center Key Word Lecture Series]",
+      "instructor": "Dr. Susan Hylen",
+      "semester": "Summer 2025",
+      "type": "CIC",
+      "openType": "Open to public",
+      "description": "",
+      "image": "/assets/this-year-cards/recntuYgxk21W2bqD.png",
+      "registrations": 42,
+      "candlerAlumni": 3,
+      "landingUrl": "",
+      "startDate": "2025-06-05",
+      "endDate": "2025-06-26"
     },
     {
       "id": "reckLVNu5j3Yom9OP",
