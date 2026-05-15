@@ -10,7 +10,7 @@
       "id": "courses",
       "label": "Courses Offered",
       "value": 47,
-      "sub": "Past 12 months · CIC + On-Demand"
+      "sub": "Past 12 months \u00b7 CIC + On-Demand"
     },
     {
       "id": "enrollments",
@@ -45,9 +45,11 @@
     "perCourseOverrides": {
       "_notes": "Keys are lowercased-alphanumeric substrings of course titles.",
       "sabbath": {
-        "label": "Take this free course",
+        "label": "Enroll in this free course",
         "url": "https://candlerfoundry.emory.edu/sabbath-gift-course",
-        "hideDiscountCode": true
+        "hideDiscountCode": true,
+        "badge": "Free",
+        "ctaStyle": "highlight"
       }
     }
   },
@@ -134,7 +136,7 @@
       "semester": "Fall 2025",
       "type": "CIC",
       "openType": "Open to public",
-      "description": "What does \"shalom\" really mean in the Bible—peace or something more?",
+      "description": "What does \"shalom\" really mean in the Bible\u2014peace or something more?",
       "image": "/assets/this-year-cards/recBDOKr8tSTEHkEG.jpg",
       "registrations": 57,
       "candlerAlumni": 13,
@@ -179,7 +181,7 @@
       "semester": "",
       "type": "On-Demand",
       "openType": "",
-      "description": "How can Paul’s advice to Corinth help us handle church conflicts today?",
+      "description": "How can Paul\u2019s advice to Corinth help us handle church conflicts today?",
       "image": "/assets/this-year-cards/recBxFPRZI6SK1cHz.png",
       "registrations": 9,
       "candlerAlumni": 2,
@@ -232,7 +234,7 @@
     ],
     "requireGraphic": true,
     "congregationalEnrollmentAvg": 50,
-    "_notes": "windowMonths is rolling. minStartDate is a hard floor — courses starting before this date are excluded regardless of the rolling window. Tiles only show types in includeTypesForTiles AND only courses with a Graphic. Banner stats are computed across includeTypesForStats. Each congregational CIC course contributes congregationalEnrollmentAvg enrollments since registrations aren't tracked for those.",
+    "_notes": "windowMonths is rolling. minStartDate is a hard floor \u2014 courses starting before this date are excluded regardless of the rolling window. Tiles only show types in includeTypesForTiles AND only courses with a Graphic. Banner stats are computed across includeTypesForStats. Each congregational CIC course contributes congregationalEnrollmentAvg enrollments since registrations aren't tracked for those.",
     "minStartDate": "2025-08-01"
   },
   "layout": {
@@ -241,5 +243,17 @@
     "heroFocusX": 35,
     "heroOffsetX": 240,
     "heroOffsetY": 0
+  },
+  "coursesSection": {
+    "eyebrow": "In Session",
+    "title": "Courses live across the past 12 months",
+    "eyebrowSize": 12,
+    "titleSize": 22,
+    "titleWidth": 0,
+    "eyebrowMarginTop": 0,
+    "eyebrowMarginBottom": 10,
+    "titleMarginBottom": 28,
+    "paddingTop": 28,
+    "paddingBottom": 64
   }
 }
