@@ -62,6 +62,14 @@ body.page-config-loading .panel.active::before,
 .ty-hero { position: relative; display: flex; flex-direction: column; padding: 64px clamp(20px, 4vw, 60px) 0; min-height: var(--ty-hero-min-height, 560px); background: var(--cream); overflow: hidden; --ty-hero-image: none; --ty-hero-opacity: 0.6; --ty-hero-fade-left: 28; --ty-hero-fade-right: 22; --ty-hero-pos-x: 50; --ty-hero-pos-y: 32; --ty-hero-zoom: cover; --ty-hero-offset-x: 0; --ty-hero-offset-y: 0; }
 .ty-hero::before { content: ''; position: absolute; inset: 0; background-image: var(--ty-hero-image); background-size: var(--ty-hero-zoom); background-position: calc(var(--ty-hero-pos-x) * 1%) calc(var(--ty-hero-pos-y) * 1%); background-repeat: no-repeat; opacity: var(--ty-hero-opacity); transform: translate(calc(var(--ty-hero-offset-x) * 1px), calc(var(--ty-hero-offset-y) * 1px)); pointer-events: none; }
 .ty-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(250,250,242,0.97) 0%, rgba(250,250,242,0.92) calc(var(--ty-hero-fade-left) * 1% - 12%), rgba(250,250,242,0.55) calc(var(--ty-hero-fade-left) * 1%), rgba(250,250,242,0.10) calc(var(--ty-hero-fade-left) * 1% + 24%), rgba(250,250,242,0.10) calc(100% - var(--ty-hero-fade-right) * 1% - 4%), rgba(250,250,242,0.55) calc(100% - var(--ty-hero-fade-right) * 1%), rgba(250,250,242,0.90) 100%); pointer-events: none; }
+/* Tight edge fade: feather the actual photo at left + right edges so the hard photo cutoff blends into cream */
+.ty-hero::before, .gr-hero::before, .ci-story-hero::before, .mission-hero::before {
+  --hero-edge-fade-left: 4%; --hero-edge-fade-right: 4%;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 var(--hero-edge-fade-left), #000 calc(100% - var(--hero-edge-fade-right)), transparent 100%);
+          mask-image: linear-gradient(90deg, transparent 0%, #000 var(--hero-edge-fade-left), #000 calc(100% - var(--hero-edge-fade-right)), transparent 100%);
+  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+}
 .ty-hero-inner { position: relative; z-index: 1; max-width: 1680px; margin: 0 auto; width: 100%; flex: 0 0 auto; }
 .ty-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; font-family: 'Montserrat',sans-serif; }
 .ty-title { font-size: clamp(35px, 4.4vw, 58px); font-weight: 700; line-height: 1; color: var(--blue); letter-spacing: -0.04em; margin: 0 0 14px; font-family: 'Montserrat',sans-serif; }
@@ -454,9 +462,102 @@ body.page-config-loading .panel.active::before,
 .ci-story-portrait-wrap { position:relative; overflow:hidden; background:var(--ci-surface); }
 .ci-story-portrait-img,
 .ci-story-portrait-placeholder { position:absolute; inset:0; width:100%; height:100%; }
-.ci-story-portrait-img { object-fit:contain; object-position:center bottom; transform:scale(var(--ci-portrait-scale)); transition:transform 0.35s ease; }
+.ci-story-portrait-img { object-fit:contain; object-position:center bottom; transform:scale(var(--ci-portrait-scale)); transition:transform 0.35s ease; filter: saturate(0.88) contrast(0.96); }
 .ci-story-card:hover .ci-story-portrait-img { transform:scale(calc(var(--ci-portrait-scale) + 0.04)); }
 .ci-story-portrait-placeholder { display:flex; align-items:center; justify-content:center; font-size:clamp(2.2rem, 2rem + 0.8vw, 3.2rem); font-weight:700; letter-spacing:-0.06em; color:currentColor; background:transparent; }
+/* ===== Candler Impact — Editorial card style (G2) ===== */
+.ci-story-card { background: var(--cream, #fafaf2); }
+.ci-story-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0;
+  height: 8px; z-index: 5;
+  background: var(--ci-band-top, var(--ci-accent, #c84826));
+  pointer-events: none;
+}
+.ci-story-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 10px; z-index: 5;
+  background: var(--ci-band-bottom, var(--ci-accent, #c84826));
+  pointer-events: none;
+}
+.ci-story-card .ci-story-front { background: var(--cream, #fafaf2); }
+.ci-story-card .ci-story-quote-panel {
+  background: var(--cream, #fafaf2);
+  color: var(--nv, #1e2530);
+  padding: 30px 26px 22px;
+  align-items: stretch;
+}
+.ci-story-card .ci-story-portrait-panel { background: var(--cream, #fafaf2); }
+.ci-story-card .ci-story-portrait-wrap { background: var(--cream, #fafaf2); }
+.ci-story-card .ci-story-caption {
+  background: var(--cream, #fafaf2);
+  color: var(--nv, #1e2530);
+  border-top: 1px solid rgba(30,37,48,0.08);
+}
+.ci-story-card .ci-story-caption .ci-story-role { color: rgba(30,37,48,0.62); }
+.ci-story-card .ci-story-caption .ci-story-name { color: var(--ci-band-top, var(--ci-accent, #c84826)); }
+.ci-story-card .ci-story-quote {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: clamp(1.18rem, 0.96rem + 0.6vw, 1.42rem);
+  line-height: 1.30;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  color: var(--nv, #1e2530);
+  max-width: 28ch;
+}
+.ci-story-card .ci-story-quote em,
+.ci-story-card .ci-story-quote i,
+.ci-story-card .ci-story-quote .ci-lead {
+  font-style: italic;
+  font-weight: 700;
+  color: var(--ci-band-top, var(--ci-accent, #c84826));
+}
+.ci-story-card .ci-story-panel-quote {
+  font-family: 'Newsreader', Georgia, serif;
+  font-size: clamp(1.18rem, 0.96rem + 0.6vw, 1.42rem);
+  line-height: 1.30;
+  font-weight: 400;
+  letter-spacing: -0.005em;
+  color: var(--nv, #1e2530);
+}
+.ci-story-card .ci-story-panel-quote em,
+.ci-story-card .ci-story-panel-quote i,
+.ci-story-card .ci-story-panel-quote .ci-lead {
+  font-style: italic;
+  font-weight: 700;
+  color: var(--ci-band-top, var(--ci-accent, #c84826));
+}
+.ci-story-card .ci-story-panel-quote-mark {
+  color: var(--ci-band-top, var(--ci-accent, #c84826));
+  opacity: 0.20;
+}
+.ci-story-card .ci-story-panel { background: var(--cream, #fafaf2); color: var(--nv, #1e2530); }
+.ci-story-card .ci-story-panel-headline,
+.ci-story-card .ci-story-panel-name { color: var(--nv, #1e2530); }
+.ci-story-card .ci-story-panel-role { color: rgba(30,37,48,0.62); }
+.ci-story-card .ci-story-panel-kicker { color: var(--ci-band-top, var(--ci-accent, #c84826)); opacity: 1; }
+/* Portrait fills its third more snugly, milder skin saturation */
+.ci-story-card .ci-story-portrait-img { object-fit: cover; object-position: center 22%; transform: none; filter: saturate(0.88) contrast(0.96); }
+.ci-story-card:hover .ci-story-portrait-img { transform: none; }
+/* Layout: quote 2/3, portrait 1/3 */
+.ci-story-card .ci-story-front.is-horizontal,
+.ci-story-card .ci-story-front.is-horizontal-reverse,
+.ci-story-card .ci-story-front { display: grid; grid-template-columns: 2fr 1fr; }
+.ci-story-card .ci-story-front.is-vertical,
+.ci-story-card .ci-story-front.is-vertical-reverse { grid-template-columns: 1fr; grid-template-rows: 2fr 1fr; }
+/* Stronger card shadow + hairline edge — feels distinct against cream */
+.ci-story-card {
+  box-shadow:
+    0 18px 38px rgba(30,37,48,0.10),
+    0 4px 10px rgba(30,37,48,0.06),
+    inset 0 0 0 1px rgba(30,37,48,0.05);
+}
+.ci-story-card:hover {
+  box-shadow:
+    0 24px 48px rgba(30,37,48,0.14),
+    0 6px 14px rgba(30,37,48,0.08),
+    inset 0 0 0 1px rgba(30,37,48,0.05);
+}
+/* ===== /editorial card style ===== */
 .ci-story-caption { padding:14px 16px 16px; background:var(--ci-surface); color:var(--ci-ink); border-top:1px solid rgba(255,255,255,0.12); }
   .ci-story-headline { font-size:var(--ci-card-headline-size-local); line-height:0.95; letter-spacing:-0.045em; font-weight:700; margin-bottom:10px; text-wrap:balance; }
 .ci-story-person { display:grid; gap:2px; }
@@ -6702,7 +6803,19 @@ function ciCreateStoryCard(story) {
   if (story.emphasis === 'text') classNames.push('is-text-dominant');
   if (story.emphasis === 'media') classNames.push('is-media-dominant');
   card.className = classNames.join(' ');
-  card.style.setProperty('--ci-accent', story.accent || '#c84826');
+  var _ciAccent = story.accent || '#c84826';
+  card.style.setProperty('--ci-accent', _ciAccent);
+  card.style.setProperty('--ci-band-top', story.bandTop || _ciAccent);
+  // Mismatched bottom band: rotate through Foundry colors based on the top band
+  function _ciRotateBand(c) {
+    var v = String(c || '').toLowerCase().replace(/\s+/g, '');
+    if (v === '#c84826') return '#f6a85d';   // orange  -> amber
+    if (v === '#f6a85d') return '#b8d9ef';   // amber   -> blue
+    if (v === '#b8d9ef') return '#c84826';   // blue    -> orange
+    if (v === '#2e3a4a' || v === '#1e2530') return '#f6a85d'; // navy/blue-deep -> amber
+    return '#f6a85d';
+  }
+  card.style.setProperty('--ci-band-bottom', story.bandBottom || _ciRotateBand(_ciAccent));
   card.style.setProperty('--ci-surface', story.surface || '#fffdf8');
   card.style.setProperty('--ci-ink', story.ink || '#1e2530');
   card.style.setProperty('--ci-card-basis', story.width || 'clamp(380px, 38vw, 560px)');
