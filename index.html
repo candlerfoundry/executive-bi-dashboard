@@ -501,7 +501,7 @@ body.page-config-loading .panel.active::before,
 /* Front face: hand-rolled editorial layout (built in JS) */
 .ci-story-front.ci-ed {
   display: grid;
-  grid-template-columns: 68fr 32fr;
+  grid-template-columns: 60fr 40fr;
   grid-template-rows: 1fr auto;
   grid-template-areas:
     "quote portrait"
@@ -511,7 +511,7 @@ body.page-config-loading .panel.active::before,
 }
 .ci-ed-quote-panel {
   grid-area: quote;
-  padding: 26px 24px 14px 26px;
+  padding: 24px 22px 12px 24px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -547,7 +547,7 @@ body.page-config-loading .panel.active::before,
   grid-area: portrait;
   position: relative;
   background-color: transparent;
-  background-size: var(--ci-portrait-size, auto 125%);
+  background-size: var(--ci-portrait-size, 100% auto);
   background-repeat: no-repeat;
   background-position: var(--ci-portrait-pos, center bottom);
   overflow: hidden;
