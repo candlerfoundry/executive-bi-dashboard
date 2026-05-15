@@ -251,6 +251,7 @@ const TY_FIELDS = [
   'Course Start/Release Date',
   'Course End Date',
   'Status',
+  'Framing Question',
   '# Reg',
   '# Candler Alumni',
   'Landing Page',
@@ -301,7 +302,16 @@ async function refreshThisYear() {
   const requireGraphic = cfg.filter?.requireGraphic !== false;
 
   const typeClause = statsTypes.map(t => `{Type}='${t.replace(/'/g, "\\'")}'`).join(', ');
-  const filterByFormula = `AND(IS_AFTER({Course Start/Release Date}, DATEADD(TODAY(), -${months}, 'months')), OR(${typeClause}))`;
+  const minStart = cfg.filter?.minStartDate; // e.g. "2025-06-01" — courses must start on/after this date
+  let dateClause = `IS_AFTER({Course Start/Release Date}, DATEADD(TODAY(), -${months}, 'months'))`;
+  if (minStart) {
+    // IS_AFTER is strict (>); subtract one day so the floor is inclusive.
+    const d = new Date(minStart + 'T00:00:00Z');
+    d.setUTCDate(d.getUTCDate() - 1);
+    const inclusiveFloor = d.toISOString().slice(0, 10);
+    dateClause = `AND(${dateClause}, IS_AFTER({Course Start/Release Date}, '${inclusiveFloor}'))`;
+  }
+  const filterByFormula = `AND(${dateClause}, OR(${typeClause}))`;
 
   let records;
   try {
@@ -427,7 +437,7 @@ async function refreshThisYear() {
       semester: f['Semester'] || '',
       type: f['Type'] || '',
       openType: f['Open?'] || '',
-      description: tyStripRichText(f['Short Description (Webflow)'] || ''),
+      description: tyStripRichText(f['Framing Question'] || f['Short Description (Webflow)'] || ''),
       image: imagePath,
       registrations: parseNum(f['# Reg']) || 0,
       candlerAlumni: parseNum(f['# Candler Alumni']) || 0,
