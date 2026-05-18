@@ -33,7 +33,9 @@
     "heroImageClarity": 17,
     "heroFadeStrength": 0.57,
     "heroFadeLeft": 31.349999999999998,
-    "heroFadeRight": 22.799999999999997
+    "heroFadeRight": 22.799999999999997,
+    "heroEdgeFeatherLeft": 120,
+    "heroEdgeFeatherRight": 120
   },
   "typography": {
     "headingFont": "'Montserrat', sans-serif",

@@ -12,6 +12,8 @@
     "imageClarity": 0,
     "imageFadeLeft": 39,
     "imageFadeRight": 20,
+    "imageEdgeFeatherLeft": 120,
+    "imageEdgeFeatherRight": 120,
     "offsetX": 0,
     "offsetY": 6
   },

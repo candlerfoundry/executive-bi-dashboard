@@ -59,16 +59,13 @@ body.page-config-loading .panel.active::before,
 
 /* ═══ SECTION: THIS YEAR / Current Offerings — donor-facing rewrite 2026-05-14 ═══ */
 .ty-page { background: var(--cream); position: relative; }
-.ty-hero { position: relative; display: flex; flex-direction: column; padding: 64px clamp(20px, 4vw, 60px) 0; min-height: var(--ty-hero-min-height, 560px); background: var(--cream); overflow: hidden; --ty-hero-image: none; --ty-hero-opacity: 0.6; --ty-hero-fade-left: 28; --ty-hero-fade-right: 22; --ty-hero-pos-x: 50; --ty-hero-pos-y: 32; --ty-hero-zoom: cover; --ty-hero-offset-x: 0; --ty-hero-offset-y: 0; }
+.ty-hero { position: relative; display: flex; flex-direction: column; padding: 64px clamp(20px, 4vw, 60px) 0; min-height: var(--ty-hero-min-height, 560px); background: var(--cream); overflow: hidden; --ty-hero-image: none; --ty-hero-opacity: 0.6; --ty-hero-fade-left: 28; --ty-hero-fade-right: 22; --ty-hero-pos-x: 50; --ty-hero-pos-y: 32; --ty-hero-zoom: cover; --ty-hero-offset-x: 0; --ty-hero-offset-y: 0; --hero-edge-surface: 250,250,242; --hero-photo-left: 0px; --hero-photo-right: 100%; --hero-edge-feather-left: 0px; --hero-edge-feather-right: 0px; }
 .ty-hero::before { content: ''; position: absolute; inset: 0; background-image: var(--ty-hero-image); background-size: var(--ty-hero-zoom); background-position: calc(var(--ty-hero-pos-x) * 1%) calc(var(--ty-hero-pos-y) * 1%); background-repeat: no-repeat; opacity: var(--ty-hero-opacity); transform: translate(calc(var(--ty-hero-offset-x) * 1px), calc(var(--ty-hero-offset-y) * 1px)); pointer-events: none; }
-.ty-hero::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(250,250,242,0.97) 0%, rgba(250,250,242,0.92) calc(var(--ty-hero-fade-left) * 1% - 12%), rgba(250,250,242,0.55) calc(var(--ty-hero-fade-left) * 1%), rgba(250,250,242,0.10) calc(var(--ty-hero-fade-left) * 1% + 24%), rgba(250,250,242,0.10) calc(100% - var(--ty-hero-fade-right) * 1% - 4%), rgba(250,250,242,0.55) calc(100% - var(--ty-hero-fade-right) * 1%), rgba(250,250,242,0.90) 100%); pointer-events: none; }
-/* Tight edge fade: feather the actual photo at left + right edges so the hard photo cutoff blends into cream */
-.ty-hero::before, .gr-hero::before, .ci-story-hero::before, .mission-hero::before {
-  --hero-edge-fade-left: 8%; --hero-edge-fade-right: 8%;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 var(--hero-edge-fade-left), #000 calc(100% - var(--hero-edge-fade-right)), transparent 100%);
-          mask-image: linear-gradient(90deg, transparent 0%, #000 var(--hero-edge-fade-left), #000 calc(100% - var(--hero-edge-fade-right)), transparent 100%);
-  -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-  -webkit-mask-size: 100% 100%; mask-size: 100% 100%;
+.ty-hero::after { content: ''; position: absolute; inset: 0; background: var(--hero-local-edge-overlay), linear-gradient(90deg, rgba(250,250,242,0.97) 0%, rgba(250,250,242,0.92) calc(var(--ty-hero-fade-left) * 1% - 12%), rgba(250,250,242,0.55) calc(var(--ty-hero-fade-left) * 1%), rgba(250,250,242,0.10) calc(var(--ty-hero-fade-left) * 1% + 24%), rgba(250,250,242,0.10) calc(100% - var(--ty-hero-fade-right) * 1% - 4%), rgba(250,250,242,0.55) calc(100% - var(--ty-hero-fade-right) * 1%), rgba(250,250,242,0.90) 100%); pointer-events: none; }
+.ty-hero, .gr-hero, .ci-story-hero, .mission-bar {
+  --hero-local-edge-overlay:
+    linear-gradient(90deg, rgba(var(--hero-edge-surface), 0.96) 0%, rgba(var(--hero-edge-surface), 0) 100%) var(--hero-photo-left) 0 / var(--hero-edge-feather-left) 100% no-repeat,
+    linear-gradient(90deg, rgba(var(--hero-edge-surface), 0) 0%, rgba(var(--hero-edge-surface), 0.96) 100%) calc(var(--hero-photo-right) - var(--hero-edge-feather-right)) 0 / var(--hero-edge-feather-right) 100% no-repeat;
 }
 .ty-hero-inner { position: relative; z-index: 1; max-width: 1680px; margin: 0 auto; width: 100%; flex: 0 0 auto; }
 .ty-eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: var(--orange); margin-bottom: 14px; font-family: 'Montserrat',sans-serif; }
@@ -203,9 +200,9 @@ body.page-config-loading .panel.active::before,
 }
 .gr-editor-launch { position:absolute; top:96px; right:var(--gr-gutter); z-index:4; display:flex; justify-content:flex-end; }
 .gr-shell { width:min(100%, var(--gr-shell-max)); margin:0 auto; padding:0 var(--gr-gutter); }
-.gr-hero { position:relative; min-height:var(--gr-hero-min); overflow:hidden; background:#fffdf8; }
+.gr-hero { position:relative; min-height:var(--gr-hero-min); overflow:hidden; background:#fffdf8; --hero-edge-surface: 255,253,248; --hero-photo-left: 0px; --hero-photo-right: 100%; --hero-edge-feather-left: 0px; --hero-edge-feather-right: 0px; }
 .gr-hero::before { content:''; position:absolute; inset:0; background-image:var(--gr-hero-image-url, url('/assets/Graphic_3_growth.png')); background-size:var(--gr-hero-image-size); background-position:var(--gr-hero-image-position); background-repeat:no-repeat; opacity:var(--gr-hero-art-opacity); filter:saturate(calc(1 + (var(--gr-hero-art-clarity) * 0.006))) contrast(calc(1 + (var(--gr-hero-art-clarity) * 0.004))) drop-shadow(0 0 calc(var(--gr-hero-art-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; }
-.gr-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--gr-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--gr-hero-fade-left), rgba(255,253,248,0.08) calc(var(--gr-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--gr-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--gr-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
+.gr-hero::after { content:''; position:absolute; inset:0; background:var(--hero-local-edge-overlay), linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--gr-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--gr-hero-fade-left), rgba(255,253,248,0.08) calc(var(--gr-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--gr-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--gr-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
 .gr-hero-content { position:relative; z-index:1; width:min(100%, var(--gr-shell-max)); min-height:var(--gr-hero-min); margin:0 auto; padding:0 var(--gr-gutter); display:flex; align-items:center; justify-content:space-between; gap:clamp(32px, 4vw, 72px); }
 .gr-hero-copy { max-width:var(--gr-hero-copy-max); transform:translate(var(--gr-hero-copy-offset-x), var(--gr-hero-copy-offset-y)); flex:0 1 auto; }
 .gr-hero-title { width:min(100%, var(--gr-hero-title-width)); max-width:var(--gr-hero-title-width); font-size:var(--gr-hero-title-size); line-height:0.96; font-weight:700; color:#1e2530; letter-spacing:-0.05em; margin:0 0 var(--gr-hero-title-gap); font-family:'Montserrat',sans-serif; text-wrap:balance; }
@@ -342,9 +339,9 @@ body.page-config-loading .panel.active::before,
 .ci-story-page { width:100%; margin:0 auto; padding:0 0 48px; position:relative; }
 .ci-editor-launch { position:absolute; top:18px; right:var(--ci-gutter); z-index:4; display:flex; justify-content:flex-end; margin:0; }
 .ci-story-page > #ci-story-rows { width:min(100%, var(--ci-shell-max)); margin:0 auto; padding:10px var(--ci-gutter) 0; }
-.ci-story-hero { position:relative; overflow:hidden; border-radius:0; background:#fffdf8; box-shadow:none; margin-bottom:22px; min-height:var(--ci-hero-min-height); border-bottom:1px solid rgba(30,37,48,0.14); }
+.ci-story-hero { position:relative; overflow:hidden; border-radius:0; background:#fffdf8; box-shadow:none; margin-bottom:22px; min-height:var(--ci-hero-min-height); border-bottom:1px solid rgba(30,37,48,0.14); --hero-edge-surface: 255,253,248; --hero-photo-left: 0px; --hero-photo-right: 100%; --hero-edge-feather-left: 0px; --hero-edge-feather-right: 0px; }
 .ci-story-hero::before { content:''; position:absolute; inset:0; background-image:var(--ci-hero-image-url); background-position:var(--ci-hero-image-position); background-size:var(--ci-hero-image-size); background-repeat:no-repeat; opacity:var(--ci-hero-image-opacity); filter:saturate(calc(1 + (var(--ci-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--ci-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--ci-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translate(var(--ci-hero-image-offset-x), var(--ci-hero-image-offset-y)) translateZ(0); pointer-events:none; }
-.ci-story-hero::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--ci-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--ci-hero-fade-left), rgba(255,253,248,0.08) calc(var(--ci-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--ci-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--ci-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
+.ci-story-hero::after { content:''; position:absolute; inset:0; background:var(--hero-local-edge-overlay), linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--ci-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--ci-hero-fade-left), rgba(255,253,248,0.08) calc(var(--ci-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--ci-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--ci-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
 .ci-story-hero-inner { position:relative; z-index:1; width:min(100%, var(--ci-shell-max)); min-height:var(--ci-hero-min-height); margin:0 auto; padding:0 var(--ci-gutter); display:flex; align-items:stretch; }
 .ci-hero-copy { width:min(100%, var(--ci-hero-title-width)); max-width:var(--ci-hero-title-width); min-height:100%; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:0; transform:translate(var(--ci-hero-copy-offset-x), var(--ci-hero-copy-offset)); }
 .ci-kicker,
@@ -700,9 +697,9 @@ body.page-config-loading .panel.active::before,
   --mission-card-art-sm: clamp(110px, 8vw, 144px);
   background:#fbf8f3;
 }
-.mission-bar { position:relative; min-height:var(--mission-hero-min); background:#fffdf8; overflow:hidden; margin-bottom:22px; border-bottom:1px solid rgba(30,37,48,0.14); }
+.mission-bar { position:relative; min-height:var(--mission-hero-min); background:#fffdf8; overflow:hidden; margin-bottom:22px; border-bottom:1px solid rgba(30,37,48,0.14); --hero-edge-surface: 255,253,248; --hero-photo-left: 0px; --hero-photo-right: 100%; --hero-edge-feather-left: 0px; --hero-edge-feather-right: 0px; }
 .mission-bar::before { content:''; position:absolute; inset:0; background-image:var(--mission-hero-image-url); background-position:var(--mission-hero-image-position); background-size:var(--mission-hero-image-size); background-repeat:no-repeat; opacity:var(--mission-hero-image-opacity); filter:saturate(calc(1 + (var(--mission-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--mission-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--mission-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translateZ(0); pointer-events:none; -webkit-mask-image:var(--mission-hero-image-mask); mask-image:var(--mission-hero-image-mask); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
-.mission-bar::after { content:''; position:absolute; inset:0; background:var(--mission-hero-overlay-gradient); pointer-events:none; }
+.mission-bar::after { content:''; position:absolute; inset:0; background:var(--hero-local-edge-overlay), var(--mission-hero-overlay-gradient); pointer-events:none; }
 .mission-bar-overlay { position:relative; z-index:1; width:min(100%, var(--mission-shell-max)); min-height:var(--mission-hero-min); margin:0 auto; padding:0 var(--mission-gutter) 0; }
 .mission-hero-grid { display:grid; grid-template-columns:var(--mission-hero-columns); align-items:center; gap:var(--mission-section-gap); min-height:var(--mission-hero-min); }
   .mission-intro-wrap { position:relative; z-index:2; width:min(100%, var(--mission-hero-text-max)); max-width:var(--mission-hero-text-max); min-height:var(--mission-hero-min); display:flex; flex-direction:column; justify-content:center; padding:clamp(22px, 2.2vw, 40px) 0 clamp(28px, 2.4vw, 44px); text-align:var(--mission-hero-text-align); transform:translateY(var(--mission-hero-copy-offset, 0px)); transition:transform 0.2s ease; }
@@ -987,8 +984,8 @@ body.page-config-loading .panel.active::before,
 .te-hero-accent-right { right:0; width:var(--te-accent-right-width, 32%); background-image:var(--te-accent-right-img, none); background-size:var(--te-accent-right-size, auto 100%); background-position:var(--te-accent-right-pos, 50% 40%); opacity:var(--te-accent-right-opacity, 0.42); -webkit-mask-image:radial-gradient(ellipse 120% 130% at 100% 50%, #000 0%, #000 var(--te-accent-right-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-right-mid, 72%), transparent 100%); mask-image:radial-gradient(ellipse 120% 130% at 100% 50%, #000 0%, #000 var(--te-accent-right-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-right-mid, 72%), transparent 100%); }
 .te-hero-overlay { position:absolute; inset:0; background:linear-gradient(90deg, rgba(11,15,24,0.55) 0%, rgba(11,15,24,0.25) 22%, rgba(11,15,24,0.08) 50%, rgba(11,15,24,0.25) 78%, rgba(11,15,24,0.55) 100%), linear-gradient(180deg, rgba(11,15,24,0.08) 0%, rgba(11,15,24,0.34) 74%, rgba(11,15,24,0.7) 100%); z-index:1; }
 .te-hero-content { position:relative; z-index:2; height:380px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:14px 24px 20px; text-align:center; gap:10px; }
-.te-logo-img { min-width:200px; width:clamp(200px,16vw,300px); height:auto; display:block; }
-.te-hero-desc { max-width:760px; font-size:clamp(0.9rem,1vw,1rem); font-weight:500; color:#ffffff; line-height:1.6; margin:0; text-shadow:0 2px 16px rgba(0,0,0,0.7); }
+.te-logo-img { min-width:120px; width:var(--te-logo-width, clamp(200px,16vw,300px)); max-width:min(92vw,520px); height:auto; display:block; transform:translateY(var(--te-logo-offset-y, 0px)); }
+.te-hero-desc { max-width:760px; font-size:clamp(0.9rem,1vw,1rem); font-weight:500; color:#ffffff; line-height:1.6; margin:0; text-shadow:0 2px 16px rgba(0,0,0,0.7); transform:translateY(var(--te-hero-text-offset-y, 0px)); }
 .te-hero-stats { display:flex; align-items:flex-start; justify-content:center; gap:0; margin-top:2px; flex-wrap:wrap; row-gap:12px; }
 .te-hs-item { text-align:center; padding:0 28px; }
 .te-hs-num { font-size:clamp(1.4rem,2.2vw,2rem); font-weight:800; color:#E8541A; line-height:1; }
@@ -1323,6 +1320,18 @@ body.page-config-loading .panel.active::before,
           <!-- placeholder column to keep grid balanced -->
         </div>
       </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-edge-feather-left">Localized left photo edge feather</label>
+          <input id="ty-editor-hero-edge-feather-left" type="range" min="0" max="220" step="2">
+          <div class="editor-inline-meta"><span>Harder</span><span id="ty-editor-hero-edge-feather-left-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="ty-editor-hero-edge-feather-right">Localized right photo edge feather</label>
+          <input id="ty-editor-hero-edge-feather-right" type="range" min="0" max="220" step="2">
+          <div class="editor-inline-meta"><span>Harder</span><span id="ty-editor-hero-edge-feather-right-value"></span></div>
+        </div>
+      </div>
     </div>
 
     <div class="page-editor-group">
@@ -1476,7 +1485,7 @@ body.page-config-loading .panel.active::before,
     </div>
 
     <div class="page-editor-actions">
-      <button class="page-editor-reset" id="ty-editor-reset" type="button">Reset to Default</button>
+      <button class="page-editor-undo" id="ty-editor-undo" type="button" disabled>Undo last change</button>
       <button class="page-editor-apply" id="ty-editor-apply" type="button">Save Changes in Browser</button>
     </div>
   </aside>
@@ -1658,6 +1667,18 @@ body.page-config-loading .panel.active::before,
       </div>
       <div class="editor-grid-2">
         <div class="editor-field">
+          <label class="editor-label" for="growth-editor-edge-feather-left">Localized left photo edge feather</label>
+          <input id="growth-editor-edge-feather-left" type="range" min="0" max="220" step="2">
+          <div class="editor-inline-meta"><span>Harder</span><span id="growth-editor-edge-feather-left-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="growth-editor-edge-feather-right">Localized right photo edge feather</label>
+          <input id="growth-editor-edge-feather-right" type="range" min="0" max="220" step="2">
+          <div class="editor-inline-meta"><span>Harder</span><span id="growth-editor-edge-feather-right-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
           <label class="editor-label" for="growth-editor-art-offset-x">Graphic horizontal position</label>
           <input id="growth-editor-art-offset-x" type="range" min="-320" max="220" step="2">
           <div class="editor-inline-meta"><span>Left</span><span id="growth-editor-art-offset-x-value"></span></div>
@@ -1736,7 +1757,7 @@ body.page-config-loading .panel.active::before,
     </div>
 
     <div class="page-editor-actions">
-      <button class="page-editor-reset" id="growth-editor-reset" type="button">Reset to Default</button>
+      <button class="page-editor-undo" id="growth-editor-undo" type="button" disabled>Undo last change</button>
       <button class="page-editor-apply" id="growth-editor-apply" type="button">Save Changes in Browser</button>
     </div>
   </aside>
@@ -2022,6 +2043,18 @@ body.page-config-loading .panel.active::before,
               <label class="editor-label" for="impact-editor-hero-fade-right">Right fade</label>
               <input id="impact-editor-hero-fade-right" type="range" min="0" max="100" step="1">
               <div class="editor-inline-meta"><span>Less cover</span><span id="impact-editor-hero-fade-right-value"></span></div>
+            </div>
+          </div>
+          <div class="editor-grid-2">
+            <div class="editor-field">
+              <label class="editor-label" for="impact-editor-hero-edge-feather-left">Localized left photo edge feather</label>
+              <input id="impact-editor-hero-edge-feather-left" type="range" min="0" max="220" step="2">
+              <div class="editor-inline-meta"><span>Harder</span><span id="impact-editor-hero-edge-feather-left-value"></span></div>
+            </div>
+            <div class="editor-field">
+              <label class="editor-label" for="impact-editor-hero-edge-feather-right">Localized right photo edge feather</label>
+              <input id="impact-editor-hero-edge-feather-right" type="range" min="0" max="220" step="2">
+              <div class="editor-inline-meta"><span>Harder</span><span id="impact-editor-hero-edge-feather-right-value"></span></div>
             </div>
           </div>
           <div class="editor-grid-2">
@@ -2593,7 +2626,7 @@ body.page-config-loading .panel.active::before,
       </div>
 
         <div class="page-editor-actions">
-          <button class="page-editor-reset" id="impact-editor-reset" type="button">Reset to Default</button>
+          <button class="page-editor-undo" id="impact-editor-undo" type="button" disabled>Undo last change</button>
           <button class="page-editor-apply" id="impact-editor-apply" type="button">Save Changes in Browser</button>
         </div>
     </aside>
@@ -2810,6 +2843,18 @@ body.page-config-loading .panel.active::before,
           <label class="editor-label" for="mission-editor-hero-image-clarity">Artwork sharpness</label>
           <input id="mission-editor-hero-image-clarity" type="range" min="0" max="100" step="1">
           <div class="editor-inline-meta"><span>Softer</span><span id="mission-editor-hero-image-clarity-value"></span></div>
+        </div>
+      </div>
+      <div class="editor-grid-2">
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-hero-edge-feather-left">Localized left photo edge feather</label>
+          <input id="mission-editor-hero-edge-feather-left" type="range" min="0" max="220" step="2">
+          <div class="editor-inline-meta"><span>Harder</span><span id="mission-editor-hero-edge-feather-left-value"></span></div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="mission-editor-hero-edge-feather-right">Localized right photo edge feather</label>
+          <input id="mission-editor-hero-edge-feather-right" type="range" min="0" max="220" step="2">
+          <div class="editor-inline-meta"><span>Harder</span><span id="mission-editor-hero-edge-feather-right-value"></span></div>
         </div>
       </div>
     </div>
@@ -3307,12 +3352,29 @@ body.page-config-loading .panel.active::before,
           <textarea id="theoed-editor-hero-desc"></textarea>
         </div>
         <div class="editor-field">
-          <label class="editor-label" for="theoed-editor-hero-logo">Logo image URL</label>
+          <label class="editor-label" for="theoed-editor-hero-logo">Logo image Git asset path or URL</label>
           <input id="theoed-editor-hero-logo" type="text">
         </div>
         <div class="editor-field">
           <label class="editor-label" for="theoed-editor-hero-logo-alt">Logo alt text</label>
           <input id="theoed-editor-hero-logo-alt" type="text">
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-logo-width">Logo size</label>
+            <input id="theoed-editor-hero-logo-width" type="range" min="140" max="520" step="4">
+            <div class="editor-inline-meta"><span>Smaller</span><span id="theoed-editor-hero-logo-width-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="theoed-editor-hero-logo-offset-y">Logo vertical position</label>
+            <input id="theoed-editor-hero-logo-offset-y" type="range" min="-140" max="140" step="2">
+            <div class="editor-inline-meta"><span>Higher</span><span id="theoed-editor-hero-logo-offset-y-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="theoed-editor-hero-text-offset-y">Hero description vertical position</label>
+          <input id="theoed-editor-hero-text-offset-y" type="range" min="-140" max="140" step="2">
+          <div class="editor-inline-meta"><span>Higher</span><span id="theoed-editor-hero-text-offset-y-value"></span></div>
         </div>
       </div>
       <div class="page-editor-group">
@@ -3884,6 +3946,9 @@ function theoedNormalizeHero(hero) {
   if (hero.backgroundImage && (!hero.centerImage || !hero.centerImage.photo)) {
     hero.centerImage = Object.assign({ posX:50, posY:18, scale:110, opacity:75, photo: hero.backgroundImage }, hero.centerImage || {});
   }
+  ['logoWidth', 'logoOffsetY', 'textOffsetY'].forEach(function(key) {
+    if (hero[key] != null && hero[key] !== '') hero[key] = Number(hero[key]);
+  });
   ['centerImage','leftAccent','rightAccent'].forEach(function(slot) {
     var defaults = THEOED_EDITOR_DEFAULTS.hero[slot] || { photo:'', posX:50, posY:40, scale:110, opacity:42 };
     var current = hero[slot] || {};
@@ -3915,6 +3980,12 @@ function theoedApplyHero(config) {
   }
   if (desc) desc.textContent = hero.description || '';
   if (heroRoot) {
+    if (hero.logoWidth != null && isFinite(hero.logoWidth)) heroRoot.style.setProperty('--te-logo-width', Number(hero.logoWidth) + 'px');
+    else heroRoot.style.removeProperty('--te-logo-width');
+    if (hero.logoOffsetY != null && isFinite(hero.logoOffsetY)) heroRoot.style.setProperty('--te-logo-offset-y', Number(hero.logoOffsetY) + 'px');
+    else heroRoot.style.removeProperty('--te-logo-offset-y');
+    if (hero.textOffsetY != null && isFinite(hero.textOffsetY)) heroRoot.style.setProperty('--te-hero-text-offset-y', Number(hero.textOffsetY) + 'px');
+    else heroRoot.style.removeProperty('--te-hero-text-offset-y');
     var c = hero.centerImage || {};
     if (c.photo) {
       heroRoot.style.setProperty('--te-hero-center-img', 'url("' + c.photo + '")');
@@ -4063,6 +4134,9 @@ function theoedPopulatePageFields() {
   theoedSetVal('theoed-editor-hero-desc', hero.description);
   theoedSetVal('theoed-editor-hero-logo', hero.logoImage);
   theoedSetVal('theoed-editor-hero-logo-alt', hero.logoAlt);
+  theoedSetSliderWithValue('theoed-editor-hero-logo-width', Math.round(Number(hero.logoWidth != null ? hero.logoWidth : 260)), function(v){return Math.round(v)+'px';});
+  theoedSetSliderWithValue('theoed-editor-hero-logo-offset-y', Math.round(Number(hero.logoOffsetY || 0)), function(v){return (v > 0 ? '+' : '') + Math.round(v)+'px';});
+  theoedSetSliderWithValue('theoed-editor-hero-text-offset-y', Math.round(Number(hero.textOffsetY || 0)), function(v){return (v > 0 ? '+' : '') + Math.round(v)+'px';});
   theoedSetVal('theoed-editor-archive-title', (cfg.archive && cfg.archive.title) || 'Event Archive');
 
   // Hero photo slot fields
@@ -4269,9 +4343,23 @@ function theoedBindEditor() {
     if (!el) return;
     el.addEventListener('input', function() { setter(el.value); theoedLiveUpdate(); });
   }
+  function bindHeroNumber(id, key, formatter) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('input', function() {
+      theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {};
+      theoedEditorRuntime.config.hero[key] = Number(el.value);
+      var label = document.getElementById(id + '-value');
+      if (label) label.textContent = formatter ? formatter(Number(el.value)) : String(el.value);
+      theoedLiveUpdate();
+    });
+  }
   bindPageInput('theoed-editor-hero-desc', function(v) { theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {}; theoedEditorRuntime.config.hero.description = v; });
   bindPageInput('theoed-editor-hero-logo', function(v) { theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {}; theoedEditorRuntime.config.hero.logoImage = v; });
   bindPageInput('theoed-editor-hero-logo-alt', function(v) { theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {}; theoedEditorRuntime.config.hero.logoAlt = v; });
+  bindHeroNumber('theoed-editor-hero-logo-width', 'logoWidth', function(v) { return Math.round(v) + 'px'; });
+  bindHeroNumber('theoed-editor-hero-logo-offset-y', 'logoOffsetY', function(v) { return (v > 0 ? '+' : '') + Math.round(v) + 'px'; });
+  bindHeroNumber('theoed-editor-hero-text-offset-y', 'textOffsetY', function(v) { return (v > 0 ? '+' : '') + Math.round(v) + 'px'; });
   // Hero photo slot bindings
   function ensureHeroSlot(slot) {
     theoedEditorRuntime.config.hero = theoedEditorRuntime.config.hero || {};
@@ -4561,7 +4649,7 @@ async function initTheoEd() {
   theoedApplyConfig(theoedEditorRuntime.config);
   theoedBindEditor();
   theoedPopulateAllFields();
-  theoedSetStatus(theoedEditorRuntime.storedDraftConfig ? 'Git-backed content loaded (local draft available)' : 'Saved browser version loaded', true);
+  theoedSetStatus(theoedEditorRuntime.storedDraftConfig ? 'Git-backed content loaded (local draft available)' : 'Git-backed content loaded', true);
 
   setupLightboxCloseControls();
 }
@@ -4751,6 +4839,9 @@ function switchTab(id, btn) {
   btn.classList.add('active');
   var panelLoad = loadDashboardPanelConfig(id);
   if (!panelLoad && id === 'numreach') initNumbers();
+  setTimeout(function() {
+    if (window.pageEditorRefreshHeroEdgeVars) window.pageEditorRefreshHeroEdgeVars();
+  }, 60);
 }
 
 function countUp(el, target, duration) {
@@ -4779,6 +4870,10 @@ var THIS_YEAR_DEFAULTS = {
     eyebrow: 'Past 12 Months',
     title: 'Current Offerings',
     subtitle: "A snapshot of the courses, conversations, and community happening across the Foundry right now."
+  },
+  layout: {
+    edgeFeatherLeft: 120,
+    edgeFeatherRight: 120
   },
   stats: [
     { id: 'courses',        label: 'Courses Offered',        value: 0, sub: 'Past 12 months \u00b7 CIC + On-Demand' },
@@ -4810,17 +4905,13 @@ async function initThisYear() {
   }
   thisYearEditorRuntime.publishedConfig = (fetched && typeof fetched === 'object') ? fetched : null;
   thisYearEditorRuntime.storedDraftConfig = tyEditorGetStoredConfig();
-  if (thisYearEditorRuntime.storedDraftConfig) {
-    tyEditorRestoreStoredDraft();
-  } else {
-    tyEditorLoadPublishedDraft();
-  }
+  tyEditorLoadPublishedDraft();
   thisYearApplyConfig(thisYearEditorRuntime.config);
   thisYearBindFlipHandlers();
   thisYearEnsureStatsObserver();
   tyEditorBind();
   tyEditorPopulateFields();
-  tyEditorSetStatus('Saved browser version loaded', true);
+  tyEditorSetStatus(thisYearEditorRuntime.storedDraftConfig ? 'Git-backed content loaded (local draft available)' : 'Git-backed content loaded', true);
 }
 
 function mergeThisYearConfig(base, override) {
@@ -4927,6 +5018,22 @@ function thisYearApplyConfig(config) {
     if (L.heroOffsetY != null) heroEl.style.setProperty('--ty-hero-offset-y', String(L.heroOffsetY));
     if (L.fadeLeft != null) heroEl.style.setProperty('--ty-hero-fade-left', String(L.fadeLeft));
     if (L.fadeRight != null) heroEl.style.setProperty('--ty-hero-fade-right', String(L.fadeRight));
+    if (window.pageEditorApplyHeroEdgeVars) {
+      var zoom = L.heroZoom || 'cover';
+      var size = { mode: 'cover' };
+      if (zoom === 'contain') size = { mode: 'contain' };
+      else if (zoom === 'auto') size = {};
+      else if (/^\d+%$/.test(String(zoom))) size = { widthPercent: parseFloat(zoom) };
+      window.pageEditorApplyHeroEdgeVars({
+        root: heroEl,
+        image: h.image || '',
+        size: size,
+        posX: L.heroFocusX != null ? L.heroFocusX : 50,
+        offsetX: L.heroOffsetX || 0,
+        leftFeather: L.edgeFeatherLeft != null ? L.edgeFeatherLeft : 120,
+        rightFeather: L.edgeFeatherRight != null ? L.edgeFeatherRight : 120
+      });
+    }
   }
 
   var statsHost = document.getElementById('ty-stats-grid');
@@ -5099,7 +5206,11 @@ var thisYearEditorRuntime = {
   config: null,
   isOpen: false,
   controlsBound: false,
-  setOpen: null
+  setOpen: null,
+  history: [],
+  historyMax: 50,
+  historyLastSnapshot: null,
+  historyPoller: null
 };
 window.thisYearEditorRuntime = thisYearEditorRuntime;
 
@@ -5235,6 +5346,8 @@ function tyEditorPopulateFields() {
   setLayout('ty-editor-hero-offset-y', 'ty-editor-hero-offset-y-value', clamp(LL.heroOffsetY || 0, -200, 200, 0), 'px');
   setLayout('ty-editor-hero-fade-left', 'ty-editor-hero-fade-left-value', clamp(LL.fadeLeft != null ? LL.fadeLeft : 28, 0, 80, 28), '%');
   setLayout('ty-editor-hero-fade-right', 'ty-editor-hero-fade-right-value', clamp(LL.fadeRight != null ? LL.fadeRight : 22, 0, 80, 22), '%');
+  setLayout('ty-editor-hero-edge-feather-left', 'ty-editor-hero-edge-feather-left-value', clamp(LL.edgeFeatherLeft != null ? LL.edgeFeatherLeft : 120, 0, 220, 120), 'px');
+  setLayout('ty-editor-hero-edge-feather-right', 'ty-editor-hero-edge-feather-right-value', clamp(LL.edgeFeatherRight != null ? LL.edgeFeatherRight : 120, 0, 220, 120), 'px');
   var zoomEl = document.getElementById('ty-editor-hero-zoom');
   if (zoomEl) zoomEl.value = LL.heroZoom || 'cover';
 
@@ -5348,6 +5461,7 @@ function tyEditorBind() {
     if (!thisYearEditorRuntime.storedDraftConfig) return;
     tyEditorRestoreStoredDraft();
     tyEditorReapply('Local draft restored', true);
+    pageEditorResetUndoHistory(thisYearEditorRuntime, thisYearEditorRuntime.config, 'ty-editor-undo');
   });
   var discardDraftBtn = document.getElementById('ty-editor-discard-draft');
   if (discardDraftBtn) discardDraftBtn.addEventListener('click', function() {
@@ -5355,6 +5469,7 @@ function tyEditorBind() {
     thisYearEditorRuntime.storedDraftConfig = null;
     tyEditorLoadPublishedDraft();
     tyEditorReapply('Local draft discarded', true);
+    pageEditorResetUndoHistory(thisYearEditorRuntime, thisYearEditorRuntime.config, 'ty-editor-undo');
   });
 
   function bindText(id, path) {
@@ -5416,6 +5531,8 @@ function tyEditorBind() {
   bindLayoutRange('ty-editor-hero-offset-y', 'heroOffsetY');
   bindLayoutRange('ty-editor-hero-fade-left', 'fadeLeft');
   bindLayoutRange('ty-editor-hero-fade-right', 'fadeRight');
+  bindLayoutRange('ty-editor-hero-edge-feather-left', 'edgeFeatherLeft');
+  bindLayoutRange('ty-editor-hero-edge-feather-right', 'edgeFeatherRight');
   var zoomBindEl = document.getElementById('ty-editor-hero-zoom');
   if (zoomBindEl) zoomBindEl.addEventListener('input', function() {
     if (!thisYearEditorRuntime.config.layout) thisYearEditorRuntime.config.layout = {};
@@ -5546,14 +5663,16 @@ function tyEditorBind() {
     tyEditorSaveConfig('Changes saved in browser');
   });
 
-  document.getElementById('ty-editor-reset').addEventListener('click', function() {
-    thisYearEditorRuntime.config = tyEditorClone(THIS_YEAR_DEFAULTS);
-    thisYearEditorRuntime.storedDraftConfig = null;
-    tyEditorClearStoredConfig();
-    thisYearEditorRuntime.baselineConfig = tyEditorClone(thisYearEditorRuntime.config);
-    tyEditorReapply('Reset to default preview', true);
-    if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Reset to default preview');
+  document.getElementById('ty-editor-undo').addEventListener('click', function() {
+    if (pageEditorUndoLastChange(thisYearEditorRuntime, function(snapshot) {
+      thisYearEditorRuntime.config = snapshot;
+      tyEditorReapply('Undid last change', false);
+    }, 'ty-editor-undo') && window.pageEditorShowToast) {
+      window.pageEditorShowToast(shell, 'Undid last change');
+    }
   });
+  pageEditorResetUndoHistory(thisYearEditorRuntime, thisYearEditorRuntime.config, 'ty-editor-undo');
+  pageEditorStartUndoHistory(thisYearEditorRuntime, function() { return thisYearEditorRuntime.config; }, 'ty-editor-undo');
 }
 
 window.thisYearEditorBridge = {
@@ -5566,6 +5685,7 @@ window.thisYearEditorBridge = {
     thisYearEditorRuntime.storedDraftConfig = null;
     tyEditorClearStoredConfig();
     thisYearEditorRuntime.baselineConfig = tyEditorClone(thisYearEditorRuntime.config);
+    pageEditorResetUndoHistory(thisYearEditorRuntime, thisYearEditorRuntime.config, 'ty-editor-undo');
     tyEditorSetStatus(message || 'Published to main', true);
     if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('ty-editor-shell'), message || 'Published to main');
   }
@@ -5786,6 +5906,8 @@ var IMPACT_EDITOR_DEFAULTS = {
     imageClarity: 0,
     imageFadeLeft: 48,
     imageFadeRight: 10,
+    imageEdgeFeatherLeft: 120,
+    imageEdgeFeatherRight: 120,
     offsetX: 0,
     offsetY: 0
   },
@@ -5837,7 +5959,11 @@ var impactEditorRuntime = {
   setOpen: null,
   isOpen: false,
   activePanel: 'page',
-  publishedConfig: null
+  publishedConfig: null,
+  history: [],
+  historyMax: 50,
+  historyLastSnapshot: null,
+  historyPoller: null
 };
 window.impactEditorRuntime = impactEditorRuntime;
 
@@ -5997,6 +6123,138 @@ window.publishDashboardEdits = async function() {
   });
 })();
 
+var pageEditorHeroImageCache = {};
+var pageEditorHeroEdgeRoots = [];
+function pageEditorApplyHeroEdgeVars(options) {
+  options = options || {};
+  var root = options.root;
+  if (!root) return;
+  root.__pageEditorHeroEdgeOptions = options;
+  if (!root.__pageEditorHeroEdgeRegistered) {
+    root.__pageEditorHeroEdgeRegistered = true;
+    pageEditorHeroEdgeRoots.push(root);
+  }
+  var leftFeather = Math.max(0, Number(options.leftFeather != null ? options.leftFeather : 0) || 0);
+  var rightFeather = Math.max(0, Number(options.rightFeather != null ? options.rightFeather : 0) || 0);
+  root.style.setProperty('--hero-edge-feather-left', leftFeather + 'px');
+  root.style.setProperty('--hero-edge-feather-right', rightFeather + 'px');
+
+  var image = String(options.image || '').trim();
+  if (!image || image === 'none') {
+    root.style.setProperty('--hero-photo-left', '0px');
+    root.style.setProperty('--hero-photo-right', '100%');
+    return;
+  }
+
+  function setBoundsFromImage(img) {
+    var rect = root.getBoundingClientRect();
+    var cw = Math.max(1, rect.width || root.offsetWidth || 1);
+    var ch = Math.max(1, rect.height || root.offsetHeight || 1);
+    var iw = Math.max(1, img.naturalWidth || img.width || 1);
+    var ih = Math.max(1, img.naturalHeight || img.height || 1);
+    var aspect = iw / ih;
+    var size = options.size || {};
+    var dw;
+    var dh;
+    if (size.mode === 'cover') {
+      var cover = Math.max(cw / iw, ch / ih);
+      dw = iw * cover;
+      dh = ih * cover;
+    } else if (size.mode === 'contain') {
+      var contain = Math.min(cw / iw, ch / ih);
+      dw = iw * contain;
+      dh = ih * contain;
+    } else if (size.widthPx != null) {
+      dw = Number(size.widthPx) || cw;
+      dh = dw / aspect;
+    } else if (size.heightPx != null) {
+      dh = Number(size.heightPx) || ch;
+      dw = dh * aspect;
+    } else if (size.widthPercent != null) {
+      dw = cw * (Number(size.widthPercent) || 100) / 100;
+      dh = dw / aspect;
+    } else if (size.heightPercent != null) {
+      dh = ch * (Number(size.heightPercent) || 100) / 100;
+      dw = dh * aspect;
+    } else {
+      dw = iw;
+      dh = ih;
+    }
+    var posX = Number(options.posX != null ? options.posX : 50);
+    if (!isFinite(posX)) posX = 50;
+    var offsetX = Number(options.offsetX || 0);
+    var left = ((cw - dw) * (posX / 100)) + offsetX;
+    root.style.setProperty('--hero-photo-left', Math.round(left) + 'px');
+    root.style.setProperty('--hero-photo-right', Math.round(left + dw) + 'px');
+  }
+
+  if (pageEditorHeroImageCache[image] && pageEditorHeroImageCache[image].complete) {
+    setBoundsFromImage(pageEditorHeroImageCache[image]);
+    return;
+  }
+
+  var img = pageEditorHeroImageCache[image] || new Image();
+  pageEditorHeroImageCache[image] = img;
+  img.addEventListener('load', function() { setBoundsFromImage(img); }, { once: true });
+  img.addEventListener('error', function() {
+    root.style.setProperty('--hero-photo-left', '0px');
+    root.style.setProperty('--hero-photo-right', '100%');
+  }, { once: true });
+  if (!img.src) img.src = image;
+}
+window.pageEditorApplyHeroEdgeVars = pageEditorApplyHeroEdgeVars;
+
+function pageEditorRefreshHeroEdgeVars() {
+  pageEditorHeroEdgeRoots.forEach(function(root) {
+    if (root && root.__pageEditorHeroEdgeOptions) pageEditorApplyHeroEdgeVars(root.__pageEditorHeroEdgeOptions);
+  });
+}
+window.pageEditorRefreshHeroEdgeVars = pageEditorRefreshHeroEdgeVars;
+
+window.addEventListener('resize', function() {
+  clearTimeout(window.__pageEditorHeroEdgeResizeTimer);
+  window.__pageEditorHeroEdgeResizeTimer = setTimeout(function() {
+    pageEditorRefreshHeroEdgeVars();
+  }, 120);
+});
+
+function pageEditorUpdateUndoButton(runtime, buttonId) {
+  var button = document.getElementById(buttonId);
+  if (button) button.disabled = !(runtime && runtime.history && runtime.history.length);
+}
+
+function pageEditorResetUndoHistory(runtime, config, buttonId) {
+  if (!runtime) return;
+  runtime.history = [];
+  runtime.historyMax = runtime.historyMax || 50;
+  runtime.historyLastSnapshot = JSON.stringify(config || {});
+  pageEditorUpdateUndoButton(runtime, buttonId);
+}
+
+function pageEditorStartUndoHistory(runtime, getConfig, buttonId) {
+  if (!runtime || runtime.historyPoller) return;
+  runtime.historyMax = runtime.historyMax || 50;
+  runtime.history = runtime.history || [];
+  runtime.historyLastSnapshot = JSON.stringify(getConfig() || {});
+  runtime.historyPoller = window.setInterval(function() {
+    var snapshot = JSON.stringify(getConfig() || {});
+    if (snapshot === runtime.historyLastSnapshot) return;
+    if (runtime.historyLastSnapshot) runtime.history.push(runtime.historyLastSnapshot);
+    if (runtime.history.length > runtime.historyMax) runtime.history.shift();
+    runtime.historyLastSnapshot = snapshot;
+    pageEditorUpdateUndoButton(runtime, buttonId);
+  }, 250);
+}
+
+function pageEditorUndoLastChange(runtime, applySnapshot, buttonId) {
+  if (!runtime || !runtime.history || !runtime.history.length) return false;
+  var snapshot = runtime.history.pop();
+  runtime.historyLastSnapshot = snapshot;
+  pageEditorUpdateUndoButton(runtime, buttonId);
+  applySnapshot(JSON.parse(snapshot));
+  return true;
+}
+
 window.attachPageEditorShellBehavior = function(options) {
   if (!options || !options.shell || options.shell.dataset.editorEnhanced === 'true') return options && options.api ? options.api : null;
   var shell = options.shell;
@@ -6151,9 +6409,18 @@ function impactUpdateDraftNotice() {
   notice.hidden = !impactEditorRuntime.storedDraftConfig;
 }
 
+function impactHeroPositionXPercent(position) {
+  var x = String(position || '').toLowerCase();
+  if (x.indexOf('left') !== -1) return 0;
+  if (x.indexOf('right') !== -1) return 100;
+  return 50;
+}
+
 function impactApplyCssVars(config) {
   var panel = document.getElementById('panel-people');
   if (!panel) return;
+  var heroRoot = panel.querySelector('.ci-story-hero');
+  var heroConfig = config.hero || {};
   panel.style.setProperty('--ci-card-gap', (config.layout.cardGap || 18) + 'px');
   panel.style.setProperty('--ci-card-height', (config.layout.cardHeight || 344) + 'px');
   panel.style.setProperty('--ci-hero-min-height', (config.layout.heroHeight || 360) + 'px');
@@ -6171,17 +6438,28 @@ function impactApplyCssVars(config) {
   panel.style.setProperty('--ci-card-quote-size', (config.typography.quoteSize || 1.28) + 'rem');
   panel.style.setProperty('--ci-card-support-size', (config.typography.supportSize || 0.96) + 'rem');
   panel.style.setProperty('--ci-card-name-size', (config.typography.nameSize || 0.9) + 'rem');
-  panel.style.setProperty('--ci-hero-image-url', 'url("' + ((config.hero && config.hero.image) || '/assets/Graphic Vignettes/vignette-city-life-banner.png') + '")');
-  panel.style.setProperty('--ci-hero-image-position', (config.hero && config.hero.imagePosition) || 'center right');
-  panel.style.setProperty('--ci-hero-image-size', 'auto ' + (((config.hero && config.hero.imageScale) != null ? config.hero.imageScale : 110)) + '%');
-  panel.style.setProperty('--ci-hero-image-opacity', String((config.hero && config.hero.imageOpacity) != null ? config.hero.imageOpacity : 0.26));
-  panel.style.setProperty('--ci-hero-image-offset-x', (((config.hero && config.hero.imageOffsetX) != null ? config.hero.imageOffsetX : 0)) + 'px');
-  panel.style.setProperty('--ci-hero-image-offset-y', (((config.hero && config.hero.imageOffsetY) != null ? config.hero.imageOffsetY : 0)) + 'px');
-  panel.style.setProperty('--ci-hero-image-clarity', String((config.hero && config.hero.imageClarity) != null ? config.hero.imageClarity : 0));
-  panel.style.setProperty('--ci-hero-fade-left', (((config.hero && config.hero.imageFadeLeft) != null ? config.hero.imageFadeLeft : 48)) + '%');
-  panel.style.setProperty('--ci-hero-fade-right', (((config.hero && config.hero.imageFadeRight) != null ? config.hero.imageFadeRight : 10)) + '%');
-  panel.style.setProperty('--ci-hero-copy-offset-x', (((config.hero && config.hero.offsetX) || 0)) + 'px');
-  panel.style.setProperty('--ci-hero-copy-offset', (((config.hero && config.hero.offsetY) || 0)) + 'px');
+  panel.style.setProperty('--ci-hero-image-url', 'url("' + (heroConfig.image || '/assets/Graphic Vignettes/vignette-city-life-banner.png') + '")');
+  panel.style.setProperty('--ci-hero-image-position', heroConfig.imagePosition || 'center right');
+  panel.style.setProperty('--ci-hero-image-size', 'auto ' + ((heroConfig.imageScale != null ? heroConfig.imageScale : 110)) + '%');
+  panel.style.setProperty('--ci-hero-image-opacity', String(heroConfig.imageOpacity != null ? heroConfig.imageOpacity : 0.26));
+  panel.style.setProperty('--ci-hero-image-offset-x', ((heroConfig.imageOffsetX != null ? heroConfig.imageOffsetX : 0)) + 'px');
+  panel.style.setProperty('--ci-hero-image-offset-y', ((heroConfig.imageOffsetY != null ? heroConfig.imageOffsetY : 0)) + 'px');
+  panel.style.setProperty('--ci-hero-image-clarity', String(heroConfig.imageClarity != null ? heroConfig.imageClarity : 0));
+  panel.style.setProperty('--ci-hero-fade-left', ((heroConfig.imageFadeLeft != null ? heroConfig.imageFadeLeft : 48)) + '%');
+  panel.style.setProperty('--ci-hero-fade-right', ((heroConfig.imageFadeRight != null ? heroConfig.imageFadeRight : 10)) + '%');
+  panel.style.setProperty('--ci-hero-copy-offset-x', ((heroConfig.offsetX || 0)) + 'px');
+  panel.style.setProperty('--ci-hero-copy-offset', ((heroConfig.offsetY || 0)) + 'px');
+  if (window.pageEditorApplyHeroEdgeVars && heroRoot) {
+    window.pageEditorApplyHeroEdgeVars({
+      root: heroRoot,
+      image: heroConfig.image || '/assets/Graphic Vignettes/vignette-city-life-banner.png',
+      size: { heightPercent: heroConfig.imageScale != null ? heroConfig.imageScale : 110 },
+      posX: impactHeroPositionXPercent(heroConfig.imagePosition),
+      offsetX: heroConfig.imageOffsetX != null ? heroConfig.imageOffsetX : 0,
+      leftFeather: heroConfig.imageEdgeFeatherLeft != null ? heroConfig.imageEdgeFeatherLeft : 120,
+      rightFeather: heroConfig.imageEdgeFeatherRight != null ? heroConfig.imageEdgeFeatherRight : 120
+    });
+  }
 }
 
 function impactApplyHero(config) {
@@ -6262,7 +6540,7 @@ function impactRestoreSavedConfig() {
   impactPopulateEditorFields();
   impactPopulateRowEditor();
   impactPopulateCardEditor();
-  impactSetStatus('Saved browser version loaded', true);
+  impactSetStatus(impactEditorRuntime.storedDraftConfig ? 'Git-backed content loaded (local draft available)' : 'Git-backed content loaded', true);
 }
 
 function impactPreparePublishPayload() {
@@ -6285,6 +6563,7 @@ async function impactPublishConfig() {
   impactEditorRuntime.storedDraftConfig = null;
   impactClearStoredConfig();
   impactEditorRuntime.baselineConfig = impactClone(impactEditorRuntime.config);
+  pageEditorResetUndoHistory(impactEditorRuntime, impactEditorRuntime.config, 'impact-editor-undo');
   impactSetStatus('Published to main', true);
   if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('impact-editor-shell'), 'Published to main');
 }
@@ -6299,6 +6578,7 @@ window.impactEditorBridge = {
     impactEditorRuntime.storedDraftConfig = null;
     impactClearStoredConfig();
     impactEditorRuntime.baselineConfig = impactClone(impactEditorRuntime.config);
+    pageEditorResetUndoHistory(impactEditorRuntime, impactEditorRuntime.config, 'impact-editor-undo');
     impactSetStatus(message || 'Published to main', true);
     if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('impact-editor-shell'), message || 'Published to main');
   }
@@ -7073,6 +7353,10 @@ function impactPopulateEditorFields() {
   document.getElementById('impact-editor-hero-fade-left-value').textContent = impactFormatPercent((hero.imageFadeLeft != null ? hero.imageFadeLeft : 48) / 100);
   document.getElementById('impact-editor-hero-fade-right').value = hero.imageFadeRight != null ? hero.imageFadeRight : 10;
   document.getElementById('impact-editor-hero-fade-right-value').textContent = impactFormatPercent((hero.imageFadeRight != null ? hero.imageFadeRight : 10) / 100);
+  document.getElementById('impact-editor-hero-edge-feather-left').value = hero.imageEdgeFeatherLeft != null ? hero.imageEdgeFeatherLeft : 120;
+  document.getElementById('impact-editor-hero-edge-feather-left-value').textContent = impactFormatPx(hero.imageEdgeFeatherLeft != null ? hero.imageEdgeFeatherLeft : 120);
+  document.getElementById('impact-editor-hero-edge-feather-right').value = hero.imageEdgeFeatherRight != null ? hero.imageEdgeFeatherRight : 120;
+  document.getElementById('impact-editor-hero-edge-feather-right-value').textContent = impactFormatPx(hero.imageEdgeFeatherRight != null ? hero.imageEdgeFeatherRight : 120);
   document.getElementById('impact-editor-hero-offset-x').value = hero.offsetX || 0;
   document.getElementById('impact-editor-hero-offset-x-value').textContent = ((hero.offsetX || 0) > 0 ? '+' : '') + (hero.offsetX || 0) + 'px';
   document.getElementById('impact-editor-hero-offset-y').value = hero.offsetY || 0;
@@ -7277,6 +7561,7 @@ function impactBindEditor() {
     impactPopulateRowEditor();
     impactPopulateCardEditor();
     impactSetStatus('Local draft restored', true);
+    pageEditorResetUndoHistory(impactEditorRuntime, impactEditorRuntime.config, 'impact-editor-undo');
   });
   document.getElementById('impact-editor-discard-draft').addEventListener('click', function() {
     impactClearStoredConfig();
@@ -7288,6 +7573,7 @@ function impactBindEditor() {
     impactPopulateRowEditor();
     impactPopulateCardEditor();
     impactSetStatus('Local draft discarded', true);
+    pageEditorResetUndoHistory(impactEditorRuntime, impactEditorRuntime.config, 'impact-editor-undo');
   });
   document.querySelectorAll('.impact-editor-face-pill[data-impact-face]').forEach(function(button) {
     button.addEventListener('click', function() {
@@ -7385,6 +7671,8 @@ function impactBindEditor() {
   onInput('impact-editor-hero-image-clarity', ['hero', 'imageClarity'], Number);
   onInput('impact-editor-hero-fade-left', ['hero', 'imageFadeLeft'], Number);
   onInput('impact-editor-hero-fade-right', ['hero', 'imageFadeRight'], Number);
+  onInput('impact-editor-hero-edge-feather-left', ['hero', 'imageEdgeFeatherLeft'], Number);
+  onInput('impact-editor-hero-edge-feather-right', ['hero', 'imageEdgeFeatherRight'], Number);
   onInput('impact-editor-hero-offset-x', ['hero', 'offsetX'], Number);
   onInput('impact-editor-hero-offset-y', ['hero', 'offsetY'], Number);
   onInput('impact-editor-hero-height', ['layout', 'heroHeight'], Number);
@@ -7647,22 +7935,21 @@ function impactBindEditor() {
   document.getElementById('impact-editor-apply').addEventListener('click', function() {
     impactSaveConfig('Changes saved in browser');
   });
-  document.getElementById('impact-editor-reset').addEventListener('click', function() {
-    impactClearStoredConfig();
-    impactEditorRuntime.storedDraftConfig = null;
-    impactEditorRuntime.config = impactClone(IMPACT_EDITOR_DEFAULTS);
-    impactEditorRuntime.baselineConfig = impactClone(impactEditorRuntime.config);
-    impactEditorRuntime.selectedRowId = null;
-    impactEditorRuntime.selectedCardKey = null;
-    impactEditorRuntime.selectedPanelId = null;
-    impactEnsureSelection();
-    impactRenderAll();
-    impactPopulateEditorFields();
-    impactPopulateRowEditor();
-    impactPopulateCardEditor();
-    impactSetStatus('Reset to default preview', true);
-    if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Reset to default preview');
+  document.getElementById('impact-editor-undo').addEventListener('click', function() {
+    if (pageEditorUndoLastChange(impactEditorRuntime, function(snapshot) {
+      impactEditorRuntime.config = snapshot;
+      impactEnsureSelection();
+      impactRenderAll();
+      impactPopulateEditorFields();
+      impactPopulateRowEditor();
+      impactPopulateCardEditor();
+      impactSetStatus('Undid last change', false);
+    }, 'impact-editor-undo') && window.pageEditorShowToast) {
+      window.pageEditorShowToast(shell, 'Undid last change');
+    }
   });
+  pageEditorResetUndoHistory(impactEditorRuntime, impactEditorRuntime.config, 'impact-editor-undo');
+  pageEditorStartUndoHistory(impactEditorRuntime, function() { return impactEditorRuntime.config; }, 'impact-editor-undo');
 }
 
 async function initPeople() {
@@ -7715,7 +8002,9 @@ var GROWTH_EDITOR_DEFAULTS = {
     artFocusX: 50,
     artFocusY: 30,
     fadeLeft: 55,
-    fadeRight: 18
+    fadeRight: 18,
+    edgeFeatherLeft: 120,
+    edgeFeatherRight: 120
   },
   typography: {
     fontFamily: "'Montserrat', sans-serif",
@@ -7764,7 +8053,11 @@ var growthEditorRuntime = {
   config: null,
   isOpen: false,
   controlsBound: false,
-  setOpen: null
+  setOpen: null,
+  history: [],
+  historyMax: 50,
+  historyLastSnapshot: null,
+  historyPoller: null
 };
 window.growthEditorRuntime = growthEditorRuntime;
 
@@ -7903,6 +8196,18 @@ function growthApplyConfig(config) {
   } else {
     panel.style.setProperty('--gr-hero-image-size', artWidth + 'px auto');
     panel.style.setProperty('--gr-hero-image-position', growthCalcPosition('100%', artOffsetX) + ' ' + growthCalcPosition('50%', artOffsetY));
+  }
+  var growthHeroRoot = document.querySelector('#panel-numreach .gr-hero');
+  if (window.pageEditorApplyHeroEdgeVars && growthHeroRoot) {
+    window.pageEditorApplyHeroEdgeVars({
+      root: growthHeroRoot,
+      image: (config.hero && config.hero.image) || GROWTH_EDITOR_DEFAULTS.hero.image,
+      size: layout.artFit === 'cover' ? { mode: 'cover' } : { widthPx: artWidth },
+      posX: layout.artFit === 'cover' ? ((layout.artFocusX != null) ? layout.artFocusX : 50) : 100,
+      offsetX: artOffsetX,
+      leftFeather: layout.edgeFeatherLeft != null ? layout.edgeFeatherLeft : 120,
+      rightFeather: layout.edgeFeatherRight != null ? layout.edgeFeatherRight : 120
+    });
   }
   panel.style.setProperty('--gr-hero-fade-left', ((layout.fadeLeft != null) ? layout.fadeLeft : 48) + '%');
   panel.style.setProperty('--gr-hero-fade-right', ((layout.fadeRight != null) ? layout.fadeRight : 10) + '%');
@@ -8117,7 +8422,7 @@ function growthRestoreSavedConfig() {
   growthEditorRuntime.config = growthClone(growthEditorRuntime.baselineConfig || growthGetConfig());
   growthApplyConfig(growthEditorRuntime.config);
   growthPopulateEditorFields();
-  growthSetStatus('Saved browser version loaded', true);
+  growthSetStatus(growthEditorRuntime.storedDraftConfig ? 'Git-backed content loaded (local draft available)' : 'Git-backed content loaded', true);
 }
 
 function growthPopulateEditorFields() {
@@ -8146,6 +8451,8 @@ function growthPopulateEditorFields() {
   document.getElementById('growth-editor-art-focus-y').value = Number((config.layout.artFocusY != null) ? config.layout.artFocusY : 50);
   document.getElementById('growth-editor-fade-left').value = Number((config.layout.fadeLeft != null) ? config.layout.fadeLeft : 48);
   document.getElementById('growth-editor-fade-right').value = Number((config.layout.fadeRight != null) ? config.layout.fadeRight : 10);
+  document.getElementById('growth-editor-edge-feather-left').value = Number((config.layout.edgeFeatherLeft != null) ? config.layout.edgeFeatherLeft : 120);
+  document.getElementById('growth-editor-edge-feather-right').value = Number((config.layout.edgeFeatherRight != null) ? config.layout.edgeFeatherRight : 120);
   document.getElementById('growth-editor-art-offset-x').value = Number(config.layout.artOffsetX || 0);
   document.getElementById('growth-editor-art-offset-y').value = Number(config.layout.artOffsetY || 0);
   document.getElementById('growth-editor-font-family').value = config.typography.fontFamily || "'Montserrat', sans-serif";
@@ -8168,6 +8475,8 @@ function growthPopulateEditorFields() {
   document.getElementById('growth-editor-art-focus-y-value').textContent = Math.round(Number((config.layout.artFocusY != null) ? config.layout.artFocusY : 50)) + '%';
   document.getElementById('growth-editor-fade-left-value').textContent = Math.round(Number((config.layout.fadeLeft != null) ? config.layout.fadeLeft : 48)) + '%';
   document.getElementById('growth-editor-fade-right-value').textContent = Math.round(Number((config.layout.fadeRight != null) ? config.layout.fadeRight : 10)) + '%';
+  document.getElementById('growth-editor-edge-feather-left-value').textContent = Math.round(Number((config.layout.edgeFeatherLeft != null) ? config.layout.edgeFeatherLeft : 120)) + 'px';
+  document.getElementById('growth-editor-edge-feather-right-value').textContent = Math.round(Number((config.layout.edgeFeatherRight != null) ? config.layout.edgeFeatherRight : 120)) + 'px';
   document.getElementById('growth-editor-art-offset-x-value').textContent = Math.round(Number(config.layout.artOffsetX || 0)) + 'px';
   document.getElementById('growth-editor-art-offset-y-value').textContent = Math.round(Number(config.layout.artOffsetY || 0)) + 'px';
   document.getElementById('growth-editor-title-size-value').textContent = Number(config.typography.titleSize || 4.2).toFixed(2) + 'rem';
@@ -8238,6 +8547,7 @@ function growthBindEditor() {
     growthApplyConfig(growthEditorRuntime.config);
     growthPopulateEditorFields();
     growthSetStatus('Local draft restored', true);
+    pageEditorResetUndoHistory(growthEditorRuntime, growthEditorRuntime.config, 'growth-editor-undo');
   });
   document.getElementById('growth-editor-discard-draft').addEventListener('click', function() {
     growthClearStoredConfig();
@@ -8246,6 +8556,7 @@ function growthBindEditor() {
     growthApplyConfig(growthEditorRuntime.config);
     growthPopulateEditorFields();
     growthSetStatus('Local draft discarded', true);
+    pageEditorResetUndoHistory(growthEditorRuntime, growthEditorRuntime.config, 'growth-editor-undo');
   });
 
   function bindInput(id, bucket, key, formatter) {
@@ -8323,6 +8634,8 @@ function growthBindEditor() {
   bindInput('growth-editor-art-focus-y', 'layout', 'artFocusY', Number);
   bindInput('growth-editor-fade-left', 'layout', 'fadeLeft', Number);
   bindInput('growth-editor-fade-right', 'layout', 'fadeRight', Number);
+  bindInput('growth-editor-edge-feather-left', 'layout', 'edgeFeatherLeft', Number);
+  bindInput('growth-editor-edge-feather-right', 'layout', 'edgeFeatherRight', Number);
   bindInput('growth-editor-art-offset-x', 'layout', 'artOffsetX', Number);
   bindInput('growth-editor-art-offset-y', 'layout', 'artOffsetY', Number);
   bindInput('growth-editor-font-family', 'typography', 'fontFamily');
@@ -8377,16 +8690,18 @@ function growthBindEditor() {
     growthSaveConfig('Changes saved in browser');
   });
 
-  document.getElementById('growth-editor-reset').addEventListener('click', function() {
-    growthEditorRuntime.config = growthClone(GROWTH_EDITOR_DEFAULTS);
-    growthEditorRuntime.storedDraftConfig = null;
-    growthClearStoredConfig();
-    growthEditorRuntime.baselineConfig = growthClone(growthEditorRuntime.config);
-    growthApplyConfig(growthEditorRuntime.config);
-    growthPopulateEditorFields();
-    growthSetStatus('Reset to default preview', true);
-    if (window.pageEditorShowToast) window.pageEditorShowToast(shell, 'Reset to default preview');
+  document.getElementById('growth-editor-undo').addEventListener('click', function() {
+    if (pageEditorUndoLastChange(growthEditorRuntime, function(snapshot) {
+      growthEditorRuntime.config = snapshot;
+      growthApplyConfig(growthEditorRuntime.config);
+      growthPopulateEditorFields();
+      growthSetStatus('Undid last change', false);
+    }, 'growth-editor-undo') && window.pageEditorShowToast) {
+      window.pageEditorShowToast(shell, 'Undid last change');
+    }
   });
+  pageEditorResetUndoHistory(growthEditorRuntime, growthEditorRuntime.config, 'growth-editor-undo');
+  pageEditorStartUndoHistory(growthEditorRuntime, function() { return growthEditorRuntime.config; }, 'growth-editor-undo');
 }
 
 window.growthEditorBridge = {
@@ -8399,6 +8714,7 @@ window.growthEditorBridge = {
     growthEditorRuntime.storedDraftConfig = null;
     growthClearStoredConfig();
     growthEditorRuntime.baselineConfig = growthClone(growthEditorRuntime.config);
+    pageEditorResetUndoHistory(growthEditorRuntime, growthEditorRuntime.config, 'growth-editor-undo');
     growthSetStatus(message || 'Published to main', true);
     if (window.pageEditorShowToast) window.pageEditorShowToast(document.getElementById('growth-editor-shell'), message || 'Published to main');
   }

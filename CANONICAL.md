@@ -1,5 +1,7 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-13 (Growth & Reach: hero stat strip, JSON-driven stats/denominations/churchSizes, scroll-triggered animation, retired Cities Served, GitHub Actions monthly refresh)
+Last updated: 2026-05-18 (Hero localized edge feathering, editor Undo last change controls, TheoEd hero logo/text controls)
+
+Canonical local working copy: `C:\Scripts\executive-bi-dashboard`. If older notes contain legacy path references, treat this C drive path as authoritative.
 
 ## PURPOSE
 This file documents fragile, frequently-broken implementations in the Executive BI dashboard.
@@ -702,6 +704,54 @@ The file is gitignored via the top-level `.gitignore`, so even an accidental `gi
 **Regression risk:**
 - Do not strip the YouTube `vid` fallback from `openLightbox`. We still need it for any future TheoEd talks that haven't been uploaded to Dropbox or Vimeo yet, and the discussion guide banner still keys off the speaker entry.
 - Do not break the `dbxUrl` plumbing in `buildMissionState`; without it the editor render path drops the Mission-side TheoEd Dropbox/Vimeo URLs and the lightbox falls back to YouTube ads.
+
+---
+
+## 30. HERO EDGE FEATHERING + EDITOR UNDO CONTROLS
+**Date:** 2026-05-18
+
+**What changed:**
+- Our Mission & Offerings, Candler Impact, Growth and Reach, and This Year now use localized left/right hero edge feathering at the actual rendered photo bounds. This is separate from the older broad left/right hero fade controls, which are still available for overall composition.
+- Candler Impact, Growth and Reach, and This Year editors no longer expose Reset to Default buttons. They now use Undo last change, matching the Mission editor's safer workflow.
+- TheoEd hero editing now includes logo asset path, logo size, logo vertical offset, and hero text vertical offset controls.
+
+**Files touched:**
+- `index.html`
+- `assets/mission-editor.js`
+- `assets/page-config/mission-page.json`
+- `assets/page-config/candler-impact.json`
+- `assets/page-config/growth-reach.json`
+- `assets/page-config/this-year.json`
+- `CANONICAL.md`
+
+**Editable data locations:**
+- Mission hero edge feathering: `assets/page-config/mission-page.json` -> `visual.heroEdgeFeatherLeft` / `visual.heroEdgeFeatherRight`.
+- Candler Impact hero edge feathering: `assets/page-config/candler-impact.json` -> `hero.imageEdgeFeatherLeft` / `hero.imageEdgeFeatherRight`.
+- Growth and Reach hero edge feathering: `assets/page-config/growth-reach.json` -> `layout.edgeFeatherLeft` / `layout.edgeFeatherRight`.
+- This Year hero edge feathering: `assets/page-config/this-year.json` -> `layout.edgeFeatherLeft` / `layout.edgeFeatherRight`.
+- TheoEd hero logo/text controls publish into `assets/page-config/theoed.json` under `hero.logoImage`, `hero.logoWidth`, `hero.logoOffsetY`, and `hero.textOffsetY`.
+
+**Editor workflow notes:**
+- Git-backed config remains the baseline. Browser drafts must not auto-override published Git content.
+- If a browser draft exists, the editor should show the draft notice with Restore Draft and Discard Draft.
+- Save Changes in Browser creates/updates only the local browser draft.
+- Publish to Main writes approved JSON to GitHub main; after a successful publish, the local browser draft should clear.
+- Undo last change is for in-session mistakes. It should not revert to stale in-code defaults.
+
+**Warnings for future assistants:**
+- Do not reintroduce Reset to Default on Candler Impact, Growth and Reach, or This Year; it can resurrect obsolete fallback defaults and overwrite a published hero image path during editing.
+- Do not use the older broad fade controls to solve sharp image boundaries; use the localized edge feather controls so the photo remains visible.
+- Hidden tabs measure at zero width before activation. Keep `pageEditorRefreshHeroEdgeVars()` wired after tab switches so hero photo bounds recalculate once a panel is visible.
+- The localized feather overlay depends on CSS variables `--hero-photo-left`, `--hero-photo-right`, `--hero-edge-feather-left`, and `--hero-edge-feather-right`.
+
+**Testing performed:**
+- `git diff --check`
+- JSON parse check for Mission, Candler Impact, Growth and Reach, This Year, and TheoEd page-config files.
+- Inline `<script>` parse check for `index.html`.
+- Structural editor check for new controls, removed obsolete reset IDs, and page-config defaults.
+- Local preview server confirmed at `http://127.0.0.1:4177/index.html`.
+- Headless Chrome desktop verification at 1920x1080: all four hero photo bounds and feather CSS variables computed in px; Candler Impact/Growth/This Year undo controls enabled and restored values; TheoEd logo/text controls updated live; This Year local draft notice appeared without auto-overriding Git content.
+- Browser screenshot review of Mission, Candler Impact, Growth and Reach, This Year, and TheoEd. Only ignored browser noise was the default `/favicon.ico` probe.
 
 ---
 

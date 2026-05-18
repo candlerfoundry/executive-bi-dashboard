@@ -45,7 +45,9 @@
     "artFocusX": 45,
     "artFocusY": 27,
     "fadeLeft": 17,
-    "fadeRight": 24
+    "fadeRight": 24,
+    "edgeFeatherLeft": 120,
+    "edgeFeatherRight": 120
   },
   "typography": {
     "fontFamily": "'Montserrat', sans-serif",

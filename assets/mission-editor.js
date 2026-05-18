@@ -34,7 +34,9 @@
       heroImageClarity: 0,
       heroFadeStrength: 0.32,
       heroFadeLeft: 18,
-      heroFadeRight: 12
+      heroFadeRight: 12,
+      heroEdgeFeatherLeft: 120,
+      heroEdgeFeatherRight: 120
     },
     typography: {
       headingFont: "'Montserrat', sans-serif",
@@ -553,6 +555,23 @@
     panel.style.setProperty('--mission-hero-image-clarity', clamp(state.config.visual.heroImageClarity, 0, 100, 0));
     panel.style.setProperty('--mission-hero-overlay-gradient', computeOverlayGradient(state.config.visual.heroFadeLeft, state.config.visual.heroFadeRight, state.config.visual.heroFadeStrength));
     panel.style.setProperty('--mission-hero-image-mask', computeImageMask(state.config.visual.heroFadeLeft, state.config.visual.heroFadeRight));
+    if (bar && window.pageEditorApplyHeroEdgeVars) {
+      var missionFit = state.config.visual.heroImageFit || 'width';
+      var missionScale = clamp(state.config.visual.heroImageScale, 70, 230, 100);
+      var missionSize = { widthPercent: missionScale };
+      if (missionFit === 'cover') missionSize = { mode: 'cover' };
+      else if (missionFit === 'contain') missionSize = { mode: 'contain' };
+      else if (missionFit === 'height') missionSize = { heightPercent: missionScale };
+      window.pageEditorApplyHeroEdgeVars({
+        root: bar,
+        image: state.config.visual.heroImage || '/assets/Graphic_1.png',
+        size: missionSize,
+        posX: clamp(state.config.visual.heroImageX, 0, 100, getAnchorPercent(state.config.visual.heroImagePosition).x),
+        offsetX: 0,
+        leftFeather: state.config.visual.heroEdgeFeatherLeft != null ? state.config.visual.heroEdgeFeatherLeft : 120,
+        rightFeather: state.config.visual.heroEdgeFeatherRight != null ? state.config.visual.heroEdgeFeatherRight : 120
+      });
+    }
     panel.style.setProperty('--mission-heading-font', state.config.typography.headingFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-body-font', state.config.typography.bodyFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-hero-title-size', clamp(state.config.typography.heroTitleSize, 2.2, 6.8, 3.75) + 'rem');
@@ -1087,6 +1106,8 @@
     runtime.ui.heroFadeStrengthValue.textContent = formatPercent(runtime.ui.heroFadeStrength.value);
     runtime.ui.heroFadeLeftValue.textContent = formatPercent((Number(runtime.ui.heroFadeLeft.value) || 0) / 100);
     runtime.ui.heroFadeRightValue.textContent = formatPercent((Number(runtime.ui.heroFadeRight.value) || 0) / 100);
+    runtime.ui.heroEdgeFeatherLeftValue.textContent = Math.round(Number(runtime.ui.heroEdgeFeatherLeft.value) || 0) + 'px';
+    runtime.ui.heroEdgeFeatherRightValue.textContent = Math.round(Number(runtime.ui.heroEdgeFeatherRight.value) || 0) + 'px';
     runtime.ui.heroTitleSizeValue.textContent = Number(runtime.ui.heroTitleSize.value).toFixed(2) + 'rem';
     runtime.ui.bodySizeValue.textContent = Number(runtime.ui.bodySize.value).toFixed(2) + 'rem';
     runtime.ui.heroBodyWidthValue.textContent = formatPx(runtime.ui.heroBodyWidth.value);
@@ -1164,6 +1185,8 @@
     runtime.ui.heroFadeStrength.value = clamp(config.visual.heroFadeStrength, 0.2, 0.98, 0.32);
     runtime.ui.heroFadeLeft.value = clamp(config.visual.heroFadeLeft, 0, 100, 18);
     runtime.ui.heroFadeRight.value = clamp(config.visual.heroFadeRight, 0, 100, 12);
+    runtime.ui.heroEdgeFeatherLeft.value = clamp(config.visual.heroEdgeFeatherLeft, 0, 220, 120);
+    runtime.ui.heroEdgeFeatherRight.value = clamp(config.visual.heroEdgeFeatherRight, 0, 220, 120);
     runtime.ui.headingFont.value = config.typography.headingFont || "'Montserrat', sans-serif";
     runtime.ui.bodyFont.value = config.typography.bodyFont || "'Montserrat', sans-serif";
     runtime.ui.heroTitleSize.value = clamp(config.typography.heroTitleSize, 2.2, 6.8, 3.75);
@@ -1293,6 +1316,10 @@
       heroFadeLeftValue: document.getElementById('mission-editor-hero-fade-left-value'),
       heroFadeRight: document.getElementById('mission-editor-hero-fade-right'),
       heroFadeRightValue: document.getElementById('mission-editor-hero-fade-right-value'),
+      heroEdgeFeatherLeft: document.getElementById('mission-editor-hero-edge-feather-left'),
+      heroEdgeFeatherLeftValue: document.getElementById('mission-editor-hero-edge-feather-left-value'),
+      heroEdgeFeatherRight: document.getElementById('mission-editor-hero-edge-feather-right'),
+      heroEdgeFeatherRightValue: document.getElementById('mission-editor-hero-edge-feather-right-value'),
       headingFont: document.getElementById('mission-editor-heading-font'),
       bodyFont: document.getElementById('mission-editor-body-font'),
       heroTitleSize: document.getElementById('mission-editor-hero-title-size'),
@@ -1550,6 +1577,14 @@
     });
     bindLiveInput(runtime.ui.heroFadeRight, function() {
       runtime.draftConfig.visual.heroFadeRight = Number(runtime.ui.heroFadeRight.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.heroEdgeFeatherLeft, function() {
+      runtime.draftConfig.visual.heroEdgeFeatherLeft = Number(runtime.ui.heroEdgeFeatherLeft.value);
+      window.renderOfferings(runtime.baseOfferings);
+    });
+    bindLiveInput(runtime.ui.heroEdgeFeatherRight, function() {
+      runtime.draftConfig.visual.heroEdgeFeatherRight = Number(runtime.ui.heroEdgeFeatherRight.value);
       window.renderOfferings(runtime.baseOfferings);
     });
     [

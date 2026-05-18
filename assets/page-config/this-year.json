@@ -245,7 +245,9 @@
     "heroOffsetY": 0,
     "heroOpacity": 0.5,
     "fadeRight": 6,
-    "fadeLeft": 0
+    "fadeLeft": 0,
+    "edgeFeatherLeft": 120,
+    "edgeFeatherRight": 120
   },
   "coursesSection": {
     "eyebrow": "12-Month lookback",
