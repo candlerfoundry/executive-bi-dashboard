@@ -2,28 +2,28 @@
   "hero": {
     "logoImage": "https://www.dropbox.com/scl/fi/mytchjl1bntbysy3scwu1/TheoEd-Full-Name-no-tagline-white.png?rlkey=nzul4ipst3mesi95zinzm3y3m&st=3r134bwi&dl=1",
     "logoAlt": "TheoEd",
-    "description": "TheoEd brings the world's leading theological thinkers to cities across the U.S. TheoEd is open to the public, livestreamed, and made available for free online, becoming a surprising way for all spiritual seekers - churched and unchurched alike - to truly engage in theology.",
+    "description": "Want to take TED to church? That's TheoEd: short talks about theology, free discussion guides, and big ideas for spiritual seekers everywhere.",
     "centerImage": {
-      "photo": "assets/theoed_photos/Greg Ellison - 1.jpg",
-      "posX": 50,
-      "posY": 18,
-      "scale": 62,
-      "opacity": 75
+      "photo": "assets/theoed_photos/Charlotte Venue.jpg",
+      "posX": 56,
+      "posY": 86,
+      "scale": 70,
+      "opacity": 49
     },
     "leftAccent": {
-      "photo": "assets/theoed_photos/Macon - Douglas Theater.jpg",
-      "posX": 27,
-      "posY": 44,
-      "scale": 86,
-      "opacity": 100,
+      "photo": "assets/theoed_photos/Greg Ellison - 1.jpg",
+      "posX": 67,
+      "posY": 72,
+      "scale": 108,
+      "opacity": 80,
       "width": 23,
-      "feather": 60
+      "feather": 58
     },
     "rightAccent": {
       "photo": "assets/theoed_photos/Nashville.jpg",
-      "posX": 74,
-      "posY": 48,
-      "scale": 130,
+      "posX": 62,
+      "posY": 32,
+      "scale": 168,
       "opacity": 84,
       "width": 22,
       "feather": 0
@@ -42,8 +42,8 @@
         "label": "Talks"
       },
       {
-        "number": "10,000+",
-        "label": "Reached Online"
+        "number": "300K+",
+        "label": "Online Strems"
       }
     ]
   },
