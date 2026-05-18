@@ -393,6 +393,19 @@ body.page-config-loading .panel.active::before,
   .impact-editor-media-actions { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
   .impact-editor-media-actions input[type="file"] { width:100%; }
   .impact-editor-secondary { appearance:none; border:1px solid rgba(30,37,48,0.14); background:#fafaf2; color:var(--nv); border-radius:12px; padding:10px 12px; font:inherit; font-size:0.82rem; font-weight:700; cursor:pointer; }
+  .impact-editor-secondary:hover { background:#ffffff; border-color:rgba(30,37,48,0.32); }
+  .impact-editor-secondary.impact-editor-danger { color:#a03020; border-color:rgba(160,48,32,0.32); }
+  .impact-editor-secondary.impact-editor-danger:hover { background:#fdecec; border-color:#a03020; }
+  .impact-quick-actions { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 8px; }
+  .impact-quick-actions button { flex:0 0 auto; padding:6px 10px; font-size:0.72rem; border-radius:8px; }
+  .impact-quick-edit { background:rgba(94,142,182,0.06); border:1px solid rgba(94,142,182,0.18); border-radius:14px; padding:14px 14px 12px; margin-bottom:14px; }
+  .impact-quick-edit h4 { margin:0 0 12px; font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:#3a5a78; }
+  .impact-quick-edit textarea,
+  .impact-quick-edit input[type="text"],
+  .impact-quick-edit select { width:100%; box-sizing:border-box; border:1px solid rgba(30,37,48,0.14); border-radius:8px; padding:7px 10px; font:inherit; font-size:0.82rem; background:#ffffff; }
+  .impact-quick-edit textarea { font-family:'Newsreader', Georgia, serif; line-height:1.4; resize:vertical; min-height:90px; }
+  .impact-quick-edit input[type="color"] { width:48px; height:32px; border:1px solid rgba(30,37,48,0.14); border-radius:6px; padding:2px; cursor:pointer; background:#fff; }
+  .impact-quick-edit input[type="range"] { width:100%; accent-color:#c84826; }
   .ci-story-front.is-horizontal,
   .ci-story-front.is-horizontal-reverse,
   .ci-story-front.is-vertical,
@@ -547,9 +560,25 @@ body.page-config-loading .panel.active::before,
   background-size: var(--ci-portrait-size, 100% auto);
   background-repeat: no-repeat;
   background-position: var(--ci-portrait-pos, center bottom);
-  overflow: hidden;
-  filter: saturate(0.62) contrast(0.96) brightness(1.02);
+  overflow: visible;
+  filter: saturate(var(--ci-photo-saturation, 0.62)) contrast(0.96) brightness(1.02);
+  opacity: var(--ci-photo-opacity, 1);
+  margin-left: calc(-1 * var(--ci-photo-overlap, 0px));
+  z-index: 1;
+  -webkit-mask-image: radial-gradient(ellipse 100% 100% at center center, #000 calc(100% - var(--ci-photo-feather, 0%)), transparent 100%);
+          mask-image: radial-gradient(ellipse 100% 100% at center center, #000 calc(100% - var(--ci-photo-feather, 0%)), transparent 100%);
 }
+/* When photo overlaps, keep quote text and footer on top */
+.ci-ed-quote-panel { position: relative; z-index: 2; }
+.ci-ed-footer { position: relative; z-index: 3; }
+/* Optional text color override (defaults to current ink color) */
+.ci-ed-quote { color: var(--ci-text-color, var(--nv, #1e2530)); }
+.ci-ed-name { color: var(--ci-text-color, var(--nv, #1e2530)); }
+.ci-ed-role { color: var(--ci-text-color, var(--nv, #1e2530)); opacity: 0.7; }
+/* Vertical alignment of quote within its panel */
+.ci-ed-quote-panel { justify-content: var(--ci-quote-justify, center); }
+/* Horizontal alignment of quote text */
+.ci-ed-quote { text-align: var(--ci-quote-align, left); }
 .ci-ed-footer {
   grid-area: footer;
   padding: 12px 26px 14px;
@@ -650,7 +679,7 @@ body.page-config-loading .panel.active::before,
 /* ═══ MISSION & OFFERINGS TAB ═══ */
 .mission-page {
   --mission-shell-max: 1680px;
-  --mission-gutter: 28px;
+  --mission-gutter: 40px;
   --mission-section-gap: 24px;
   --mission-intro-col: clamp(220px, 14vw, 280px);
   --mission-hero-min: 348px;
@@ -748,15 +777,15 @@ body.page-config-loading .panel.active::before,
 .mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner, .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner, .mission-page .offering-flip.is-flipped .offering-flip-inner { transform:rotateY(180deg); }
 .mission-page .offering-flip.is-edit-selected .card-front,
 .mission-page .offering-flip.is-edit-selected .card-back { outline:none; box-shadow:0 0 0 2px rgba(30,37,48,0.08), 0 18px 36px rgba(30,37,48,0.12); }
-.mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+.mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; min-height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
 .mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.16); box-shadow:0 10px 20px rgba(30,37,48,0.08), 0 2px 5px rgba(30,37,48,0.08); overflow:hidden; position:relative; isolation:isolate; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
   .mission-page .card-front::before { content:''; position:absolute; top:var(--card-graphic-top,clamp(10px, 1vw, 16px)); right:var(--card-graphic-right,clamp(8px, 0.9vw, 14px)); bottom:var(--card-graphic-bottom,clamp(8px, 0.9vw, 12px)); width:var(--card-graphic-width,var(--mission-card-art-lg)); background-image:var(--card-graphic,none); background-size:var(--card-graphic-size,contain); background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:var(--card-graphic-opacity,0.9); z-index:0; pointer-events:none; border-radius:inherit; transform:translate(var(--card-graphic-shift-x, 0px), var(--card-graphic-shift-y, 0px)) scale(var(--card-graphic-scale,1)); transform-origin:center right; -webkit-mask-image:var(--card-graphic-mask, none); mask-image:var(--card-graphic-mask, none); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
 .mission-page .card-front::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,250,0.96) 0%, rgba(255,253,250,0.92) 46%, rgba(255,253,250,0.38) 72%, rgba(255,253,250,0.08) 100%); z-index:0; pointer-events:none; }
 .mission-page .offering-flip:hover .card-front { border-color:rgba(30,37,48,0.24); box-shadow:0 24px 40px rgba(30,37,48,0.16), 0 8px 14px rgba(30,37,48,0.08); }
 .mission-page .card-back { transform:rotateY(180deg); background:var(--mission-card-back-bg); border:1px solid rgba(30,37,48,0.22); box-shadow:0 20px 40px rgba(30,37,48,0.18), 0 8px 16px rgba(30,37,48,0.12); overflow:hidden; padding:0; }
-.mission-course-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
+.mission-course-grid .card-front { min-height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
 .mission-course-grid .card-front::before { width:var(--card-graphic-width,var(--mission-card-art-lg)); }
-.mission-ministry-grid .card-front, .mission-public-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
+.mission-ministry-grid .card-front, .mission-public-grid .card-front { min-height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
 .mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { width:var(--card-graphic-width,var(--mission-card-art-sm)); right:var(--card-graphic-right,clamp(6px, 0.7vw, 10px)); opacity:var(--card-graphic-opacity,0.92); }
 .mission-page .cf-group { display:none; }
   .mission-page .cf-top { position:relative; z-index:1; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:clamp(14px, 1.2vw, 18px); width:min(100%, var(--mission-card-front-text-width-local, var(--mission-card-front-text-width))); max-width:var(--mission-card-front-text-width-local, var(--mission-card-front-text-width)); }
@@ -1097,6 +1126,10 @@ body.page-config-loading .panel.active::before,
 @media (max-width:900px) { .pull-panel-inner { padding:56px 28px; } .pull-deco { font-size:125px; left:20px; top:12px; } .pull-quote { font-size:1.2rem; } }
 
 
+/* Responsive block moved below the @media (max-width:…) phone rules so its
+   declarations win at 768–900px viewports without needing source-order tricks.
+   See the @media (min-width:768px) block near the bottom of this stylesheet. */
+
 /* RESPONSIVE */
 @media (max-width:900px) {
   .mission-page {
@@ -1168,6 +1201,113 @@ body.page-config-loading .panel.active::before,
   .ci-hero-jump { width:100%; justify-content:center; }
   .ci-story-card { flex-basis:88vw; height:auto; min-height:360px; }
   .ci-row-track { padding-bottom:14px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE — proportional scaling for tablet + desktop (768px and up)
+   ───────────────────────────────────────────────────────────────────────────
+   Goal: keep COLUMN COUNTS INVARIANT across iPad / laptop / desktop. Cards
+   don't reflow — they just shrink proportionally as the viewport narrows.
+   Below 768px the earlier (max-width: 900px) / (max-width: 600px) blocks
+   take over and collapse to a single column for phones.
+
+   Why this block lives AFTER the (max-width: …) phone blocks: source order
+   wins on equal specificity. At a 820px viewport BOTH this block and the
+   (max-width: 900px) block match — placing this one later guarantees its
+   declarations win without needing brittle !important on every property.
+
+   Why !important is still used on a handful of declarations: mission-editor.js
+   sets several CSS custom properties as INLINE styles on .mission-page (see
+   panel.style.setProperty('--mission-card-min', …) around mission-editor.js:547).
+   Inline styles beat external CSS unless we mark these with !important.
+   ─────────────────────────────────────────────────────────────────────────── */
+@media (min-width: 768px) {
+
+  /* ── COLUMN INVARIANTS (override the older max-width: 900/1100 collapse rules) ── */
+  .ty-courses-grid       { grid-template-columns: repeat(4, 1fr) !important; }
+  .ty-stats-shell        { grid-template-columns: repeat(4, 1fr) !important; }
+  .gr-sc-grid            { grid-template-columns: repeat(3, 1fr) !important; }
+  .mission-course-grid   { grid-template-columns: repeat(var(--mission-community-columns, 2), minmax(0, 1fr)) !important; }
+  .mission-ministry-grid { grid-template-columns: repeat(var(--mission-ministry-columns, 3), minmax(0, 1fr)) !important; }
+  .mission-public-grid   { grid-template-columns: repeat(var(--mission-public-columns, 3), minmax(0, 1fr)) !important; }
+
+  /* Growth & Reach: stats + map row stays HORIZONTAL down to 768px (the older
+     max-width: 900px rule stacks them vertically, which is what makes the map
+     appear "below / overlapping" the stats at iPad widths). */
+  .gr-stats-map-row { flex-direction: row !important; align-items: flex-start !important; }
+  .gr-shell-split   { flex-direction: row !important; align-items: flex-start !important; gap: clamp(18px, 2vw, 40px) !important; }
+  .gr-stats-col     { width: clamp(38%, 26vw + 80px, 48%) !important; flex-shrink: 0 !important; }
+  .gr-map-col       { flex: 1 1 0 !important; min-width: 0 !important; }
+
+  /* ── MISSION proportional scaling ───────────────────────────────────────────
+     Inline styles from mission-editor.js (set on .mission-page panel) provide
+     baseline values for desktop. We override them at this breakpoint so cards
+     shrink to fit narrower viewports without text clipping or photo overflow. */
+  .mission-page {
+    --mission-card-min:        clamp(232px, 18vw, 320px) !important;
+    --mission-card-pad:        clamp(14px, 1.3vw, 32px) !important;
+    --mission-card-art-lg:     clamp(96px, 8.5vw, 180px) !important;
+    --mission-card-art-sm:     clamp(82px, 7vw, 150px) !important;
+    --mission-card-gap:        clamp(12px, 1.2vw, 24px) !important;
+    --mission-card-title-size: clamp(0.92rem, 0.6rem + 0.5vw, 1.45rem) !important;
+    --mission-card-body-size:  clamp(0.74rem, 0.62rem + 0.18vw, 0.94rem) !important;
+  }
+  /* Override the (max-width: 900px) padding shorthand 24px 132px 24px 24px so
+     the photo strip doesn't crowd body copy at iPad widths. */
+  .mission-page .mission-course-grid .card-front,
+  .mission-page .mission-ministry-grid .card-front,
+  .mission-page .mission-public-grid .card-front {
+    min-height: var(--mission-card-min) !important;
+    padding: var(--mission-card-pad) calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)) var(--mission-card-pad) var(--mission-card-pad) !important;
+  }
+  .mission-page .mission-course-grid .card-front {
+    padding-right: calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)) !important;
+  }
+  /* Photo strip width must also track --mission-card-art-* (the (max-width:900)
+     block forces it to 122px which becomes wider than the card itself). */
+  .mission-page .mission-course-grid .card-front::before {
+    width: var(--card-graphic-width, var(--mission-card-art-lg)) !important;
+  }
+  .mission-page .mission-ministry-grid .card-front::before,
+  .mission-page .mission-public-grid .card-front::before {
+    width: var(--card-graphic-width, var(--mission-card-art-sm)) !important;
+  }
+  /* Card backs share the same min-height so text doesn't get clipped mid-word. */
+  .mission-page .card-front, .mission-page .card-back {
+    min-height: var(--mission-card-min) !important;
+  }
+
+  /* ── THIS YEAR proportional scaling ────────────────────────────────────────
+     Cards stay in a 4-col grid; back-of-card fonts shrink so subtitle like
+     "Dr. Brent Strawn | Spring 2026" fits without the ellipsis truncation. */
+  .ty-courses-grid    { gap: clamp(10px, 1.2vw, 22px); }
+  .ty-stats-shell     { gap: clamp(14px, 1.4vw, 30px) clamp(18px, 2vw, 48px); }
+  .ty-stat-num        { font-size: clamp(28px, 2.4vw + 0.4rem, 56px); }
+  .ty-card-back       { padding: clamp(10px, 0.9vw + 2px, 18px) clamp(10px, 0.9vw + 2px, 20px) clamp(8px, 0.7vw + 2px, 16px); }
+  .ty-card-back-title { font-size: clamp(13px, 0.45vw + 9px, 18px); line-height: 1.16; }
+  .ty-card-back-instr { font-size: clamp(9.5px, 0.25vw + 7.5px, 12.5px); line-height: 1.25; }
+  .ty-card-back-rule  { width: clamp(40px, 4vw, 72px); margin-bottom: clamp(6px, 0.5vw + 2px, 10px); }
+  .ty-card-back-dates { font-size: clamp(9px, 0.25vw + 7px, 11.5px); margin-bottom: clamp(6px, 0.5vw + 2px, 12px); }
+  .ty-card-back-desc  { font-size: clamp(10.5px, 0.35vw + 8px, 14px); line-height: 1.4; margin-bottom: clamp(6px, 0.5vw + 2px, 10px); }
+  .ty-card-back-stats { gap: clamp(10px, 1vw, 18px); margin: clamp(4px, 0.4vw, 6px) 0 clamp(6px, 0.6vw, 10px); }
+  .ty-card-cta        { font-size: clamp(9px, 0.25vw + 7px, 12px); padding: clamp(6px, 0.5vw + 2px, 9px) clamp(8px, 0.7vw + 4px, 14px); }
+  /* Numeric back-stat sizes track the rest */
+  .ty-card-back-stats .ty-card-stat-num   { font-size: clamp(15px, 0.45vw + 11px, 22px); }
+  .ty-card-back-stats .ty-card-stat-label { font-size: clamp(8px, 0.2vw + 7px, 10px); }
+
+  /* ── GROWTH & REACH proportional scaling ─────────────────────────────────── */
+  .gr-sc       { padding: clamp(12px, 1.2vw, 24px) clamp(10px, 1vw, 20px) !important; }
+  .gr-sc-num   { font-size: clamp(26px, 1.8vw + 0.4rem, 48px) !important; }
+  .gr-sc-label { font-size: clamp(9px, 0.2vw + 7px, 12px) !important; letter-spacing: clamp(1px, 0.1vw + 0.5px, 2px) !important; }
+  .gr-sc-sub   { font-size: clamp(10px, 0.3vw + 8px, 14px) !important; line-height: 1.35 !important; }
+}
+
+/* In the 768–1199 band the ty-flip cards (which use aspect-ratio: 3/2) get so
+   short that their backs can't fit the title+instructor+desc+stats+CTA stack.
+   Switching to a 1.35:1 aspect gives the back ~30% more vertical room. The
+   underlying card-front photos still display fine at this aspect. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .ty-flip { aspect-ratio: 1.35 / 1 !important; }
 }
 
 </style>
@@ -2213,6 +2353,153 @@ body.page-config-loading .panel.active::before,
       </div>
 
       <div class="impact-editor-panel" data-impact-panel="card" hidden>
+
+      <!-- ===== NEW Quick Edit (section / card / per-card controls) ===== -->
+      <div class="page-editor-group impact-quick-edit">
+        <h4>Quick Edit</h4>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-section">Section</label>
+            <select id="impact-quick-section"></select>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-card">Card</label>
+            <select id="impact-quick-card"></select>
+          </div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label">Card order &amp; lifecycle</label>
+          <div class="impact-quick-actions">
+            <button id="impact-quick-card-up"     class="impact-editor-secondary" type="button">Move up</button>
+            <button id="impact-quick-card-down"   class="impact-editor-secondary" type="button">Move down</button>
+            <button id="impact-quick-card-add"    class="impact-editor-secondary" type="button">Add card</button>
+            <button id="impact-quick-card-delete" class="impact-editor-secondary impact-editor-danger" type="button">Delete card</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-editor-group impact-quick-edit">
+        <h4>Text content</h4>
+        <div class="editor-field">
+          <label class="editor-label" for="impact-quick-quote">Quote</label>
+          <div class="impact-quick-actions">
+            <button id="impact-quick-quote-italic" class="impact-editor-secondary" type="button" title="Wrap selected text in italics + accent color (the existing 'lead phrase' style)">Italic + accent</button>
+            <button id="impact-quick-quote-bold"   class="impact-editor-secondary" type="button" title="Wrap selected text in bold">Bold</button>
+          </div>
+          <textarea id="impact-quick-quote" rows="4" placeholder="The Foundry helped me..."></textarea>
+          <small style="color:rgba(30,37,48,0.55);font-size:0.72rem;display:block;margin-top:6px">Highlight text in the quote, then click a style button. Inline tags &lt;em&gt; and &lt;b&gt; are supported.</small>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-name">Name</label>
+            <input id="impact-quick-name" type="text">
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-role">Title / role</label>
+            <input id="impact-quick-role" type="text">
+          </div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="impact-quick-headline">Card headline (used on back of card)</label>
+          <input id="impact-quick-headline" type="text">
+        </div>
+      </div>
+
+      <div class="page-editor-group impact-quick-edit">
+        <h4>Text styling</h4>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-quote-size">Quote font size</label>
+            <input id="impact-quick-quote-size" type="range" min="0.8" max="1.8" step="0.02">
+            <div class="editor-inline-meta"><span>Smaller</span><span id="impact-quick-quote-size-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-text-color">Text color</label>
+            <input id="impact-quick-text-color" type="color" value="#1e2530">
+          </div>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-justify">Vertical placement</label>
+            <select id="impact-quick-justify">
+              <option value="flex-start">Top</option>
+              <option value="center" selected>Center</option>
+              <option value="flex-end">Bottom</option>
+            </select>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-align">Horizontal alignment</label>
+            <select id="impact-quick-align">
+              <option value="left" selected>Left</option>
+              <option value="center">Center</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-editor-group impact-quick-edit">
+        <h4>Photo</h4>
+        <div class="editor-field">
+          <label class="editor-label" for="impact-quick-image">Image asset path</label>
+          <input id="impact-quick-image" type="text" placeholder="assets/student-headshots/Jane_Doe.png">
+          <div class="theoed-editor-row-actions">
+            <button id="impact-quick-image-apply" class="impact-editor-secondary" type="button">Apply image</button>
+          </div>
+          <small style="color:rgba(30,37,48,0.55);font-size:0.72rem;display:block;margin-top:6px">Repo-relative path. Example: <code>assets/student-headshots/David_Cross.png</code></small>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-photo-opacity">Transparency</label>
+            <input id="impact-quick-photo-opacity" type="range" min="0.1" max="1" step="0.01">
+            <div class="editor-inline-meta"><span>Fainter</span><span id="impact-quick-photo-opacity-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-photo-saturation">Saturation</label>
+            <input id="impact-quick-photo-saturation" type="range" min="0" max="1.4" step="0.01">
+            <div class="editor-inline-meta"><span>Muted</span><span id="impact-quick-photo-saturation-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-photo-scale">Zoom</label>
+            <input id="impact-quick-photo-scale" type="range" min="40" max="250" step="1">
+            <div class="editor-inline-meta"><span>Smaller</span><span id="impact-quick-photo-scale-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-photo-feather">Edge feather</label>
+            <input id="impact-quick-photo-feather" type="range" min="0" max="60" step="1">
+            <div class="editor-inline-meta"><span>Crisp</span><span id="impact-quick-photo-feather-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-photo-x">Horizontal position</label>
+            <input id="impact-quick-photo-x" type="range" min="-50" max="150" step="1">
+            <div class="editor-inline-meta"><span>Left</span><span id="impact-quick-photo-x-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-photo-y">Vertical position</label>
+            <input id="impact-quick-photo-y" type="range" min="-50" max="150" step="1">
+            <div class="editor-inline-meta"><span>Higher</span><span id="impact-quick-photo-y-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-field">
+          <label class="editor-label" for="impact-quick-photo-overlap">Bleed photo behind quote</label>
+          <input id="impact-quick-photo-overlap" type="range" min="0" max="240" step="2">
+          <div class="editor-inline-meta"><span>No bleed</span><span id="impact-quick-photo-overlap-value"></span></div>
+        </div>
+      </div>
+
+      <div class="page-editor-group impact-quick-edit">
+        <h4>Back of card</h4>
+        <div class="editor-field">
+          <label class="editor-label" for="impact-quick-support">Back narrative (support text)</label>
+          <textarea id="impact-quick-support" rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- ===== Original Card Builder controls (kept for advanced edits) ===== -->
       <div class="page-editor-group">
         <h4>Cards</h4>
         <div class="editor-field">
@@ -6498,6 +6785,11 @@ function impactHydrateStory(row, story, storyKey) {
   hydrated.nameSize = storyOverrides.nameSize || story.nameSize || impactEditorRuntime.config.typography.nameSize;
   hydrated.rowLabel = rowOverrides.label || row.label;
   hydrated.storyKey = storyKey;
+  // ----- Per-card overrides for the new Quick Edit controls -----
+  ['photoOpacity','photoSaturation','photoScale','photoX','photoY','photoFeather','photoOverlap','textColor','quoteJustify','quoteAlign'].forEach(function(k) {
+    if (storyOverrides[k] !== undefined) hydrated[k] = storyOverrides[k];
+  });
+  if (storyOverrides.image && !storyOverrides.imageData) hydrated.image = storyOverrides.image;
   return hydrated;
 }
 
@@ -7211,6 +7503,20 @@ function ciCreateStoryCard(story) {
   card.style.setProperty('--ci-card-name-size-local', (story.nameSize || impactEditorRuntime.config.typography.nameSize || 0.9) + 'rem');
   if (story.image) card.style.setProperty('--ci-image', 'url("' + story.image + '")');
   if (story.imagePosition) card.style.setProperty('--ci-image-position', story.imagePosition);
+  // ----- Per-card photo + text overrides (new editor controls) -----
+  if (story.photoOpacity != null)    card.style.setProperty('--ci-photo-opacity', String(story.photoOpacity));
+  if (story.photoSaturation != null) card.style.setProperty('--ci-photo-saturation', String(story.photoSaturation));
+  if (story.photoScale != null)      card.style.setProperty('--ci-portrait-size', story.photoScale + '% auto');
+  if (story.photoX != null || story.photoY != null) {
+    var _px = (story.photoX != null ? story.photoX : 50) + '%';
+    var _py = (story.photoY != null ? story.photoY : 100) + '%';
+    card.style.setProperty('--ci-portrait-pos', _px + ' ' + _py);
+  }
+  if (story.photoFeather != null) card.style.setProperty('--ci-photo-feather', story.photoFeather + '%');
+  if (story.photoOverlap != null) card.style.setProperty('--ci-photo-overlap', story.photoOverlap + 'px');
+  if (story.textColor)            card.style.setProperty('--ci-text-color', story.textColor);
+  if (story.quoteJustify)         card.style.setProperty('--ci-quote-justify', story.quoteJustify);
+  if (story.quoteAlign)           card.style.setProperty('--ci-quote-align', story.quoteAlign);
   card.setAttribute('tabindex', '0');
   if (story.storyKey) card.setAttribute('data-story-key', story.storyKey);
   var portraitMarkup = story.placeholder
@@ -9319,5 +9625,6 @@ document.addEventListener('DOMContentLoaded', loadContent);
 
 </script>
 <script src="/assets/mission-editor.js"></script>
+<script src="/assets/impact-quick-edit.js"></script>
 </body>
 </html>

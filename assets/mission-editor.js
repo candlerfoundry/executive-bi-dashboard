@@ -15,7 +15,7 @@
       heroColumns: '1.05fr 0.95fr',
       heroTextAlign: 'left',
       heroGap: 24,
-      gutter: 28,
+      gutter: 40,
       sectionSpacing: 42,
       cardGap: 20,
       communityColumns: 2,
@@ -535,7 +535,7 @@
     var heroMinHeight = clamp(state.config.layout.heroMinHeight, 240, 520, 348);
     if (!panel) return;
     panel.style.setProperty('--mission-shell-max', clamp(state.config.layout.shellMax, 1280, 1880, 1680) + 'px');
-    panel.style.setProperty('--mission-gutter', clamp(state.config.layout.gutter, 12, 72, 28) + 'px');
+    panel.style.setProperty('--mission-gutter', clamp(state.config.layout.gutter, 12, 72, 40) + 'px');
     panel.style.setProperty('--mission-section-gap', clamp(state.config.layout.heroGap, 8, 72, 24) + 'px');
     panel.style.setProperty('--mission-hero-min', heroMinHeight + 'px');
     panel.style.setProperty('--mission-hero-text-max', heroTextMax + 'px');
@@ -1159,7 +1159,7 @@
     runtime.ui.sectionTitle.value = section.title || '';
     runtime.ui.sectionCopy.value = section.copy || '';
     runtime.ui.shellMax.value = clamp(config.layout.shellMax, 1280, 1880, 1680);
-    runtime.ui.gutter.value = clamp(config.layout.gutter, 12, 72, 28);
+    runtime.ui.gutter.value = clamp(config.layout.gutter, 12, 72, 40);
     runtime.ui.heroTextMax.value = clamp(config.layout.heroTextMax, 420, 1320, 700);
     runtime.ui.heroMinHeight.value = clamp(config.layout.heroMinHeight, 240, 520, 348);
     runtime.ui.heroGap.value = clamp(config.layout.heroGap, 8, 72, 24);

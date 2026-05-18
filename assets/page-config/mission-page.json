@@ -6,14 +6,14 @@
     }
   },
   "layout": {
-    "shellMax": 1780,
+    "shellMax": 1680,
     "heroTextMax": 960,
     "heroMinHeight": 420,
     "heroOffsetY": 10,
     "heroColumns": "1.05fr 0.95fr",
     "heroTextAlign": "left",
     "heroGap": 30,
-    "gutter": 20,
+    "gutter": 40,
     "sectionSpacing": 38,
     "cardGap": 20,
     "communityColumns": 2,
