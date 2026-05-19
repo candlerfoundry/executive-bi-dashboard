@@ -789,15 +789,15 @@ body.page-config-loading .panel.active::before,
 .mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner, .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner, .mission-page .offering-flip.is-flipped .offering-flip-inner { transform:rotateY(180deg); }
 .mission-page .offering-flip.is-edit-selected .card-front,
 .mission-page .offering-flip.is-edit-selected .card-back { outline:none; box-shadow:0 0 0 2px rgba(30,37,48,0.08), 0 18px 36px rgba(30,37,48,0.12); }
-.mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; min-height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+.mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
 .mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.16); box-shadow:0 10px 20px rgba(30,37,48,0.08), 0 2px 5px rgba(30,37,48,0.08); overflow:hidden; position:relative; isolation:isolate; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
   .mission-page .card-front::before { content:''; position:absolute; top:var(--card-graphic-top,clamp(10px, 1vw, 16px)); right:var(--card-graphic-right,clamp(8px, 0.9vw, 14px)); bottom:var(--card-graphic-bottom,clamp(8px, 0.9vw, 12px)); width:var(--card-graphic-width,var(--mission-card-art-lg)); background-image:var(--card-graphic,none); background-size:var(--card-graphic-size,contain); background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:var(--card-graphic-opacity,0.9); z-index:0; pointer-events:none; border-radius:inherit; transform:translate(var(--card-graphic-shift-x, 0px), var(--card-graphic-shift-y, 0px)) scale(var(--card-graphic-scale,1)); transform-origin:center right; -webkit-mask-image:var(--card-graphic-mask, none); mask-image:var(--card-graphic-mask, none); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
 .mission-page .card-front::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,250,0.96) 0%, rgba(255,253,250,0.92) 46%, rgba(255,253,250,0.38) 72%, rgba(255,253,250,0.08) 100%); z-index:0; pointer-events:none; }
 .mission-page .offering-flip:hover .card-front { border-color:rgba(30,37,48,0.24); box-shadow:0 24px 40px rgba(30,37,48,0.16), 0 8px 14px rgba(30,37,48,0.08); }
 .mission-page .card-back { transform:rotateY(180deg); background:var(--mission-card-back-bg); border:1px solid rgba(30,37,48,0.22); box-shadow:0 20px 40px rgba(30,37,48,0.18), 0 8px 16px rgba(30,37,48,0.12); overflow:hidden; padding:0; }
-.mission-course-grid .card-front { min-height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
+.mission-course-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
 .mission-course-grid .card-front::before { width:var(--card-graphic-width,var(--mission-card-art-lg)); }
-.mission-ministry-grid .card-front, .mission-public-grid .card-front { min-height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
+.mission-ministry-grid .card-front, .mission-public-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
 .mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { width:var(--card-graphic-width,var(--mission-card-art-sm)); right:var(--card-graphic-right,clamp(6px, 0.7vw, 10px)); opacity:var(--card-graphic-opacity,0.92); }
 .mission-page .cf-group { display:none; }
   .mission-page .cf-top { position:relative; z-index:1; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:clamp(14px, 1.2vw, 18px); width:min(100%, var(--mission-card-front-text-width-local, var(--mission-card-front-text-width))); max-width:var(--mission-card-front-text-width-local, var(--mission-card-front-text-width)); }
@@ -1235,13 +1235,14 @@ body.page-config-loading .panel.active::before,
    ─────────────────────────────────────────────────────────────────────────── */
 @media (min-width: 768px) {
 
-  /* ── COLUMN INVARIANTS (override the older max-width: 900/1100 collapse rules) ── */
+  /* ── COLUMN INVARIANTS (override the older max-width: 900/1100 collapse rules) ──
+     Note: Mission grids deliberately NOT pinned here — rows 2 & 3 collapse to
+     a single column under 900px so cards stay landscape (their pre-yesterday
+     behavior). Pinning them at 3 cols at 820px made cards square/portrait by
+     geometry. */
   .ty-courses-grid       { grid-template-columns: repeat(4, 1fr) !important; }
   .ty-stats-shell        { grid-template-columns: repeat(4, 1fr) !important; }
   .gr-sc-grid            { grid-template-columns: repeat(3, 1fr) !important; }
-  .mission-course-grid   { grid-template-columns: repeat(var(--mission-community-columns, 2), minmax(0, 1fr)) !important; }
-  .mission-ministry-grid { grid-template-columns: repeat(var(--mission-ministry-columns, 3), minmax(0, 1fr)) !important; }
-  .mission-public-grid   { grid-template-columns: repeat(var(--mission-public-columns, 3), minmax(0, 1fr)) !important; }
 
   /* Growth & Reach: stats + map row stays HORIZONTAL down to 768px (the older
      max-width: 900px rule stacks them vertically, which is what makes the map
@@ -1251,44 +1252,10 @@ body.page-config-loading .panel.active::before,
   .gr-stats-col     { width: clamp(38%, 26vw + 80px, 48%) !important; flex-shrink: 0 !important; }
   .gr-map-col       { flex: 1 1 0 !important; min-width: 0 !important; }
 
-  /* ── MISSION proportional scaling ───────────────────────────────────────────
-     Inline styles from mission-editor.js (set on .mission-page panel) provide
-     baseline values for desktop. We override them at this breakpoint so cards
-     shrink to fit narrower viewports without text clipping or photo overflow. */
-  .mission-page {
-    --mission-card-min:        clamp(238px, 22vw, 420px) !important;
-    --mission-card-pad:        clamp(14px, 1.3vw, 36px) !important;
-    --mission-card-art-lg:     clamp(96px, 11vw, 240px) !important;
-    --mission-card-art-sm:     clamp(78px, 9vw, 200px) !important;
-    --mission-card-gap:        clamp(12px, 1.2vw, 28px) !important;
-    --mission-card-title-size: clamp(0.95rem, 0.55rem + 0.7vw, 1.55rem) !important;
-    --mission-card-body-size:  clamp(0.78rem, 0.6rem + 0.22vw, 1rem) !important;
-    --mission-intro-col:       clamp(220px, 16vw, 360px) !important;
-  }
-  /* Override the (max-width: 900px) padding shorthand 24px 132px 24px 24px so
-     the photo strip doesn't crowd body copy at iPad widths. */
-  .mission-page .mission-course-grid .card-front,
-  .mission-page .mission-ministry-grid .card-front,
-  .mission-page .mission-public-grid .card-front {
-    min-height: var(--mission-card-min) !important;
-    padding: var(--mission-card-pad) calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)) var(--mission-card-pad) var(--mission-card-pad) !important;
-  }
-  .mission-page .mission-course-grid .card-front {
-    padding-right: calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)) !important;
-  }
-  /* Photo strip width must also track --mission-card-art-* (the (max-width:900)
-     block forces it to 122px which becomes wider than the card itself). */
-  .mission-page .mission-course-grid .card-front::before {
-    width: var(--card-graphic-width, var(--mission-card-art-lg)) !important;
-  }
-  .mission-page .mission-ministry-grid .card-front::before,
-  .mission-page .mission-public-grid .card-front::before {
-    width: var(--card-graphic-width, var(--mission-card-art-sm)) !important;
-  }
-  /* Card backs share the same min-height so text doesn't get clipped mid-word. */
-  .mission-page .card-front, .mission-page .card-back {
-    min-height: var(--mission-card-min) !important;
-  }
+  /* Mission card sizing is intentionally left to the base .mission-page
+     declarations (--mission-card-min: 320px, --mission-card-art-lg: clamp(130,9vw,164),
+     --mission-card-art-sm: clamp(110,8vw,144)) — the pre-yesterday values
+     that produced fixed-height landscape cards. */
 
   /* ── THIS YEAR proportional scaling ────────────────────────────────────────
      Cards stay in a 4-col grid; back-of-card fonts shrink so subtitle like
@@ -1350,23 +1317,6 @@ body.page-config-loading .panel.active::before,
 @media (max-width: 600px) {
   .dashboard-publish--nav { padding: 5px 8px; font-size: 0.42rem; margin-left: 4px; }
   .nav-tabs { padding: 0 8px; }
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   MISSION — tighten padding at iPad widths (added 2026-05-19)
-   ───────────────────────────────────────────────────────────────────────────
-   At 768–900px the (min-width: 768) art-sm clamp still floors at 78px, which
-   plus card padding takes ~110px off every card's usable width — body copy
-   is left with about 130px on a 2/3-column layout. Pull the art strip in
-   tighter on this band and trim the gutter so cards get more room. */
-@media (min-width: 768px) and (max-width: 900px) {
-  .mission-page {
-    --mission-card-art-lg: 96px !important;
-    --mission-card-art-sm: 64px !important;
-    --mission-card-pad:    14px !important;
-    --mission-gutter:      24px !important;
-    --mission-card-min:    248px !important;
-  }
 }
 
 </style>
