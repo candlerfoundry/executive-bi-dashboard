@@ -310,9 +310,9 @@ body.page-config-loading .panel.active::before,
   --ci-hero-headline-size: clamp(2.3rem, 1.95rem + 1.85vw, 3.8rem);
   --ci-hero-body-size: 0.96rem;
   --ci-hero-image-url: url('/assets/Graphic Vignettes/vignette-city-life-banner.png');
-  --ci-hero-image-position: right center;
-  --ci-hero-image-size: auto 110%;
-  --ci-hero-image-opacity: 0.22;
+  --ci-hero-image-position: center center;
+  --ci-hero-image-size: cover;
+  --ci-hero-image-opacity: 0.85;
   --ci-hero-image-offset-x: 0px;
   --ci-hero-image-offset-y: 0px;
   --ci-hero-image-clarity: 0;
@@ -396,7 +396,7 @@ body.page-config-loading .panel.active::before,
   .impact-editor-secondary:hover { background:#ffffff; border-color:rgba(30,37,48,0.32); }
   .impact-editor-secondary.impact-editor-danger { color:#a03020; border-color:rgba(160,48,32,0.32); }
   .impact-editor-secondary.impact-editor-danger:hover { background:#fdecec; border-color:#a03020; }
-  .impact-quick-actions { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 8px; }
+  .impact-quick-actions { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 8px; align-items:center; }
   .impact-quick-actions button { flex:0 0 auto; padding:6px 10px; font-size:0.72rem; border-radius:8px; }
   .impact-quick-edit { background:rgba(94,142,182,0.06); border:1px solid rgba(94,142,182,0.18); border-radius:14px; padding:14px 14px 12px; margin-bottom:14px; }
   .impact-quick-edit h4 { margin:0 0 12px; font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; color:#3a5a78; }
@@ -406,6 +406,16 @@ body.page-config-loading .panel.active::before,
   .impact-quick-edit textarea { font-family:'Newsreader', Georgia, serif; line-height:1.4; resize:vertical; min-height:90px; }
   .impact-quick-edit input[type="color"] { width:48px; height:32px; border:1px solid rgba(30,37,48,0.14); border-radius:6px; padding:2px; cursor:pointer; background:#fff; }
   .impact-quick-edit input[type="range"] { width:100%; accent-color:#c84826; }
+  .impact-quick-rt { width:100%; box-sizing:border-box; border:1px solid rgba(30,37,48,0.14); border-radius:8px; padding:9px 11px; font:inherit; font-family:'Newsreader', Georgia, serif; font-size:0.92rem; line-height:1.4; background:#ffffff; min-height:96px; outline:none; }
+  .impact-quick-rt:focus { border-color:rgba(200,72,38,0.55); box-shadow:0 0 0 3px rgba(200,72,38,0.12); }
+  .impact-quick-rt:empty::before { content: attr(data-placeholder); color: rgba(30,37,48,0.36); pointer-events:none; }
+  .impact-quick-rt em, .impact-quick-rt i { font-style:italic; }
+  .impact-quick-rt b, .impact-quick-rt strong { font-weight:700; }
+  .impact-quick-rt-toolbar button { font-family:inherit; }
+  .impact-quick-rt-toolbar button strong { font-weight:800; }
+  .impact-quick-rt-toolbar button em { font-style:italic; font-weight:600; }
+  .impact-quick-color-pick { position:relative; display:inline-flex; align-items:center; gap:6px; padding:6px 10px; font-size:0.72rem; cursor:pointer; }
+  .impact-quick-color-pick input[type="color"] { width:22px; height:22px; padding:0; border-radius:6px; cursor:pointer; }
   .ci-story-front.is-horizontal,
   .ci-story-front.is-horizontal-reverse,
   .ci-story-front.is-vertical,
@@ -516,7 +526,7 @@ body.page-config-loading .panel.active::before,
   grid-template-areas:
     "quote portrait"
     "footer footer";
-  background: var(--cream, #fafaf2);
+  background: var(--ci-card-bg, var(--cream, #fafaf2));
   width: 100%; height: 100%;
 }
 .ci-ed-quote-panel {
@@ -564,11 +574,13 @@ body.page-config-loading .panel.active::before,
   filter: saturate(var(--ci-photo-saturation, 0.62)) contrast(0.96) brightness(1.02);
   opacity: var(--ci-photo-opacity, 1);
   margin-left: calc(-1 * var(--ci-photo-overlap, 0px));
-  z-index: 1;
+  z-index: var(--ci-photo-z, 1);
   -webkit-mask-image: radial-gradient(ellipse 100% 100% at center center, #000 calc(100% - var(--ci-photo-feather, 0%)), transparent 100%);
           mask-image: radial-gradient(ellipse 100% 100% at center center, #000 calc(100% - var(--ci-photo-feather, 0%)), transparent 100%);
+  pointer-events: var(--ci-photo-pointer, none);
 }
-/* When photo overlaps, keep quote text and footer on top */
+.ci-story-front.ci-ed.is-photo-front .ci-ed-portrait { --ci-photo-z: 5; }
+/* When photo overlaps, keep quote text and footer on top by default */
 .ci-ed-quote-panel { position: relative; z-index: 2; }
 .ci-ed-footer { position: relative; z-index: 3; }
 /* Optional text color override (defaults to current ink color) */
@@ -583,7 +595,7 @@ body.page-config-loading .panel.active::before,
   grid-area: footer;
   padding: 12px 26px 14px;
   border-top: 1px solid rgba(30,37,48,0.10);
-  background: var(--cream, #fafaf2);
+  background: var(--ci-card-bg, var(--cream, #fafaf2));
   display: flex;
   align-items: baseline;
   gap: 12px;
@@ -593,7 +605,7 @@ body.page-config-loading .panel.active::before,
   font-family: 'Montserrat', sans-serif;
   font-size: 14px;
   font-weight: 700;
-  color: var(--ci-band-top, var(--ci-accent, #c84826));
+  color: var(--ci-text-color, var(--nv, #1e2530));
   letter-spacing: 0.005em;
   white-space: nowrap;
 }
@@ -2142,10 +2154,18 @@ body.page-config-loading .panel.active::before,
               </select>
             </div>
           </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-editor-hero-image-mode">Artwork fill mode</label>
+            <select id="impact-editor-hero-image-mode">
+              <option value="cover">Cover banner (recommended — fills banner exactly)</option>
+              <option value="contain">Fit inside banner</option>
+              <option value="scaled">Manual zoom (use the slider below)</option>
+            </select>
+          </div>
       <div class="editor-grid-2">
         <div class="editor-field">
           <label class="editor-label" for="impact-editor-hero-image-opacity">Artwork visibility</label>
-          <input id="impact-editor-hero-image-opacity" type="range" min="0" max="0.65" step="0.01">
+          <input id="impact-editor-hero-image-opacity" type="range" min="0" max="1" step="0.01">
           <div class="editor-inline-meta"><span>Fainter</span><span id="impact-editor-hero-image-opacity-value"></span></div>
             </div>
             <div class="editor-field">
@@ -2381,21 +2401,26 @@ body.page-config-loading .panel.active::before,
       <div class="page-editor-group impact-quick-edit">
         <h4>Text content</h4>
         <div class="editor-field">
-          <label class="editor-label" for="impact-quick-quote">Quote</label>
-          <div class="impact-quick-actions">
-            <button id="impact-quick-quote-italic" class="impact-editor-secondary" type="button" title="Wrap selected text in italics + accent color (the existing 'lead phrase' style)">Italic + accent</button>
-            <button id="impact-quick-quote-bold"   class="impact-editor-secondary" type="button" title="Wrap selected text in bold">Bold</button>
+          <label class="editor-label" for="impact-quick-quote-rt">Quote</label>
+          <div class="impact-quick-actions impact-quick-rt-toolbar">
+            <button id="impact-quick-quote-bold"   class="impact-editor-secondary" type="button" title="Bold (Ctrl/Cmd+B)"><strong>B</strong></button>
+            <button id="impact-quick-quote-italic" class="impact-editor-secondary" type="button" title="Italic (Ctrl/Cmd+I)"><em>I</em></button>
+            <label class="impact-editor-secondary impact-quick-color-pick" title="Apply color to selected text">
+              <span>Color</span>
+              <input id="impact-quick-quote-color" type="color" value="#c84826">
+            </label>
+            <button id="impact-quick-quote-clear"  class="impact-editor-secondary" type="button" title="Remove formatting from selected text">Clear</button>
           </div>
-          <textarea id="impact-quick-quote" rows="4" placeholder="The Foundry helped me..."></textarea>
-          <small style="color:rgba(30,37,48,0.55);font-size:0.72rem;display:block;margin-top:6px">Highlight text in the quote, then click a style button. Inline tags &lt;em&gt; and &lt;b&gt; are supported.</small>
+          <div id="impact-quick-quote-rt" class="impact-quick-rt" contenteditable="true" data-placeholder="The Foundry helped me..."></div>
+          <small style="color:rgba(30,37,48,0.55);font-size:0.72rem;display:block;margin-top:6px">Highlight any text in the quote, then click Bold, Italic, or Color to style just that portion.</small>
         </div>
         <div class="editor-grid-2">
           <div class="editor-field">
-            <label class="editor-label" for="impact-quick-name">Name</label>
+            <label class="editor-label" for="impact-quick-name">Name (shown at bottom of card)</label>
             <input id="impact-quick-name" type="text">
           </div>
           <div class="editor-field">
-            <label class="editor-label" for="impact-quick-role">Title / role</label>
+            <label class="editor-label" for="impact-quick-role">Title / role (shown at bottom of card)</label>
             <input id="impact-quick-role" type="text">
           </div>
         </div>
@@ -2406,21 +2431,31 @@ body.page-config-loading .panel.active::before,
       </div>
 
       <div class="page-editor-group impact-quick-edit">
-        <h4>Text styling</h4>
+        <h4>Card colors &amp; text</h4>
         <div class="editor-grid-2">
           <div class="editor-field">
             <label class="editor-label" for="impact-quick-quote-size">Quote font size</label>
-            <input id="impact-quick-quote-size" type="range" min="0.8" max="1.8" step="0.02">
+            <input id="impact-quick-quote-size" type="range" min="0.8" max="2.0" step="0.02">
             <div class="editor-inline-meta"><span>Smaller</span><span id="impact-quick-quote-size-value"></span></div>
           </div>
           <div class="editor-field">
-            <label class="editor-label" for="impact-quick-text-color">Text color</label>
+            <label class="editor-label" for="impact-quick-text-color">Text color (all text)</label>
             <input id="impact-quick-text-color" type="color" value="#1e2530">
           </div>
         </div>
         <div class="editor-grid-2">
           <div class="editor-field">
-            <label class="editor-label" for="impact-quick-justify">Vertical placement</label>
+            <label class="editor-label" for="impact-quick-card-bg">Card background</label>
+            <input id="impact-quick-card-bg" type="color" value="#fafaf2">
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-mark-color">Quotation mark color</label>
+            <input id="impact-quick-mark-color" type="color" value="#c84826">
+          </div>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-justify">Quote vertical placement</label>
             <select id="impact-quick-justify">
               <option value="flex-start">Top</option>
               <option value="center" selected>Center</option>
@@ -2428,7 +2463,7 @@ body.page-config-loading .panel.active::before,
             </select>
           </div>
           <div class="editor-field">
-            <label class="editor-label" for="impact-quick-align">Horizontal alignment</label>
+            <label class="editor-label" for="impact-quick-align">Quote horizontal alignment</label>
             <select id="impact-quick-align">
               <option value="left" selected>Left</option>
               <option value="center">Center</option>
@@ -2441,35 +2476,51 @@ body.page-config-loading .panel.active::before,
       <div class="page-editor-group impact-quick-edit">
         <h4>Photo</h4>
         <div class="editor-field">
-          <label class="editor-label" for="impact-quick-image">Image asset path</label>
-          <input id="impact-quick-image" type="text" placeholder="assets/student-headshots/Jane_Doe.png">
+          <label class="editor-label" for="impact-quick-image">Pick image from Git (type to filter)</label>
+          <input id="impact-quick-image" type="text" list="impact-quick-image-list" placeholder="Start typing or paste a path: assets/student-headshots/...">
+          <datalist id="impact-quick-image-list"></datalist>
           <div class="theoed-editor-row-actions">
             <button id="impact-quick-image-apply" class="impact-editor-secondary" type="button">Apply image</button>
+            <button id="impact-quick-image-clear" class="impact-editor-secondary" type="button">Remove image</button>
           </div>
-          <small style="color:rgba(30,37,48,0.55);font-size:0.72rem;display:block;margin-top:6px">Repo-relative path. Example: <code>assets/student-headshots/David_Cross.png</code></small>
+          <small style="color:rgba(30,37,48,0.55);font-size:0.72rem;display:block;margin-top:6px">Choose from Git-committed assets. Uploads are intentionally disabled to keep the editor in sync with the repo.</small>
         </div>
         <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-photo-layer">Image layer</label>
+            <select id="impact-quick-photo-layer">
+              <option value="behind">Behind text (default)</option>
+              <option value="front">In front of text</option>
+            </select>
+          </div>
           <div class="editor-field">
             <label class="editor-label" for="impact-quick-photo-opacity">Transparency</label>
             <input id="impact-quick-photo-opacity" type="range" min="0.1" max="1" step="0.01">
             <div class="editor-inline-meta"><span>Fainter</span><span id="impact-quick-photo-opacity-value"></span></div>
           </div>
+        </div>
+        <div class="editor-grid-2">
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-photo-scale">Zoom / enlarge</label>
+            <input id="impact-quick-photo-scale" type="range" min="40" max="320" step="1">
+            <div class="editor-inline-meta"><span>Smaller</span><span id="impact-quick-photo-scale-value"></span></div>
+          </div>
+          <div class="editor-field">
+            <label class="editor-label" for="impact-quick-photo-feather">Edge blur / feather</label>
+            <input id="impact-quick-photo-feather" type="range" min="0" max="60" step="1">
+            <div class="editor-inline-meta"><span>Crisp</span><span id="impact-quick-photo-feather-value"></span></div>
+          </div>
+        </div>
+        <div class="editor-grid-2">
           <div class="editor-field">
             <label class="editor-label" for="impact-quick-photo-saturation">Saturation</label>
             <input id="impact-quick-photo-saturation" type="range" min="0" max="1.4" step="0.01">
             <div class="editor-inline-meta"><span>Muted</span><span id="impact-quick-photo-saturation-value"></span></div>
           </div>
-        </div>
-        <div class="editor-grid-2">
           <div class="editor-field">
-            <label class="editor-label" for="impact-quick-photo-scale">Zoom</label>
-            <input id="impact-quick-photo-scale" type="range" min="40" max="250" step="1">
-            <div class="editor-inline-meta"><span>Smaller</span><span id="impact-quick-photo-scale-value"></span></div>
-          </div>
-          <div class="editor-field">
-            <label class="editor-label" for="impact-quick-photo-feather">Edge feather</label>
-            <input id="impact-quick-photo-feather" type="range" min="0" max="60" step="1">
-            <div class="editor-inline-meta"><span>Crisp</span><span id="impact-quick-photo-feather-value"></span></div>
+            <label class="editor-label" for="impact-quick-photo-overlap">Bleed photo into quote area</label>
+            <input id="impact-quick-photo-overlap" type="range" min="0" max="240" step="2">
+            <div class="editor-inline-meta"><span>No bleed</span><span id="impact-quick-photo-overlap-value"></span></div>
           </div>
         </div>
         <div class="editor-grid-2">
@@ -2483,11 +2534,6 @@ body.page-config-loading .panel.active::before,
             <input id="impact-quick-photo-y" type="range" min="-50" max="150" step="1">
             <div class="editor-inline-meta"><span>Higher</span><span id="impact-quick-photo-y-value"></span></div>
           </div>
-        </div>
-        <div class="editor-field">
-          <label class="editor-label" for="impact-quick-photo-overlap">Bleed photo behind quote</label>
-          <input id="impact-quick-photo-overlap" type="range" min="0" max="240" step="2">
-          <div class="editor-inline-meta"><span>No bleed</span><span id="impact-quick-photo-overlap-value"></span></div>
         </div>
       </div>
 
@@ -2684,7 +2730,10 @@ body.page-config-loading .panel.active::before,
                 <div class="editor-inline-meta"><span>None</span><span id="impact-editor-panel-overlay-opacity-value"></span></div>
               </div>
             </div>
-              <div class="editor-grid-2">
+            <!-- Quotation mark style/position/rotation controls retired:
+                 front face uses a single fixed open-quote glyph. The inputs
+                 stay in the DOM (hidden) so legacy bind code keeps working. -->
+              <div class="editor-grid-2" hidden aria-hidden="true">
                 <div class="editor-field">
                   <label class="editor-label" for="impact-editor-panel-quote-mark">Quotation mark style</label>
                   <select id="impact-editor-panel-quote-mark">
@@ -2695,7 +2744,7 @@ body.page-config-loading .panel.active::before,
                 </div>
                 <div></div>
               </div>
-            <div class="editor-grid-2">
+            <div class="editor-grid-2" hidden aria-hidden="true">
               <div class="editor-field">
                 <label class="editor-label" for="impact-editor-panel-quote-mark-position">Mark position</label>
                 <select id="impact-editor-panel-quote-mark-position">
@@ -6186,8 +6235,9 @@ var IMPACT_EDITOR_DEFAULTS = {
     body: 'The Foundry provides faculty, students, and alumni with the resources and opportunities that allow teaching and preaching ministries to thrive.',
     image: '/assets/Graphic Vignettes/vignette-city-life-banner.png',
     imagePosition: 'center center',
+    imageMode: 'cover',
     imageScale: 230,
-    imageOpacity: 0.65,
+    imageOpacity: 0.85,
     imageOffsetX: 0,
     imageOffsetY: 0,
     imageClarity: 0,
@@ -6726,9 +6776,15 @@ function impactApplyCssVars(config) {
   panel.style.setProperty('--ci-card-support-size', (config.typography.supportSize || 0.96) + 'rem');
   panel.style.setProperty('--ci-card-name-size', (config.typography.nameSize || 0.9) + 'rem');
   panel.style.setProperty('--ci-hero-image-url', 'url("' + (heroConfig.image || '/assets/Graphic Vignettes/vignette-city-life-banner.png') + '")');
-  panel.style.setProperty('--ci-hero-image-position', heroConfig.imagePosition || 'center right');
-  panel.style.setProperty('--ci-hero-image-size', 'auto ' + ((heroConfig.imageScale != null ? heroConfig.imageScale : 110)) + '%');
-  panel.style.setProperty('--ci-hero-image-opacity', String(heroConfig.imageOpacity != null ? heroConfig.imageOpacity : 0.26));
+  panel.style.setProperty('--ci-hero-image-position', heroConfig.imagePosition || 'center center');
+  var _imgMode = heroConfig.imageMode || 'cover';
+  var _imgScale = heroConfig.imageScale != null ? heroConfig.imageScale : 110;
+  var _imgSize;
+  if (_imgMode === 'cover') _imgSize = 'cover';
+  else if (_imgMode === 'contain') _imgSize = 'contain';
+  else _imgSize = 'auto ' + _imgScale + '%';
+  panel.style.setProperty('--ci-hero-image-size', _imgSize);
+  panel.style.setProperty('--ci-hero-image-opacity', String(heroConfig.imageOpacity != null ? heroConfig.imageOpacity : 0.85));
   panel.style.setProperty('--ci-hero-image-offset-x', ((heroConfig.imageOffsetX != null ? heroConfig.imageOffsetX : 0)) + 'px');
   panel.style.setProperty('--ci-hero-image-offset-y', ((heroConfig.imageOffsetY != null ? heroConfig.imageOffsetY : 0)) + 'px');
   panel.style.setProperty('--ci-hero-image-clarity', String(heroConfig.imageClarity != null ? heroConfig.imageClarity : 0));
@@ -6786,7 +6842,7 @@ function impactHydrateStory(row, story, storyKey) {
   hydrated.rowLabel = rowOverrides.label || row.label;
   hydrated.storyKey = storyKey;
   // ----- Per-card overrides for the new Quick Edit controls -----
-  ['photoOpacity','photoSaturation','photoScale','photoX','photoY','photoFeather','photoOverlap','textColor','quoteJustify','quoteAlign'].forEach(function(k) {
+  ['photoOpacity','photoSaturation','photoScale','photoX','photoY','photoFeather','photoOverlap','photoLayer','textColor','cardBg','markColor','quoteJustify','quoteAlign','quoteSize','imagePosition'].forEach(function(k) {
     if (storyOverrides[k] !== undefined) hydrated[k] = storyOverrides[k];
   });
   if (storyOverrides.image && !storyOverrides.imageData) hydrated.image = storyOverrides.image;
@@ -7412,10 +7468,27 @@ function ciEscapeHtml(s) {
     .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 function ciAllowEm(htmlString) {
-  // Allow <em> and <i> tags from JSON; strip everything else for safety.
+  // Allow inline rich-text from the editor: <em>, <i>, <b>, <strong>, <u>, <br>
+  // and <span style="color:#xxx"> (validated). Strip everything else for safety.
   var s = String(htmlString == null ? '' : htmlString);
   s = s.replace(/&(?!(?:amp|lt|gt|quot|#39|#x27);)/g, '&amp;');
-  s = s.replace(/<(?!\/?(?:em|i)\b)[^>]*>/gi, '');
+  // Allow simple closing tags first
+  s = s.replace(/<\/(em|i|b|strong|u|span)\s*>/gi, function(_, t) { return '</' + t.toLowerCase() + '>'; });
+  // Allow opening tags with allow-listed attributes
+  s = s.replace(/<(em|i|b|strong|u)(\s+[^>]*)?>/gi, function(_, t) { return '<' + t.toLowerCase() + '>'; });
+  s = s.replace(/<br\s*\/?>/gi, '<br>');
+  s = s.replace(/<span(\s+[^>]*)?>/gi, function(match, attrs) {
+    if (!attrs) return '<span>';
+    var styleMatch = /style\s*=\s*(?:"([^"]*)"|'([^']*)')/i.exec(attrs);
+    if (!styleMatch) return '<span>';
+    var raw = styleMatch[1] || styleMatch[2] || '';
+    // Pull out only `color: #xxx` or `color: rgb(...)` or named color (alphanumeric)
+    var colorMatch = /color\s*:\s*(#[0-9a-fA-F]{3,8}|rgba?\([^)]+\)|[a-zA-Z]+)/i.exec(raw);
+    if (!colorMatch) return '<span>';
+    return '<span style="color:' + colorMatch[1] + '">';
+  });
+  // Strip anything else
+  s = s.replace(/<(?!\/?(?:em|i|b|strong|u|span|br)\b)[^>]*>/gi, '');
   return s;
 }
 function ciInjectLeadPhrase(quoteText, leadPhrase) {
@@ -7449,16 +7522,22 @@ function ciBuildEditorialFront(card, front, story) {
   // Clear existing panel content
   front.innerHTML = '';
   front.classList.add('ci-ed');
+  front.classList.toggle('is-photo-front', story.photoLayer === 'front');
 
   var quoteRaw = story.quote || '';
-  // Allow user-authored <em>; auto-wrap leadPhrase if no <em>/<i> already present
+  // Allow user-authored markup (em/i/b/strong/u/span+color); auto-wrap leadPhrase
+  // only if no rich markup is present.
   var quoteSafe;
-  if (/<em\b|<i\b/i.test(quoteRaw)) {
+  if (/<(em|i|b|strong|u|span)\b/i.test(quoteRaw)) {
     quoteSafe = ciAllowEm(quoteRaw);
   } else {
     quoteSafe = ciInjectLeadPhrase(ciEscapeHtml(quoteRaw), story.leadPhrase);
   }
-  front.style.setProperty('--ci-ed-quote-size', ciEditorialQuoteSize(quoteRaw));
+  // Honor an explicit per-card quote size; otherwise auto-size by length.
+  var quoteSizeValue = (story.quoteSize != null && Number(story.quoteSize) > 0)
+    ? Number(story.quoteSize).toFixed(3) + 'rem'
+    : ciEditorialQuoteSize(quoteRaw);
+  front.style.setProperty('--ci-ed-quote-size', quoteSizeValue);
 
   var portraitStyle = '';
   if (story.image) portraitStyle += 'background-image: url(\'' + String(story.image).replace(/'/g, "%27") + '\');';
@@ -7515,6 +7594,8 @@ function ciCreateStoryCard(story) {
   if (story.photoFeather != null) card.style.setProperty('--ci-photo-feather', story.photoFeather + '%');
   if (story.photoOverlap != null) card.style.setProperty('--ci-photo-overlap', story.photoOverlap + 'px');
   if (story.textColor)            card.style.setProperty('--ci-text-color', story.textColor);
+  if (story.cardBg)               card.style.setProperty('--ci-card-bg', story.cardBg);
+  if (story.markColor)            card.style.setProperty('--ci-mark-color', story.markColor);
   if (story.quoteJustify)         card.style.setProperty('--ci-quote-justify', story.quoteJustify);
   if (story.quoteAlign)           card.style.setProperty('--ci-quote-align', story.quoteAlign);
   card.setAttribute('tabindex', '0');
@@ -7644,11 +7725,13 @@ function impactPopulateEditorFields() {
   }
   var impHeroCustom = document.getElementById('impact-editor-hero-image-custom');
   if (impHeroCustom) impHeroCustom.value = impHeroImg;
-  document.getElementById('impact-editor-hero-image-position').value = hero.imagePosition || 'center right';
+  document.getElementById('impact-editor-hero-image-position').value = hero.imagePosition || 'center center';
+  var _impHeroMode = document.getElementById('impact-editor-hero-image-mode');
+  if (_impHeroMode) _impHeroMode.value = hero.imageMode || 'cover';
   document.getElementById('impact-editor-hero-image-scale').value = hero.imageScale != null ? hero.imageScale : 110;
   document.getElementById('impact-editor-hero-image-scale-value').textContent = Math.round(hero.imageScale != null ? hero.imageScale : 110) + '%';
-  document.getElementById('impact-editor-hero-image-opacity').value = hero.imageOpacity != null ? hero.imageOpacity : 0.26;
-  document.getElementById('impact-editor-hero-image-opacity-value').textContent = impactFormatPercent((hero.imageOpacity != null ? hero.imageOpacity : 0.26));
+  document.getElementById('impact-editor-hero-image-opacity').value = hero.imageOpacity != null ? hero.imageOpacity : 0.85;
+  document.getElementById('impact-editor-hero-image-opacity-value').textContent = impactFormatPercent((hero.imageOpacity != null ? hero.imageOpacity : 0.85));
   document.getElementById('impact-editor-hero-image-offset-x').value = hero.imageOffsetX != null ? hero.imageOffsetX : 0;
   document.getElementById('impact-editor-hero-image-offset-x-value').textContent = ((hero.imageOffsetX != null ? hero.imageOffsetX : 0) > 0 ? '+' : '') + (hero.imageOffsetX != null ? hero.imageOffsetX : 0) + 'px';
   document.getElementById('impact-editor-hero-image-offset-y').value = hero.imageOffsetY != null ? hero.imageOffsetY : 0;
@@ -7970,6 +8053,15 @@ function impactBindEditor() {
     impactPopulateEditorFields();
     impactSetStatus('Live draft preview active', false);
   });
+  var _impHeroModeEl = document.getElementById('impact-editor-hero-image-mode');
+  if (_impHeroModeEl) {
+    _impHeroModeEl.addEventListener('change', function(event) {
+      impactEditorRuntime.config.hero.imageMode = event.target.value;
+      impactRenderAll();
+      impactPopulateEditorFields();
+      impactSetStatus('Live draft preview active', false);
+    });
+  }
   onInput('impact-editor-hero-image-scale', ['hero', 'imageScale'], Number);
   onInput('impact-editor-hero-image-opacity', ['hero', 'imageOpacity'], Number);
   onInput('impact-editor-hero-image-offset-x', ['hero', 'imageOffsetX'], Number);

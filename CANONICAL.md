@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-18 (Hero localized edge feathering, editor Undo last change controls, TheoEd hero logo/text controls)
+Last updated: 2026-05-19 (Candler Impact hero `imageMode` cover default + Canva-like Quick Edit rewrite: rich-text quote, asset picker, color controls, image layer toggle)
 
 Canonical local working copy: `C:\Scripts\executive-bi-dashboard`. If older notes contain legacy path references, treat this C drive path as authoritative.
 
@@ -60,6 +60,8 @@ Internal divider lines, awkward L-shaped photo sections, and accidental nested b
 
 **Hero height note (2026-05-12):** The Candler Impact editor exposes `#impact-editor-hero-height`, which writes `layout.heroHeight`. Runtime rendering maps that value to the Candler-only CSS variable `--ci-hero-min-height`, used by both `.ci-story-hero` and `.ci-story-hero-inner`. Do not move this into global CSS or shared editor infrastructure.
 
+**Hero fill mode (2026-05-19):** The Candler Impact hero now uses `background-size: cover` by default, set via `hero.imageMode` in `candler-impact.json` and the `Artwork fill mode` select (`#impact-editor-hero-image-mode`) in the editor. Modes: `cover` (default — fills the banner exactly with no cream gap behind the photo), `contain` (fits the entire image inside the banner with letterboxing), or `scaled` (legacy mode — uses the `Artwork zoom` slider's `auto N%` height). Default `imageOpacity` raised from 0.26 → 0.85 so the photo reads cleanly on top of the cream banner background. Do not revert to `auto 110%` as the default — that's what produced the visible "gap above the image" the user reported.
+
 **Regression risk:** Do not restore the oversized early hero, the side stats, or redundant “sample story” copy.
 
 **Testing notes (2026-05-12):** Previewed locally from `python -m http.server 4177` at `http://127.0.0.1:4177/index.html`. Headless Chrome/CDP confirmed the Candler Impact page loads the new banner from `candler-impact.json`, the editor dropdown selects `City life banner`, and moving the hero-height slider from `360` to `420` updates the live hero min-height. A localStorage draft with a different image/height did not auto-apply on reload; the draft notice appeared instead. Only logged browser issue was the existing missing `favicon.ico` 404.
@@ -99,8 +101,39 @@ Clicking a card to edit it should not count as “clicking outside” and should
 **Implementation:**
 - Shared shell helpers and Candler editor logic: [index.html](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/index.html)
 - Mission editor logic: [assets/mission-editor.js](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/mission-editor.js)
+- Candler Impact Quick Edit (per-card Canva-like editor): [assets/impact-quick-edit.js](C:/Scripts/executive-bi-dashboard/assets/impact-quick-edit.js)
 
 **Regression risk:** Do not reintroduce the workflow where clicking page content triggers an unsaved-close flow.
+
+### 6.1 CANDLER IMPACT QUICK EDIT (2026-05-19)
+**Rule:** The Candler Impact `Card Builder` tab now contains a Quick Edit panel that drives the rendered editorial front-face directly. It is the primary editing surface for story cards. The legacy panel/face/quote-mark-style controls below it remain in the DOM but are mostly redundant on the front face (which is rebuilt by `ciBuildEditorialFront`).
+
+**Quick Edit controls (per card):**
+- Section + Card selectors (changes the current target without leaving the editor)
+- Card lifecycle: `Move up`, `Move down`, `Add card`, `Delete card` — reorders inside a row
+- **Text content**
+  - Rich-text Quote (`#impact-quick-quote-rt`, contentEditable) with toolbar: `B` (bold), `I` (italic), `Color` (any selected text), `Clear` (remove formatting). Ctrl/Cmd+B and Ctrl/Cmd+I work inside the editor. Paste is forced to plain text. Allowed inline markup is sanitized both client-side (in `impact-quick-edit.js`) and server-side on render (`ciAllowEm` in `index.html`): `<em>`, `<i>`, `<b>`, `<strong>`, `<u>`, `<br>`, and `<span style="color:#XXX">`. Anything else is stripped.
+  - Name (`#impact-quick-name`) and Title/role (`#impact-quick-role`) — visible at the bottom of the rendered card.
+  - Card headline — back face only.
+- **Card colors & text**
+  - Quote font size slider (`quoteSize` per card). When set, it overrides the legacy length-based auto-size (`ciEditorialQuoteSize`).
+  - Text color, Card background, Quotation mark color — applied via the `--ci-text-color`, `--ci-card-bg`, `--ci-mark-color` CSS variables on the card element. Card background also feeds the footer to keep the panel background unified.
+  - Vertical placement + horizontal alignment of the quote.
+- **Photo**
+  - Image asset picker (text + `<datalist>` of repo-relative paths). Uploads are intentionally **disabled** — only Git-committed assets are valid, to keep the dashboard in sync with the repo. Clearing the field with `Remove image` deletes the override.
+  - Image layer: `Behind text` (default) or `In front of text` — controls `--ci-photo-z` and adds `.is-photo-front` to the front face.
+  - Transparency, Zoom (40–320%), Edge feather/blur, Saturation, Bleed into quote area, Horizontal + vertical position — all wired into `--ci-photo-*` CSS variables on the rendered card.
+
+**Persistence:** Quick Edit writes to per-card overrides at `config.cards[<storyKey>][<field>]`. `impactHydrateStory` merges these onto the base story before `ciCreateStoryCard` / `ciBuildEditorialFront` render.
+
+**Retired controls (hidden in DOM, not removed, so legacy bind code keeps working):**
+- `#impact-editor-panel-quote-mark` (quotation mark style)
+- `#impact-editor-panel-quote-mark-position` (mark position)
+- `#impact-editor-panel-quote-mark-rotate` (mark rotation)
+
+The front face always shows a single `&ldquo;` glyph at fixed position. Do not re-surface those controls without confirming with the user — they were intentionally retired.
+
+**Regression risk:** Do not switch the rich-text quote back to a `<textarea>` (loses selection-based formatting). Do not re-enable image uploads from the Quick Edit panel (breaks the Git asset contract). Do not add color-per-element controls inside a single card — colors are unified: one text color, one card background, one mark color.
 
 ---
 
