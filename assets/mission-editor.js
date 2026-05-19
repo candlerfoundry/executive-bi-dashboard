@@ -574,18 +574,38 @@
     }
     panel.style.setProperty('--mission-heading-font', state.config.typography.headingFont || "'Montserrat', sans-serif");
     panel.style.setProperty('--mission-body-font', state.config.typography.bodyFont || "'Montserrat', sans-serif");
-    panel.style.setProperty('--mission-hero-title-size', clamp(state.config.typography.heroTitleSize, 2.2, 6.8, 3.75) + 'rem');
+    // Fluid typography helper: takes the editor-configured max and emits a CSS
+    // clamp() that scales smoothly from the configured min at 768px viewport
+    // up to the configured max at 1920px. This is what makes every Mission
+    // font scale dynamically across screen sizes — the editor's value is the
+    // ceiling, not a fixed render value.
+    function fluidRem(minRem, maxRem) {
+      var minPx = minRem * 16, maxPx = maxRem * 16;
+      // Solve Xrem + Yvw such that ideal=minPx at 768px viewport and maxPx at 1920px
+      var yVw = (maxPx - minPx) / 11.52;             // 1920px-vw - 768px-vw per 1vw = 11.52
+      var xRem = (minPx - yVw * 7.68) / 16;          // base in rem
+      return 'clamp(' + minRem.toFixed(3) + 'rem, ' +
+                       xRem.toFixed(3) + 'rem + ' + yVw.toFixed(3) + 'vw, ' +
+                       maxRem.toFixed(3) + 'rem)';
+    }
+    var _heroMax    = clamp(state.config.typography.heroTitleSize, 2.2, 6.8, 3.75);
+    var _sectionMax = clamp(state.config.typography.sectionTitleSize, 1.1, 2.4, 1.8);
+    var _titleMax   = clamp(state.config.typography.cardTitleSize, 0.9, 1.8, 1.45);
+    var _bodyMax    = clamp(state.config.typography.cardBodySize, 0.68, 1.15, 0.94);
+    var _copyMax    = clamp(state.config.typography.sectionCopySize, 0.72, 1.3, 0.96);
+    var _missionBody = clamp(state.config.typography.bodySize, 0.75, 2.2, 1);
+    panel.style.setProperty('--mission-hero-title-size',   fluidRem(2.25, _heroMax));
     panel.style.setProperty('--mission-hero-title-width', clamp(state.config.typography.heroTitleWidth, 320, 1320, heroTextMax) + 'px');
-    panel.style.setProperty('--mission-body-size', clamp(state.config.typography.bodySize, 0.75, 2.2, 1) + 'rem');
+    panel.style.setProperty('--mission-body-size',         fluidRem(0.82, _missionBody));
     panel.style.setProperty('--mission-hero-body-width', clamp(state.config.typography.heroBodyWidth, 320, 1040, 620) + 'px');
     panel.style.setProperty('--mission-hero-body-min-height', clamp(state.config.typography.heroBodyMinHeight, 0, 220, 0) + 'px');
     panel.style.setProperty('--mission-hero-title-gap', clamp(state.config.typography.heroTitleGap, 0, 64, 24) + 'px');
-    panel.style.setProperty('--mission-section-title-size', clamp(state.config.typography.sectionTitleSize, 1.1, 2.4, 1.8) + 'rem');
-    panel.style.setProperty('--mission-section-copy-size', clamp(state.config.typography.sectionCopySize, 0.72, 1.3, 0.96) + 'rem');
+    panel.style.setProperty('--mission-section-title-size', fluidRem(1.3, _sectionMax));
+    panel.style.setProperty('--mission-section-copy-size',  fluidRem(0.78, _copyMax));
     panel.style.setProperty('--mission-section-copy-width', clamp(state.config.typography.sectionCopyWidth, 180, 520, 280) + 'px');
     panel.style.setProperty('--mission-section-copy-min-height', clamp(state.config.typography.sectionCopyMinHeight, 0, 220, 0) + 'px');
-    panel.style.setProperty('--mission-card-title-size', clamp(state.config.typography.cardTitleSize, 0.9, 1.8, 1.45) + 'rem');
-    panel.style.setProperty('--mission-card-body-size', clamp(state.config.typography.cardBodySize, 0.68, 1.15, 0.94) + 'rem');
+    panel.style.setProperty('--mission-card-title-size',    fluidRem(0.85, _titleMax));
+    panel.style.setProperty('--mission-card-body-size',     fluidRem(0.72, _bodyMax));
     panel.style.setProperty('--mission-card-front-text-width', clamp(state.config.typography.cardFrontTextWidth, 140, 420, 260) + 'px');
     panel.style.setProperty('--mission-card-front-text-min-height', clamp(state.config.typography.cardFrontTextMinHeight, 0, 220, 0) + 'px');
     panel.style.setProperty('--mission-card-back-text-width', clamp(state.config.typography.cardBackTextWidth, 160, 420, 280) + 'px');

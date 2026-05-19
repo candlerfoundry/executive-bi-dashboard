@@ -783,21 +783,27 @@ body.page-config-loading .panel.active::before,
 .iq-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(250,250,242,0.3); border: none; cursor: pointer; padding: 0; transition: background 0.2s; }
 .iq-dot.active { background: #c84826; }
 
-/* ═══ OFFERING CARDS ═══ */
-.mission-page .offering-flip { height:100%; perspective:1400px; cursor:pointer; outline:none; }
+/* ═══ OFFERING CARDS ═══
+   Cards use aspect-ratio (not fixed height) so they're always landscape
+   rectangles regardless of viewport. The container's column width drives
+   width; height = width / aspect. --mission-card-aspect defaults to 1.6
+   (landscape) and can be overridden per row. */
+.mission-page .offering-flip { aspect-ratio: var(--mission-card-aspect, 1.6 / 1); height: auto; perspective:1400px; cursor:pointer; outline:none; }
 .mission-page .offering-flip-inner { display:grid; min-height:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 0.55s cubic-bezier(0.2,0.8,0.2,1); }
 .mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner, .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner, .mission-page .offering-flip.is-flipped .offering-flip-inner { transform:rotateY(180deg); }
 .mission-page .offering-flip.is-edit-selected .card-front,
 .mission-page .offering-flip.is-edit-selected .card-back { outline:none; box-shadow:0 0 0 2px rgba(30,37,48,0.08), 0 18px 36px rgba(30,37,48,0.12); }
-.mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+.mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:100%; backface-visibility:hidden; -webkit-backface-visibility:hidden; }
 .mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.16); box-shadow:0 10px 20px rgba(30,37,48,0.08), 0 2px 5px rgba(30,37,48,0.08); overflow:hidden; position:relative; isolation:isolate; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
   .mission-page .card-front::before { content:''; position:absolute; top:var(--card-graphic-top,clamp(10px, 1vw, 16px)); right:var(--card-graphic-right,clamp(8px, 0.9vw, 14px)); bottom:var(--card-graphic-bottom,clamp(8px, 0.9vw, 12px)); width:var(--card-graphic-width,var(--mission-card-art-lg)); background-image:var(--card-graphic,none); background-size:var(--card-graphic-size,contain); background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:var(--card-graphic-opacity,0.9); z-index:0; pointer-events:none; border-radius:inherit; transform:translate(var(--card-graphic-shift-x, 0px), var(--card-graphic-shift-y, 0px)) scale(var(--card-graphic-scale,1)); transform-origin:center right; -webkit-mask-image:var(--card-graphic-mask, none); mask-image:var(--card-graphic-mask, none); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
 .mission-page .card-front::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,250,0.96) 0%, rgba(255,253,250,0.92) 46%, rgba(255,253,250,0.38) 72%, rgba(255,253,250,0.08) 100%); z-index:0; pointer-events:none; }
 .mission-page .offering-flip:hover .card-front { border-color:rgba(30,37,48,0.24); box-shadow:0 24px 40px rgba(30,37,48,0.16), 0 8px 14px rgba(30,37,48,0.08); }
 .mission-page .card-back { transform:rotateY(180deg); background:var(--mission-card-back-bg); border:1px solid rgba(30,37,48,0.22); box-shadow:0 20px 40px rgba(30,37,48,0.18), 0 8px 16px rgba(30,37,48,0.12); overflow:hidden; padding:0; }
-.mission-course-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
+.mission-course-grid .card-front { padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
+.mission-course-grid .offering-flip { --mission-card-aspect: 1.85 / 1; }
 .mission-course-grid .card-front::before { width:var(--card-graphic-width,var(--mission-card-art-lg)); }
-.mission-ministry-grid .card-front, .mission-public-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
+.mission-ministry-grid .card-front, .mission-public-grid .card-front { padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
+.mission-ministry-grid .offering-flip, .mission-public-grid .offering-flip { --mission-card-aspect: 1.5 / 1; }
 .mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { width:var(--card-graphic-width,var(--mission-card-art-sm)); right:var(--card-graphic-right,clamp(6px, 0.7vw, 10px)); opacity:var(--card-graphic-opacity,0.92); }
 .mission-page .cf-group { display:none; }
   .mission-page .cf-top { position:relative; z-index:1; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:clamp(14px, 1.2vw, 18px); width:min(100%, var(--mission-card-front-text-width-local, var(--mission-card-front-text-width))); max-width:var(--mission-card-front-text-width-local, var(--mission-card-front-text-width)); }
@@ -1180,7 +1186,9 @@ body.page-config-loading .panel.active::before,
   #mission-ministry { margin:0 -18px; padding:30px 18px 36px; border-radius:0; }
   #mission-public { padding-top:36px; }
   .mission-course-grid, .mission-ministry-grid, .mission-public-grid { grid-template-columns:1fr; }
-  .mission-course-grid .card-front, .mission-ministry-grid .card-front, .mission-public-grid .card-front { min-height:250px; padding:24px 132px 24px 24px; }
+  /* 1-col cards keep aspect-ratio:1.85/1 (community) / 1.5/1 (ministry/public).
+     No min-height — aspect-ratio handles height. */
+  .mission-course-grid .card-front, .mission-ministry-grid .card-front, .mission-public-grid .card-front { padding:24px calc(var(--mission-card-art-sm) + 12px) 24px 24px; }
   .mission-page .card-front::before, .mission-course-grid .card-front::before, .mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { right:var(--card-graphic-right,6px); top:var(--card-graphic-top,10px); bottom:var(--card-graphic-bottom,8px); width:var(--card-graphic-width,122px); opacity:var(--card-graphic-opacity,0.92); }
   .mission-page .card-front::after { background:linear-gradient(90deg, rgba(255,253,250,0.97) 0%, rgba(255,253,250,0.93) 50%, rgba(255,253,250,0.35) 78%, rgba(255,253,250,0.08) 100%); }
   .mission-page .cf-name { font-size:1.32rem; max-width:100%; }
@@ -1282,11 +1290,11 @@ body.page-config-loading .panel.active::before,
   .gr-sc-sub   { font-size: clamp(10px, 0.3vw + 8px, 14px) !important; line-height: 1.35 !important; }
 }
 
-/* In the 768–1199 band the ty-flip cards (which use aspect-ratio: 3/2) get so
-   short that their backs can't fit the title+instructor+desc+stats+CTA stack.
-   Squaring the cards (1:1) gives the back roughly 50% more vertical room than
-   3:2 while keeping the front book-cover image cleanly framed. */
-@media (min-width: 768px) and (max-width: 1199px) {
+/* This Year card aspect — backs need extra vertical room across iPad,
+   small laptop, and standard laptop widths. At ≥1600px the original 3/2
+   aspect is fine because the cards are physically wide enough that backs
+   fit. Squaring (1:1) gives the back ~50% more height than 3/2. */
+@media (min-width: 768px) and (max-width: 1599px) {
   .ty-flip { aspect-ratio: 1 / 1 !important; }
 }
 
@@ -1320,30 +1328,35 @@ body.page-config-loading .panel.active::before,
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MISSION CARDS — scale fonts + photo strips to viewport (added 2026-05-19)
+   MISSION RESPONSIVE SYSTEM — durable scaling, not patches (added 2026-05-19)
    ───────────────────────────────────────────────────────────────────────────
-   mission-editor.js writes --mission-card-title-size: 1.45rem, body 0.94rem,
-   and the art strips clamp at 130-164/110-144px — all tuned for ≥1600px
-   desktop. On a small laptop (~1280-1366px) those numbers are too large for
-   the narrow 3-column cards and content overflows / pushes the cards taller.
-   These overrides scale title, body, and photo-strip widths down at smaller
-   viewport bands. --mission-card-min stays at the configured 320px so cards
-   keep their pre-yesterday height. */
-@media (max-width: 1399px) {
-  .mission-page {
-    --mission-card-title-size: 1rem !important;
-    --mission-card-body-size:  0.8rem !important;
-    --mission-card-art-lg:     96px !important;
-    --mission-card-art-sm:     80px !important;
-  }
+   Three pillars:
+   1. Fluid typography — mission-editor.js now writes clamp() expressions
+      that scale smoothly between 768px and 1920px (see assets/mission-editor.js
+      fluidRem helper). Editor's configured value is the MAX of the clamp.
+   2. Aspect-ratio cards — .offering-flip uses aspect-ratio (1.85/1 for
+      community row, 1.5/1 for ministry/public rows) so cards are always
+      landscape rectangles regardless of viewport.
+   3. Column counts step with viewport — 3 cols ≥1200px, 2 cols 768-1199px,
+      1 col <768px. Combined with aspect-ratio, cards never go portrait. */
+
+/* Photo strips scale fluidly with viewport (was clamp(130,9vw,164) etc.). */
+.mission-page {
+  --mission-card-art-lg: clamp(72px, 6vw + 10px, 164px);
+  --mission-card-art-sm: clamp(56px, 5vw + 8px, 144px);
 }
-@media (max-width: 1099px) and (min-width: 901px) {
-  .mission-page {
-    --mission-card-title-size: 0.9rem !important;
-    --mission-card-body-size:  0.74rem !important;
-    --mission-card-art-lg:     80px !important;
-    --mission-card-art-sm:     64px !important;
-  }
+
+/* Column stepping:
+   ≥1200px → inline editor values from base CSS (3 cols ministry/public, 2 cols community)
+   901-1199px → keep 3 cols on ministry/public, 2 on community (cards stay landscape via aspect-ratio)
+   ≤900px → (max-width:900) block wins with 1 col (cards stack full-width landscape)
+   Forcing 2-col on rows of 3 cards would produce an ugly 2+1 layout; better to
+   keep all three side-by-side and let aspect-ratio + fluid type handle the
+   narrower card width. */
+@media (max-width: 1199px) and (min-width: 901px) {
+  .mission-page .mission-course-grid   { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .mission-page .mission-ministry-grid,
+  .mission-page .mission-public-grid   { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
 }
 
 </style>
