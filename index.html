@@ -1256,13 +1256,14 @@ body.page-config-loading .panel.active::before,
      baseline values for desktop. We override them at this breakpoint so cards
      shrink to fit narrower viewports without text clipping or photo overflow. */
   .mission-page {
-    --mission-card-min:        clamp(232px, 18vw, 320px) !important;
-    --mission-card-pad:        clamp(14px, 1.3vw, 32px) !important;
-    --mission-card-art-lg:     clamp(96px, 8.5vw, 180px) !important;
-    --mission-card-art-sm:     clamp(82px, 7vw, 150px) !important;
-    --mission-card-gap:        clamp(12px, 1.2vw, 24px) !important;
-    --mission-card-title-size: clamp(0.92rem, 0.6rem + 0.5vw, 1.45rem) !important;
-    --mission-card-body-size:  clamp(0.74rem, 0.62rem + 0.18vw, 0.94rem) !important;
+    --mission-card-min:        clamp(238px, 22vw, 420px) !important;
+    --mission-card-pad:        clamp(14px, 1.3vw, 36px) !important;
+    --mission-card-art-lg:     clamp(96px, 11vw, 240px) !important;
+    --mission-card-art-sm:     clamp(78px, 9vw, 200px) !important;
+    --mission-card-gap:        clamp(12px, 1.2vw, 28px) !important;
+    --mission-card-title-size: clamp(0.95rem, 0.55rem + 0.7vw, 1.55rem) !important;
+    --mission-card-body-size:  clamp(0.78rem, 0.6rem + 0.22vw, 1rem) !important;
+    --mission-intro-col:       clamp(220px, 16vw, 360px) !important;
   }
   /* Override the (max-width: 900px) padding shorthand 24px 132px 24px 24px so
      the photo strip doesn't crowd body copy at iPad widths. */
@@ -1316,10 +1317,56 @@ body.page-config-loading .panel.active::before,
 
 /* In the 768–1199 band the ty-flip cards (which use aspect-ratio: 3/2) get so
    short that their backs can't fit the title+instructor+desc+stats+CTA stack.
-   Switching to a 1.35:1 aspect gives the back ~30% more vertical room. The
-   underlying card-front photos still display fine at this aspect. */
+   Squaring the cards (1:1) gives the back roughly 50% more vertical room than
+   3:2 while keeping the front book-cover image cleanly framed. */
 @media (min-width: 768px) and (max-width: 1199px) {
-  .ty-flip { aspect-ratio: 1.35 / 1 !important; }
+  .ty-flip { aspect-ratio: 1 / 1 !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   NAV TABS — overflow handling for narrow / mid viewports (added 2026-05-19)
+   ───────────────────────────────────────────────────────────────────────────
+   The six tab labels + the Publish to Main button need roughly 1100–1200px
+   to sit centered without overflowing the navy navigation strip. Below that,
+   allow horizontal scrolling, anchor content to flex-start so the active
+   tab is always visible from the left, hide the scrollbar chrome, and
+   shrink the Publish to Main button at very narrow widths. */
+@media (max-width: 1399px) {
+  .nav-tabs {
+    overflow-x: auto;
+    overflow-y: hidden;
+    justify-content: flex-start;
+    padding: 0 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab { flex: 0 0 auto; }
+  .dashboard-publish--nav { flex: 0 0 auto; }
+}
+@media (max-width: 900px) {
+  .nav-tabs { padding: 0 12px; }
+}
+@media (max-width: 600px) {
+  .dashboard-publish--nav { padding: 5px 8px; font-size: 0.42rem; margin-left: 4px; }
+  .nav-tabs { padding: 0 8px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MISSION — tighten padding at iPad widths (added 2026-05-19)
+   ───────────────────────────────────────────────────────────────────────────
+   At 768–900px the (min-width: 768) art-sm clamp still floors at 78px, which
+   plus card padding takes ~110px off every card's usable width — body copy
+   is left with about 130px on a 2/3-column layout. Pull the art strip in
+   tighter on this band and trim the gutter so cards get more room. */
+@media (min-width: 768px) and (max-width: 900px) {
+  .mission-page {
+    --mission-card-art-lg: 96px !important;
+    --mission-card-art-sm: 64px !important;
+    --mission-card-pad:    14px !important;
+    --mission-gutter:      24px !important;
+    --mission-card-min:    248px !important;
+  }
 }
 
 </style>

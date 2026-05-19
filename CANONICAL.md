@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-19 (Candler Impact hero `imageMode` cover default + Canva-like Quick Edit rewrite: rich-text quote, asset picker, color controls, image layer toggle)
+Last updated: 2026-05-19 (Responsive scaling tune-up: nav horizontal scroll <1400px, Mission grows at large viewports, This Year card backs squared in 768-1199 band)
 
 Canonical local working copy: `C:\Scripts\executive-bi-dashboard`. If older notes contain legacy path references, treat this C drive path as authoritative.
 
@@ -61,6 +61,12 @@ Internal divider lines, awkward L-shaped photo sections, and accidental nested b
 **Hero height note (2026-05-12):** The Candler Impact editor exposes `#impact-editor-hero-height`, which writes `layout.heroHeight`. Runtime rendering maps that value to the Candler-only CSS variable `--ci-hero-min-height`, used by both `.ci-story-hero` and `.ci-story-hero-inner`. Do not move this into global CSS or shared editor infrastructure.
 
 **Hero fill mode (2026-05-19):** The Candler Impact hero now uses `background-size: cover` by default, set via `hero.imageMode` in `candler-impact.json` and the `Artwork fill mode` select (`#impact-editor-hero-image-mode`) in the editor. Modes: `cover` (default — fills the banner exactly with no cream gap behind the photo), `contain` (fits the entire image inside the banner with letterboxing), or `scaled` (legacy mode — uses the `Artwork zoom` slider's `auto N%` height). Default `imageOpacity` raised from 0.26 → 0.85 so the photo reads cleanly on top of the cream banner background. Do not revert to `auto 110%` as the default — that's what produced the visible "gap above the image" the user reported.
+
+**Responsive scaling tune-up (2026-05-19):** Follow-up to the 2026-05-18 responsive commit (`982f2b6`). Three issues remained:
+- **Nav strip** overflowed the navy header strip up to ~1399px viewport because 6 tab labels + the `Publish to Main` button needed >1400px of horizontal room. Fixed by making `.nav-tabs` `overflow-x: auto` + `justify-content: flex-start` at `@media (max-width: 1399px)`. Scrollbar chrome is hidden; the active tab stays visible from the left edge. At ≥1400px the original centered layout returns. Do not collapse this rule below 1199px again — the 1200–1399px band needs the scroll behavior too.
+- **Mission cards at large viewports**: yesterday's clamp caps (`--mission-card-min` 320px, art strips 180/150px, intro col 280px) prevented the design from growing past mid-laptop sizes, leaving wide cream margins at 1920px+. Raised to `--mission-card-min: clamp(238px, 22vw, 420px)`, art-lg `clamp(96px, 11vw, 240px)`, art-sm `clamp(78px, 9vw, 200px)`, intro col `clamp(220px, 16vw, 360px)`. Mission JSON `shellMax/gutter` stays at 1680/40 (hero-vs-section alignment depends on it).
+- **Mission cards at iPad-portrait (768–900px)**: added a tighter override that pulls `--mission-card-art-sm: 64px`, `--mission-card-pad: 14px`, `--mission-gutter: 24px`, `--mission-card-min: 248px` so 2/3-column cards have usable content width on narrow tablets.
+- **This Year card backs at 768–1199px**: yesterday's `aspect-ratio: 1.35 / 1` override still left the back face too short for title + instructor + rule + dates + description + stats + CTA on iPad/laptop widths. Squared to `aspect-ratio: 1 / 1` for that band — backs get ~50% more vertical room while the front book-cover image still frames cleanly. Above 1199px the original `3 / 2` aspect is fine.
 
 **Regression risk:** Do not restore the oversized early hero, the side stats, or redundant “sample story” copy.
 
