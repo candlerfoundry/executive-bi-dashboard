@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-19 (Responsive scaling tune-up: nav horizontal scroll <1400px, Mission grows at large viewports, This Year card backs squared in 768-1199 band)
+Last updated: 2026-05-20 (Mission responsive front-art default + editor durability guardrail)
 
 Canonical local working copy: `C:\Scripts\executive-bi-dashboard`. If older notes contain legacy path references, treat this C drive path as authoritative.
 
@@ -110,6 +110,17 @@ Clicking a card to edit it should not count as “clicking outside” and should
 - Candler Impact Quick Edit (per-card Canva-like editor): [assets/impact-quick-edit.js](C:/Scripts/executive-bi-dashboard/assets/impact-quick-edit.js)
 
 **Regression risk:** Do not reintroduce the workflow where clicking page content triggers an unsaved-close flow.
+
+### Mission responsive front-art rendering (2026-05-20)
+**Rule:** Mission front-art edits are now a reference-space concern, not fixed-current-viewport CSS tweaks.
+
+**Problem discovered:** Mission card-front artwork had been tuned through the in-browser editor with desktop-authored transform values. The persisted `frontGraphicShiftX`, `frontGraphicShiftY`, `frontGraphicWidth`, and `frontGraphicScale` fields were rendered as fixed pixel/unitless CSS values, so the approved 1920px composition did not preserve its proportions as card widths and heights shrank. Outer `clamp()` sizing helped the cards themselves, but it could not make fixed art shifts/widths scale coherently inside each card.
+
+**Default solution:** Normalized Mission front-art rendering is now the intended default for the Mission hero and all Mission card fronts. `assets/mission-responsive-art-prototype.js` still carries its prototype filename for low-risk local continuity, but it exposes the production-style `window.MissionResponsiveArt` API and keeps `window.MissionResponsiveArtPrototype` as a compatibility alias. The card path treats existing editor-authored art values as 1920/reference-card values, then derives rendered `--card-graphic-*` CSS variables from each live card's size. The hero path preserves the approved 1920 split using a 1600px overlay reference and scales the hero text/visual columns down from that reference. Responsive bleed/overscan is added where needed so intended card-edge coverage survives as cards shrink.
+
+**Current status:** This is local, default-enabled, not committed, and not pushed. Use `?missionArtLegacy=1` only as a temporary local comparison path. Card backs, the `Courses in the Community` back-face scaling, 1024px 3-column card geometry, row-collapse breakpoints, and broader typography/layout cleanup remain separate deferred issues.
+
+**Editor durability status:** Safe only with workflow guidance. The current Mission editor still saves the familiar fields directly into `assets/page-config/mission-page.json` / local browser draft JSON: hero art uses percent-like `visual.heroImageX`, `visual.heroImageY`, and `visual.heroImageScale`; card front art uses raw `frontGraphicShiftX/Y` pixels, optional `frontGraphicWidth` pixels, and unitless `frontGraphicScale`. The normalized renderer interprets those card values as reference-space values and scales them responsively, but the editor does not provide a hidden 1920/reference canvas or convert a smaller-viewport visual adjustment back into an explicitly marked reference model. Until the editor becomes reference-aware, make Mission hero/card-front art adjustments from a large/reference desktop viewport, ideally around 1920px, when preserving the approved desktop composition, then verify smaller widths such as 1366/1280/1024. Do not assume a visual tweak authored only at a smaller viewport is desktop-neutral.
 
 ### 6.1 CANDLER IMPACT QUICK EDIT (2026-05-19)
 **Rule:** The Candler Impact `Card Builder` tab now contains a Quick Edit panel that drives the rendered editorial front-face directly. It is the primary editing surface for story cards. The legacy panel/face/quote-mark-style controls below it remain in the DOM but are mostly redundant on the front face (which is rebuilt by `ciBuildEditorialFront`).

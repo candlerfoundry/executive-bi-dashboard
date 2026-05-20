@@ -480,6 +480,11 @@
       card.frontGraphicWidth = overrides.frontGraphicWidth != null ? overrides.frontGraphicWidth : (offering.frontGraphicWidth != null ? offering.frontGraphicWidth : null);
       card.frontGraphicOpacity = overrides.frontGraphicOpacity != null ? overrides.frontGraphicOpacity : (offering.frontGraphicOpacity != null ? offering.frontGraphicOpacity : null);
       card.frontGraphicScale = overrides.frontGraphicScale != null ? overrides.frontGraphicScale : (offering.frontGraphicScale != null ? offering.frontGraphicScale : null);
+      card.frontGraphicBleedBottom = overrides.frontGraphicBleedBottom != null ? overrides.frontGraphicBleedBottom : (offering.frontGraphicBleedBottom != null ? offering.frontGraphicBleedBottom : null);
+      card.frontGraphicBleedRight = overrides.frontGraphicBleedRight != null ? overrides.frontGraphicBleedRight : (offering.frontGraphicBleedRight != null ? offering.frontGraphicBleedRight : null);
+      card.frontGraphicBleedWidth = overrides.frontGraphicBleedWidth != null ? overrides.frontGraphicBleedWidth : (offering.frontGraphicBleedWidth != null ? offering.frontGraphicBleedWidth : null);
+      card.frontGraphicBleedShiftY = overrides.frontGraphicBleedShiftY != null ? overrides.frontGraphicBleedShiftY : (offering.frontGraphicBleedShiftY != null ? offering.frontGraphicBleedShiftY : null);
+      card.frontGraphicBleedScale = overrides.frontGraphicBleedScale != null ? overrides.frontGraphicBleedScale : (offering.frontGraphicBleedScale != null ? offering.frontGraphicBleedScale : null);
       card.frontGraphicFadeX = overrides.frontGraphicFadeX != null ? overrides.frontGraphicFadeX : (offering.frontGraphicFadeX != null ? offering.frontGraphicFadeX : 0);
       card.frontGraphicFadeLeft = overrides.frontGraphicFadeLeft != null ? overrides.frontGraphicFadeLeft : (offering.frontGraphicFadeLeft != null ? offering.frontGraphicFadeLeft : null);
       card.frontGraphicFadeRight = overrides.frontGraphicFadeRight != null ? overrides.frontGraphicFadeRight : (offering.frontGraphicFadeRight != null ? offering.frontGraphicFadeRight : null);
@@ -534,6 +539,10 @@
     var heroTextMax = clamp(state.config.layout.heroTextMax, 420, 1320, 700);
     var heroMinHeight = clamp(state.config.layout.heroMinHeight, 240, 520, 348);
     if (!panel) return;
+    var artPrototype = window.MissionResponsiveArt || window.MissionResponsiveArtPrototype;
+    var artPrototypeEnabled = !!(artPrototype && artPrototype.isEnabled());
+    panel.classList.toggle('mission-art-normalized', artPrototypeEnabled);
+    panel.classList.toggle('mission-art-prototype', artPrototypeEnabled);
     panel.style.setProperty('--mission-shell-max', clamp(state.config.layout.shellMax, 1280, 1880, 1680) + 'px');
     panel.style.setProperty('--mission-gutter', clamp(state.config.layout.gutter, 12, 72, 40) + 'px');
     panel.style.setProperty('--mission-section-gap', clamp(state.config.layout.heroGap, 8, 72, 24) + 'px');
@@ -643,6 +652,16 @@
         intro.style.marginLeft = '0';
         intro.style.marginRight = '0';
       }
+    }
+    if (artPrototypeEnabled) {
+      artPrototype.watchHero({
+        panel: panel,
+        bar: bar,
+        overlay: overlay,
+        grid: grid,
+        intro: intro,
+        visual: visual
+      });
     }
   }
 
@@ -803,7 +822,12 @@
         event.stopPropagation();
         selectCardFromCanvas(slug, flip.classList.contains('is-flipped') ? 'back' : 'front');
       }, true);
-      (grids[runtime.currentState.sectionMap[slug] || 'ministry'] || grids.ministry).appendChild(flip);
+      var targetGrid = grids[runtime.currentState.sectionMap[slug] || 'ministry'] || grids.ministry;
+      targetGrid.appendChild(flip);
+      var missionArt = window.MissionResponsiveArt || window.MissionResponsiveArtPrototype;
+      if (missionArt && missionArt.isEnabled()) {
+        missionArt.watchCard(flip, slug, offering);
+      }
     });
 
     window.initMissionCardInteractions();
