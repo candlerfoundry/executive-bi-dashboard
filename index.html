@@ -734,8 +734,8 @@ body.page-config-loading .panel.active::before,
   --mission-card-back-button-bg: #c84826;
   --mission-card-back-button-text: #fafaf2;
   --mission-card-pad: clamp(22px, 1.8vw, 32px);
-  --mission-card-art-lg: clamp(130px, 9vw, 164px);
-  --mission-card-art-sm: clamp(110px, 8vw, 144px);
+  --mission-card-art-lg: clamp(110px, calc(2px + 8.4375vw), 164px);
+  --mission-card-art-sm: clamp(90px, calc(-18px + 8.4375vw), 144px);
   background:#fbf8f3;
 }
 .mission-bar { position:relative; min-height:var(--mission-hero-min); background:#fffdf8; overflow:hidden; margin-bottom:22px; border-bottom:1px solid rgba(30,37,48,0.14); --hero-edge-surface: 255,253,248; --hero-photo-left: 0px; --hero-photo-right: 100%; --hero-edge-feather-left: 0px; --hero-edge-feather-right: 0px; }
@@ -1329,22 +1329,10 @@ body.page-config-loading .panel.active::before,
    These overrides scale title, body, and photo-strip widths down at smaller
    viewport bands. --mission-card-min stays at the configured 320px so cards
    keep their pre-yesterday height. */
-@media (max-width: 1399px) {
-  .mission-page {
-    --mission-card-title-size: 1rem !important;
-    --mission-card-body-size:  0.8rem !important;
-    --mission-card-art-lg:     96px !important;
-    --mission-card-art-sm:     80px !important;
-  }
-}
-@media (max-width: 1099px) and (min-width: 901px) {
-  .mission-page {
-    --mission-card-title-size: 0.9rem !important;
-    --mission-card-body-size:  0.74rem !important;
-    --mission-card-art-lg:     80px !important;
-    --mission-card-art-sm:     64px !important;
-  }
-}
+/* Removed 2026-05-20: legacy !important overrides that were blocking the
+   fluid clamp() values defined in the base .mission-page rule and the
+   fluidRem() expressions emitted by mission-editor.js. Replaced by the
+   Proposal A fluid scaling system. */
 
 </style>
 </head>

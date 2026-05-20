@@ -537,14 +537,36 @@
     panel.style.setProperty('--mission-shell-max', clamp(state.config.layout.shellMax, 1280, 1880, 1680) + 'px');
     panel.style.setProperty('--mission-gutter', clamp(state.config.layout.gutter, 12, 72, 40) + 'px');
     panel.style.setProperty('--mission-section-gap', clamp(state.config.layout.heroGap, 8, 72, 24) + 'px');
-    panel.style.setProperty('--mission-hero-min', heroMinHeight + 'px');
+    panel.style.setProperty('--mission-hero-min', fluidPx(heroMinHeight, 0.55));
     panel.style.setProperty('--mission-hero-text-max', heroTextMax + 'px');
     panel.style.setProperty('--mission-hero-columns', state.config.layout.heroColumns || '1.05fr 0.95fr');
     panel.style.setProperty('--mission-hero-text-align', state.config.layout.heroTextAlign || 'left');
     panel.style.setProperty('--mission-hero-copy-offset', clamp(state.config.layout.heroOffsetY, -120, 120, 0) + 'px');
     panel.style.setProperty('--mission-card-gap', clamp(state.config.layout.cardGap, 8, 40, 20) + 'px');
     panel.style.setProperty('--mission-section-spacing', clamp(state.config.layout.sectionSpacing, 18, 84, 42) + 'px');
-    panel.style.setProperty('--mission-card-min', clamp(state.config.layout.cardMinHeight, 220, 420, 320) + 'px');
+    // Fluid responsive sizing helpers (Proposal A, 2026-05-19).
+    // Each emits a clamp() that scales the editor's configured value as the MAX
+    // at 1920px viewport, interpolating linearly down to a sensible floor at
+    // 1280px viewport. Below 1280px the floor holds; above 1920px the max
+    // holds. Replaces fixed rem/px inline writes that broke responsive layout
+    // on small laptops.
+    function fluidPx(maxPx, minRatio) {
+      minRatio = minRatio == null ? 0.69 : minRatio;
+      var minPx = Math.max(200, Math.round(maxPx * minRatio));
+      if (minPx >= maxPx) return maxPx + 'px';
+      var slope = (maxPx - minPx) / 640; // 1920 - 1280
+      var intercept = minPx - 1280 * slope;
+      return 'clamp(' + minPx + 'px, calc(' + intercept.toFixed(2) + 'px + ' + (slope * 100).toFixed(3) + 'vw), ' + maxPx + 'px)';
+    }
+    function fluidRem(maxRem, minRem) {
+      if (minRem == null) minRem = Math.max(0.85, Math.round(maxRem * 0.69 * 100) / 100);
+      if (minRem >= maxRem) return maxRem + 'rem';
+      var maxPx = maxRem * 16, minPx = minRem * 16;
+      var slope = (maxPx - minPx) / 640;
+      var interceptPx = minPx - 1280 * slope;
+      return 'clamp(' + minRem.toFixed(3) + 'rem, calc(' + (interceptPx / 16).toFixed(3) + 'rem + ' + (slope * 100).toFixed(3) + 'vw), ' + maxRem.toFixed(3) + 'rem)';
+    }
+    panel.style.setProperty('--mission-card-min', fluidPx(clamp(state.config.layout.cardMinHeight, 220, 420, 320), 0.85));
     panel.style.setProperty('--mission-community-columns', clamp(state.config.layout.communityColumns, 1, 4, 2));
     panel.style.setProperty('--mission-ministry-columns', clamp(state.config.layout.ministryColumns, 1, 4, 3));
     panel.style.setProperty('--mission-public-columns', clamp(state.config.layout.publicColumns, 1, 4, 3));
@@ -580,12 +602,12 @@
     panel.style.setProperty('--mission-hero-body-width', clamp(state.config.typography.heroBodyWidth, 320, 1040, 620) + 'px');
     panel.style.setProperty('--mission-hero-body-min-height', clamp(state.config.typography.heroBodyMinHeight, 0, 220, 0) + 'px');
     panel.style.setProperty('--mission-hero-title-gap', clamp(state.config.typography.heroTitleGap, 0, 64, 24) + 'px');
-    panel.style.setProperty('--mission-section-title-size', clamp(state.config.typography.sectionTitleSize, 1.1, 2.4, 1.8) + 'rem');
-    panel.style.setProperty('--mission-section-copy-size', clamp(state.config.typography.sectionCopySize, 0.72, 1.3, 0.96) + 'rem');
+    panel.style.setProperty('--mission-section-title-size', fluidRem(clamp(state.config.typography.sectionTitleSize, 1.1, 2.4, 1.8), 1.0));
+    panel.style.setProperty('--mission-section-copy-size', fluidRem(clamp(state.config.typography.sectionCopySize, 0.72, 1.3, 0.96), 0.78));
     panel.style.setProperty('--mission-section-copy-width', clamp(state.config.typography.sectionCopyWidth, 180, 520, 280) + 'px');
     panel.style.setProperty('--mission-section-copy-min-height', clamp(state.config.typography.sectionCopyMinHeight, 0, 220, 0) + 'px');
-    panel.style.setProperty('--mission-card-title-size', clamp(state.config.typography.cardTitleSize, 0.9, 1.8, 1.45) + 'rem');
-    panel.style.setProperty('--mission-card-body-size', clamp(state.config.typography.cardBodySize, 0.68, 1.15, 0.94) + 'rem');
+    panel.style.setProperty('--mission-card-title-size', fluidRem(clamp(state.config.typography.cardTitleSize, 0.9, 1.8, 1.45), 1));
+    panel.style.setProperty('--mission-card-body-size', fluidRem(clamp(state.config.typography.cardBodySize, 0.68, 1.15, 0.94), 0.78));
     panel.style.setProperty('--mission-card-front-text-width', clamp(state.config.typography.cardFrontTextWidth, 140, 420, 260) + 'px');
     panel.style.setProperty('--mission-card-front-text-min-height', clamp(state.config.typography.cardFrontTextMinHeight, 0, 220, 0) + 'px');
     panel.style.setProperty('--mission-card-back-text-width', clamp(state.config.typography.cardBackTextWidth, 160, 420, 280) + 'px');
