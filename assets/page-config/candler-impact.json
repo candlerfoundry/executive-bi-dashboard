@@ -40,23 +40,5 @@
     "nameSize": 0.9
   },
   "rows": {},
-  "cards": {
-    "faculty-stories--0": {
-      "panels": {
-        "panel-1": {
-          "quote": "The Foundry sets Candler apart from other theological schools by showing prospective students a new way of imagining public theology.",
-          "role": "",
-          "quoteMarkCustom": "",
-          "basis": 59,
-          "headline": "",
-          "fontFamily": "'Montserrat', sans-serif",
-          "quoteMarkSize": 5.3
-        },
-        "panel-2": {
-          "basis": 46,
-          "quote": "The Foundry's unique ministry helps set Candler apart from other schools."
-        }
-      }
-    }
-  }
+  "cards": {}
 }

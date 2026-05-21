@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-21 (Mission responsive card-back primitives)
+Last updated: 2026-05-21 (Candler Impact image-front card variant)
 
 Canonical local working copy: `C:\Scripts\executive-bi-dashboard`. If older notes contain legacy path references, treat this C drive path as authoritative.
 
@@ -42,6 +42,49 @@ Internal divider lines, awkward L-shaped photo sections, and accidental nested b
 - Cards should feel like a coherent family, not a set of unrelated experiments.
 
 **Regression risk:** Do not revert to placeholder-heavy cards, stacked caption boxes that break the silhouette, or noisy overlays/graphics by default.
+
+### 2.1 CANDLER IMPACT - IMAGE-FRONT CARD VARIANT (2026-05-21)
+**Rule:** Story cards can use a single pre-composed PNG as the front face (the entire designed card art — quote panel, photo block, color blocks all baked in). The flip-to-back behavior, the rounded corners, and the multi-layer lift shadow are preserved. The bottom name/title strip is overlaid in HTML so the small text stays vector-crisp at every viewport, and so it remains editable through `CI_STORY_PAGE` data without re-exporting the PNG.
+
+The 2026-05-21 lineup uses this variant for all 9 published cards: 4 in `faculty-stories`, 3 in `student-stories`, 2 in `alumni-stories`.
+
+**Asset location:** Card PNGs live in [assets/candler-impact-cards/](C:/Scripts/executive-bi-dashboard/assets/candler-impact-cards). Filename convention: `<first-last>.png`, all-lowercase, kebab-case (e.g. `joanne-solis-walker.png`, `rev-john-vaughn.png` would be acceptable but the current set drops honorifics: `john-vaughn.png`).
+
+**Source PNG spec:**
+- Aspect ratio: 7:5 (any resolution; current set is 1748×1240). The card is sized via `aspect-ratio: 7 / 5` — non-7:5 art will distort.
+- The card design must include a cream footer strip across the bottom ~14.5% of the canvas. The HTML overlay paints over that strip in `#f0ead8` (cream) — so the strip color in the PNG must match, or a faint seam will show.
+- All other artwork (quote panel, photo, color blocks) lives above the strip and renders as-is.
+
+**Wiring a new card:** Edit `CI_STORY_PAGE` in [index.html](C:/Scripts/executive-bi-dashboard/index.html) (search for `var CI_STORY_PAGE = {`). Each image-front story uses this minimal shape:
+
+```js
+{
+  frontImage: '/assets/candler-impact-cards/joanne-solis-walker.png',
+  name:       'Dr. Joanne Solis-Walker',  // bold serif uppercase on the strip
+  role:       'La Mesa Academy',          // muted uppercase letter-spaced sans
+  headline:   'Scholarship that fuels a thriving academy',  // back-face title
+  support:    'Filler back-face content — replaceable later. …',  // back-face body
+  width:      CI_IMAGE_CARD_WIDTH,        // shared clamp() — keeps all cards uniform
+  surface:    CI_IMAGE_CARD_SURFACE,      // back-face background, navy by default
+  ink:        CI_IMAGE_CARD_INK           // back-face text color, ivory by default
+}
+```
+
+The shared `CI_IMAGE_CARD_*` constants are declared just above `CI_STORY_PAGE`. Use them for every image-front card so the lineup stays visually unified.
+
+**Editing the bottom strip text (name + title):** Change `name` and `role` on the story entry. They render as crisp HTML on top of the image. Do NOT re-edit the baked-in text in the PNG — that's hidden under the overlay; rebuilding the PNG just to fix a typo or a title change wastes time.
+
+If you change the design and need a *different* strip color, edit `.ci-img-footer { background: ... }` in the `/* ===== Candler Impact — Image-front cards (v3` CSS block. The font selection (Newsreader for the name, Montserrat for the role), the letter-spacing, and the 14.5% strip height also live in that block.
+
+**Rendering pipeline:** `ciBuildEditorialFront` checks `story.frontImage` first; if set, it short-circuits the editorial grid path and emits `<img class="ci-story-front-image">` + `<div class="ci-img-footer"><span class="ci-img-name">…</span><span class="ci-img-role">…</span></div>`. It also adds the `is-image-front` class to the card, which triggers the aspect-ratio sizing, hides the colored top/bottom `::before`/`::after` bands (the image already carries its own color blocks), and applies `container-type: inline-size` so future internal overlays can use container queries per [CLAUDE_CARD_SCALING_GUIDE.md](C:/Scripts/executive-bi-dashboard/CLAUDE_CARD_SCALING_GUIDE.md).
+
+**Back face:** Image-front cards still use the regular panel-driven back face (`impactBuildDefaultBackPanels` populates from `story.headline`, `story.support`, `story.name`, `story.role`). The flip mechanism is unchanged.
+
+**Editor compatibility:** The Quick Edit panel in [assets/impact-quick-edit.js](C:/Scripts/executive-bi-dashboard/assets/impact-quick-edit.js) was built for the editorial-grid front face. It does NOT yet drive image-front cards. Editing image-front cards happens by editing `CI_STORY_PAGE` directly. Do not commit per-card overrides in [assets/page-config/candler-impact.json](C:/Scripts/executive-bi-dashboard/assets/page-config/candler-impact.json) that target image-front cards' `panels` — those overrides feed the editorial-grid path, which is bypassed, so they would carry stale data forward silently. The `cards: {}` block was cleared on 2026-05-21 for exactly this reason (a stale Sam Martinez override had been left pointing at the new Joanne card after the lineup change).
+
+**Row labeling note (2026-05-21):** The current lineup places Mina Lee (M.T.S. alumna, 2026) inside the `student-stories` row and Rev. John Vaughn (Ebenezer Baptist Church — partner, not alumnus) inside the `alumni-stories` row. Row labels were not changed; per-card classification follows the user's manual assignment. If audience composition shifts further, consider renaming the row labels in `CI_STORY_PAGE.rows[].label`.
+
+**Regression risk:** Do not re-introduce a fixed `height` rule on `.ci-story-card.is-image-front` — it relies on `aspect-ratio: 7/5` to track the source artwork. Do not raise the overlay's `pointer-events` from `none` to `auto` — that would block the card click/flip. Do not switch `.ci-story-front-image` to `object-fit: contain` — the PNGs are sized 7:5 to fit `cover` exactly, and `contain` would expose the cream card background as letterbox bars.
 
 ---
 

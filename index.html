@@ -634,6 +634,114 @@ body.page-config-loading .panel.active::before,
 .ci-story-front.ci-ed .ci-story-portrait-panel { display: none !important; }
 /* ===== /editorial card style v2 ===== */
 
+/* ===== Candler Impact — Image-front cards (v3, pre-composed art) ===== */
+/* Cards rendered from a single pre-composed PNG. We preserve the rounded
+   corners + multi-layer lift shadow from the editorial card, but drop the
+   top/bottom colored bands (the image already provides its own color blocks)
+   and lock the card to a 7:5 aspect-ratio so the art is never distorted. */
+.ci-story-card.is-image-front {
+  container-type: inline-size;
+  background: var(--cream, #fafaf2);
+  aspect-ratio: 7 / 5;
+  height: auto;
+  --ci-card-height: auto;
+}
+.ci-story-card.is-image-front::before,
+.ci-story-card.is-image-front::after {
+  display: none !important;
+}
+.ci-story-card.is-image-front .ci-story-front.ci-ed-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: var(--cream, #fafaf2);
+  padding: 0;
+}
+.ci-story-card.is-image-front .ci-story-front-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Inherit the card's border-radius via the .ci-story-face rule. */
+}
+/* Crisp HTML footer overlay — paints over the image's baked-in cream strip
+   so name + role text never goes through image downsampling. Color/layout
+   tuned to match the source artwork; positions are container-relative so
+   the overlay tracks the strip across every viewport. */
+.ci-story-card.is-image-front .ci-story-front.ci-ed-image {
+  position: relative;
+}
+.ci-story-card.is-image-front .ci-img-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 14.5%;
+  background: #f0ead8; /* cream — matches strip in source PNGs */
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2.4cqw, 18px);
+  padding: 0 clamp(14px, 3.6cqw, 28px);
+  z-index: 2;
+  pointer-events: none; /* keep card click/flip working unimpeded */
+}
+.ci-story-card.is-image-front .ci-img-name {
+  font-family: 'Newsreader', Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(12px, 2.9cqw, 18px);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #1e2530;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.ci-story-card.is-image-front .ci-img-role {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: clamp(8.5px, 2cqw, 11.5px);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(30, 37, 48, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+/* Defensive: if any legacy panels render on the front, hide them under the image variant. */
+.ci-story-card.is-image-front .ci-story-front .ci-story-panel,
+.ci-story-card.is-image-front .ci-story-front .ci-story-quote-panel,
+.ci-story-card.is-image-front .ci-story-front .ci-story-portrait-panel,
+.ci-story-card.is-image-front .ci-story-front .ci-ed-quote-panel,
+.ci-story-card.is-image-front .ci-story-front .ci-ed-portrait,
+.ci-story-card.is-image-front .ci-story-front .ci-ed-footer {
+  display: none !important;
+}
+/* Subtle scale-in on hover instead of the portrait-only zoom used in v2. */
+.ci-story-card.is-image-front:hover .ci-story-front-image {
+  transform: scale(1.015);
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.ci-story-card.is-image-front .ci-story-front-image {
+  transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+/* Back face for image-front cards: a clean filler layout while the user
+   finalizes the real back-face content. Inherits the rounded corners. */
+.ci-story-card.is-image-front .ci-story-back {
+  padding: clamp(18px, 4cqw, 28px);
+  gap: clamp(10px, 2cqw, 16px);
+}
+@container (max-width: 420px) {
+  .ci-story-card.is-image-front .ci-story-back {
+    padding: 14px 16px;
+  }
+}
+/* ===== /image-front cards ===== */
+
 .ci-story-caption { padding:14px 16px 16px; background:var(--ci-surface); color:var(--ci-ink); border-top:1px solid rgba(255,255,255,0.12); }
   .ci-story-headline { font-size:var(--ci-card-headline-size-local); line-height:0.95; letter-spacing:-0.045em; font-weight:700; margin-bottom:10px; text-wrap:balance; }
 .ci-story-person { display:grid; gap:2px; }
@@ -6250,21 +6358,24 @@ function initNumbers() {
 
 var peopleReady = false;
 
+// Shared sizing/styling for the new image-card variant
+var CI_IMAGE_CARD_WIDTH = 'clamp(360px, 32vw, 540px)';
+var CI_IMAGE_CARD_SURFACE = '#1e2530';
+var CI_IMAGE_CARD_INK = '#fafaf2';
+
 var CI_STORY_PAGE = {
   rows: [
     {
       id: 'faculty-stories',
-        label: 'Faculty & Staff Stories',
-        title: 'Scholarship with reach',
-        copy: 'How Foundry work sharpens faculty teaching, supports staff leadership, and turns Candler’s strengths into ministry-ready resources.',
-        meta: '',
-        stories: [
-        { headline: 'A distinct vision for public theology', quote: 'The Foundry helps set Candler apart from other theological schools by showing prospective students a new way of imagining a ministry of public theology.', support: 'This sample case study can later show how admissions storytelling and Foundry programming work together to help prospective students see Candler’s theological imagination in practice.', name: 'Sam Martinez', leadPhrase: 'a new way of imagining a ministry of public theology', role: 'Associate Dean of Admissions & Financial Aid', image: '/assets/faculty-staff-headshots/Sam_Martinez.jpg', imagePosition: 'center 26%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 31vw, 440px)', quotePanelWidth: 58, quoteSize: 0.96, supportSize: 0.84 },
-        { headline: 'A public-facing studio for theological depth', quote: 'The Foundry gave my preaching work a wider reach without sacrificing theological depth.', support: 'This sample case study can later show how Teresa Fry Brown’s scholarship moved into polished preaching and teaching materials with the same intellectual rigor Candler is known for.', name: 'Teresa Fry Brown', leadPhrase: 'a wider reach', role: 'Preaching', image: '/assets/faculty-staff-headshots/Dr._Teresa_Fry_Brown.jpg', imagePosition: 'center 54%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#c84826', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 44, quoteSize: 1.02, supportSize: 0.84 },
-        { headline: 'Ethics and public life translated for real ministry settings', quote: 'The Foundry helped me frame urgent public questions in ways ministers can actually teach.', support: 'This sample case study can later describe how Nichole Phillips used Foundry channels to carry scholarship on public life into practical ministry settings.', name: 'Nichole Phillips', leadPhrase: 'urgent public questions', role: 'Public Theology', image: '/assets/faculty-staff-headshots/Dr._Nichole_Phillips.jpg', imagePosition: 'center 56%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 62, quoteSize: 0.98, supportSize: 0.84 },
-        { headline: 'Teaching sharpened by real questions from the church', quote: 'The Foundry pushed me to make complex New Testament ideas more teachable for the church.', support: 'This sample case study can later focus on how Susan Hylen’s teaching adapted when real ministry questions shaped the way her scholarship was presented.', name: 'Susan Hylen', leadPhrase: 'more teachable for the church', role: 'New Testament', image: '/assets/faculty-staff-headshots/Dr._Susan_Hylen.jpg', imagePosition: 'center 56%', accent: '#2e3a4a', accentInk: '#fafaf2', surface: '#f6a85d', ink: '#1e2530', width: 'clamp(360px, 30vw, 430px)', quotePanelWidth: 40, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Scholarship that reaches beyond campus walls', quote: 'The Foundry helped my scholarship travel farther than the classroom ever could on its own.', support: 'This sample case study can later document how Musa Dube’s work moved beyond campus into broader ministry and learning communities through Foundry storytelling.', name: 'Musa Dube', leadPhrase: 'travel farther than the classroom', role: 'World Christianity', image: '/assets/faculty-staff-headshots/Dr._Musa_Dube.jpg', imagePosition: 'center 58%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 32vw, 455px)', quotePanelWidth: 55, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Faculty voice with practical use for the church', quote: 'The Foundry let my voice reach ministry leaders in ways that felt grounded and useful.', support: 'This sample case study can later trace how Deanna Womack’s participation shaped practical resources that strengthened Candler’s internal teaching ecosystem.', name: 'Deanna Womack', leadPhrase: 'grounded and useful', role: 'Interfaith Studies', image: '/assets/faculty-staff-headshots/Dr._Deanna_Womack.jpg', imagePosition: 'center 58%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(350px, 28vw, 410px)', quotePanelWidth: 36, quoteSize: 1.01, supportSize: 0.84 }
+      label: 'Faculty & Staff Stories',
+      title: 'Scholarship with reach',
+      copy: 'How Foundry work sharpens faculty teaching, supports staff leadership, and turns Candler’s strengths into ministry-ready resources.',
+      meta: '',
+      stories: [
+        { frontImage: '/assets/candler-impact-cards/joanne-solis-walker.png', name: 'Dr. Joanne Solis-Walker', role: 'La Mesa Academy',                          headline: 'Scholarship that fuels a thriving academy', support: 'Filler back-face content — replaceable later. Dr. Solis-Walker partners with the Foundry to bring Candler scholarship into La Mesa Academy’s ongoing formation work.', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/ebby-arnold.png',          name: 'Dr. Elizabeth Arnold',     role: 'The Candler Foundry',                   headline: '3-Minute Bible videos in the classroom',     support: 'Filler back-face content — replaceable later. Dr. Arnold’s 3-Minute Bible series gives Candler students a quick boost in biblical fluency while shaping the Foundry’s teaching voice.',           width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/joel-kemp.png',            name: 'Dr. Joel B. Kemp',         role: 'Assistant Professor of Hebrew Bible',   headline: 'Experiencing Candler before applying',       support: 'Filler back-face content — replaceable later. Dr. Kemp uses Foundry courses to let prospective students experience Candler-style teaching before they ever decide whether to apply.',                width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/sam-martinez.png',         name: 'Sam Martinez',             role: 'Candler Admissions',                    headline: 'A clearer view of Candler’s mission',        support: 'Filler back-face content — replaceable later. Sam frames the Foundry as one of the clearest expressions of Candler’s mission — a way for prospective students to experience Candler before committing.', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
       ]
     },
     {
@@ -6274,11 +6385,9 @@ var CI_STORY_PAGE = {
       copy: 'How students use Foundry work to build practical ministry instincts, communication skills, and teaching confidence.',
       meta: '',
       stories: [
-        { headline: 'Learning how theology travels through design and digital teaching', quote: 'The Foundry taught me how digital storytelling can carry theology with clarity and care.', support: 'This sample case study can later describe how student design and production work became part of the Foundry’s public-facing teaching and formation efforts.', name: 'Michael Yorke', leadPhrase: 'carry theology with clarity and care', role: 'M.T.S. Student', image: '/assets/student-headshots/Michael_Yorke.png', imagePosition: 'center 22%', accent: '#1e2530', accentInk: '#fafaf2', surface: '#5e8eb6', ink: '#1e2530', width: 'clamp(360px, 31vw, 445px)', quotePanelWidth: 48, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'From collaboration to tools I could use immediately', quote: 'The Foundry gave me ministry tools I could use while I was still at Candler.', support: 'This sample case study can later spell out how Foundry collaboration translated into real teaching and leadership confidence.', name: 'Alley Masocco', leadPhrase: 'while I was still at Candler', role: 'M.T.S. Student', image: '/assets/student-headshots/Alley_Masocco.png', imagePosition: 'center 18%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 54, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Formation that feels connected to real communities', quote: 'The Foundry showed me how theological ideas can meet real people and real ministry needs.', support: 'This sample case study can later describe how practical storytelling and hands-on design work deepened vocational imagination.', name: 'Megan Fletcher', leadPhrase: 'meet real people and real ministry needs', role: 'M.T.S. Student', image: '/assets/student-headshots/Megan_Fletcher.png', imagePosition: 'center 18%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 60, quoteSize: 0.98, supportSize: 0.84 },
-        { headline: 'Sunday School leadership empowered in a new and profound way', quote: 'The Foundry’s Sunday School Simplified program helps me empower parishioners to lead Bible studies in a new and profound way.', support: 'This sample case study can later trace how the program strengthened lay formation instincts and practical ministry confidence.', name: 'Taniecia McFarlane', leadPhrase: 'in a new and profound way', role: 'M.T.S. Student', image: '/assets/student-headshots/Taniecia_McFarlane.png', imagePosition: 'center 18%', accent: '#2e3a4a', accentInk: '#fafaf2', surface: '#c84826', ink: '#fafaf2', width: 'clamp(355px, 30vw, 430px)', quotePanelWidth: 42, quoteSize: 0.96, supportSize: 0.84 },
-        { headline: 'Resources that stay useful beyond graduation', quote: 'The Foundry’s 3-Minute Bible videos have helped my M.Div. studies click in practical ways.', support: 'This sample case study can later bridge student formation and alumni connection by showing how these resources stay useful well beyond the classroom.', name: 'Larry Varghese', leadPhrase: 'click in practical ways', role: 'M.T.S. Student', image: '/assets/student-headshots/Larry_Varghese.png', imagePosition: 'center 18%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(350px, 28vw, 405px)', quotePanelWidth: 38, quoteSize: 1.01, supportSize: 0.84 }
+        { frontImage: '/assets/candler-impact-cards/hannah-ford.png',  name: 'Hannah Ford',  role: 'Prospective M.Div. Student',     headline: 'Inspired to apply to Candler',          support: 'Filler back-face content — replaceable later. Dr. Arnold’s Revelation course gave Hannah a window into Candler that turned a budding interest into a clear next step in her discernment.', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/tammy-edwards.png', name: 'Tammy Edwards', role: 'Candler M.Div. Student',         headline: 'A preview that solidified the decision', support: 'Filler back-face content — replaceable later. Dr. Arnold’s Foundry course let Tammy experience Candler-style learning first-hand, helping solidify her decision to apply.',                  width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/mina-lee.png',     name: 'Mina Lee',     role: 'Candler Alumnus (M.T.S., 2026)', headline: 'Mentorship for the next vocational step', support: 'Filler back-face content — replaceable later. Mina’s Foundry fellowship gave her the mentorship and support she needed to discern her next vocational steps.',                                width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
       ]
     },
     {
@@ -6288,12 +6397,10 @@ var CI_STORY_PAGE = {
       copy: 'How Foundry programs keep alumni learning with Candler through practical formation and renewed connection.',
       meta: '',
       stories: [
-        { headline: 'A route back into Candler’s intellectual life', quote: 'The Foundry’s Back in the Classroom series reminded me of how special my Candler experience was.', support: 'This sample case study can later show how Back in the Classroom renews alumni connection and creates a fresh desire to learn with Candler again.', name: 'Rev. Dr. Blair Trygstad-Stowe', leadPhrase: 'how special my Candler experience was', role: 'Candler Alumna', image: '/assets/alumni-headshots/Blair-Trygstad-Stowe.png', imagePosition: 'center 20%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 31vw, 445px)', quotePanelWidth: 52, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Resources that feel ready the moment I need them', quote: 'The Foundry gives me formation resources I can use the same week I discover them.', support: 'This sample case study can later become a fuller story about how Sunday School Simplified and related tools keep alumni connected to Candler.', name: 'Rev. Carmie McDonald', leadPhrase: 'the same week I discover them', role: 'Candler Alumna', image: '/assets/alumni-headshots/Carmie-McDonald.jpeg', imagePosition: 'center 20%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 46, quoteSize: 1.02, supportSize: 0.84 },
-        { headline: 'Rigorous, portable, and worth the time', quote: 'The Foundry keeps me connected to Candler’s ideas in a format ministry life can actually hold.', support: 'This sample case study can later explain why ministers return to Foundry resources and which formats best sustain continuing formation after graduation.', name: 'Rev. Dr. David Lower', leadPhrase: 'ministry life can actually hold', role: 'Candler Alumnus', image: '/assets/alumni-headshots/David-Lower.jpg', imagePosition: 'center 18%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 60, quoteSize: 0.98, supportSize: 0.84 },
-        { headline: 'A living connection to Candler after graduation', quote: 'The Foundry’s Sunday School Simplified program helps me empower my parishioners to lead Bible studies in a new and profound way.', support: 'This sample case study can later tie together continuing formation, congregational leadership, and the Foundry’s role in keeping alumni connected to Candler.', name: 'Sergio Chois', leadPhrase: 'in a new and profound way', role: 'Candler Alumnus', image: '/assets/alumni-headshots/Sergio-Chois.jpg', imagePosition: 'center 20%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(355px, 30vw, 430px)', quotePanelWidth: 57, quoteSize: 0.96, supportSize: 0.84 }
-        ]
-      }
+        { frontImage: '/assets/candler-impact-cards/john-vaughn.png',    name: 'Rev. John Vaughn',    role: 'Ebenezer Baptist Church',          headline: 'A valued education partner for Ebenezer', support: 'Filler back-face content — replaceable later. Rev. Vaughn partners with the Foundry to bring engaging, impactful sessions to Ebenezer Baptist Church’s members.',                                width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/carmie-mcdonald.png', name: 'Rev. Carmie McDonald', role: 'Candler Alumnus (M.Div., 2023)', headline: 'A regular fixture in church formation',   support: 'Filler back-face content — replaceable later. Rev. McDonald has built Foundry courses into the regular formation calendar at her church — a steady, essential rhythm for her congregation.', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
+      ]
+    }
   ]
 };
 
@@ -7591,6 +7698,31 @@ function ciEditorialQuoteSize(text) {
 function ciBuildEditorialFront(card, front, story) {
   // Clear existing panel content
   front.innerHTML = '';
+
+  // ----- Image-front variant (Candler Impact v3 editorial cards) -----
+  // When a story has a pre-composed frontImage (the full designed card art),
+  // skip the editorial grid and just paint the image. The back face is built
+  // separately by the existing panel path.
+  if (story.frontImage) {
+    front.classList.remove('ci-ed');
+    front.classList.add('ci-ed-image');
+    card.classList.add('is-image-front');
+    var imgSrc = String(story.frontImage).replace(/"/g, '%22');
+    var altText = ciEscapeHtml(story.name || '');
+    // Overlay the footer (name + role) as crisp HTML on top of the image's
+    // baked-in cream strip. Same cream color + same layout → no visible seam,
+    // and the small text stays vector-crisp at every viewport.
+    var nameHtml = ciEscapeHtml(story.name || '');
+    var roleHtml = ciEscapeHtml(story.role || '');
+    front.innerHTML =
+      '<img class="ci-story-front-image" src="' + imgSrc + '" alt="' + altText + '" loading="lazy">' +
+      '<div class="ci-img-footer">' +
+        '<span class="ci-img-name">' + nameHtml + '</span>' +
+        (nameHtml && roleHtml ? '<span class="ci-img-role">' + roleHtml + '</span>' : (roleHtml ? '<span class="ci-img-role">' + roleHtml + '</span>' : '')) +
+      '</div>';
+    return;
+  }
+
   front.classList.add('ci-ed');
   front.classList.toggle('is-photo-front', story.photoLayer === 'front');
 
