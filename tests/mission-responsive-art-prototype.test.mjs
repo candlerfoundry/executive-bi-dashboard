@@ -7,6 +7,7 @@ import vm from 'node:vm';
 const helperPath = path.resolve('assets/mission-responsive-art-prototype.js');
 const source = fs.readFileSync(helperPath, 'utf8');
 const missionConfig = JSON.parse(fs.readFileSync(path.resolve('assets/page-config/mission-page.json'), 'utf8'));
+const indexHtml = fs.readFileSync(path.resolve('index.html'), 'utf8');
 const sandbox = {
   window: {
     location: { search: '' },
@@ -16,6 +17,19 @@ const sandbox = {
 };
 sandbox.globalThis = sandbox.window;
 vm.runInNewContext(source, sandbox, { filename: helperPath });
+
+function extractContainerRule(cssSource, queryText) {
+  const start = cssSource.indexOf(queryText);
+  assert.notEqual(start, -1, `Missing CSS query: ${queryText}`);
+  const bodyStart = cssSource.indexOf('{', start);
+  let depth = 0;
+  for (let i = bodyStart; i < cssSource.length; i += 1) {
+    if (cssSource[i] === '{') depth += 1;
+    if (cssSource[i] === '}') depth -= 1;
+    if (depth === 0) return cssSource.slice(bodyStart + 1, i);
+  }
+  assert.fail(`Could not parse CSS query body: ${queryText}`);
+}
 
 const prototype = sandbox.window.MissionResponsiveArtPrototype;
 
@@ -186,4 +200,30 @@ test('hero normalization preserves the reference split and prevents zero-width a
   assert.equal(Math.round(laptop.textPx), 559);
   assert.equal(Math.round(laptop.visualPx), 355);
   assert.ok(laptop.visualPx > 0);
+});
+
+test('lookbook backs keep a split feature column in narrow card containers', () => {
+  const narrowLookbookCss = extractContainerRule(indexHtml, '@container (max-width:480px)');
+  const tinyLookbookCss = extractContainerRule(indexHtml, '@container (max-width:360px)');
+
+  assert.match(
+    narrowLookbookCss,
+    /\.mission-page \.card-back--lookbook\s*{[^}]*grid-template-columns:\s*minmax\(0,\s*1fr\)\s+minmax\(clamp\(/s
+  );
+  assert.doesNotMatch(
+    narrowLookbookCss,
+    /\.mission-page \.card-back--lookbook\s*{[^}]*grid-template-columns:\s*1fr\b/s
+  );
+  assert.doesNotMatch(
+    narrowLookbookCss,
+    /\.mission-page \.card-back--lookbook\s*{[^}]*grid-template-rows:/s
+  );
+  assert.doesNotMatch(
+    `${narrowLookbookCss}\n${tinyLookbookCss}`,
+    /\.mission-page \.card-back--lookbook \.lb-lead\s*{[^}]*(?:-webkit-line-clamp|overflow\s*:\s*hidden|display\s*:\s*-webkit-box)/s
+  );
+  assert.doesNotMatch(
+    narrowLookbookCss,
+    /\.mission-page \.card-back--lookbook \.lb-ctas\s*{[^}]*margin-top\s*:\s*(?!auto\b)/s
+  );
 });

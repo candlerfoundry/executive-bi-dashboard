@@ -758,9 +758,9 @@
         var lookbookHref = offering.lookbookUrl || (primary && primary.url) || '#';
         var primaryHref = (primary && primary.url) || lookbookHref;
         var tileStyle = '';
-        if (offering.lookbookTileWidth) tileStyle += 'width:' + Number(offering.lookbookTileWidth) + 'px;';
-        if (offering.lookbookTileHeight) tileStyle += 'height:' + Number(offering.lookbookTileHeight) + 'px;';
-        if (offering.lookbookTileTilt != null) tileStyle += 'transform:rotate(' + Number(offering.lookbookTileTilt) + 'deg);';
+        if (offering.lookbookTileWidth) tileStyle += '--lb-tile-width:' + Number(offering.lookbookTileWidth) + 'px;';
+        if (offering.lookbookTileWidth && offering.lookbookTileHeight) tileStyle += '--lb-tile-aspect:' + Number(offering.lookbookTileWidth) + ' / ' + Number(offering.lookbookTileHeight) + ';';
+        if (offering.lookbookTileTilt != null) tileStyle += '--lb-tile-tilt:' + Number(offering.lookbookTileTilt) + 'deg;';
         var hidePages = !!offering.lookbookTileFlat;
         var titleStyle = offering.lookbookTitleSize ? ' style="font-size:' + Number(offering.lookbookTitleSize) + 'px;"' : '';
         var leadStyle = offering.lookbookLeadSize ? ' style="font-size:' + Number(offering.lookbookLeadSize) + 'px;"' : '';

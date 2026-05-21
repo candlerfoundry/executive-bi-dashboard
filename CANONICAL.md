@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-20 (Mission responsive front-art default + editor durability guardrail)
+Last updated: 2026-05-21 (Mission responsive card-back primitives)
 
 Canonical local working copy: `C:\Scripts\executive-bi-dashboard`. If older notes contain legacy path references, treat this C drive path as authoritative.
 
@@ -542,7 +542,7 @@ Open: `http://127.0.0.1:4177/index.html`
 **Editor-driven config:** `assets/page-config/mission-page.json` -> `cards[<slug>]` carries `backLayout: 'lookbook'`, `lookbookImage`, `lookbookUrl`, `lookbookAlt`, plus an `actions[]` whose first item becomes the navy primary CTA and second becomes the navy-outline secondary. The right-side lookbook tile is also a click target to `lookbookUrl` (or, if blank, the primary action's url).
 
 Optional per-card tuning:
-- `lookbookTileWidth` / `lookbookTileHeight` (pixels) - tile dimensions on the right; defaults to 196 x 205 if unset. Use a wider/shorter tile for landscape covers (e.g. Sabbath: 220 x 145).
+- `lookbookTileWidth` / `lookbookTileHeight` (reference pixels) - tile dimensions on the right; defaults to 196 x 205 if unset. Renderers emit these as `--lb-tile-width` / `--lb-tile-aspect`, not fixed `width` / `height`, so the tile can shrink inside constrained cards. Use a wider/shorter tile for landscape covers (e.g. Sabbath: 220 x 145).
 - `lookbookTitleSize` / `lookbookLeadSize` (pixels) - font-size overrides for `.lb-title` and `.lb-lead`. Defaults: 24 / 13.5.
 - `lookbookTileTilt` (degrees, default -2.5) - tile rotation. Set to `0` for a level photographic cover.
 - `lookbookTileFlat` (boolean, default false) - when `true`, suppresses the stacked-page rectangles behind the cover and removes the rotated hover. Use for photographic/banner covers where the book-cover treatment doesn't apply (e.g. Sabbath).
@@ -550,9 +550,9 @@ Optional per-card tuning:
 **Assets:**
 - Courses card: `assets/flipbook/courses-flipbook-cover.png` (1500 x 1560, ~0.96 aspect, near-square). Tile defaults to 196 x 205.
 - On-Demand card: `assets/Other Images/Sabbath_compressed.jpg` (2048 x 1365, ~1.5 aspect, landscape). Tile is 220 x 145. Path has spaces because the folder is named "Other Images"; we'll rename for repo hygiene next time we touch it.
-- All tiles use `object-fit: cover; object-position: left center` so detail anchors to the left of each cover.
+- Book-cover tiles use `object-fit: contain` so the full cover remains visible. Flat/photo tiles use `object-fit: cover` inside their explicit aspect-ratio wrapper so landscape art remains landscape.
 
-**Layout:** 2-column grid `1.25fr | 1px hairline | 1fr`. Left column: Montserrat 700 24px title (matches front-of-card typography), 72 x 3 px orange-red accent rule, lead copy (max 34ch), and a wrap-as-needed CTA pair. Right column centers the lookbook tile, which has stacked-page depth, slight tilt (`rotate(-2.5deg)`), and a hover lift.
+**Layout:** Default and narrow-card layouts use a persistent 2-column split: left copy/CTA column plus right visual column. The visual column is `minmax(clamp(...), fr)` and the tile itself shrinks with `clamp()`, `max-width`, `max-height`, and `aspect-ratio`; do not let the Courses or On-Demand lookbook backs stack the visual as a full-width bottom image except below truly unusable card widths. The hairline divider is overlaid at the visual column boundary rather than occupying its own grid track. Left column: Montserrat 700 title (matches front-of-card typography), orange-red accent rule, lead copy (max 34ch), and a wrap-as-needed CTA pair. The lead copy must remain fully readable at narrow widths; do not reintroduce `-webkit-line-clamp` / hidden overflow on `.lb-lead`, and keep `.lb-ctas` auto-spaced so buttons sit lower in the column like the large-screen composition. Right column centers the lookbook tile, which has stacked-page depth, slight tilt (`rotate(-2.5deg)`), and a hover lift. The `.offering-flip` container is an inline-size query container; at narrow/card-constrained widths, `.card-back--lookbook` clamps type and button padding while preserving the scaled-down large-screen composition. Do not replace this with `transform: scale()` or fixed pixel-only screenshot tweaks.
 
 **Flipbook URL placeholder:** `#flipbook` is intentional. Update `lookbookUrl` and `actions[0].url` in `mission-page.json` when the real flipbook page is built. No code change required.
 
@@ -691,9 +691,11 @@ The file is gitignored via the top-level `.gitignore`, so even an accidental `gi
 ---
 
 ## 27. MISSION TILE LABELS
-**Rule:** Three of the back-of-card grids carry per-tile name labels overlaid on the thumbnail: TheoEd, Candler in Conversation, Unstuck. The label style is picked per-card via `cardLabelStyle` on the card object in mission-page.json; the label text is per-tile via `label` on the gridItem; an optional per-tile `labelPosition` flips a TheoEd label from bottom-right to bottom-left.
+**2026-05-21 update:** TheoEd and Candler in Conversation labels now render as captions beneath their thumbnails, not as dark overlays. Keep `.cbg-tile-group`, `.cbg-tile-caption`, and `.cbg-tiles--captioned` scoped under `.mission-page .card-back--grid`; do not move these labels back inside thumbnails because they obscure talk titles and compete with play buttons. Unstuck is the only current speaker-label card that should keep overlays, and those overlays use clamp-based font/padding so they stay compact at narrow/card-constrained widths.
 
-**Three styles:**
+**Historical note:** Before 2026-05-21, TheoEd, Candler in Conversation, and Unstuck all used thumbnail overlays. Current behavior supersedes that: TheoEd and Candler in Conversation use captions below thumbnails; Unstuck keeps compact overlays.
+
+**Current styles supersede older overlay notes below:**
 - `theoed` — Fraunces italic text in a soft dark pill, bottom-right by default. `labelPosition: 'left'` overrides to bottom-left (used for Wil Gafney because her thumbnail crowds the right side).
 - `podcast` — Narrow ivory pill at bottom-left, TCF "F" logomark next to the speaker name. Background is rgba(250,250,242,0.55) with `backdrop-filter: blur(3px)` so the speaker isn't covered. The logomark file is `assets/TCF_Logomark-Orange-Transparent.png`.
 - `unstuck` — Compact dark pill at bottom-left, uppercase Montserrat 700 text. Background rgba(15,40,64,0.55) + blur for the same speaker-visibility reason.

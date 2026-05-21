@@ -784,7 +784,7 @@ body.page-config-loading .panel.active::before,
 .iq-dot.active { background: #c84826; }
 
 /* ═══ OFFERING CARDS ═══ */
-.mission-page .offering-flip { height:100%; perspective:1400px; cursor:pointer; outline:none; }
+.mission-page .offering-flip { height:100%; perspective:1400px; cursor:pointer; outline:none; container-type:inline-size; }
 .mission-page .offering-flip-inner { display:grid; min-height:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 0.55s cubic-bezier(0.2,0.8,0.2,1); }
 .mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner, .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner, .mission-page .offering-flip.is-flipped .offering-flip-inner { transform:rotateY(180deg); }
 .mission-page .offering-flip.is-edit-selected .card-front,
@@ -823,20 +823,28 @@ body.page-config-loading .panel.active::before,
 
 /* === Lookbook back layout (CANONICAL section 23) ============================
    Used when a card has backLayout: 'lookbook'. Currently only the
-   Courses in the Community card opts in. */
+   Courses in the Community and On-Demand Courses cards opt in. */
 .mission-page .card-back--lookbook {
   background: radial-gradient(120% 70% at 100% 0%, rgba(246,168,93,0.10) 0%, rgba(246,168,93,0) 60%), linear-gradient(180deg, #fafaf2 0%, #fbf6e9 100%);
+  --lb-pad-x:clamp(16px, 4.8cqw, 28px);
+  --lb-pad-y:clamp(16px, 4.2cqw, 24px);
+  --lb-title-size:clamp(18px, 5.8cqw, 24px);
+  --lb-lead-size:clamp(11.5px, 3.2cqw, 13.5px);
+  --lb-button-size:clamp(10px, 2.8cqw, 12px);
+  --lb-tile-width:196px;
+  --lb-tile-aspect:196 / 205;
+  --lb-tile-tilt:-2.5deg;
   color:#1e2530; padding:0;
-  display:grid; grid-template-columns:1.25fr 1px 1fr; align-items:stretch;
+  display:grid; grid-template-columns:minmax(0,1.25fr) minmax(clamp(130px, 30cqw, 260px), 1fr); align-items:stretch;
 }
-.mission-page .card-back--lookbook .lb-left { padding:24px 22px 22px 28px; display:flex; flex-direction:column; min-width:0; }
-.mission-page .card-back--lookbook .lb-divider { background:linear-gradient(180deg, transparent 0%, rgba(30,37,48,0.14) 18%, rgba(30,37,48,0.14) 82%, transparent 100%); }
-.mission-page .card-back--lookbook .lb-right { padding:22px 22px 22px 18px; display:flex; align-items:center; justify-content:center; position:relative; min-width:0; }
-.mission-page .card-back--lookbook .lb-title { font-family:'Montserrat',sans-serif; font-weight:700; font-size:24px; line-height:1.08; letter-spacing:-0.04em; color:#1e2530; margin:0 0 10px; }
+.mission-page .card-back--lookbook .lb-left { grid-column:1; grid-row:1; padding:var(--lb-pad-y) clamp(14px, 4cqw, 22px) calc(var(--lb-pad-y) - 2px) var(--lb-pad-x); display:flex; flex-direction:column; min-width:0; }
+.mission-page .card-back--lookbook .lb-divider { grid-column:2; grid-row:1; justify-self:start; align-self:stretch; width:1px; background:linear-gradient(180deg, transparent 0%, rgba(30,37,48,0.14) 18%, rgba(30,37,48,0.14) 82%, transparent 100%); pointer-events:none; }
+.mission-page .card-back--lookbook .lb-right { grid-column:2; grid-row:1; align-self:center; padding:var(--lb-pad-y) var(--lb-pad-x) var(--lb-pad-y) clamp(14px, 3.4cqw, 18px); display:flex; align-items:center; justify-content:center; position:relative; min-width:0; overflow:visible; }
+.mission-page .card-back--lookbook .lb-title { font-family:'Montserrat',sans-serif; font-weight:700; font-size:var(--lb-title-size); line-height:1.08; letter-spacing:-0.04em; color:#1e2530; margin:0 0 10px; }
 .mission-page .card-back--lookbook .lb-accent { display:block; width:72px; height:3px; background:#c84826; border-radius:2px; margin:0 0 14px; }
-.mission-page .card-back--lookbook .lb-lead { font-size:13.5px; line-height:1.5; color:rgba(30,37,48,0.84); margin:0; max-width:34ch; }
+.mission-page .card-back--lookbook .lb-lead { font-size:var(--lb-lead-size); line-height:1.5; color:rgba(30,37,48,0.84); margin:0; max-width:34ch; }
 .mission-page .card-back--lookbook .lb-ctas { display:flex; flex-wrap:wrap; gap:8px; margin-top:auto; padding-top:12px; }
-.mission-page .card-back--lookbook .lb-btn { display:inline-flex; align-items:center; gap:8px; font-family:'Montserrat',sans-serif; font-size:12px; font-weight:600; letter-spacing:0.02em; padding:9px 14px; border-radius:7px; text-decoration:none; line-height:1; transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease; }
+.mission-page .card-back--lookbook .lb-btn { display:inline-flex; align-items:center; gap:clamp(5px, 1.4cqw, 8px); max-width:100%; min-width:0; font-family:'Montserrat',sans-serif; font-size:var(--lb-button-size); font-weight:600; letter-spacing:0.02em; padding:clamp(7px, 2.1cqw, 9px) clamp(10px, 3.4cqw, 14px); border-radius:7px; text-decoration:none; line-height:1.08; white-space:normal; overflow-wrap:anywhere; transition:transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease, color 0.15s ease; }
 .mission-page .card-back--lookbook .lb-btn .lb-arrow { transition:transform 0.15s ease; }
 .mission-page .card-back--lookbook .lb-btn:hover .lb-arrow { transform:translateX(3px); }
 .mission-page .card-back--lookbook .lb-btn-primary { background:#1e2530; color:#fafaf2; border:1px solid #1e2530; box-shadow:0 4px 10px rgba(30,37,48,0.18); }
@@ -844,8 +852,8 @@ body.page-config-loading .panel.active::before,
 .mission-page .card-back--lookbook .lb-btn-ghost { background:transparent; color:#1e2530; border:1px solid rgba(30,37,48,0.34); }
 .mission-page .card-back--lookbook .lb-btn-ghost:hover { background:rgba(30,37,48,0.05); border-color:#1e2530; }
 .mission-page .card-back--lookbook .lb-btn .lb-ext { font-size:10px; opacity:0.55; letter-spacing:0.06em; }
-.mission-page .card-back--lookbook .lb-tile { position:relative; display:block; width:196px; height:205px; border-radius:4px; overflow:visible; transform:rotate(-2.5deg); transition:transform 0.25s ease; text-decoration:none; }
-.mission-page .card-back--lookbook .lb-tile:hover { transform:rotate(-1deg) translateY(-3px); }
+.mission-page .card-back--lookbook .lb-tile { position:relative; display:block; width:min(var(--lb-tile-width), clamp(120px, 38cqw, 260px), 100%); aspect-ratio:var(--lb-tile-aspect); height:auto; max-width:100%; max-height:clamp(150px, 70cqh, 260px); border-radius:4px; overflow:visible; transform:rotate(var(--lb-tile-tilt)); transition:transform 0.25s ease; text-decoration:none; }
+.mission-page .card-back--lookbook .lb-tile:hover { transform:rotate(var(--lb-tile-tilt)) translateY(-3px); }
 .mission-page .card-back--lookbook .lb-tile.is-flat { transform:none; box-shadow:0 14px 22px rgba(30,37,48,0.16), 0 4px 8px rgba(30,37,48,0.10); }
 .mission-page .card-back--lookbook .lb-tile.is-flat:hover { transform:translateY(-2px); box-shadow:0 18px 28px rgba(30,37,48,0.20), 0 6px 12px rgba(30,37,48,0.14); }
 .mission-page .card-back--lookbook .lb-tile .lb-pages-back,
@@ -853,7 +861,38 @@ body.page-config-loading .panel.active::before,
 .mission-page .card-back--lookbook .lb-tile .lb-pages-back { transform:translate(7px, 5px) rotate(2.4deg); z-index:0; background:#e6dcc1; }
 .mission-page .card-back--lookbook .lb-tile .lb-pages-mid { transform:translate(4px, 3px) rotate(1.4deg); z-index:1; background:#efe7d2; }
 .mission-page .card-back--lookbook .lb-tile .lb-cover { position:absolute; inset:0; z-index:2; background:#fafaf2; border:1px solid rgba(30,37,48,0.14); border-radius:3px; overflow:hidden; box-shadow:0 14px 22px rgba(30,37,48,0.20), 0 4px 8px rgba(30,37,48,0.10); }
-.mission-page .card-back--lookbook .lb-tile .lb-cover img { display:block; width:100%; height:100%; object-fit:cover; object-position:left center; }
+.mission-page .card-back--lookbook .lb-tile .lb-cover img { display:block; width:100%; height:100%; object-fit:contain; object-position:center; background:#fafaf2; }
+.mission-page .card-back--lookbook .lb-tile.is-flat .lb-cover img { object-fit:cover; object-position:center; }
+
+@container (max-width:480px) {
+  .mission-page .card-back--lookbook {
+    --lb-pad-x:clamp(10px, 3.2cqw, 15px);
+    --lb-pad-y:clamp(12px, 3.6cqw, 16px);
+    --lb-title-size:clamp(16px, 5.2cqw, 19px);
+    --lb-lead-size:clamp(10.5px, 3.2cqw, 12px);
+    --lb-button-size:clamp(8.8px, 2.7cqw, 10.5px);
+    grid-template-columns:minmax(0,1fr) minmax(clamp(108px, 32cqw, 180px), 0.72fr);
+  }
+  .mission-page .card-back--lookbook .lb-left { padding:var(--lb-pad-y) clamp(9px, 3cqw, 13px) var(--lb-pad-y) var(--lb-pad-x); }
+  .mission-page .card-back--lookbook .lb-divider { display:none; }
+  .mission-page .card-back--lookbook .lb-title { margin-bottom:6px; }
+  .mission-page .card-back--lookbook .lb-accent { width:56px; height:2px; margin-bottom:8px; }
+  .mission-page .card-back--lookbook .lb-lead { line-height:1.34; max-width:100%; }
+  .mission-page .card-back--lookbook .lb-ctas { margin-top:auto; padding-top:clamp(10px, 3cqw, 18px); gap:6px; }
+  .mission-page .card-back--lookbook .lb-btn { padding:6px 8px; }
+  .mission-page .card-back--lookbook .lb-right { padding:var(--lb-pad-y) var(--lb-pad-x) var(--lb-pad-y) clamp(8px, 2.4cqw, 12px); justify-content:flex-end; min-height:0; }
+  .mission-page .card-back--lookbook .lb-tile { width:min(var(--lb-tile-width), clamp(108px, 34cqw, 168px), 100%); max-height:clamp(120px, 62cqh, 190px); }
+  .mission-page .card-back--lookbook .lb-tile.is-flat { width:min(var(--lb-tile-width), clamp(118px, 38cqw, 180px), 100%); }
+  .mission-page .card-back--lookbook .lb-tile .lb-pages-back { transform:translate(4px, 3px) rotate(2deg); }
+  .mission-page .card-back--lookbook .lb-tile .lb-pages-mid { transform:translate(2px, 2px) rotate(1deg); }
+}
+
+@container (max-width:360px) {
+  .mission-page .card-back--lookbook { grid-template-columns:minmax(0,1fr) minmax(clamp(96px, 34cqw, 140px), 0.64fr); }
+  .mission-page .card-back--lookbook .lb-btn { padding:5px 7px; }
+  .mission-page .card-back--lookbook .lb-tile { width:min(var(--lb-tile-width), clamp(96px, 34cqw, 130px), 100%); }
+  .mission-page .card-back--lookbook .lb-tile.is-flat { width:min(var(--lb-tile-width), clamp(104px, 38cqw, 148px), 100%); }
+}
 
 
 /* === Grid back layout (CANONICAL section 26) ================================
@@ -873,12 +912,14 @@ body.page-config-loading .panel.active::before,
 }
 .mission-page .card-back--grid .cbg-tiles {
   display:grid; grid-template-columns:1fr 1fr; grid-template-rows:auto auto;
-  gap:8px; flex:1 1 auto; min-height:0;
+  gap:8px; flex:1 1 auto; min-height:0; width:100%; margin:auto;
   align-content:center;
   position:relative; z-index:2;
 }
 .mission-page .card-back--grid .cbg-tiles.cbg-tiles--fill { grid-template-rows:1fr 1fr; align-content:stretch; }
 .mission-page .card-back--grid .cbg-tiles--1x2 { grid-template-rows:1fr; }
+.mission-page .card-back--grid .cbg-tiles--captioned { width:min(100%, 420px); align-content:center; }
+.mission-page .card-back--grid .cbg-tile-group { min-width:0; display:flex; flex-direction:column; gap:clamp(3px, 1.1cqw, 6px); align-self:center; }
 .mission-page .card-back--grid .cbg-tile {
   position:relative; display:block; width:100%; height:100%;
   border-radius:7px; overflow:hidden; text-decoration:none;
@@ -890,6 +931,7 @@ body.page-config-loading .panel.active::before,
 .mission-page .card-back--grid .cbg-tile::after,
 .mission-page .card-back--grid .cbg-tile::before { content:none !important; }
 .mission-page .card-back--grid .cbg-tile:hover { transform:translateY(-2px); }
+.mission-page .card-back--grid .cbg-tile-group .cbg-tile { flex:0 0 auto; height:auto; }
 .mission-page .card-back--grid .cbg-tile--pdf-thumb,
 .mission-page .card-back--grid .cbg-tile--video-thumb { aspect-ratio:16/9; }
 .mission-page .card-back--grid .cbg-tile--blog { aspect-ratio:4/5; }
@@ -923,6 +965,22 @@ body.page-config-loading .panel.active::before,
 
 
 
+.mission-page .card-back--grid .cbg-tile-caption { min-width:0; display:flex; align-items:center; justify-content:center; min-height:clamp(12px, 3.4cqw, 17px); padding:0 4px; font-family:'Montserrat',sans-serif; font-size:clamp(8px, 2.35cqw, 10.5px); font-weight:700; line-height:1.16; text-align:center; color:#1e2530; }
+.mission-page .card-back--grid .cbg-tile-caption .lab-text { min-width:0; overflow-wrap:anywhere; }
+.mission-page .card-back--grid .cbg-tile-caption--theoed { color:#1e2530; letter-spacing:-0.01em; }
+.mission-page .card-back--grid .cbg-tile-caption--podcast { justify-content:flex-start; gap:5px; width:fit-content; max-width:100%; margin:0 auto; padding:2px 7px 2px 4px; border-radius:999px; background:rgba(250,250,242,0.72); border:1px solid rgba(30,37,48,0.10); box-shadow:0 1px 2px rgba(30,37,48,0.08); }
+.mission-page .card-back--grid .cbg-tile-caption--podcast .lab-mark { width:12px; height:12px; flex:0 0 auto; background-image:url("/assets/TCF_Logomark-Orange-Transparent.png"); background-size:contain; background-repeat:no-repeat; background-position:center; }
+.mission-page .card-back--grid .cbg-tile-caption--podcast .lab-text { white-space:normal; }
+
+@media (max-width:900px) {
+  .mission-page .card-back--grid .cbg-tiles--captioned { width:min(100%, 340px); gap:6px; }
+}
+
+@container (max-width:480px) {
+  .mission-page .card-back--grid .cbg-tiles--captioned { width:min(100%, 320px); gap:6px; }
+  .mission-page .card-back--grid .cbg-tile-caption { min-height:12px; font-size:clamp(7.6px, 2.25cqw, 9px); line-height:1.1; }
+}
+
 /* Tile label overlays (TheoEd / Podcast / Unstuck card backs) ----------- */
 .mission-page .card-back--grid .cbg-tile-label { position:absolute; z-index:3; pointer-events:none; }
 
@@ -937,9 +995,9 @@ body.page-config-loading .panel.active::before,
 .mission-page .card-back--grid .cbg-tile-label--podcast .lab-mark { width:14px; height:14px; flex-shrink:0; background-image:url("/assets/TCF_Logomark-Orange-Transparent.png"); background-size:contain; background-repeat:no-repeat; background-position:center; }
 
 /* unstuck : dark cream pill with small green wave accent */
-.mission-page .card-back--grid .cbg-tile-label--unstuck { left:8px; bottom:8px; padding:4px 9px; border-radius:4px; background:rgba(15,40,64,0.55); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px); display:inline-flex; align-items:center; box-shadow:0 1px 2px rgba(0,0,0,0.15); }
+.mission-page .card-back--grid .cbg-tile-label--unstuck { left:clamp(5px, 1.8cqw, 8px); bottom:clamp(5px, 1.8cqw, 8px); max-width:calc(100% - 12px); padding:clamp(2px, 0.8cqw, 4px) clamp(5px, 1.7cqw, 8px); border-radius:4px; background:rgba(15,40,64,0.55); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px); display:inline-flex; align-items:center; box-shadow:0 1px 2px rgba(0,0,0,0.15); }
 .mission-page .card-back--grid .cbg-tile-label--unstuck .lab-accent { width:14px; height:8px; flex-shrink:0; color:#3e957b; }
-.mission-page .card-back--grid .cbg-tile-label--unstuck .lab-text { font-family:'Montserrat',sans-serif; font-weight:700; font-size:10px; letter-spacing:0.05em; text-transform:uppercase; color:#fafaf2; }
+.mission-page .card-back--grid .cbg-tile-label--unstuck .lab-text { font-family:'Montserrat',sans-serif; font-weight:700; font-size:clamp(7.2px, 2.2cqw, 9.2px); line-height:1.05; letter-spacing:0.04em; text-transform:uppercase; color:#fafaf2; white-space:normal; overflow-wrap:anywhere; }
 
 .mission-page .is-hidden { display:none !important; }
 
@@ -6201,12 +6259,12 @@ var CI_STORY_PAGE = {
         copy: 'How Foundry work sharpens faculty teaching, supports staff leadership, and turns Candler’s strengths into ministry-ready resources.',
         meta: '',
         stories: [
-        { headline: 'A distinct vision for public theology', quote: 'The Foundry helps set Candler apart from other theological schools by showing prospective students a new way of imagining a ministry of public theology.', support: 'This sample case study can later show how admissions storytelling and Foundry programming work together to help prospective students see Candler’s theological imagination in practice.', name: 'Sam Martinez', leadPhrase: 'a new way of imagining a ministry of public theology', role: 'Associate Dean of Admissions & Financial Aid', image: '/assets/faculty-staff-headshots/Sam_Martinez.png', imagePosition: 'center 26%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 31vw, 440px)', quotePanelWidth: 58, quoteSize: 0.96, supportSize: 0.84 },
-        { headline: 'A public-facing studio for theological depth', quote: 'The Foundry gave my preaching work a wider reach without sacrificing theological depth.', support: 'This sample case study can later show how Teresa Fry Brown’s scholarship moved into polished preaching and teaching materials with the same intellectual rigor Candler is known for.', name: 'Teresa Fry Brown', leadPhrase: 'a wider reach', role: 'Preaching', image: '/assets/faculty-staff-headshots/Dr._Teresa_Fry_Brown.png', imagePosition: 'center 54%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#c84826', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 44, quoteSize: 1.02, supportSize: 0.84 },
-        { headline: 'Ethics and public life translated for real ministry settings', quote: 'The Foundry helped me frame urgent public questions in ways ministers can actually teach.', support: 'This sample case study can later describe how Nichole Phillips used Foundry channels to carry scholarship on public life into practical ministry settings.', name: 'Nichole Phillips', leadPhrase: 'urgent public questions', role: 'Public Theology', image: '/assets/faculty-staff-headshots/Dr._Nichole_Phillips.png', imagePosition: 'center 56%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 62, quoteSize: 0.98, supportSize: 0.84 },
-        { headline: 'Teaching sharpened by real questions from the church', quote: 'The Foundry pushed me to make complex New Testament ideas more teachable for the church.', support: 'This sample case study can later focus on how Susan Hylen’s teaching adapted when real ministry questions shaped the way her scholarship was presented.', name: 'Susan Hylen', leadPhrase: 'more teachable for the church', role: 'New Testament', image: '/assets/faculty-staff-headshots/Dr._Susan_Hylen.png', imagePosition: 'center 56%', accent: '#2e3a4a', accentInk: '#fafaf2', surface: '#f6a85d', ink: '#1e2530', width: 'clamp(360px, 30vw, 430px)', quotePanelWidth: 40, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Scholarship that reaches beyond campus walls', quote: 'The Foundry helped my scholarship travel farther than the classroom ever could on its own.', support: 'This sample case study can later document how Musa Dube’s work moved beyond campus into broader ministry and learning communities through Foundry storytelling.', name: 'Musa Dube', leadPhrase: 'travel farther than the classroom', role: 'World Christianity', image: '/assets/faculty-staff-headshots/Dr._Musa_Dube.png', imagePosition: 'center 58%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 32vw, 455px)', quotePanelWidth: 55, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Faculty voice with practical use for the church', quote: 'The Foundry let my voice reach ministry leaders in ways that felt grounded and useful.', support: 'This sample case study can later trace how Deanna Womack’s participation shaped practical resources that strengthened Candler’s internal teaching ecosystem.', name: 'Deanna Womack', leadPhrase: 'grounded and useful', role: 'Interfaith Studies', image: '/assets/faculty-staff-headshots/Dr._Deanna_Womack.png', imagePosition: 'center 58%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(350px, 28vw, 410px)', quotePanelWidth: 36, quoteSize: 1.01, supportSize: 0.84 }
+        { headline: 'A distinct vision for public theology', quote: 'The Foundry helps set Candler apart from other theological schools by showing prospective students a new way of imagining a ministry of public theology.', support: 'This sample case study can later show how admissions storytelling and Foundry programming work together to help prospective students see Candler’s theological imagination in practice.', name: 'Sam Martinez', leadPhrase: 'a new way of imagining a ministry of public theology', role: 'Associate Dean of Admissions & Financial Aid', image: '/assets/faculty-staff-headshots/Sam_Martinez.jpg', imagePosition: 'center 26%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 31vw, 440px)', quotePanelWidth: 58, quoteSize: 0.96, supportSize: 0.84 },
+        { headline: 'A public-facing studio for theological depth', quote: 'The Foundry gave my preaching work a wider reach without sacrificing theological depth.', support: 'This sample case study can later show how Teresa Fry Brown’s scholarship moved into polished preaching and teaching materials with the same intellectual rigor Candler is known for.', name: 'Teresa Fry Brown', leadPhrase: 'a wider reach', role: 'Preaching', image: '/assets/faculty-staff-headshots/Dr._Teresa_Fry_Brown.jpg', imagePosition: 'center 54%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#c84826', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 44, quoteSize: 1.02, supportSize: 0.84 },
+        { headline: 'Ethics and public life translated for real ministry settings', quote: 'The Foundry helped me frame urgent public questions in ways ministers can actually teach.', support: 'This sample case study can later describe how Nichole Phillips used Foundry channels to carry scholarship on public life into practical ministry settings.', name: 'Nichole Phillips', leadPhrase: 'urgent public questions', role: 'Public Theology', image: '/assets/faculty-staff-headshots/Dr._Nichole_Phillips.jpg', imagePosition: 'center 56%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 62, quoteSize: 0.98, supportSize: 0.84 },
+        { headline: 'Teaching sharpened by real questions from the church', quote: 'The Foundry pushed me to make complex New Testament ideas more teachable for the church.', support: 'This sample case study can later focus on how Susan Hylen’s teaching adapted when real ministry questions shaped the way her scholarship was presented.', name: 'Susan Hylen', leadPhrase: 'more teachable for the church', role: 'New Testament', image: '/assets/faculty-staff-headshots/Dr._Susan_Hylen.jpg', imagePosition: 'center 56%', accent: '#2e3a4a', accentInk: '#fafaf2', surface: '#f6a85d', ink: '#1e2530', width: 'clamp(360px, 30vw, 430px)', quotePanelWidth: 40, quoteSize: 1.01, supportSize: 0.84 },
+        { headline: 'Scholarship that reaches beyond campus walls', quote: 'The Foundry helped my scholarship travel farther than the classroom ever could on its own.', support: 'This sample case study can later document how Musa Dube’s work moved beyond campus into broader ministry and learning communities through Foundry storytelling.', name: 'Musa Dube', leadPhrase: 'travel farther than the classroom', role: 'World Christianity', image: '/assets/faculty-staff-headshots/Dr._Musa_Dube.jpg', imagePosition: 'center 58%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 32vw, 455px)', quotePanelWidth: 55, quoteSize: 1.01, supportSize: 0.84 },
+        { headline: 'Faculty voice with practical use for the church', quote: 'The Foundry let my voice reach ministry leaders in ways that felt grounded and useful.', support: 'This sample case study can later trace how Deanna Womack’s participation shaped practical resources that strengthened Candler’s internal teaching ecosystem.', name: 'Deanna Womack', leadPhrase: 'grounded and useful', role: 'Interfaith Studies', image: '/assets/faculty-staff-headshots/Dr._Deanna_Womack.jpg', imagePosition: 'center 58%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(350px, 28vw, 410px)', quotePanelWidth: 36, quoteSize: 1.01, supportSize: 0.84 }
       ]
     },
     {
@@ -6231,9 +6289,9 @@ var CI_STORY_PAGE = {
       meta: '',
       stories: [
         { headline: 'A route back into Candler’s intellectual life', quote: 'The Foundry’s Back in the Classroom series reminded me of how special my Candler experience was.', support: 'This sample case study can later show how Back in the Classroom renews alumni connection and creates a fresh desire to learn with Candler again.', name: 'Rev. Dr. Blair Trygstad-Stowe', leadPhrase: 'how special my Candler experience was', role: 'Candler Alumna', image: '/assets/alumni-headshots/Blair-Trygstad-Stowe.png', imagePosition: 'center 20%', accent: '#c84826', accentInk: '#fafaf2', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 31vw, 445px)', quotePanelWidth: 52, quoteSize: 1.01, supportSize: 0.84 },
-        { headline: 'Resources that feel ready the moment I need them', quote: 'The Foundry gives me formation resources I can use the same week I discover them.', support: 'This sample case study can later become a fuller story about how Sunday School Simplified and related tools keep alumni connected to Candler.', name: 'Rev. Carmie McDonald', leadPhrase: 'the same week I discover them', role: 'Candler Alumna', image: '/assets/alumni-headshots/Carmie-McDonald.png', imagePosition: 'center 20%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 46, quoteSize: 1.02, supportSize: 0.84 },
-        { headline: 'Rigorous, portable, and worth the time', quote: 'The Foundry keeps me connected to Candler’s ideas in a format ministry life can actually hold.', support: 'This sample case study can later explain why ministers return to Foundry resources and which formats best sustain continuing formation after graduation.', name: 'Rev. Dr. David Lower', leadPhrase: 'ministry life can actually hold', role: 'Candler Alumnus', image: '/assets/alumni-headshots/David-Lower.png', imagePosition: 'center 18%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 60, quoteSize: 0.98, supportSize: 0.84 },
-        { headline: 'A living connection to Candler after graduation', quote: 'The Foundry’s Sunday School Simplified program helps me empower my parishioners to lead Bible studies in a new and profound way.', support: 'This sample case study can later tie together continuing formation, congregational leadership, and the Foundry’s role in keeping alumni connected to Candler.', name: 'Sergio Chois', leadPhrase: 'in a new and profound way', role: 'Candler Alumnus', image: '/assets/alumni-headshots/Sergio-Chois.png', imagePosition: 'center 20%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(355px, 30vw, 430px)', quotePanelWidth: 57, quoteSize: 0.96, supportSize: 0.84 }
+        { headline: 'Resources that feel ready the moment I need them', quote: 'The Foundry gives me formation resources I can use the same week I discover them.', support: 'This sample case study can later become a fuller story about how Sunday School Simplified and related tools keep alumni connected to Candler.', name: 'Rev. Carmie McDonald', leadPhrase: 'the same week I discover them', role: 'Candler Alumna', image: '/assets/alumni-headshots/Carmie-McDonald.jpeg', imagePosition: 'center 20%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(360px, 33vw, 470px)', quotePanelWidth: 46, quoteSize: 1.02, supportSize: 0.84 },
+        { headline: 'Rigorous, portable, and worth the time', quote: 'The Foundry keeps me connected to Candler’s ideas in a format ministry life can actually hold.', support: 'This sample case study can later explain why ministers return to Foundry resources and which formats best sustain continuing formation after graduation.', name: 'Rev. Dr. David Lower', leadPhrase: 'ministry life can actually hold', role: 'Candler Alumnus', image: '/assets/alumni-headshots/David-Lower.jpg', imagePosition: 'center 18%', accent: '#f6a85d', accentInk: '#1e2530', surface: '#2e3a4a', ink: '#fafaf2', width: 'clamp(350px, 29vw, 420px)', quotePanelWidth: 60, quoteSize: 0.98, supportSize: 0.84 },
+        { headline: 'A living connection to Candler after graduation', quote: 'The Foundry’s Sunday School Simplified program helps me empower my parishioners to lead Bible studies in a new and profound way.', support: 'This sample case study can later tie together continuing formation, congregational leadership, and the Foundry’s role in keeping alumni connected to Candler.', name: 'Sergio Chois', leadPhrase: 'in a new and profound way', role: 'Candler Alumnus', image: '/assets/alumni-headshots/Sergio-Chois.jpg', imagePosition: 'center 20%', accent: '#5e8eb6', accentInk: '#1e2530', surface: '#1e2530', ink: '#fafaf2', width: 'clamp(355px, 30vw, 430px)', quotePanelWidth: 57, quoteSize: 0.96, supportSize: 0.84 }
         ]
       }
   ]
@@ -9360,22 +9418,26 @@ function buildGridBackHtml(o, backHeading, backCopy) {
         : '';
       var linkAttrs = hasTheoed ? ' href="#theoed"' : ' href="' + attr(item.href || '#') + '" target="_blank" rel="noopener"';
       var labelHtml = '';
+      var captionHtml = '';
       if (item.label && o.cardLabelStyle) {
         if (o.cardLabelStyle === 'theoed') {
-          var pos = (item.labelPosition === 'left') ? ' is-left' : '';
-          labelHtml = '<div class="cbg-tile-label cbg-tile-label--theoed' + pos + '"><span class="lab-text">' + attr(item.label) + '</span></div>';
+          captionHtml = '<div class="cbg-tile-caption cbg-tile-caption--theoed"><span class="lab-text">' + attr(item.label) + '</span></div>';
         } else if (o.cardLabelStyle === 'podcast') {
-          labelHtml = '<div class="cbg-tile-label cbg-tile-label--podcast"><span class="lab-mark" aria-hidden="true"></span><span class="lab-text">' + attr(item.label) + '</span></div>';
+          captionHtml = '<div class="cbg-tile-caption cbg-tile-caption--podcast"><span class="lab-mark" aria-hidden="true"></span><span class="lab-text">' + attr(item.label) + '</span></div>';
         } else if (o.cardLabelStyle === 'unstuck') {
           labelHtml = '<div class="cbg-tile-label cbg-tile-label--unstuck"><span class="lab-text">' + attr(item.label) + '</span></div>';
         }
       }
-      return '<a class="cb-cta cbg-tile cbg-tile--video-thumb"' + linkAttrs + ' data-action-type="video"' + theoedAttrs + '>' +
+      var tileHtml = '<a class="cb-cta cbg-tile cbg-tile--video-thumb"' + linkAttrs + ' data-action-type="video"' + theoedAttrs + '>' +
                '<img src="' + attr(item.thumbnail || '') + '" alt="' + attr(item.title || '') + '" loading="eager" decoding="async" />' +
                '<div class="cbg-play"><svg viewBox="0 0 24 24" fill="white"><circle cx="12" cy="12" r="11" fill="rgba(0,0,0,0.55)"/><polygon points="10,8 16,12 10,16" fill="white"/></svg>' +
                '</div>' +
                labelHtml +
              '</a>';
+      if (captionHtml) {
+        return '<div class="cbg-tile-group cbg-tile-group--' + attr(o.cardLabelStyle) + '">' + tileHtml + captionHtml + '</div>';
+      }
+      return tileHtml;
     }
     if (tileStyle === 'video-text') {
       return '<a class="cb-cta cbg-tile cbg-tile--video-text" href="' + attr(item.href || '#') + '" target="_blank" rel="noopener" data-action-type="video">' +
@@ -9401,6 +9463,7 @@ function buildGridBackHtml(o, backHeading, backCopy) {
   }).join('');
   var rowClass = (items.length <= 2) ? ' cbg-tiles--1x2' : '';
   if (tileStyle === 'video-text' || tileStyle === 'podcast') rowClass += ' cbg-tiles--fill';
+  if (tileStyle === 'video-thumb' && (o.cardLabelStyle === 'theoed' || o.cardLabelStyle === 'podcast')) rowClass += ' cbg-tiles--captioned cbg-tiles--captioned-' + o.cardLabelStyle;
   return '<div class="card-back card-back--grid' + variantClass + '">' +
            '<div class="cbg-tiles' + rowClass + '">' + tilesHtml + '</div>' +
          '</div>';
@@ -9534,9 +9597,9 @@ function renderOfferings(offerings) {
       var lookbookHref = o.lookbookUrl || (primaryAct && primaryAct.url) || '#';
       var primaryHref = (primaryAct && primaryAct.url) || lookbookHref;
       var tileStyle = '';
-      if (o.lookbookTileWidth) tileStyle += 'width:' + Number(o.lookbookTileWidth) + 'px;';
-      if (o.lookbookTileHeight) tileStyle += 'height:' + Number(o.lookbookTileHeight) + 'px;';
-      if (o.lookbookTileTilt != null) tileStyle += 'transform:rotate(' + Number(o.lookbookTileTilt) + 'deg);';
+      if (o.lookbookTileWidth) tileStyle += '--lb-tile-width:' + Number(o.lookbookTileWidth) + 'px;';
+      if (o.lookbookTileWidth && o.lookbookTileHeight) tileStyle += '--lb-tile-aspect:' + Number(o.lookbookTileWidth) + ' / ' + Number(o.lookbookTileHeight) + ';';
+      if (o.lookbookTileTilt != null) tileStyle += '--lb-tile-tilt:' + Number(o.lookbookTileTilt) + 'deg;';
       var hidePages = !!o.lookbookTileFlat;
       var titleStyle = o.lookbookTitleSize ? ' style="font-size:' + Number(o.lookbookTitleSize) + 'px;"' : '';
       var leadStyle = o.lookbookLeadSize ? ' style="font-size:' + Number(o.lookbookLeadSize) + 'px;"' : '';
