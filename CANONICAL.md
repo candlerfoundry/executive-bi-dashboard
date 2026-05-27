@@ -850,6 +850,51 @@ The file is gitignored via the top-level `.gitignore`, so even an accidental `gi
 
 ---
 
+## 31. OUR TEAM PAGE (2026-05-27)
+**Rule:** `Our Team` is a static page with a Mission-style cream-wash hero and a 5-card flip grid (Ryan Bonfiglio, Ebby Arnold, Cristha Lea, Donnell Williamson, Emily Avant). No editor, no JSON config — content is hard-coded in [index.html](C:/Scripts/executive-bi-dashboard/index.html).
+
+**Markup location:** Inside `#panel-ourteam`. CSS lives just before `</style>` in `index.html` under the `═══ SECTION: OUR TEAM ═══` banner. JS card-flip handler is an IIFE under `═══ OUR TEAM — card flip ═══`.
+
+**Class prefix:** All new selectors use `.ot-` (Our Team) to avoid colliding with the legacy `.team-card` / `.team-grid` styles that the old `renderTeam()` function and `FALLBACK_TEAM` array (still in `index.html`) reference. The old `#team-grid` element is gone, so `renderTeam()` no-ops safely on its `if (!grid) return;` guard.
+
+**Hero pattern:** Matches the `.gr-hero` / `.ci-story-hero` canonical pattern — cream `#fffdf8` background, photo as `::before` at 0.62 opacity, dual-layer cream-wash `::after` gradient, Montserrat 700 navy title in a max-width 1680px shell with left-aligned text. No dark navy overlay anywhere. Hero photo: `/assets/our_team_photos/optimized/Team_Photo_banner.jpg`. **`background-position: center 18%`** is intentional — keeps heads at ~18% of the hero across all viewports where the photo has vertical excess, matching the small-screen composition; do not change to `center top` or `center 50%`.
+
+**Headshot pre-processing:** All 6 photo assets in [assets/our_team_photos/optimized/](C:/Scripts/executive-bi-dashboard/assets/our_team_photos/optimized) are pre-cropped + sharpened via PIL + OpenCV. Process:
+1. OpenCV Haar cascade detects each face's center coordinate
+2. PIL crops to 3:4 aspect with face at (50%, 27%) of output and face occupying ~20% of card height
+3. Lanczos resample to 800×1067 + UnsharpMask (radius 0.9, percent 85, threshold 2)
+4. JPEG quality 90 progressive
+5. Ryan is a special case: his source (3706×4026) is nearly square, so his face naturally lands at (50%, 38%). For him only, the crop uses `head_top` at 17% of crop (matching the others' face_top position) — his face ends up ~26% of crop height, slightly larger than the others' 20%, but his head crown aligns horizontally with the rest.
+
+This pre-processing is essential — without it, the browser downscales 3-6MB source JPEGs to 200-300px card displays and the result is grainy. The optimized versions are 80-180KB each and render crisp.
+
+**Original headshot files** (`Ryan_Bonfiglio.jpg` etc. without the `/optimized` prefix) are intentionally **not committed** to keep the repo light. They live locally under `assets/our_team_photos/` for re-processing. If a team member updates their photo, drop the new source in `assets/our_team_photos/<Name>.jpg` and re-run the OpenCV + PIL crop script.
+
+**Card structure:** 3:4 aspect ratio with `container-type: inline-size` so every internal `clamp()` uses `cqw`/`cqh` units. Front shows full-bleed portrait + bottom navy-fade strip with name (Newsreader 600) and role (Montserrat 600 uppercase amber). Back shows ABOUT eyebrow → orange divider → scrollable bio → orange Contact CTA pill (mailto link). Hover flips on desktop; tap toggles on mobile. Click handler ignores clicks inside `<a>` or `<button>` so the mailto link works without re-flipping the card.
+
+**Email addresses (live mailto links):**
+- Ryan: `ryan.p.bonfiglio@emory.edu`
+- Ebby: `elizabeth.arnold@emory.edu`
+- Cristha: `cristha.lea@emory.edu`
+- Donnell: `donnell.williamson@emory.edu`
+- Emily: `emily.avant@emory.edu`
+
+**Front-of-card titles** (no honorifics, no degree suffixes per donor-facing design rules): Director · Scholar in Residence · Creative Producer · Community Learning & Partnerships · Strategy & Operations.
+
+**Regression risk:**
+- Do not re-introduce `<div id="team-grid">` or call `renderTeam()` on this panel. The legacy `.team-card` (centered avatar, plain card) styles still exist for backward compat but they will visually collide with the new design.
+- Do not rename the `.ot-` classes to `.team-`; the collisions are exactly what motivated the prefix.
+- Do not raise `.ot-card-back-cta` z-index above `.ot-card-shell` or its sibling `.ot-card-face` containers — the CTA must live inside `.ot-card-back` so the flip transform applies; pulling it out breaks the flip.
+- Do not switch `.ot-card-photo` to `object-fit: contain` — the photos are pre-cropped to exactly 3:4 to fit `cover` with no letterbox bars; `contain` would expose the cream card background.
+- Do not commit the un-optimized originals from `assets/our_team_photos/*.jpg` (root-level, not `/optimized/`). They're ~3-6MB each and not referenced by the page.
+
+**Testing performed:**
+- DOM verification via `preview_inspect` confirmed: card front roles, bio text, mailto links match the spec.
+- HTTP smoke tests confirmed `/index.html`, all 5 portrait JPEGs, and `Team_Photo_banner.jpg` serve at 200.
+- Visual review across 1920×1080, 1440×900, 768×1024, 375×812 viewports during development.
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
 [ ] Mission grid layout: card-back--grid CSS scoped, buildGridBackHtml shared between renderOfferings and renderOfferingsWithConfig, buildMissionState plumbs tileStyle + cardBackVariant + gridItems + cardLabelStyle
 [ ] Tile labels: cbg-tile-label--{theoed,podcast,unstuck} render correctly; cb-cta chevron suppressed via cbg-tile::after { content:none !important }

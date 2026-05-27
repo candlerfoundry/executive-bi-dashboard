@@ -1199,19 +1199,24 @@ body.page-config-loading .panel.active::before,
 .te-hs-lbl { font-size:0.68rem; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:#ffffff; margin-top:8px; line-height:1.2; }
 .te-hs-sep { width:1px; height:36px; background:rgba(250,250,242,0.2); flex-shrink:0; }
 .theoed-content-row { background-color:#F5F0EB; width:100%; }
-.theoed-speaker-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:28px; max-width:1840px; margin:0 auto; padding:48px 36px 24px; background-color:#F5F0EB; }
-.theoed-speaker-tile { border:1px solid rgba(30,37,48,0.14); border-radius:24px; overflow:hidden; position:relative; cursor:pointer; background:#ffffff; box-shadow:0 16px 40px rgba(30,37,48,0.14); display:grid; grid-template-columns:minmax(54%,1.1fr) minmax(46%,0.9fr); height:318px; transition:transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease; }
+.theoed-speaker-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:clamp(18px,1.46vw,28px); max-width:1840px; margin:0 auto; padding:48px 36px 24px; background-color:#F5F0EB; }
+.theoed-speaker-tile { container-type:inline-size; border:1px solid rgba(30,37,48,0.14); border-radius:24px; overflow:hidden; position:relative; cursor:pointer; background:#ffffff; box-shadow:0 16px 40px rgba(30,37,48,0.14); display:grid; grid-template-columns:minmax(46%,0.95fr) minmax(0,1.05fr); height:318px; transition:transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease; }
 .theoed-speaker-tile:hover, .theoed-speaker-tile:focus-visible { transform:translateY(-6px); box-shadow:0 24px 52px rgba(30,37,48,0.22); border-color:rgba(232,84,26,0.45); outline:none; }
 .theoed-speaker-media { position:relative; background:#101522; overflow:hidden; }
 .theoed-speaker-media img { width:100%; height:100%; object-fit:cover; object-position:center 24%; opacity:0.94; display:block; transform:scale(var(--te-img-scale,1.16)); transition:transform 0.4s ease, opacity 0.3s ease; }
 .theoed-speaker-tile:hover img, .theoed-speaker-tile:focus-visible img { transform:scale(calc(var(--te-img-scale,1.16) + 0.08)); opacity:1; }
 .theoed-speaker-media::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(16,21,34,0.05) 0%, rgba(16,21,34,0.24) 100%); }
-.theoed-speaker-play { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:64px; height:64px; border-radius:50%; background:rgba(250,250,242,0.76); box-shadow:0 18px 34px rgba(0,0,0,0.28); display:flex; align-items:center; justify-content:center; color:#1e2530; font-size:1.05rem; z-index:1; transition:transform 0.25s ease, background 0.25s ease; }
+.theoed-speaker-play { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:clamp(44px,11cqw,64px); height:clamp(44px,11cqw,64px); border-radius:50%; background:rgba(250,250,242,0.76); box-shadow:0 18px 34px rgba(0,0,0,0.28); display:flex; align-items:center; justify-content:center; color:#1e2530; font-size:clamp(0.82rem,2.8cqw,1.05rem); z-index:1; transition:transform 0.25s ease, background 0.25s ease; }
 .theoed-speaker-tile:hover .theoed-speaker-play, .theoed-speaker-tile:focus-visible .theoed-speaker-play { transform:translate(-50%,-50%) scale(1.08); background:#ffffff; }
-.theoed-tile-overlay { position:relative; padding:22px 24px 22px; background:linear-gradient(180deg, #fffdf8 0%, #f5f0eb 100%); display:flex; flex-direction:column; justify-content:space-between; gap:16px; min-width:0; }
-.theoed-tile-quote { font-style:italic; font-size:clamp(1rem,0.98vw,1.12rem); color:#1e2530; margin-bottom:0; line-height:1.42; font-weight:500; display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden; }
-.theoed-tile-name { font-size:clamp(1.3rem,1.45vw,1.55rem); font-weight:800; color:#1e2530; margin-bottom:8px; line-height:1; letter-spacing:-0.04em; }
-.theoed-tile-location { font-size:0.78rem; color:#c84826; letter-spacing:0.16em; text-transform:uppercase; font-weight:700; }
+.theoed-tile-overlay { position:relative; padding:clamp(14px,4.2cqw,24px); background:linear-gradient(180deg, #fffdf8 0%, #f5f0eb 100%); display:flex; flex-direction:column; justify-content:space-between; gap:clamp(8px,2.8cqw,16px); min-width:0; }
+.theoed-tile-quote { font-style:italic; font-size:clamp(0.74rem,3.08cqw,1.12rem); color:#1e2530; margin-bottom:0; line-height:1.34; font-weight:500; max-width:100%; overflow-wrap:break-word; }
+.theoed-tile-name { font-size:clamp(1.02rem,4.1cqw,1.55rem); font-weight:800; color:#1e2530; margin-bottom:clamp(4px,1.4cqw,8px); line-height:1; letter-spacing:0; overflow-wrap:break-word; }
+.theoed-tile-location { font-size:clamp(0.6rem,2.05cqw,0.78rem); color:#c84826; letter-spacing:clamp(0.08em,0.36cqw,0.16em); text-transform:uppercase; font-weight:700; line-height:1.18; overflow-wrap:anywhere; }
+@container (max-width:430px) {
+  .theoed-tile-overlay { padding:clamp(12px,3.8cqw,16px); gap:clamp(7px,2.4cqw,10px); }
+  .theoed-tile-quote { font-size:clamp(0.7rem,3.05cqw,0.86rem); line-height:1.3; }
+  .theoed-tile-name { font-size:clamp(0.94rem,3.8cqw,1.16rem); line-height:0.98; }
+}
 .te-lightbox { display:none; position:fixed; inset:0; z-index:9000; align-items:center; justify-content:center; }
 .te-lightbox.open { display:flex; }
 .te-lb-frame-slot { position:absolute; inset:0; width:100%; height:100%; background:#000; display:flex; align-items:center; justify-content:center; }
@@ -1278,9 +1283,9 @@ body.page-config-loading .panel.active::before,
   .te-hero-content { min-height:320px; height:auto; padding:32px 20px 28px; }
   .te-hs-item { padding:0 18px; }
   .theoed-speaker-grid { grid-template-columns:1fr; padding:32px 20px 18px; gap:22px; }
-  .theoed-speaker-tile { grid-template-columns:1fr; height:auto; }
-  .theoed-speaker-media { min-height:320px; }
-  .theoed-tile-overlay { padding:24px 22px 26px; }
+  .theoed-speaker-tile { grid-template-columns:minmax(42%,0.86fr) minmax(0,1.14fr); height:clamp(236px,38vw,318px); }
+  .theoed-speaker-media { min-height:0; }
+  .theoed-tile-overlay { padding:clamp(14px,3.9cqw,24px); }
   .te-archive-section { padding:28px 24px 40px; }
   .te-lb-box { width:92vw; }
 }
@@ -1499,6 +1504,273 @@ body.page-config-loading .panel.active::before,
    fluid clamp() values defined in the base .mission-page rule and the
    fluidRem() expressions emitted by mission-editor.js. Replaced by the
    Proposal A fluid scaling system. */
+
+/* ═══ SECTION: OUR TEAM ═══
+   Story-driven page with a Mission-style cream-wash hero (matches the
+   .gr-hero / .ci-story-hero canonical pattern) and 5 flip cards. Cards use
+   container queries + aspect-ratio so they scale uniformly with their own
+   width, not the viewport (per CLAUDE_CARD_SCALING_GUIDE.md). Headshots are
+   pre-cropped to 3:4 with each face at (50%, 27%) — no per-person CSS. */
+.ot-hero {
+  --ot-hero-min: clamp(280px, 32vw, 400px);
+  --ot-shell-max: 1680px;
+  --ot-gutter: clamp(20px, 4vw, 60px);
+  position: relative;
+  min-height: var(--ot-hero-min);
+  overflow: hidden;
+  background: #fffdf8;
+}
+.ot-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/assets/our_team_photos/optimized/Team_Photo_banner.jpg');
+  background-size: cover;
+  background-position: center 18%;
+  opacity: 0.62;
+  pointer-events: none;
+}
+.ot-hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg,
+      rgba(255,253,248,0.85) 0%,
+      rgba(255,253,248,0.75) 30%,
+      rgba(255,253,248,0.30) 52%,
+      rgba(255,253,248,0.15) 70%,
+      rgba(255,253,248,0.30) 88%,
+      rgba(255,253,248,0.55) 100%),
+    linear-gradient(180deg,
+      rgba(255,253,248,0.12) 0%,
+      rgba(255,253,248,0.00) 30%,
+      rgba(255,253,248,0.00) 75%,
+      rgba(255,253,248,0.25) 100%);
+  pointer-events: none;
+}
+.ot-hero-inner {
+  position: relative;
+  z-index: 1;
+  width: min(100%, var(--ot-shell-max));
+  min-height: var(--ot-hero-min);
+  margin: 0 auto;
+  padding: clamp(28px, 4vw, 56px) var(--ot-gutter);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+.ot-hero-eyebrow {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: #c84826;
+  margin-bottom: 14px;
+}
+.ot-hero-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.5rem, 2rem + 2.5vw, 4.2rem);
+  line-height: 0.96;
+  letter-spacing: -0.05em;
+  color: #1e2530;
+  margin: 0 0 18px;
+  max-width: 700px;
+  text-wrap: balance;
+}
+.ot-hero-sub {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(0.95rem, 0.85rem + 0.4vw, 1.15rem);
+  font-weight: 500;
+  line-height: 1.7;
+  color: rgba(30,37,48,0.84);
+  max-width: 620px;
+  margin: 0;
+}
+.ot-section {
+  background: #fafaf2;
+  padding: clamp(40px, 5vw, 88px) clamp(20px, 4vw, 60px) clamp(60px, 7vw, 110px);
+}
+.ot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(190px, 15vw, 220px), 1fr));
+  gap: clamp(16px, 1.5vw, 26px);
+  max-width: 1680px;
+  margin: 0 auto;
+}
+.ot-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  perspective: 1400px;
+  container-type: inline-size;
+  cursor: pointer;
+}
+.ot-card-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.65s cubic-bezier(0.2, 0.8, 0.2, 1);
+  border-radius: 14px;
+  box-shadow:
+    0 1px 2px rgba(30,37,48,0.06),
+    0 12px 28px rgba(30,37,48,0.12),
+    0 24px 60px rgba(30,37,48,0.08);
+}
+@media (hover: hover) {
+  .ot-card:hover .ot-card-shell { transform: rotateY(180deg); }
+}
+.ot-card.is-flipped .ot-card-shell { transform: rotateY(180deg); }
+.ot-card:hover { transform: translateY(-4px); transition: transform 0.25s ease; }
+.ot-card-face {
+  position: absolute;
+  inset: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+.ot-card-front { background: #f0ead8; }
+.ot-card-photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  image-rendering: auto;
+  -ms-interpolation-mode: bicubic;
+}
+.ot-card-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: clamp(14px, 4.5cqw, 22px) clamp(16px, 5cqw, 24px);
+  background: linear-gradient(0deg, rgba(30,37,48,0.96) 0%, rgba(30,37,48,0.86) 70%, rgba(30,37,48,0) 100%);
+  color: #fafaf2;
+}
+.ot-card-name {
+  font-family: 'Newsreader', serif;
+  font-weight: 600;
+  font-size: clamp(18px, 7.2cqw, 28px);
+  line-height: 1.08;
+  letter-spacing: -0.01em;
+  color: #fafaf2;
+  margin-bottom: 6px;
+}
+.ot-card-role {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: clamp(9.5px, 2.9cqw, 11.5px);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f6a85d;
+  line-height: 1.35;
+}
+.ot-card-flip-hint {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(250,250,242,0.92);
+  color: #1e2530;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+.ot-card:hover .ot-card-flip-hint,
+.ot-card:focus-within .ot-card-flip-hint { opacity: 0.95; }
+.ot-card-back {
+  background: #1e2530;
+  color: #fafaf2;
+  transform: rotateY(180deg);
+  display: flex;
+  flex-direction: column;
+  padding: clamp(18px, 5.5cqw, 28px) clamp(18px, 5.5cqw, 28px) clamp(18px, 5cqw, 24px);
+}
+.ot-card-back-eyebrow {
+  font-size: clamp(9.5px, 2.7cqw, 11px);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f6a85d;
+  margin-bottom: clamp(8px, 2.5cqw, 12px);
+}
+.ot-card-back-divider {
+  width: clamp(36px, 9cqw, 50px);
+  height: 2px;
+  background: #c84826;
+  margin-bottom: clamp(12px, 3.5cqw, 18px);
+}
+.ot-card-back-bio {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: clamp(12px, 3.5cqw, 15px);
+  line-height: 1.5;
+  color: rgba(250,250,242,0.92);
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(246,168,93,0.55) transparent;
+  padding-right: 4px;
+}
+.ot-card-back-bio::-webkit-scrollbar { width: 4px; }
+.ot-card-back-bio::-webkit-scrollbar-track { background: transparent; }
+.ot-card-back-bio::-webkit-scrollbar-thumb { background: rgba(246,168,93,0.55); border-radius: 2px; }
+.ot-card-back-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: clamp(6px, 1.6cqw, 9px);
+  align-self: flex-start;
+  margin-top: clamp(12px, 3cqw, 18px);
+  padding: clamp(8px, 2.5cqw, 11px) clamp(14px, 4cqw, 20px);
+  background: #c84826;
+  color: #fafaf2;
+  border: none;
+  border-radius: 999px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: clamp(11px, 3.1cqw, 13px);
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.ot-card-back-cta:hover {
+  background: #d65a36;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.26);
+}
+.ot-card-back-cta:focus-visible {
+  outline: 2px solid #f6a85d;
+  outline-offset: 2px;
+}
+.ot-card-back-cta-icon {
+  width: clamp(12px, 3.4cqw, 14px);
+  height: clamp(12px, 3.4cqw, 14px);
+  flex-shrink: 0;
+}
+@container (max-width: 240px) {
+  .ot-card-strip { padding: 12px 14px; }
+  .ot-card-back { padding: 14px 14px 16px; }
+  .ot-card-back-eyebrow { margin-bottom: 6px; }
+  .ot-card-back-divider { margin-bottom: 8px; }
+}
 
 </style>
 </head>
@@ -3816,14 +4088,136 @@ body.page-config-loading .panel.active::before,
 
 <!-- TAB: OUR TEAM -->
 <div id="panel-ourteam" class="panel">
-  <div class="section-header">
-    <div class="section-label">The Candler Foundry</div>
-    <h2 class="section-title">Our Team</h2>
-    <p class="section-subtitle">The people who make The Candler Foundry possible</p>
-  </div>
-  <div class="whoweare-body">
-    <div class="team-grid" id="team-grid"></div>
-  </div>
+
+  <section class="ot-hero">
+    <div class="ot-hero-inner">
+      <div class="ot-hero-eyebrow">The Candler Foundry</div>
+      <h1 class="ot-hero-title">Our Team</h1>
+      <p class="ot-hero-sub">We're a small, devoted team of scholars, ministers, and storytellers, committed to bringing Candler's theological imagination to congregations, classrooms, and kitchen tables across the country.</p>
+    </div>
+  </section>
+
+  <section class="ot-section">
+    <div class="ot-grid">
+
+      <!-- RYAN -->
+      <article class="ot-card" tabindex="0" data-member="ryan">
+        <div class="ot-card-shell">
+          <div class="ot-card-face ot-card-front">
+            <img class="ot-card-photo" src="/assets/our_team_photos/optimized/Ryan_Bonfiglio.jpg" alt="Ryan Bonfiglio">
+            <div class="ot-card-flip-hint" aria-hidden="true">+</div>
+            <div class="ot-card-strip">
+              <div class="ot-card-name">Ryan Bonfiglio</div>
+              <div class="ot-card-role">Director</div>
+            </div>
+          </div>
+          <div class="ot-card-face ot-card-back">
+            <div class="ot-card-back-eyebrow">About</div>
+            <div class="ot-card-back-divider"></div>
+            <p class="ot-card-back-bio">Ryan Bonfiglio leads The Candler Foundry as Director and serves as Professor in the Practice of Old Testament at Candler School of Theology. He holds a B.A. in Chemistry from Princeton University, an M.Div. from Princeton Theological Seminary, and a Ph.D. in Hebrew Bible from Emory University. Before joining Candler in 2018, he taught at Columbia Theological Seminary and served as Scholar in Residence at First Presbyterian Church of Atlanta. He received Emory's 2026 Exemplary Teacher of the Year Award.</p>
+            <a class="ot-card-back-cta" href="mailto:ryan.p.bonfiglio@emory.edu">
+              <svg class="ot-card-back-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              Contact Ryan
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- EBBY -->
+      <article class="ot-card" tabindex="0" data-member="ebby">
+        <div class="ot-card-shell">
+          <div class="ot-card-face ot-card-front">
+            <img class="ot-card-photo" src="/assets/our_team_photos/optimized/Ebby_Arnold.jpg" alt="Ebby Arnold">
+            <div class="ot-card-flip-hint" aria-hidden="true">+</div>
+            <div class="ot-card-strip">
+              <div class="ot-card-name">Ebby Arnold</div>
+              <div class="ot-card-role">Scholar in Residence</div>
+            </div>
+          </div>
+          <div class="ot-card-face ot-card-back">
+            <div class="ot-card-back-eyebrow">About</div>
+            <div class="ot-card-back-divider"></div>
+            <p class="ot-card-back-bio">Ebby Arnold serves as Scholar in Residence at The Candler Foundry, where she teaches Courses in the Community and developed the Foundations in Faith and Leadership online certificate program. She holds a Ph.D. in New Testament from Emory University, where her dissertation explored the theme of wilderness in Luke-Acts. A member of Smoke Rise Baptist Church, Ebby also co-leads the 3-Minute Bible video series and contributes to the Scholar's Blog.</p>
+            <a class="ot-card-back-cta" href="mailto:elizabeth.arnold@emory.edu">
+              <svg class="ot-card-back-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              Contact Ebby
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- CRISTHA -->
+      <article class="ot-card" tabindex="0" data-member="cristha">
+        <div class="ot-card-shell">
+          <div class="ot-card-face ot-card-front">
+            <img class="ot-card-photo" src="/assets/our_team_photos/optimized/Cristha_LEa.jpg" alt="Cristha Lea">
+            <div class="ot-card-flip-hint" aria-hidden="true">+</div>
+            <div class="ot-card-strip">
+              <div class="ot-card-name">Cristha Lea</div>
+              <div class="ot-card-role">Creative Producer</div>
+            </div>
+          </div>
+          <div class="ot-card-face ot-card-back">
+            <div class="ot-card-back-eyebrow">About</div>
+            <div class="ot-card-back-divider"></div>
+            <p class="ot-card-back-bio">Cristha Lea is the Creative Producer at The Candler Foundry, where she leads media production, communications, and digital initiatives. She holds an M.Div. with a Certificate in Religion &amp; Health from Candler School of Theology (2021) and a B.A. in Evolutionary Biology from Spelman College, bringing an interdisciplinary lens to theological media. She hosts the Candler in Conversation podcast and has grown the Foundry's digital presence across multiple platforms. She is currently pursuing a D.Min. at Candler in the Womanist Discourse track.</p>
+            <a class="ot-card-back-cta" href="mailto:cristha.lea@emory.edu">
+              <svg class="ot-card-back-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              Contact Cristha
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- DONNELL -->
+      <article class="ot-card" tabindex="0" data-member="donnell">
+        <div class="ot-card-shell">
+          <div class="ot-card-face ot-card-front">
+            <img class="ot-card-photo" src="/assets/our_team_photos/optimized/Donnell_Williamson.jpg" alt="Donnell Williamson">
+            <div class="ot-card-flip-hint" aria-hidden="true">+</div>
+            <div class="ot-card-strip">
+              <div class="ot-card-name">Donnell Williamson</div>
+              <div class="ot-card-role">Community Learning &amp; Partnerships</div>
+            </div>
+          </div>
+          <div class="ot-card-face ot-card-back">
+            <div class="ot-card-back-eyebrow">About</div>
+            <div class="ot-card-back-divider"></div>
+            <p class="ot-card-back-bio">Donnell Williamson oversees the Foundry's Courses in the Community Programming and leads all congregational partnerships. He recently completed a Ph.D. in Religious Studies at Brown University, with research focused on philosophy of religion, religious ethics, and Black American religious thought. He also holds an M.Div. from Candler School of Theology and a B.A. in Sociology from Morehouse College. A member of Zion Hill Baptist Church, Donnell brings deep commitment to accessible theological education and community-centered learning.</p>
+            <a class="ot-card-back-cta" href="mailto:donnell.williamson@emory.edu">
+              <svg class="ot-card-back-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              Contact Donnell
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- EMILY -->
+      <article class="ot-card" tabindex="0" data-member="emily">
+        <div class="ot-card-shell">
+          <div class="ot-card-face ot-card-front">
+            <img class="ot-card-photo" src="/assets/our_team_photos/optimized/Emily_Avant.jpg" alt="Emily Avant">
+            <div class="ot-card-flip-hint" aria-hidden="true">+</div>
+            <div class="ot-card-strip">
+              <div class="ot-card-name">Emily Avant</div>
+              <div class="ot-card-role">Strategy &amp; Operations</div>
+            </div>
+          </div>
+          <div class="ot-card-face ot-card-back">
+            <div class="ot-card-back-eyebrow">About</div>
+            <div class="ot-card-back-divider"></div>
+            <p class="ot-card-back-bio">Emily Avant oversees strategy and operations at The Candler Foundry, including its data, content, and monetization strategies. She is both a Candler alumna (M.Div., 2024) and a proud "Double Dawg" with undergraduate and law degrees from the University of Georgia. She brings over 20 years of legal and business experience to her role. She is an ordained minister in the Presbyterian Church (U.S.A.). Emily and her family are members of Trinity Presbyterian Church in Atlanta.</p>
+            <a class="ot-card-back-cta" href="mailto:emily.avant@emory.edu">
+              <svg class="ot-card-back-cta-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              Contact Emily
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
 </div>
 
 <!-- TAB: THEOED -->
@@ -4155,12 +4549,12 @@ body.page-config-loading .panel.active::before,
       <p class="te-hero-desc" id="te-hero-desc">TheoEd brings the world's leading theological thinkers to cities across the U.S. TheoEd is open to the public, livestreamed, and made available for free online, becoming a surprising way for all spiritual seekers - churched and unchurched alike - to truly engage in theological discussion.</p>
       <div class="te-hero-stats" id="te-hero-stats">
         <div class="te-hs-item">
-          <div class="te-hs-num">12</div>
+          <div class="te-hs-num">13</div>
           <div class="te-hs-lbl">Events Hosted</div>
         </div>
         <div class="te-hs-sep"></div>
         <div class="te-hs-item">
-          <div class="te-hs-num">9</div>
+          <div class="te-hs-num">6</div>
           <div class="te-hs-lbl">Cities</div>
         </div>
         <div class="te-hs-sep"></div>
@@ -4257,11 +4651,11 @@ const FACULTY = [
 // To add/change a guide for a card, edit the `guide` value here.
 // Set to an empty string '' to mark a talk as having no guide yet.
 const THEOED_SPEAKERS = [
-  {name:'Suzanne Stabile',            loc:'Nashville \xb7 2024', photo:'assets/theoed_photos/Suzanne Stabile - 1.jpg',   imgPos:'78% 20%', imgScale:'1.18', vid:'rFf8d2WDn9Y', quote:'\u201cDon\u2019t get attached to the results \u2014 that\u2019s where we get in trouble.\u201d',                                       guide:'assets/theoed/discussion-guides/THEO-168-suzanne-stabile-the-power-of-story-discussion-guide.pdf'},
+  {name:'Suzanne Stabile',            loc:'Nashville \xb7 2025', photo:'assets/theoed_photos/Suzanne Stabile - 1.jpg',   imgPos:'78% 20%', imgScale:'1.18', vid:'rFf8d2WDn9Y', quote:'\u201cDon\u2019t get attached to the results \u2014 that\u2019s where we get in trouble.\u201d',                                       guide:'assets/theoed/discussion-guides/THEO-168-suzanne-stabile-the-power-of-story-discussion-guide.pdf'},
   {name:'Austin Channing Brown',      loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Austin Channing Brown.jpg', imgPos:'50% 24%', imgScale:'1.32', vid:'20Tgb1L5Bgw', quote:'\u201cMy parents named me so I could make it to the interview.\u201d',                                                             guide:'assets/theoed/discussion-guides/THEO-137-austin-channing-brown-the-double-sided-pursuit-of-racial-justice-discussion-guide.pdf'},
   {name:'The Rt. Rev. Robert Wright', loc:'Atlanta \xb7 2022',   photo:'assets/theoed_photos/Rob Wright.jpg',            imgPos:'68% 18%', imgScale:'1.45', vid:'ipq7vf9QLxA', quote:'\u201cLove is overthrowing everything that is not love.\u201d',                                                                        guide:'assets/theoed/discussion-guides/THEO-189-the-right-rev-robert-wright-the-leadership-love-demands-discussion-guide.pdf'},
-  {name:'Dr. Amy-Jill Levine',        loc:'Atlanta \xb7 2017',   photo:'assets/theoed_photos/Amy Jill-Levine 1.png',     imgPos:'50% 26%', imgScale:'1.0',  vid:'AFy_jjP2WzU', quote:'\u201cIt is not the job of the individual Christian to say who is saved and who is damned.\u201d',                                   guide:'assets/theoed/discussion-guides/THEO-128-amy-jill-levine-life-after-death-jesus-judiasm-and-justice-discussion-guide.pdf'},
-  {name:'Julian Davis Reid',          loc:'Nashville \xb7 2024', photo:'assets/theoed_photos/Julian Davis Reid 1.jpg',   imgPos:'70% 24%', imgScale:'1.18', vid:'HEspbbh3-1w', quote:'\u201cThe bass notes are God\u2019s deepest messages \u2014 love, forgiveness, hope.\u201d',                                             guide:'assets/theoed/discussion-guides/THEO-184-julian-davis-reid-the-chord-changes-discussion-guide.pdf'},
+  {name:'Dr. Amy-Jill Levine',        loc:'Atlanta \xb7 2017',   photo:'assets/theoed_photos/Amy Jill-Levine 1.png',     imgPos:'18% 26%', imgScale:'1.0',  vid:'AFy_jjP2WzU', quote:'\u201cIt is not the job of the individual Christian to say who is saved and who is damned.\u201d',                                   guide:'assets/theoed/discussion-guides/THEO-128-amy-jill-levine-life-after-death-jesus-judiasm-and-justice-discussion-guide.pdf'},
+  {name:'Julian Davis Reid',          loc:'Nashville \xb7 2025', photo:'assets/theoed_photos/Julian Davis Reid 1.jpg',   imgPos:'70% 24%', imgScale:'1.18', vid:'HEspbbh3-1w', quote:'\u201cThe bass notes are God\u2019s deepest messages \u2014 love, forgiveness, hope.\u201d',                                             guide:'assets/theoed/discussion-guides/THEO-184-julian-davis-reid-the-chord-changes-discussion-guide.pdf'},
   {name:'Dr. Wil Gafney',             loc:'Atlanta \xb7 2020',   photo:'assets/theoed_photos/Wil Gafney - 1.jpg',        imgPos:'52% 20%', imgScale:'1.38', vid:'zLfpaRhsSUI', quote:'\u201cThe language you use about God tells me what you think about me.\u201d',                                                        guide:'assets/theoed/discussion-guides/THEO-180-dr-wil-gafney-biblical-language-for-a-god-who-transcends-gender-discussion-guide.pdf'},
   {name:'Shane Claiborne',            loc:'Atlanta \xb7 2018',   photo:'assets/theoed_photos/Shane Claiborne.jpg',       imgPos:'72% 24%', imgScale:'1.28', vid:'tVL7z73zuJ8', quote:'\u201cWe worship a homeless man on Sunday \u2014 can we ignore one on Monday?\u201d',                                                 guide:'assets/theoed/discussion-guides/THEO-182-dr-shane-claiborne-resurrecting-church-discussion-guide.pdf'},
   {name:'Pete Enns',                  loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Pete Enns.jpeg',            imgPos:'50% 22%', imgScale:'1.28', vid:'YDirRZLtifE', quote:'\u201cReimagining God is not disloyalty \u2014 it is exactly what the tradition has always done.\u201d',                               guide:'assets/theoed/discussion-guides/THEO-138-pete-enns-reimagining-an-ancient-god-discussion-guide.pdf'},
@@ -4355,8 +4749,8 @@ var THEOED_EDITOR_DEFAULTS = {
     leftAccent:  { photo: '', posX: 50, posY: 40, scale: 110, opacity: 42, width: 32, feather: 55 },
     rightAccent: { photo: '', posX: 50, posY: 40, scale: 110, opacity: 42, width: 32, feather: 55 },
     stats: [
-      { number: '12', label: 'Events Hosted' },
-      { number: '9', label: 'Cities' },
+      { number: '13', label: 'Events Hosted' },
+      { number: '6', label: 'Cities' },
       { number: '50+', label: 'Talks' },
       { number: '10,000+', label: 'Reached Online' }
     ]
@@ -9895,6 +10289,31 @@ function loadContent() {
 }
 
 document.addEventListener('DOMContentLoaded', loadContent);
+
+// ═══ OUR TEAM — card flip ═══
+(function() {
+  function init() {
+    document.querySelectorAll('#panel-ourteam .ot-card').forEach(function(card) {
+      card.addEventListener('click', function(e) {
+        // Don't flip when clicking an interactive element (mailto link, button)
+        if (e.target.closest('a, button')) return;
+        card.classList.toggle('is-flipped');
+      });
+      card.addEventListener('keydown', function(e) {
+        if (e.target.closest('a, button')) return;
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.classList.toggle('is-flipped');
+        }
+      });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
 
 // ═══ OUR IMPACT CAROUSEL ═══
 (function() {
