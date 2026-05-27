@@ -30,11 +30,11 @@
     },
     "stats": [
       {
-        "number": "12",
+        "number": "13",
         "label": "Events Hosted"
       },
       {
-        "number": "9",
+        "number": "6",
         "label": "Cities"
       },
       {
@@ -43,7 +43,7 @@
       },
       {
         "number": "300K+",
-        "label": "Online Strems"
+        "label": "Online Streams"
       }
     ]
   },
@@ -53,7 +53,7 @@
   "speakers": [
     {
       "name": "Suzanne Stabile",
-      "loc": "Nashville · 2024",
+      "loc": "Nashville · 2025",
       "photo": "assets/theoed_photos/Suzanne Stabile - 1.jpg",
       "imgPos": "78% 20%",
       "imgScale": "1.18",
@@ -88,7 +88,7 @@
       "name": "Amy-Jill Levine",
       "loc": "Atlanta · 2017",
       "photo": "assets/theoed_photos/Amy Jill-Levine 1.png",
-      "imgPos": "50% 26%",
+      "imgPos": "18% 26%",
       "imgScale": "1.0",
       "vid": "AFy_jjP2WzU",
       "quote": "“It is not the job of the individual Christian to say who is saved and who is damned.”",
@@ -97,7 +97,7 @@
     },
     {
       "name": "Julian Davis Reid",
-      "loc": "Nashville · 2024",
+      "loc": "Nashville · 2025",
       "photo": "assets/theoed_photos/Julian Davis Reid 1.jpg",
       "imgPos": "70% 24%",
       "imgScale": "1.18",
