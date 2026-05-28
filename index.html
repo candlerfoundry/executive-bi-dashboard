@@ -309,10 +309,10 @@ body.page-config-loading .panel.active::before,
   --ci-font-family:'Montserrat', sans-serif;
   --ci-hero-headline-size: clamp(2.3rem, 1.95rem + 1.85vw, 3.8rem);
   --ci-hero-body-size: 0.96rem;
-  --ci-hero-image-url: url('/assets/Graphic Vignettes/vignette-city-life-banner.png');
+  --ci-hero-image-url: url('/assets/student_photos/Master Class Student Talking 5.jpg');
   --ci-hero-image-position: center center;
   --ci-hero-image-size: cover;
-  --ci-hero-image-opacity: 0.85;
+  --ci-hero-image-opacity: 0.95;
   --ci-hero-image-offset-x: 0px;
   --ci-hero-image-offset-y: 0px;
   --ci-hero-image-clarity: 0;
@@ -341,7 +341,7 @@ body.page-config-loading .panel.active::before,
 .ci-story-page > #ci-story-rows { width:min(100%, var(--ci-shell-max)); margin:0 auto; padding:10px var(--ci-gutter) 0; }
 .ci-story-hero { position:relative; overflow:hidden; border-radius:0; background:#fffdf8; box-shadow:none; margin-bottom:22px; min-height:var(--ci-hero-min-height); border-bottom:1px solid rgba(30,37,48,0.14); --hero-edge-surface: 255,253,248; --hero-photo-left: 0px; --hero-photo-right: 100%; --hero-edge-feather-left: 0px; --hero-edge-feather-right: 0px; }
 .ci-story-hero::before { content:''; position:absolute; inset:0; background-image:var(--ci-hero-image-url); background-position:var(--ci-hero-image-position); background-size:var(--ci-hero-image-size); background-repeat:no-repeat; opacity:var(--ci-hero-image-opacity); filter:saturate(calc(1 + (var(--ci-hero-image-clarity) * 0.006))) contrast(calc(1 + (var(--ci-hero-image-clarity) * 0.004))) drop-shadow(0 0 calc(var(--ci-hero-image-clarity) * 0.16px) rgba(30,37,48,0.08)); transform:translate(var(--ci-hero-image-offset-x), var(--ci-hero-image-offset-y)) translateZ(0); pointer-events:none; }
-.ci-story-hero::after { content:''; position:absolute; inset:0; background:var(--hero-local-edge-overlay), linear-gradient(90deg, rgba(255,253,248,0.97) 0%, rgba(255,253,248,0.90) calc(var(--ci-hero-fade-left) - 18%), rgba(255,253,248,0.58) var(--ci-hero-fade-left), rgba(255,253,248,0.08) calc(var(--ci-hero-fade-left) + 12%), rgba(255,253,248,0.08) calc(100% - var(--ci-hero-fade-right) - 14%), rgba(255,253,248,0.58) calc(100% - var(--ci-hero-fade-right)), rgba(255,253,248,0.90) 100%); pointer-events:none; }
+.ci-story-hero::after { content:''; position:absolute; inset:0; background:var(--hero-local-edge-overlay), linear-gradient(90deg, rgba(255,253,248,0.96) 0%, rgba(255,253,248,0.84) calc(var(--ci-hero-fade-left) - 28%), rgba(255,253,248,0.52) calc(var(--ci-hero-fade-left) - 16%), rgba(255,253,248,0.30) var(--ci-hero-fade-left), rgba(255,253,248,0.08) calc(var(--ci-hero-fade-left) + 12%), rgba(255,253,248,0.04) calc(100% - var(--ci-hero-fade-right)), rgba(255,253,248,0.08) 100%); pointer-events:none; }
 .ci-story-hero-inner { position:relative; z-index:1; width:min(100%, var(--ci-shell-max)); min-height:var(--ci-hero-min-height); margin:0 auto; padding:0 var(--ci-gutter); display:flex; align-items:stretch; }
 .ci-hero-copy { width:min(100%, var(--ci-hero-title-width)); max-width:var(--ci-hero-title-width); min-height:100%; display:flex; flex-direction:column; justify-content:center; align-items:flex-start; gap:0; transform:translate(var(--ci-hero-copy-offset-x), var(--ci-hero-copy-offset)); }
 .ci-kicker,
@@ -1386,7 +1386,9 @@ body.page-config-loading .panel.active::before,
   #panel-people .section-header { padding:28px 18px 16px; }
   .ci-story-page { padding:0 0 36px; }
   .ci-story-hero { border-radius:0; margin-bottom:24px; }
-  .ci-story-hero-inner { padding:24px 20px; }
+  .ci-story-hero::before { background-position:center 30%; opacity:0.58; }
+  .ci-story-hero::after { background:linear-gradient(180deg, rgba(255,253,248,0.94) 0%, rgba(255,253,248,0.90) 45%, rgba(255,253,248,0.82) 100%); }
+  .ci-story-hero-inner { padding:72px 20px 26px; }
   .ci-hero-headline { font-size:2rem; }
   .ci-hero-body { font-size:0.94rem; }
   .ci-hero-jumps { gap:10px; }
@@ -2587,7 +2589,7 @@ body.page-config-loading .panel.active::before,
           </div>
           <div class="editor-field">
             <label class="editor-label" for="impact-editor-hero-image-custom">Hero image Git asset path</label>
-            <input id="impact-editor-hero-image-custom" type="text" placeholder="/assets/Graphic_1_mission_impact.png">
+            <input id="impact-editor-hero-image-custom" type="text" placeholder="/assets/student_photos/Master Class Student Talking 5.jpg">
             <div class="theoed-editor-row-actions">
               <button class="impact-editor-secondary" id="impact-editor-hero-image-custom-apply" type="button">Apply Hero Image</button>
             </div>
@@ -2597,6 +2599,7 @@ body.page-config-loading .panel.active::before,
               <label class="editor-label" for="impact-editor-hero-image">Preset image helper</label>
               <select id="impact-editor-hero-image">
                 <option value="">Choose a preset</option>
+                <option value="/assets/student_photos/Master Class Student Talking 5.jpg">Master Class student photo</option>
                 <option value="/assets/Graphic_1_mission_impact.png">Foundry illustration</option>
                 <option value="/assets/Graphic Vignettes/vignette-city-life-banner.png">City life banner</option>
                 <option value="/assets/Graphic Vignettes/homepage-tablet-standing-seated.png">Tablet vignette</option>
@@ -2608,6 +2611,7 @@ body.page-config-loading .panel.active::before,
               <select id="impact-editor-hero-image-position">
                 <option value="left center">Left</option>
                 <option value="center center">Center</option>
+                <option value="center 30%">Center high</option>
                 <option value="center right">Right</option>
                 <option value="right bottom">Right bottom</option>
               </select>
@@ -6813,16 +6817,16 @@ var IMPACT_EDITOR_DEFAULTS = {
     kicker: '',
     headline: 'The Foundry strengthens Candler from the inside out',
     body: 'The Foundry provides faculty, students, and alumni with the resources and opportunities that allow teaching and preaching ministries to thrive.',
-    image: '/assets/Graphic Vignettes/vignette-city-life-banner.png',
-    imagePosition: 'center center',
+    image: '/assets/student_photos/Master Class Student Talking 5.jpg',
+    imagePosition: 'center 30%',
     imageMode: 'cover',
     imageScale: 230,
-    imageOpacity: 0.85,
+    imageOpacity: 0.95,
     imageOffsetX: 0,
     imageOffsetY: 0,
     imageClarity: 0,
-    imageFadeLeft: 48,
-    imageFadeRight: 10,
+    imageFadeLeft: 56,
+    imageFadeRight: 12,
     imageEdgeFeatherLeft: 120,
     imageEdgeFeatherRight: 120,
     offsetX: 0,
@@ -7355,7 +7359,7 @@ function impactApplyCssVars(config) {
   panel.style.setProperty('--ci-card-quote-size', (config.typography.quoteSize || 1.28) + 'rem');
   panel.style.setProperty('--ci-card-support-size', (config.typography.supportSize || 0.96) + 'rem');
   panel.style.setProperty('--ci-card-name-size', (config.typography.nameSize || 0.9) + 'rem');
-  panel.style.setProperty('--ci-hero-image-url', 'url("' + (heroConfig.image || '/assets/Graphic Vignettes/vignette-city-life-banner.png') + '")');
+  panel.style.setProperty('--ci-hero-image-url', 'url("' + (heroConfig.image || '/assets/student_photos/Master Class Student Talking 5.jpg') + '")');
   panel.style.setProperty('--ci-hero-image-position', heroConfig.imagePosition || 'center center');
   var _imgMode = heroConfig.imageMode || 'cover';
   var _imgScale = heroConfig.imageScale != null ? heroConfig.imageScale : 110;
@@ -7364,7 +7368,7 @@ function impactApplyCssVars(config) {
   else if (_imgMode === 'contain') _imgSize = 'contain';
   else _imgSize = 'auto ' + _imgScale + '%';
   panel.style.setProperty('--ci-hero-image-size', _imgSize);
-  panel.style.setProperty('--ci-hero-image-opacity', String(heroConfig.imageOpacity != null ? heroConfig.imageOpacity : 0.85));
+  panel.style.setProperty('--ci-hero-image-opacity', String(heroConfig.imageOpacity != null ? heroConfig.imageOpacity : 0.95));
   panel.style.setProperty('--ci-hero-image-offset-x', ((heroConfig.imageOffsetX != null ? heroConfig.imageOffsetX : 0)) + 'px');
   panel.style.setProperty('--ci-hero-image-offset-y', ((heroConfig.imageOffsetY != null ? heroConfig.imageOffsetY : 0)) + 'px');
   panel.style.setProperty('--ci-hero-image-clarity', String(heroConfig.imageClarity != null ? heroConfig.imageClarity : 0));
@@ -7373,10 +7377,14 @@ function impactApplyCssVars(config) {
   panel.style.setProperty('--ci-hero-copy-offset-x', ((heroConfig.offsetX || 0)) + 'px');
   panel.style.setProperty('--ci-hero-copy-offset', ((heroConfig.offsetY || 0)) + 'px');
   if (window.pageEditorApplyHeroEdgeVars && heroRoot) {
+    var _edgeSize;
+    if (_imgMode === 'cover') _edgeSize = { mode: 'cover' };
+    else if (_imgMode === 'contain') _edgeSize = { mode: 'contain' };
+    else _edgeSize = { heightPercent: _imgScale };
     window.pageEditorApplyHeroEdgeVars({
       root: heroRoot,
-      image: heroConfig.image || '/assets/Graphic Vignettes/vignette-city-life-banner.png',
-      size: { heightPercent: heroConfig.imageScale != null ? heroConfig.imageScale : 110 },
+      image: heroConfig.image || '/assets/student_photos/Master Class Student Talking 5.jpg',
+      size: _edgeSize,
       posX: impactHeroPositionXPercent(heroConfig.imagePosition),
       offsetX: heroConfig.imageOffsetX != null ? heroConfig.imageOffsetX : 0,
       leftFeather: heroConfig.imageEdgeFeatherLeft != null ? heroConfig.imageEdgeFeatherLeft : 120,
@@ -8322,7 +8330,7 @@ function impactPopulateEditorFields() {
   document.getElementById('impact-editor-hero-kicker').value = hero.kicker || '';
   document.getElementById('impact-editor-hero-headline').value = hero.headline || '';
   document.getElementById('impact-editor-hero-body').value = hero.body || '';
-  var impHeroImg = hero.image || '/assets/Graphic Vignettes/vignette-city-life-banner.png';
+  var impHeroImg = hero.image || '/assets/student_photos/Master Class Student Talking 5.jpg';
   var impHeroSelect = document.getElementById('impact-editor-hero-image');
   if (impHeroSelect) {
     impHeroSelect.value = impHeroImg;
@@ -8335,8 +8343,8 @@ function impactPopulateEditorFields() {
   if (_impHeroMode) _impHeroMode.value = hero.imageMode || 'cover';
   document.getElementById('impact-editor-hero-image-scale').value = hero.imageScale != null ? hero.imageScale : 110;
   document.getElementById('impact-editor-hero-image-scale-value').textContent = Math.round(hero.imageScale != null ? hero.imageScale : 110) + '%';
-  document.getElementById('impact-editor-hero-image-opacity').value = hero.imageOpacity != null ? hero.imageOpacity : 0.85;
-  document.getElementById('impact-editor-hero-image-opacity-value').textContent = impactFormatPercent((hero.imageOpacity != null ? hero.imageOpacity : 0.85));
+  document.getElementById('impact-editor-hero-image-opacity').value = hero.imageOpacity != null ? hero.imageOpacity : 0.95;
+  document.getElementById('impact-editor-hero-image-opacity-value').textContent = impactFormatPercent((hero.imageOpacity != null ? hero.imageOpacity : 0.95));
   document.getElementById('impact-editor-hero-image-offset-x').value = hero.imageOffsetX != null ? hero.imageOffsetX : 0;
   document.getElementById('impact-editor-hero-image-offset-x-value').textContent = ((hero.imageOffsetX != null ? hero.imageOffsetX : 0) > 0 ? '+' : '') + (hero.imageOffsetX != null ? hero.imageOffsetX : 0) + 'px';
   document.getElementById('impact-editor-hero-image-offset-y').value = hero.imageOffsetY != null ? hero.imageOffsetY : 0;
