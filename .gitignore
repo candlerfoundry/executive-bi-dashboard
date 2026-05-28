@@ -4,6 +4,10 @@
 .git-token.txt
 .vimeo-token.txt
 
+# Personal Claude Code settings (project settings.json can be committed,
+# but settings.local.json holds per-user overrides like permission rules)
+.claude/settings.local.json
+
 # Local working scratchpads (untracked by convention; see CANONICAL section 20)
 .codex-review/
 test-results/
