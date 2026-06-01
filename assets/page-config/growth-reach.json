@@ -181,5 +181,116 @@
         "count": "30% ~22 partners"
       }
     ]
+  },
+  "map": {
+    "title": "Where Our Learners Are",
+    "sub": "Learner locations by state",
+    "tiers": [
+      {
+        "min": 0,
+        "color": "#c8d0d8"
+      },
+      {
+        "min": 1,
+        "color": "#e8a898"
+      },
+      {
+        "min": 10,
+        "color": "#d4705a"
+      },
+      {
+        "min": 50,
+        "color": "#c84826"
+      },
+      {
+        "min": 200,
+        "color": "#8b2800"
+      }
+    ],
+    "byState": {
+      "AK": 2,
+      "AL": 40,
+      "AR": 10,
+      "AZ": 11,
+      "CA": 146,
+      "CO": 23,
+      "CT": 16,
+      "DC": 17,
+      "DE": 2,
+      "FL": 265,
+      "GA": 1658,
+      "HI": 2,
+      "IA": 8,
+      "ID": 1,
+      "IL": 61,
+      "IN": 23,
+      "KS": 9,
+      "KY": 13,
+      "LA": 14,
+      "MA": 116,
+      "MD": 33,
+      "ME": 5,
+      "MI": 30,
+      "MN": 28,
+      "MO": 24,
+      "MS": 18,
+      "MT": 5,
+      "NC": 148,
+      "ND": 1,
+      "NE": 5,
+      "NH": 4,
+      "NJ": 42,
+      "NM": 7,
+      "NV": 6,
+      "NY": 69,
+      "OH": 26,
+      "OK": 48,
+      "OR": 17,
+      "PA": 54,
+      "RI": 3,
+      "SC": 46,
+      "SD": 1,
+      "TN": 139,
+      "TX": 168,
+      "UT": 2,
+      "VA": 67,
+      "VT": 5,
+      "WA": 35,
+      "WI": 16,
+      "WV": 11,
+      "WY": 2
+    },
+    "international": {
+      "total": 105,
+      "countries": 22,
+      "byCountry": {
+        "Canada": 35,
+        "Indonesia": 19,
+        "United Kingdom": 8,
+        "South Korea": 7,
+        "Venezuela": 6,
+        "Hong Kong": 6,
+        "Singapore": 3,
+        "China": 3,
+        "Australia": 3,
+        "Philippines": 2,
+        "Zambia": 2,
+        "India": 1,
+        "Ghana": 1,
+        "Taiwan": 1,
+        "Costa Rica": 1,
+        "Kenya": 1,
+        "Netherlands": 1,
+        "New Zealand": 1,
+        "Germany": 1,
+        "Belgium": 1,
+        "Austria": 1,
+        "Japan": 1
+      }
+    },
+    "meta": {
+      "located": 3502,
+      "total": 4203
+    }
   }
 }

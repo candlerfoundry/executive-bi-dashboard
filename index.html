@@ -253,6 +253,8 @@ body.page-config-loading .panel.active::before,
 .gr-legend-item { display:flex; align-items:center; gap:6px; }
 .gr-legend-swatch { width:16px; height:16px; border-radius:3px; flex-shrink:0; }
 .gr-legend-label { font-size:13px; color:#1e2530; font-family:'Montserrat',sans-serif; }
+.gr-map-intl { margin-top:12px; font-size:13px; font-weight:600; color:#1e2530; font-family:'Montserrat',sans-serif; }
+.gr-map-note { margin-top:4px; font-size:11px; color:rgba(30,37,48,0.55); font-family:'Montserrat',sans-serif; }
 .gr-map-tooltip { position:fixed; background:#fff; color:#1e2530; font-size:13px; font-family:'Montserrat',sans-serif; padding:6px 12px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.18); pointer-events:none; opacity:0; transition:opacity 0.15s; z-index:9999; white-space:nowrap; }
 .gr-map-tooltip.show { opacity:1; }
 /* Growth and Reach — Row 3: Denom + Cities */
@@ -9244,6 +9246,7 @@ function growthApplyConfig(config) {
   growthRenderStatsGrid(config);
   growthRenderDenominations(config);
   growthRenderChurchSizes(config);
+  growthRenderMap(config);
   if (typeof growthResetBarsAnimation === 'function') growthResetBarsAnimation();
 }
 
@@ -9338,6 +9341,66 @@ function growthRenderDenominations(config) {
     + '<div class="gr-col-title">' + title + '</div>'
     + (note ? '<div class="gr-col-note">' + note + '</div>' : '')
     + rowsHtml;
+}
+
+function growthRenderMap(config) {
+  var map = (config && config.map) || null;
+  if (!map || !map.byState) return;
+  var byState = map.byState;
+  var tiers = (Array.isArray(map.tiers) && map.tiers.length)
+    ? map.tiers.slice().sort(function(a, b) { return (a.min || 0) - (b.min || 0); })
+    : null;
+  function colorFor(count) {
+    if (!tiers) return null;
+    var col = tiers[0].color;
+    for (var i = 0; i < tiers.length; i++) { if (count >= (tiers[i].min || 0)) col = tiers[i].color; }
+    return col;
+  }
+  var col = document.querySelector('#panel-numreach .gr-map-col');
+  if (!col) return;
+  var svg = col.querySelector('.gr-map-svg-wrap svg');
+  if (svg) {
+    var paths = svg.querySelectorAll('.gr-map-state');
+    for (var i = 0; i < paths.length; i++) {
+      var p = paths[i];
+      var abbr = p.getAttribute('data-abbr');
+      if (!abbr) continue;
+      var count = (byState[abbr] != null) ? byState[abbr] : 0;
+      p.setAttribute('data-count', String(count));
+      var c = colorFor(count);
+      if (c) p.setAttribute('fill', c);
+    }
+  }
+  var titleEl = col.querySelector('.gr-map-title');
+  var subEl = col.querySelector('.gr-map-sub');
+  if (titleEl && map.title) titleEl.textContent = map.title;
+  if (subEl && map.sub) subEl.textContent = map.sub;
+  var intl = map.international || {};
+  var capEl = document.getElementById('gr-map-intl');
+  if (!capEl) {
+    capEl = document.createElement('div');
+    capEl.id = 'gr-map-intl';
+    capEl.className = 'gr-map-intl';
+    col.appendChild(capEl);
+  }
+  if (intl.total) {
+    capEl.textContent = '+ ' + Number(intl.total).toLocaleString()
+      + ' international learners across ' + (intl.countries || 0) + ' countries';
+    capEl.hidden = false;
+  } else { capEl.hidden = true; }
+  var meta = map.meta || {};
+  var noteEl = document.getElementById('gr-map-note');
+  if (!noteEl) {
+    noteEl = document.createElement('div');
+    noteEl.id = 'gr-map-note';
+    noteEl.className = 'gr-map-note';
+    col.appendChild(noteEl);
+  }
+  if (meta.located) {
+    noteEl.textContent = 'U.S. map reflects the ' + Number(meta.located).toLocaleString()
+      + ' learners with a state on file.';
+    noteEl.hidden = false;
+  } else { noteEl.hidden = true; }
 }
 
 function growthRenderChurchSizes(config) {

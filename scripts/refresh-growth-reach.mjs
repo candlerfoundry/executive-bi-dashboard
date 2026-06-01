@@ -160,6 +160,108 @@ const GROWTH_SOURCES = {
   podcast:            { tableId: 'tbloVdhcMFMaMw5KC', viewId: 'viwCvQIWI6Q5mYYVY',                  format: n => n,                  label: 'Podcast Episodes' },
 };
 
+// ---- Map: learners by state (table tbl0jx0urjA5KINjA, "Student Insights (Individual)") ----
+// State/City/ZIP are multipleLookupValues (arrays). State holds 2-letter codes with
+// inconsistent case + typos; some rows have no geo. There is no Country field, so
+// international learners are routed by an explicit token map. Keep these tables in sync
+// with CANONICAL.md section 32. Unknown foreign tokens fall to "unresolved" — extend the
+// INTL map as new countries appear (the summary email lists the top unresolved tokens).
+const MAP_TABLE = 'tbl0jx0urjA5KINjA';
+const MAP_US = new Set(['AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA','HI','ID','IL','IN','IA','KS','KY','LA','ME','MD','MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ','NM','NY','NC','ND','OH','OK','OR','PA','RI','SC','SD','TN','TX','UT','VT','VA','WA','WV','WI','WY','DC']);
+const MAP_FULL = {
+  'ALABAMA':'AL','ALASKA':'AK','ARIZONA':'AZ','ARKANSAS':'AR','CALIFORNIA':'CA','COLORADO':'CO','CONNECTICUT':'CT','DELAWARE':'DE','FLORIDA':'FL','GEORGIA':'GA','HAWAII':'HI','IDAHO':'ID','ILLINOIS':'IL','INDIANA':'IN','IOWA':'IA','KANSAS':'KS','KENTUCKY':'KY','LOUISIANA':'LA','MAINE':'ME','MARYLAND':'MD','MASSACHUSETTS':'MA','MICHIGAN':'MI','MINNESOTA':'MN','MISSISSIPPI':'MS','MISSOURI':'MO','MONTANA':'MT','NEBRASKA':'NE','NEVADA':'NV','NEW HAMPSHIRE':'NH','NEW JERSEY':'NJ','NEW MEXICO':'NM','NEW YORK':'NY','NORTH CAROLINA':'NC','NORTH DAKOTA':'ND','OHIO':'OH','OKLAHOMA':'OK','OREGON':'OR','PENNSYLVANIA':'PA','RHODE ISLAND':'RI','SOUTH CAROLINA':'SC','SOUTH DAKOTA':'SD','TENNESSEE':'TN','TEXAS':'TX','UTAH':'UT','VERMONT':'VT','VIRGINIA':'VA','WASHINGTON':'WA','WEST VIRGINIA':'WV','WISCONSIN':'WI','WYOMING':'WY','DISTRICT OF COLUMBIA':'DC','WASHINGTON DC':'DC','WASHINGTON D.C.':'DC','WASHINGTON, DC':'DC',
+};
+const MAP_VARIANT = {
+  'GEOEGIA':'GA','GEORGIAI':'GA','GA.':'GA','GA,':'GA','TENNESEE':'TN','TENNESSE':'TN','TN.':'TN','OKLAHMA':'OK','MASS':'MA','MASS.':'MA','ILL':'IL','ILL.':'IL','N C':'NC','N.C.':'NC','NC.':'NC','NV.':'NV','NE.':'NE','CO.':'CO','AL.':'AL','WASHINGTONB':'WA',
+};
+const MAP_PLACE = {
+  'FULTON':'GA','DEKALB':'GA','COBB':'GA','GWINNETT':'GA','CLAYTON':'GA','BROWARD':'FL','MINNEAPOLIS':'MN',
+};
+const MAP_INTL = {
+  'ON':'Canada','ONTARIO':'Canada','BC':'Canada','BRITISH COLUMBIA':'Canada','AB':'Canada','ALBERTA':'Canada','MB':'Canada','MANITOBA':'Canada','QC':'Canada','QUEBEC':'Canada','SK':'Canada','SASKATCHEWAN':'Canada','NB':'Canada','NEW BRUNSWICK':'Canada','NS':'Canada','NL':'Canada','PE':'Canada','CANADA':'Canada',
+  'INDONESIA':'Indonesia','JAKARTA':'Indonesia','DKI JAKARTA':'Indonesia','NORTH JAKARTA':'Indonesia','WEST JAVA':'Indonesia','CENTRAL JAVA':'Indonesia','EAST JAVA':'Indonesia','JAWA TENGAH':'Indonesia','JAWA TIMUR':'Indonesia','JAWA BARAT':'Indonesia','YOGYAKARTA':'Indonesia','WEST SUMATRA':'Indonesia','EAST KALIMANTAN':'Indonesia','EAST NUSA TENGGARA':'Indonesia','DEPOK':'Indonesia','-- SELECT STATE --INDONESIA':'Indonesia',
+  'ENGLAND':'United Kingdom','WEST MIDLANDS':'United Kingdom','CHESHIRE':'United Kingdom','AVON':'United Kingdom','FIFE':'United Kingdom','STIRLING':'United Kingdom','LONDON':'United Kingdom','KENT':'United Kingdom',
+  'SEOUL':'South Korea','GYEONGGI-DO':'South Korea','KOREA':'South Korea',
+  'SINGAPORE':'Singapore','HONG KONG':'Hong Kong','HONG KONG SAR':'Hong Kong','KOWLOON':'Hong Kong','HK':'Hong Kong','SHANGHAI':'China','HUBEI':'China','TOKYO':'Japan','TAOYUAN':'Taiwan',
+  'NSW':'Australia','QLD':'Australia','VIC':'Australia','METRO MANILA':'Philippines','PHILIPPINES':'Philippines','NUEVA ESPARTA':'Venezuela','CARABOBO':'Venezuela','COPPERBELT':'Zambia','LUSAKA PROVINCE':'Zambia','GHANA':'Ghana','NAIROBI':'Kenya','KERALA':'India','LIMON':'Costa Rica','NOORD HOLLAND':'Netherlands','BRUSSELS':'Belgium','BAVARIA':'Germany','VIENN':'Austria','VIENNA':'Austria','OTAGO':'New Zealand',
+};
+const MAP_TERRITORY = new Set(['PR','PUERTO RICO','GU','GUAM','VI','AS','MP']);
+const MAP_ZIP_RANGES = [
+  [6,9,'PR'],[10,27,'MA'],[28,29,'RI'],[30,38,'NH'],[39,49,'ME'],[50,59,'VT'],[60,69,'CT'],[70,89,'NJ'],[100,149,'NY'],[150,196,'PA'],[197,199,'DE'],[200,205,'DC'],[206,219,'MD'],[220,246,'VA'],[247,268,'WV'],[270,289,'NC'],[290,299,'SC'],[300,319,'GA'],[320,349,'FL'],[350,369,'AL'],[370,385,'TN'],[386,397,'MS'],[398,399,'GA'],[400,427,'KY'],[430,459,'OH'],[460,479,'IN'],[480,499,'MI'],[500,528,'IA'],[530,549,'WI'],[550,567,'MN'],[570,577,'SD'],[580,588,'ND'],[590,599,'MT'],[600,629,'IL'],[630,658,'MO'],[660,679,'KS'],[680,693,'NE'],[700,714,'LA'],[716,729,'AR'],[730,749,'OK'],[750,799,'TX'],[800,816,'CO'],[820,831,'WY'],[832,838,'ID'],[840,847,'UT'],[850,865,'AZ'],[870,884,'NM'],[889,898,'NV'],[900,961,'CA'],[967,968,'HI'],[969,969,'GU'],[970,979,'OR'],[980,994,'WA'],[995,999,'AK'],
+];
+function mapZipToState(raw) {
+  if (raw == null) return null;
+  const digits = String(raw).replace(/[^0-9]/g, '');
+  if (digits.length < 3) return null;
+  const p = parseInt(digits.slice(0, 3), 10);
+  if (!Number.isFinite(p)) return null;
+  for (const [lo, hi, st] of MAP_ZIP_RANGES) if (p >= lo && p <= hi) return st;
+  return null;
+}
+function mapFirstVal(v) {
+  if (Array.isArray(v)) { for (const x of v) if (x !== null && x !== undefined && x !== '') return x; return null; }
+  return (v === '' || v === undefined) ? null : v;
+}
+function mapClassify(fields) {
+  const rawState = mapFirstVal(fields['State']);
+  const zip = mapFirstVal(fields['ZIP']) ?? mapFirstVal(fields['ZIP for Mailing Labels']);
+  if (rawState != null) {
+    const s = String(rawState).trim().toUpperCase().replace(/\s+/g, ' ');
+    if (/^\d{3,5}(-\d{4})?$/.test(s.replace(/\s/g, ''))) {
+      const st = mapZipToState(s);
+      if (st && MAP_US.has(st)) return { kind: 'US', code: st };
+      if (st && MAP_TERRITORY.has(st)) return { kind: 'TERRITORY' };
+    }
+    const stripDot = s.replace(/\.+$/, '').trim();
+    if (MAP_US.has(s)) return { kind: 'US', code: s };
+    if (MAP_US.has(stripDot)) return { kind: 'US', code: stripDot };
+    if (MAP_FULL[s]) return { kind: 'US', code: MAP_FULL[s] };
+    if (MAP_VARIANT[s]) return { kind: 'US', code: MAP_VARIANT[s] };
+    if (MAP_PLACE[s]) return { kind: 'US', code: MAP_PLACE[s] };
+    if (MAP_INTL[s]) return { kind: 'INTL', code: MAP_INTL[s] };
+    if (MAP_TERRITORY.has(s)) return { kind: 'TERRITORY' };
+    if (s === 'UNITED STATES' || s === 'USA' || s === 'US' || s === 'U.S.A.' || s === 'U.S.') {
+      const st = mapZipToState(zip);
+      if (st && MAP_US.has(st)) return { kind: 'US', code: st };
+      return { kind: 'US_NOSTATE' };
+    }
+    const codeMatch = s.match(/\b([A-Z]{2})\b/g);
+    if (codeMatch) {
+      for (const c of codeMatch) if (MAP_US.has(c)) return { kind: 'US', code: c };
+      for (const c of codeMatch) if (MAP_INTL[c]) return { kind: 'INTL', code: MAP_INTL[c] };
+    }
+    const st2 = mapZipToState(s);
+    if (st2 && MAP_US.has(st2)) return { kind: 'US', code: st2 };
+    return { kind: 'UNRESOLVED', token: s };
+  }
+  const st = mapZipToState(zip);
+  if (st && MAP_US.has(st)) return { kind: 'US', code: st };
+  if (st && MAP_TERRITORY.has(st)) return { kind: 'TERRITORY' };
+  return { kind: 'UNRESOLVED', token: null };
+}
+function aggregateMapByState(records) {
+  const byState = {}; for (const s of MAP_US) byState[s] = 0;
+  const intl = {};
+  let usTotal = 0, intlTotal = 0;
+  const unresolved = {};
+  for (const r of records) {
+    const c = mapClassify(r.fields || {});
+    if (c.kind === 'US') { byState[c.code]++; usTotal++; }
+    else if (c.kind === 'INTL') { intl[c.code] = (intl[c.code] || 0) + 1; intlTotal++; }
+    else if (c.kind === 'UNRESOLVED' && c.token) { unresolved[c.token] = (unresolved[c.token] || 0) + 1; }
+  }
+  // sort state keys A–Z and country keys by count desc for stable diffs
+  const sortedStates = {}; for (const s of [...MAP_US].sort()) sortedStates[s] = byState[s];
+  const byCountry = {}; for (const [k, v] of Object.entries(intl).sort((a, b) => b[1] - a[1])) byCountry[k] = v;
+  const topUnresolved = Object.entries(unresolved).sort((a, b) => b[1] - a[1]).slice(0, 12).map(([t, n]) => `${t}(${n})`);
+  return {
+    byState: sortedStates,
+    international: { total: intlTotal, countries: Object.keys(byCountry).length, byCountry },
+    meta: { located: usTotal, total: records.length },
+    topUnresolved,
+  };
+}
+
 async function refreshGrowthReach() {
   const raw = await fs.readFile(GROWTH_PATH, 'utf-8');
   const cfg = JSON.parse(raw);
@@ -212,6 +314,32 @@ async function refreshGrowthReach() {
       o => ((o.stats || []).find(s => s.id === id) || {}).value,
       async () => src.format(await airtableCount(src.tableId, src.viewId, src.filterByFormula)),
       v => { stat.value = Number(v) || 0; });
+  }
+
+  // Map: learners by state (rewrites cfg.map.byState / international / meta; keeps tiers + copy)
+  if (cfg.map && cfg.map.byState) {
+    try {
+      const recs = await airtableFetchAll(MAP_TABLE);
+      const agg = aggregateMapByState(recs);
+      if (Object.keys(agg.byState).length) {
+        const beforeJson = JSON.stringify({ b: cfg.map.byState, i: cfg.map.international, m: cfg.map.meta });
+        const beforeStr = `${(cfg.map.meta && cfg.map.meta.located) || 0} located`;
+        cfg.map.byState = agg.byState;
+        cfg.map.international = agg.international;
+        cfg.map.meta = agg.meta;
+        const afterJson = JSON.stringify({ b: cfg.map.byState, i: cfg.map.international, m: cfg.map.meta });
+        const afterStr = `${agg.meta.located} located, ${agg.international.total} international`;
+        if (afterJson === beforeJson) {
+          changes.push({ label: 'Map (learners by state)', status: 'unchanged', beforeStr });
+        } else {
+          changes.push({ label: 'Map (learners by state)', status: 'changed', beforeStr, afterStr });
+          touched++;
+        }
+        if (agg.topUnresolved.length) console.log('  map: top unresolved State tokens →', agg.topUnresolved.join(', '));
+      }
+    } catch (err) {
+      changes.push({ label: 'Map (learners by state)', status: 'failed', beforeStr: 'kept previous', error: err.message });
+    }
   }
 
   // Recompute Churches We Serve against latest Church Partners number
