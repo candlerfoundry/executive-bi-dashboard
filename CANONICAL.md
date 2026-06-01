@@ -931,6 +931,32 @@ This pre-processing is essential — without it, the browser downscales 3-6MB so
 
 ---
 
+## 33. THIS YEAR CARD BACK RESPONSIVE SCALING (2026-06-01)
+**Rule:** The This Year's Courses card fronts/grid are approved and should not be changed when fixing back-face text overflow. The front layout remains the existing card geometry: four cards per row at tablet/laptop/desktop widths, with the existing breakpoint/aspect-ratio behavior. Back-face fixes should scale the back content only.
+
+**What changed:** The back-face responsive stat selectors in [index.html](C:/Scripts/executive-bi-dashboard/index.html) now target the real markup classes, `.ty-back-num` and `.ty-back-lbl`. A previous proportional-scaling block targeted nonexistent `.ty-card-stat-num` / `.ty-card-stat-label` classes, so the enrollment numbers stayed full-size and squeezed the italic course-framing question to zero height at narrow four-column widths. `.ty-flip` is now a container query container, and a `@container (max-width: 320px)` block compacts only the back-face padding, type, stat row, and CTA when an individual card gets narrow.
+
+**Small-card rule spacing follow-up:** The orange divider on This Year card backs was widened from 72px to 144px in the base card-back style, with more space above and below it. The compact container rule also uses a proportionally longer divider and roomier vertical spacing while preserving the no-overflow behavior on narrow four-column cards.
+
+**Files touched:** `index.html`; `CANONICAL.md`.
+
+**Editable data locations:** This Year's published course data still lives in [assets/page-config/this-year.json](C:/Scripts/executive-bi-dashboard/assets/page-config/this-year.json). The monthly Airtable refresh rewrites script-managed `stats` values plus the full `courses[]` array and downloaded card images. This scaling fix does not require JSON changes and should not hand-edit script-managed values.
+
+**Editor workflow notes:** Git-backed content remains the baseline. The This Year editor should continue to show browser drafts explicitly rather than auto-applying them, and Publish to Main remains the only path that writes approved edits to GitHub main.
+
+**Warnings for future assistants:**
+- Do not change `.ty-courses-grid`, card count, front artwork, or front aspect behavior to solve this back-face issue.
+- Do not remove `container-type: inline-size` from `.ty-flip`; the compact back-face scaling depends on card width, not viewport width alone.
+- Keep the real stat class names in sync with `thisYearRenderCard()` (`.ty-back-num`, `.ty-back-lbl`). Reintroducing stale selector names silently disables the scaling.
+- Do not edit Airtable-managed `this-year.json` values or the `courses[]` array for a layout-only fix.
+
+**Testing performed:**
+- Reproduced pre-fix overflow with browser measurements: at 768px and 1200-1280px the first back face had zero-height description and/or the CTA outside the card.
+- Headless Playwright verification after the fix across 430, 768, 1200, 1280, 1366, and 1920px: all 11 This Year card backs had no scroll overflow, visible description height, and CTAs inside their cards; no console errors.
+- Visual screenshots reviewed at 768, 1200, and 1920px with all This Year cards flipped.
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
 [ ] Mission grid layout: card-back--grid CSS scoped, buildGridBackHtml shared between renderOfferings and renderOfferingsWithConfig, buildMissionState plumbs tileStyle + cardBackVariant + gridItems + cardLabelStyle
 [ ] Tile labels: cbg-tile-label--{theoed,podcast,unstuck} render correctly; cb-cta chevron suppressed via cbg-tile::after { content:none !important }
