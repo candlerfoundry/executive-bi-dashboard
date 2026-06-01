@@ -254,7 +254,6 @@ body.page-config-loading .panel.active::before,
 .gr-legend-swatch { width:16px; height:16px; border-radius:3px; flex-shrink:0; }
 .gr-legend-label { font-size:13px; color:#1e2530; font-family:'Montserrat',sans-serif; }
 .gr-map-intl { margin-top:12px; font-size:13px; font-weight:600; color:#1e2530; font-family:'Montserrat',sans-serif; }
-.gr-map-note { margin-top:4px; font-size:11px; color:rgba(30,37,48,0.55); font-family:'Montserrat',sans-serif; }
 .gr-map-tooltip { position:fixed; background:#fff; color:#1e2530; font-size:13px; font-family:'Montserrat',sans-serif; padding:6px 12px; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.18); pointer-events:none; opacity:0; transition:opacity 0.15s; z-index:9999; white-space:nowrap; }
 .gr-map-tooltip.show { opacity:1; }
 /* Growth and Reach — Row 3: Denom + Cities */
@@ -9388,19 +9387,6 @@ function growthRenderMap(config) {
       + ' international learners across ' + (intl.countries || 0) + ' countries';
     capEl.hidden = false;
   } else { capEl.hidden = true; }
-  var meta = map.meta || {};
-  var noteEl = document.getElementById('gr-map-note');
-  if (!noteEl) {
-    noteEl = document.createElement('div');
-    noteEl.id = 'gr-map-note';
-    noteEl.className = 'gr-map-note';
-    col.appendChild(noteEl);
-  }
-  if (meta.located) {
-    noteEl.textContent = 'U.S. map reflects the ' + Number(meta.located).toLocaleString()
-      + ' learners with a state on file.';
-    noteEl.hidden = false;
-  } else { noteEl.hidden = true; }
 }
 
 function growthRenderChurchSizes(config) {
