@@ -1,28 +1,24 @@
 {
   "hero": {
     "title": "Growth and Reach",
-    "subtitle": "Since its founding in 2018, The Candler Foundry has grown from the ground up, extending Candler's scholarship globally to reach thousands of participants.",
+    "subtitle": "Since its founding in 2020, The Candler Foundry has grown from the ground up, extending Candler's scholarship globally to reach thousands of participants.",
     "image": "/assets/student_photos/Master Class Student Talking 4.jpg",
     "stats": [
       {
         "value": "300K+",
-        "label": "TheoEd Views",
-        "sub": "Across YouTube and the TheoEd archive"
+        "label": "TheoEd Views"
       },
       {
         "value": "4,194",
-        "label": "Individual Learners",
-        "sub": "Unique registrants since 2018"
+        "label": "Individual Learners"
       },
       {
         "value": "74",
-        "label": "Church Partners",
-        "sub": "Partner congregations"
+        "label": "Church Partners"
       },
       {
         "value": "72%",
-        "label": "Faculty Participating",
-        "sub": "Of Candler's faculty"
+        "label": "Faculty Participating"
       }
     ]
   },
@@ -61,7 +57,7 @@
       "suffix": "+",
       "prefix": "",
       "label": "Total Registrations",
-      "sub": "All programs since founding in 2018"
+      "sub": "All programs since founding in 2020"
     },
     {
       "id": "courses",
@@ -89,7 +85,7 @@
     },
     {
       "id": "programs",
-      "value": 7,
+      "value": 10,
       "suffix": "",
       "prefix": "",
       "label": "Programs Created",
@@ -122,15 +118,15 @@
     {
       "id": "years",
       "dynamic": "yearsSince",
-      "since": 2018,
+      "since": 2020,
       "label": "Years of Impact",
-      "sub": "Founded in 2018"
+      "sub": "Founded in 2020"
     }
   ],
   "denominations": {
     "eyebrow": "Faith Traditions",
     "title": "Denominational Reach",
-    "note": "Approximate — denomination not always collected at registration. Based on ~4,200 unique registrants.",
+    "note": "Approximate — denominational information not always collected at registration. Based on ~4,200 unique registrants.",
     "rows": [
       {
         "name": "Methodist / UMC",

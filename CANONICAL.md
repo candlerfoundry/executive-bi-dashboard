@@ -269,11 +269,11 @@ No-op publishes must return success, not failure, when the content is unchanged.
 ---
 
 ## 11. FOUNDING YEAR
-**Rule:** The Candler Foundry was founded in 2018, not 2019.
-All references to the founding year must use 2018.
+**Rule:** Donor-facing copy uses **2020** as The Candler Foundry's founding year — this is the official public launch (Spring 2020; see the §14 timeline). Candler hired the inaugural director in Fall 2018, but that genesis date is not the public "founding" year. (Changed 2026-06-01 per stakeholder copy review; the public founding year was previously stated as 2018.)
+All public-facing references to the founding year must use 2020.
 TheoEd event years are not the founding year.
 
-**Regression risk:** grep for `founding in 2019` before committing.
+**Regression risk:** grep for `founding in 2018`, `Founded in 2018`, and `since": 2018` before committing. Do not "correct" 2020 back to 2018 — the Fall 2018 director-hire fact lives only in the §14 timeline, not in any donor-facing founding-year claim.
 
 ---
 
@@ -341,11 +341,11 @@ Do not introduce decorative italics unless explicitly requested.
 - Courses Offered: `150`
 - TheoEd Talks Produced: `50+`
 - TheoEd Events Hosted: `14`
-- Programs Created: `7`
+- Programs Created: `10`
 - Podcast Episodes: `50`
 - Social Followers: `~6,500`
 - Email Subscribers: `~6,000`
-- Years of Impact: dynamic (`new Date().getFullYear() - 2018`), via `dynamic: "yearsSince", since: 2018`
+- Years of Impact: dynamic (`new Date().getFullYear() - 2020`), via `dynamic: "yearsSince", since: 2020` (public founding year; see §11)
 
 **Denomination breakdown (`denominations.rows[]`):**
 - Methodist / UMC: 35%
@@ -897,6 +897,40 @@ This pre-processing is essential — without it, the browser downscales 3-6MB so
 
 ---
 
+## 32. AIRTABLE DATA SYNC SCRIPTS (Growth & Reach + This Year)
+**What this is:** The *numbers* on two donor-facing pages — Growth & Reach and This Year's Courses — are refreshed automatically from Airtable once a month. The site itself never calls Airtable at runtime; it reads static JSON, so a sync outage never breaks a page. Full operator recipe: [docs/growth-reach-monthly-refresh.md](C:/Scripts/executive-bi-dashboard/docs/growth-reach-monthly-refresh.md). **This section is the canonical contract — read it before hand-editing growth-reach.json or this-year.json, because the monthly run will overwrite some fields and silently revert your edit.**
+
+**Files:**
+- `scripts/refresh-growth-reach.mjs` — the script. Two functions: `refreshGrowthReach()` and `refreshThisYear()`. The JSON-field → Airtable-source mapping lives in the `GROWTH_SOURCES` object and the `TY_FIELDS` / filter logic at the top.
+- `.github/workflows/refresh-growth-reach.yml` — cron `0 10 1 * *` (1st of month, ~6am ET) plus manual **Run workflow** (`workflow_dispatch`). Commits + pushes to `main` only if a value changed, then emails a plain-English summary to `emily.avant@emory.edu`.
+- Airtable base `appiL0Z2RilcAT2Cw` (Candler Foundry: Master CRM). Email via `GMAIL_APP_PASSWORD`.
+
+**HOW AIRTABLE ACCESS WORKS — two separate paths; do not confuse them.** This has been a recurring point of confusion, so it is spelled out here.
+
+1. **The automation (GitHub Actions → "Git pulls Airtable data").** The workflow reads the token from an environment variable; `refresh-growth-reach.mjs` line ~24 is `const PAT = process.env.AIRTABLE_PAT;`. The workflow injects it from a **GitHub repository Secret** (`.yml` line ~48: `AIRTABLE_PAT: ${{ secrets.AIRTABLE_PAT }}`). The PAT must be **fine-grained, scoped to base `appiL0Z2RilcAT2Cw` with `data.records:read`**.
+   - **NEVER hardcode the PAT into the script or any committed file.** GitHub and Airtable both run secret-scanners that auto-revoke tokens found in code, so a committed token will silently die — which presents as "the refresh keeps breaking." The token's only correct home is GitHub Secrets.
+   - **To set/rotate it:** GitHub repo → Settings → Secrets and variables → Actions → `AIRTABLE_PAT` (New/Update repository secret). Test via Actions tab → *Monthly dashboard refresh* → **Run workflow**; the log prints one ✓/✗ per field.
+   - **Most common failure:** the monthly email says *"missing Airtable token"* → the GitHub Secret is unset or the PAT expired. This is independent of any PAT created for the MCP connector below. Creating Airtable PATs does nothing for the automation until one is registered as this GitHub Secret.
+2. **Claude in-session (the MCP connector).** Claude Code reaches the same base through the **Airtable MCP connector** (Path B), used to inspect schema, prototype rollups, and even compute/write data directly into the page-config JSON without the GitHub Secret. Confirmed working 2026-06-01 (listed base, read *Student Insights (Individual)*, pulled live records). This is a *different* credential path than the automation; a working MCP connector does **not** imply the GitHub Secret is set, and vice-versa.
+
+**⚠️ Script-managed fields — DO NOT hand-edit (the monthly run rewrites the `.value`):**
+- growth-reach.json: `hero.stats[1].value` (Individual Learners), `hero.stats[2].value` (Church Partners); grid `registrations` / `courses` / `theoed-talks` / `podcast` `.value`; and `churchSizes.rows[].count` (recomputed from the partner total).
+- this-year.json: `stats` `courses` / `enrollments` / `alumni` / `revenue` `.value`; plus the entire `courses[]` tile array and its downloaded images in `assets/this-year-cards/`.
+
+**Safe to hand-edit (the script never touches these):** every `label`, `sub`, and `subtitle`; the `years` stat (`since` / dynamic); `programs` (Programs Created — manual); `social`, `email`, `theoed-events`; hero `TheoEd Views` and `Faculty Participating`; the whole `denominations` block; all hero copy. (This is exactly why the 2026-06-01 copy edits — founding year → 2020, Programs Created 7→10, removed hero sub-captions, revenue sub qualifier — are safe from the refresh.)
+
+**Failure handling:** a per-field Airtable error keeps the last good JSON value and logs a warning; a total failure leaves the file untouched and emails the operator. Fallback of last resort: if the JSON is unreadable the page renders `GROWTH_EDITOR_DEFAULTS` from index.html.
+
+**PLANNED (not yet built) — Map: "Where Our Learners Are" by state.**
+- **Current state is dummy data.** The US map is 51 hardcoded `<path class="gr-map-state" data-abbr=… data-count=… fill=…>` elements in index.html (~lines 2473-2523). Both the counts AND the tier `fill` colors are baked in; JS only powers the hover tooltip. Nothing reads it from config or Airtable.
+- **Target:** a new `refreshMapByState()` reads the **"Student Insights (Individual)"** table (one row = one student), groups by the **"State"** field, and writes per-state counts into growth-reach.json under a new `mapByState` key. Where `State` is blank, infer from the ZIP or City fields. On render the page sets each path's `data-count` + `fill` from `mapByState` via a tier function.
+- **Schema (confirmed via MCP 2026-06-01):** table id `tbl0jx0urjA5KINjA` — the *same* table the script already counts for the "Individual Learners" hero stat. The `State`, `City`, `ZIP` fields (plus `City for Mailing Labels`, `ZIP for Mailing Labels`, `Address 1/2`) are **`multipleLookupValues`**, i.e. the API returns each as an **array** (e.g. `["GA"]`) — unwrap to the first non-empty element. `State` holds **2-letter codes but with inconsistent case** (`GA`, `SC`, `AL`, but also `"Tn"`) → normalize with `.toUpperCase()`. Some rows have **no geo at all** (no State/ZIP/City) → bucket as `unresolved`, do not silently drop. **There is no Country field**, so international learners must be identified by an explicit rule (pending owner guidance) — likely State blank/non-US plus a non-US ZIP/City, not a country column.
+- **US states with zero learners stay gray** — a new Tier 0 the map currently lacks. This gray is the deliberate fix for the misleading "participants in every state" look.
+- **International learners are handled separately** — never shaded onto the US map. If the count is meaningful, surface it as its own stat/caption (placement TBD).
+- Tier thresholds belong in config (`mapTiers`) so they're tunable without code changes.
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
 [ ] Mission grid layout: card-back--grid CSS scoped, buildGridBackHtml shared between renderOfferings and renderOfferingsWithConfig, buildMissionState plumbs tileStyle + cardBackVariant + gridItems + cardLabelStyle
 [ ] Tile labels: cbg-tile-label--{theoed,podcast,unstuck} render correctly; cb-cta chevron suppressed via cbg-tile::after { content:none !important }
@@ -911,8 +945,10 @@ This pre-processing is essential — without it, the browser downscales 3-6MB so
 [ ] Published state still flows through the page-config JSON files
 [ ] Netlify publish function only writes approved config paths (mission, impact, growth, theoed)
 [ ] No-op publishes succeed cleanly
-[ ] "Founded in 2018" remains correct
+[ ] "Founded in 2020" remains correct (public founding year; see §11)
 [ ] Growth and Reach canonical layout/data still match sections 12-15
+[ ] Did not hand-edit any script-managed `.value` field in growth-reach.json / this-year.json (see §32); only labels / subs / manual fields were changed by hand
+[ ] Map "Where Our Learners Are": either still hardcoded dummy data OR wired per §32 — counts + fills sourced from `mapByState`, US zero-learner states gray, international learners not shaded on the US map
 [ ] TheoEd discussion guides still resolve from `assets/theoed/discussion-guides/` and the `Download Discussion Guide` button appears in the lightbox for every featured card with a guide
 [ ] TheoEd cards without a guide hide the guide link cleanly (no fallback banner)
 [ ] TheoEd editor still loads Git-backed content by default, surfaces Restore/Discard when a local draft exists, and clears the draft after a successful publish

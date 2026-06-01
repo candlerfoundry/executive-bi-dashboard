@@ -29,6 +29,10 @@ fresh on a monthly schedule without exposing API rate limits to the live site.
   Created, grid Social Followers, grid Email Subscribers, grid Years of Impact (dynamic).
 - **Failure mode:** any per-field error keeps the existing JSON value and logs a warning.
   A total failure leaves the file untouched and exits non-zero so GitHub emails you.
+- **Planned (not yet built):** a `refreshMapByState()` step to drive the "Where Our Learners
+  Are" US map from the *Student Insights (Individual)* table (grouped by `State`, ZIP/City
+  inference for blanks, US zero-learner states gray, international counted separately). The
+  map is hardcoded dummy data until this lands. See CANONICAL.md §32 for the contract.
 
 ### One-time setup
 
