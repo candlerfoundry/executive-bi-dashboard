@@ -9,7 +9,7 @@
         "label": "TheoEd Views"
       },
       {
-        "value": "4,194",
+        "value": "4,203",
         "label": "Individual Learners"
       },
       {
@@ -53,7 +53,7 @@
   "stats": [
     {
       "id": "registrations",
-      "value": 6319,
+      "value": 6339,
       "suffix": "+",
       "prefix": "",
       "label": "Total Registrations",
@@ -61,7 +61,7 @@
     },
     {
       "id": "courses",
-      "value": 160,
+      "value": 161,
       "suffix": "",
       "prefix": "",
       "label": "Courses Offered",
@@ -93,7 +93,7 @@
     },
     {
       "id": "podcast",
-      "value": 49,
+      "value": 50,
       "suffix": "",
       "prefix": "",
       "label": "Podcast Episodes",
