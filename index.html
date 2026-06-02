@@ -469,6 +469,10 @@ body.page-config-loading .panel.active::before,
   .ci-story-card-shell { position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform 0.55s cubic-bezier(0.2,0.8,0.2,1); }
   .ci-story-card:hover .ci-story-card-shell,
   .ci-story-card.is-active .ci-story-card-shell { transform:rotateY(180deg); }
+  /* Cards with no back face never flip. */
+  .ci-story-card.no-flip { cursor:default; }
+  .ci-story-card.no-flip:hover .ci-story-card-shell,
+  .ci-story-card.no-flip.is-active .ci-story-card-shell { transform:none; }
 .ci-story-face { position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; border-radius:inherit; overflow:hidden; }
 .ci-story-front { background:transparent; }
 .ci-story-back { transform:rotateY(180deg); background:var(--ci-surface); color:var(--ci-ink); padding:22px; display:flex; flex-direction:column; justify-content:space-between; }
@@ -666,53 +670,47 @@ body.page-config-loading .panel.active::before,
   object-position: center;
   /* Inherit the card's border-radius via the .ci-story-face rule. */
 }
-/* Crisp HTML footer overlay — paints over the image's baked-in cream strip
-   so name + role text never goes through image downsampling. Color/layout
-   tuned to match the source artwork; positions are container-relative so
-   the overlay tracks the strip across every viewport. */
 .ci-story-card.is-image-front .ci-story-front.ci-ed-image {
   position: relative;
 }
-.ci-story-card.is-image-front .ci-img-footer {
+/* Image back face: the designed back PNG renders full-bleed, same 7:5 frame
+   as the front, sharing the card's rounded corners via .ci-story-face. */
+.ci-story-card.is-image-front .ci-story-back {
+  padding: 0;
+  background: var(--cream, #fafaf2);
+}
+.ci-story-card.is-image-front .ci-story-back-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+/* Crisp resting layers — painted OUTSIDE the 3D shell so the baked card text
+   (body + name banner) renders at full device resolution instead of being
+   upscaled out of the 1x-rasterized flip layer. The shell still drives the
+   flip motion; these layers hide during the turn and reappear once settled.
+   Asymmetric opacity timing: leaving a state is instant, entering waits ~0.45s
+   for the rotation to finish (timing matches the 0.55s shell transition). */
+.ci-story-card.is-image-front .ci-rest-image {
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 14.5%;
-  background: #f0ead8; /* cream — matches strip in source PNGs */
-  display: flex;
-  align-items: center;
-  gap: clamp(10px, 2.4cqw, 18px);
-  padding: 0 clamp(14px, 3.6cqw, 28px);
-  z-index: 2;
-  pointer-events: none; /* keep card click/flip working unimpeded */
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+  backface-visibility: visible;
+  -webkit-backface-visibility: visible;
 }
-.ci-story-card.is-image-front .ci-img-name {
-  font-family: 'Newsreader', Georgia, serif;
-  font-weight: 700;
-  font-size: clamp(12px, 2.9cqw, 18px);
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: #1e2530;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 0 1 auto;
-  min-width: 0;
-}
-.ci-story-card.is-image-front .ci-img-role {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 500;
-  font-size: clamp(8.5px, 2cqw, 11.5px);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(30, 37, 48, 0.6);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1 1 auto;
-  min-width: 0;
-}
+.ci-story-card.is-image-front .ci-rest-front { opacity: 1; transition: opacity 0.12s ease 0.45s; }
+.ci-story-card.is-image-front .ci-rest-back  { opacity: 0; transition: opacity 0.12s ease; }
+.ci-story-card.is-image-front:hover:not(.no-flip) .ci-rest-front,
+.ci-story-card.is-image-front.is-active:not(.no-flip) .ci-rest-front { opacity: 0; transition: opacity 0.12s ease; }
+.ci-story-card.is-image-front:hover:not(.no-flip) .ci-rest-back,
+.ci-story-card.is-image-front.is-active:not(.no-flip) .ci-rest-back { opacity: 1; transition: opacity 0.12s ease 0.45s; }
 /* Defensive: if any legacy panels render on the front, hide them under the image variant. */
 .ci-story-card.is-image-front .ci-story-front .ci-story-panel,
 .ci-story-card.is-image-front .ci-story-front .ci-story-quote-panel,
@@ -729,17 +727,6 @@ body.page-config-loading .panel.active::before,
 }
 .ci-story-card.is-image-front .ci-story-front-image {
   transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-/* Back face for image-front cards: a clean filler layout while the user
-   finalizes the real back-face content. Inherits the rounded corners. */
-.ci-story-card.is-image-front .ci-story-back {
-  padding: clamp(18px, 4cqw, 28px);
-  gap: clamp(10px, 2cqw, 16px);
-}
-@container (max-width: 420px) {
-  .ci-story-card.is-image-front .ci-story-back {
-    padding: 14px 16px;
-  }
 }
 /* ===== /image-front cards ===== */
 
@@ -1372,6 +1359,8 @@ body.page-config-loading .panel.active::before,
   .ci-row-copy { max-width:none; }
   .ci-row-toolbar { display:none; }
   .ci-story-card { flex-basis:clamp(320px, 78vw, 480px); height:340px; }
+  /* Image-front cards keep their 7:5 aspect ratio instead of a fixed height. */
+  .ci-story-card.is-image-front { height:auto; }
   .ci-story-card.is-text-dominant .ci-story-front,
   .ci-story-card.is-media-dominant .ci-story-front,
   .ci-story-card .ci-story-front { grid-template-columns:1fr; }
@@ -1395,6 +1384,8 @@ body.page-config-loading .panel.active::before,
   .ci-hero-jumps { gap:10px; }
   .ci-hero-jump { width:100%; justify-content:center; }
   .ci-story-card { flex-basis:88vw; height:auto; min-height:360px; }
+  /* Image-front cards keep their 7:5 aspect ratio instead of a min-height. */
+  .ci-story-card.is-image-front { min-height:0; }
   .ci-row-track { padding-bottom:14px; }
 }
 
@@ -6785,42 +6776,53 @@ var CI_IMAGE_CARD_WIDTH = 'clamp(360px, 32vw, 540px)';
 var CI_IMAGE_CARD_SURFACE = '#1e2530';
 var CI_IMAGE_CARD_INK = '#fafaf2';
 
+// Each story is a pre-composed card. `frontImage` is the designed front art
+// (quote + photo + baked-in name banner). `backImage`, when present, is the
+// designed back art; cards WITHOUT a `backImage` render no back face and do not
+// flip. `name`/`role` are kept for alt text + aria labels only — the visible
+// name banner is baked into the artwork (no HTML overlay).
 var CI_STORY_PAGE = {
   rows: [
     {
+      id: 'student-stories',
+      label: 'Current & Prospective Students',
+      title: 'Where formation begins',
+      copy: 'How current and prospective students alike use the Foundry to explore a call, sharpen their ministry instincts, and experience Candler before and after they ever enroll.',
+      meta: '',
+      stories: [
+        { frontImage: '/assets/candler-impact-cards/hannah-ford.png',    backImage: '/assets/candler-impact-cards/hannah-ford-back.png',    name: 'Hannah Ford',    role: 'Prospective M.Div. Student',           width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/tammy-edwards.png',   backImage: '/assets/candler-impact-cards/tammy-edwards-back.png',   name: 'Tammy Edwards',   role: 'Candler M.Div. Student',               width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/david-cross.png',     name: 'David Cross',     role: 'Woodruff Scholar, Candler M.Div. Student',                                                              width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/kara-nelson.png',     backImage: '/assets/candler-impact-cards/kara-nelson-back.png',     name: 'Kara Nelson',     role: 'Candler M.Div. Student',               width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/emmanuel-kwarf.png',  backImage: '/assets/candler-impact-cards/emmanuel-kwarf-back.png',  name: 'Emmanuel Kwarf',  role: 'Candler M.Div. Student',               width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/elle-crosman.png',    backImage: '/assets/candler-impact-cards/elle-crosman-back.png',    name: 'Elle Crosman',    role: 'Candler M.Div. Student',               width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/hannah-ripert.png',   backImage: '/assets/candler-impact-cards/hannah-ripert-back.png',   name: 'Hannah Ripert',   role: 'Candler M.Div. Student',               width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/hangil-ryu.png',      backImage: '/assets/candler-impact-cards/hangil-ryu-back.png',      name: 'Hangil Ryu',      role: 'Candler M.Div. Student',               width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
+      ]
+    },
+    {
       id: 'faculty-stories',
-      label: 'Faculty & Staff Stories',
+      label: 'Faculty & Staff',
       title: 'Scholarship with reach',
       copy: 'How Foundry work sharpens faculty teaching, supports staff leadership, and turns Candler’s strengths into ministry-ready resources.',
       meta: '',
       stories: [
-        { frontImage: '/assets/candler-impact-cards/joanne-solis-walker.png', name: 'Dr. Joanne Solis-Walker', role: 'La Mesa Academy',                          headline: 'Scholarship that fuels a thriving academy', support: 'Filler back-face content — replaceable later. Dr. Solis-Walker partners with the Foundry to bring Candler scholarship into La Mesa Academy’s ongoing formation work.', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
-        { frontImage: '/assets/candler-impact-cards/ebby-arnold.png',          name: 'Dr. Elizabeth Arnold',     role: 'The Candler Foundry',                   headline: '3-Minute Bible videos in the classroom',     support: 'Filler back-face content — replaceable later. Dr. Arnold’s 3-Minute Bible series gives Candler students a quick boost in biblical fluency while shaping the Foundry’s teaching voice.',           width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
-        { frontImage: '/assets/candler-impact-cards/joel-kemp.png',            name: 'Dr. Joel B. Kemp',         role: 'Assistant Professor of Hebrew Bible',   headline: 'Experiencing Candler before applying',       support: 'Filler back-face content — replaceable later. Dr. Kemp uses Foundry courses to let prospective students experience Candler-style teaching before they ever decide whether to apply.',                width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
-        { frontImage: '/assets/candler-impact-cards/sam-martinez.png',         name: 'Sam Martinez',             role: 'Candler Admissions',                    headline: 'A clearer view of Candler’s mission',        support: 'Filler back-face content — replaceable later. Sam frames the Foundry as one of the clearest expressions of Candler’s mission — a way for prospective students to experience Candler before committing.', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
-      ]
-    },
-    {
-      id: 'student-stories',
-      label: 'Student Stories',
-      title: 'Formation with traction',
-      copy: 'How students use Foundry work to build practical ministry instincts, communication skills, and teaching confidence.',
-      meta: '',
-      stories: [
-        { frontImage: '/assets/candler-impact-cards/hannah-ford.png',  name: 'Hannah Ford',  role: 'Prospective M.Div. Student',     headline: 'Inspired to apply to Candler',          support: 'Filler back-face content — replaceable later. Dr. Arnold’s Revelation course gave Hannah a window into Candler that turned a budding interest into a clear next step in her discernment.', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
-        { frontImage: '/assets/candler-impact-cards/tammy-edwards.png', name: 'Tammy Edwards', role: 'Candler M.Div. Student',         headline: 'A preview that solidified the decision', support: 'Filler back-face content — replaceable later. Dr. Arnold’s Foundry course let Tammy experience Candler-style learning first-hand, helping solidify her decision to apply.',                  width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
-        { frontImage: '/assets/candler-impact-cards/mina-lee.png',     name: 'Mina Lee',     role: 'Candler Alumnus (M.T.S., 2026)', headline: 'Mentorship for the next vocational step', support: 'Filler back-face content — replaceable later. Mina’s Foundry fellowship gave her the mentorship and support she needed to discern her next vocational steps.',                                width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
+        { frontImage: '/assets/candler-impact-cards/joel-kemp.png',            name: 'Dr. Joel B. Kemp',     role: 'Assistant Professor of Hebrew Bible',   width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/elizabeth-arnold.png',     name: 'Dr. Elizabeth Arnold', role: 'The Candler Foundry',                   width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/sam-martinez.png',         backImage: '/assets/candler-impact-cards/sam-martinez-back.png', name: 'Sam Martinez', role: 'Candler Admissions',          width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/joanne-solis-walker.png',  name: 'Dr. Joanne Solis-Walker', role: 'La Mesa Academy',                    width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
       ]
     },
     {
       id: 'alumni-stories',
-      label: 'Alumni Stories',
-      title: 'Connection after graduation',
-      copy: 'How Foundry programs keep alumni learning with Candler through practical formation and renewed connection.',
+      label: 'Alumni & Partners',
+      title: 'Connection beyond the classroom',
+      copy: 'How alumni and church and community partners keep learning with Candler through the Foundry — sustaining formation long after graduation and out in the wider community.',
       meta: '',
       stories: [
-        { frontImage: '/assets/candler-impact-cards/john-vaughn.png',    name: 'Rev. John Vaughn',    role: 'Ebenezer Baptist Church',          headline: 'A valued education partner for Ebenezer', support: 'Filler back-face content — replaceable later. Rev. Vaughn partners with the Foundry to bring engaging, impactful sessions to Ebenezer Baptist Church’s members.',                                width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
-        { frontImage: '/assets/candler-impact-cards/carmie-mcdonald.png', name: 'Rev. Carmie McDonald', role: 'Candler Alumnus (M.Div., 2023)', headline: 'A regular fixture in church formation',   support: 'Filler back-face content — replaceable later. Rev. McDonald has built Foundry courses into the regular formation calendar at her church — a steady, essential rhythm for her congregation.', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
+        { frontImage: '/assets/candler-impact-cards/mina-lee.png',        name: 'Mina Lee',            role: 'Candler Alumnus (M.T.S., 2026)',  width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/carmie-mcdonald.png', name: 'Rev. Carmie McDonald', role: 'Candler Alumnus (M.Div., 2023)', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/john-vaughn.png',     backImage: '/assets/candler-impact-cards/john-vaughn-back.png',  name: 'Rev. John Vaughn', role: 'Ebenezer Baptist Church',       width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
       ]
     }
   ]
@@ -8135,17 +8137,11 @@ function ciBuildEditorialFront(card, front, story) {
     card.classList.add('is-image-front');
     var imgSrc = String(story.frontImage).replace(/"/g, '%22');
     var altText = ciEscapeHtml(story.name || '');
-    // Overlay the footer (name + role) as crisp HTML on top of the image's
-    // baked-in cream strip. Same cream color + same layout → no visible seam,
-    // and the small text stays vector-crisp at every viewport.
-    var nameHtml = ciEscapeHtml(story.name || '');
-    var roleHtml = ciEscapeHtml(story.role || '');
+    // The new cards carry a fully designed name banner baked into the artwork
+    // (correct fonts, per-card banner color). No HTML overlay — we show the
+    // designed banner as-is so it stays true to the source composition.
     front.innerHTML =
-      '<img class="ci-story-front-image" src="' + imgSrc + '" alt="' + altText + '" loading="lazy">' +
-      '<div class="ci-img-footer">' +
-        '<span class="ci-img-name">' + nameHtml + '</span>' +
-        (nameHtml && roleHtml ? '<span class="ci-img-role">' + roleHtml + '</span>' : (roleHtml ? '<span class="ci-img-role">' + roleHtml + '</span>' : '')) +
-      '</div>';
+      '<img class="ci-story-front-image" src="' + imgSrc + '" alt="' + altText + '" loading="lazy">';
     return;
   }
 
@@ -8246,9 +8242,45 @@ function ciCreateStoryCard(story) {
   ciBuildEditorialFront(card, front, story);
 
   var back = card.querySelector('.ci-story-back');
-  backPanels.forEach(function(panel) {
-    back.appendChild(impactCreatePanelMarkup(panel, story, 'back'));
-  });
+  if (story.frontImage) {
+    // Image-front cards use a pre-composed back PNG. When a story has no
+    // backImage, it has no back face and must not flip.
+    if (story.backImage) {
+      var backSrc = String(story.backImage).replace(/"/g, '%22');
+      back.innerHTML =
+        '<img class="ci-story-back-image" src="' + backSrc + '" alt="' + ciEscapeHtml(story.name || '') + '" loading="lazy">';
+    } else {
+      card.classList.add('no-flip');
+    }
+    // ----- Crisp resting layers (retina text fix) -----
+    // The 3D flip (perspective + preserve-3d + backface-visibility) gets
+    // rasterized at 1x on some GPUs and upscaled to the device's pixel ratio,
+    // which softens the baked-in card text (the small name banner worst of
+    // all). To keep both resting states crisp, paint the front (and back) as
+    // plain full-resolution <img> layers OUTSIDE the 3D shell. The shell is
+    // used only for the flip MOTION; CSS swaps these resting layers in/out so
+    // they hide during the turn and reappear, device-sharp, once it settles.
+    var restFront = document.createElement('img');
+    restFront.className = 'ci-rest-image ci-rest-front';
+    restFront.src = story.frontImage;
+    restFront.alt = '';
+    restFront.setAttribute('aria-hidden', 'true');
+    restFront.setAttribute('loading', 'lazy');
+    card.appendChild(restFront);
+    if (story.backImage) {
+      var restBack = document.createElement('img');
+      restBack.className = 'ci-rest-image ci-rest-back';
+      restBack.src = story.backImage;
+      restBack.alt = '';
+      restBack.setAttribute('aria-hidden', 'true');
+      restBack.setAttribute('loading', 'lazy');
+      card.appendChild(restBack);
+    }
+  } else {
+    backPanels.forEach(function(panel) {
+      back.appendChild(impactCreatePanelMarkup(panel, story, 'back'));
+    });
+  }
   card.addEventListener('click', function(event) {
     event.preventDefault();
     impactSelectCard(card.getAttribute('data-story-key'));
@@ -8260,7 +8292,7 @@ function ciCreateStoryCard(story) {
     }
     if (event.key === 'f' || event.key === 'F') {
       event.preventDefault();
-      card.classList.toggle('is-active');
+      if (!card.classList.contains('no-flip')) card.classList.toggle('is-active');
     }
   });
   return card;

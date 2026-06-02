@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-05-21 (Candler Impact image-front card variant)
+Last updated: 2026-06-02 (Candler Impact: new 15-card lineup, image backs, no name overlay)
 
 Canonical local working copy: `C:\Scripts\executive-bi-dashboard`. If older notes contain legacy path references, treat this C drive path as authoritative.
 
@@ -13,10 +13,11 @@ Read this before every session. Verify these rules before committing.
 **Rule:** Candler Impact is no longer a faculty-circle grid or quote-banner sidebar page.
 It is now a story-driven page with:
 - a single hero banner
-- three horizontally scrollable rows
-- `Faculty & Staff Stories`
-- `Student Stories`
-- `Alumni Stories`
+- three horizontally scrollable rows, in this order (2026-06-02):
+  1. `Current & Prospective Students` (row id `student-stories`) — FIRST
+  2. `Faculty & Staff` (row id `faculty-stories`) — middle
+  3. `Alumni & Partners` (row id `alumni-stories`) — last
+- Row ids are unchanged for editor compatibility; only the array order and the display `label`/`title`/`copy` changed.
 
 **Implementation:** Main markup, styling, and editor logic live in [index.html](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/index.html). Published defaults live in:
 - [assets/page-config/candler-impact.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/candler-impact.json)
@@ -43,48 +44,69 @@ Internal divider lines, awkward L-shaped photo sections, and accidental nested b
 
 **Regression risk:** Do not revert to placeholder-heavy cards, stacked caption boxes that break the silhouette, or noisy overlays/graphics by default.
 
-### 2.1 CANDLER IMPACT - IMAGE-FRONT CARD VARIANT (2026-05-21)
-**Rule:** Story cards can use a single pre-composed PNG as the front face (the entire designed card art — quote panel, photo block, color blocks all baked in). The flip-to-back behavior, the rounded corners, and the multi-layer lift shadow are preserved. The bottom name/title strip is overlaid in HTML so the small text stays vector-crisp at every viewport, and so it remains editable through `CI_STORY_PAGE` data without re-exporting the PNG.
+### 2.1 CANDLER IMPACT - IMAGE-FRONT/IMAGE-BACK CARD VARIANT (rewritten 2026-06-02)
+**Rule:** Story cards are fully pre-composed PNGs. The front is the entire designed card art (quote panel, photo, color blocks, AND the name/title banner all baked in). When a card has a back, the back is ALSO a pre-composed PNG. There is **no HTML name overlay** anymore (see history note below). Rounded corners and the multi-layer lift shadow are preserved.
 
-The 2026-05-21 lineup uses this variant for all 9 published cards: 4 in `faculty-stories`, 3 in `student-stories`, 2 in `alumni-stories`.
+**2026-06-02 lineup — 15 cards across 3 rows (9 have backs, 6 are front-only):**
+- `student-stories` → **Current & Prospective Students** (8): hannah-ford*, tammy-edwards*, david-cross, kara-nelson*, emmanuel-kwarf*, elle-crosman*, hannah-ripert*, hangil-ryu*
+- `faculty-stories` → **Faculty & Staff** (4): joel-kemp, elizabeth-arnold, sam-martinez*, joanne-solis-walker
+- `alumni-stories` → **Alumni & Partners** (3): mina-lee, carmie-mcdonald, john-vaughn*
 
-**Asset location:** Card PNGs live in [assets/candler-impact-cards/](C:/Scripts/executive-bi-dashboard/assets/candler-impact-cards). Filename convention: `<first-last>.png`, all-lowercase, kebab-case (e.g. `joanne-solis-walker.png`, `rev-john-vaughn.png` would be acceptable but the current set drops honorifics: `john-vaughn.png`).
+`*` = has a back PNG and flips. The other 6 (david-cross, joel-kemp, elizabeth-arnold, joanne-solis-walker, mina-lee, carmie-mcdonald) are front-only and **must not flip**. Classification follows the user's manual assignment (e.g. Joanne Solis-Walker's banner reads "La Mesa Academy" but she is placed in Faculty & Staff; John Vaughn is a partner placed in Alumni & Partners).
 
-**Source PNG spec:**
-- Aspect ratio: 7:5 (any resolution; current set is 1748×1240). The card is sized via `aspect-ratio: 7 / 5` — non-7:5 art will distort.
-- The card design must include a cream footer strip across the bottom ~14.5% of the canvas. The HTML overlay paints over that strip in `#f0ead8` (cream) — so the strip color in the PNG must match, or a faint seam will show.
-- All other artwork (quote panel, photo, color blocks) lives above the strip and renders as-is.
+**Asset location & filename convention:** [assets/candler-impact-cards/](C:/Scripts/executive-bi-dashboard/assets/candler-impact-cards). Front = `<first-last>.png`; back = `<first-last>-back.png`. All-lowercase, kebab-case, honorifics dropped (e.g. `john-vaughn.png`, `john-vaughn-back.png`). A front with no matching `-back.png` is intentionally a non-flipping card.
 
-**Wiring a new card:** Edit `CI_STORY_PAGE` in [index.html](C:/Scripts/executive-bi-dashboard/index.html) (search for `var CI_STORY_PAGE = {`). Each image-front story uses this minimal shape:
+**Source PNG spec:** Aspect ratio **7:5** for BOTH front and back (current set is 1748×1240). Cards are sized via `aspect-ratio: 7 / 5`; non-7:5 art distorts. The name banner is part of the artwork — no separate strip-color contract anymore, so per-card banner colors are fine (e.g. Joanne's banner is navy).
+
+**Wiring a card:** Edit `CI_STORY_PAGE` in [index.html](C:/Scripts/executive-bi-dashboard/index.html) (search `var CI_STORY_PAGE = {`). Minimal shape:
 
 ```js
-{
-  frontImage: '/assets/candler-impact-cards/joanne-solis-walker.png',
-  name:       'Dr. Joanne Solis-Walker',  // bold serif uppercase on the strip
-  role:       'La Mesa Academy',          // muted uppercase letter-spaced sans
-  headline:   'Scholarship that fuels a thriving academy',  // back-face title
-  support:    'Filler back-face content — replaceable later. …',  // back-face body
-  width:      CI_IMAGE_CARD_WIDTH,        // shared clamp() — keeps all cards uniform
-  surface:    CI_IMAGE_CARD_SURFACE,      // back-face background, navy by default
-  ink:        CI_IMAGE_CARD_INK           // back-face text color, ivory by default
-}
+// Card WITH a back (flips):
+{ frontImage: '/assets/candler-impact-cards/hannah-ford.png',
+  backImage:  '/assets/candler-impact-cards/hannah-ford-back.png',
+  name: 'Hannah Ford', role: 'Prospective M.Div. Student',  // alt/aria ONLY — not rendered as text
+  width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
+
+// Card with NO back (does not flip): simply omit backImage.
+{ frontImage: '/assets/candler-impact-cards/david-cross.png',
+  name: 'David Cross', role: 'Woodruff Scholar, Candler M.Div. Student',
+  width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
 ```
 
-The shared `CI_IMAGE_CARD_*` constants are declared just above `CI_STORY_PAGE`. Use them for every image-front card so the lineup stays visually unified.
+`name`/`role` are kept ONLY for `<img alt>` / aria labels — the visible name banner is baked into the art. `headline`/`support` are no longer used (backs are images, not panels). The shared `CI_IMAGE_CARD_*` constants sit just above `CI_STORY_PAGE`.
 
-**Editing the bottom strip text (name + title):** Change `name` and `role` on the story entry. They render as crisp HTML on top of the image. Do NOT re-edit the baked-in text in the PNG — that's hidden under the overlay; rebuilding the PNG just to fix a typo or a title change wastes time.
+**Editing a name/title:** It is baked into the PNG — re-export the card art. There is no longer an HTML overlay to edit (this is the deliberate tradeoff for matching the finished design exactly).
 
-If you change the design and need a *different* strip color, edit `.ci-img-footer { background: ... }` in the `/* ===== Candler Impact — Image-front cards (v3` CSS block. The font selection (Newsreader for the name, Montserrat for the role), the letter-spacing, and the 14.5% strip height also live in that block.
+**Rendering pipeline:**
+- `ciBuildEditorialFront` (index.html): when `story.frontImage` is set, emits just `<img class="ci-story-front-image">` (no footer overlay) and adds `is-image-front` to the card.
+- `ciCreateStoryCard` (index.html): if `story.backImage`, the back face gets `<img class="ci-story-back-image">` (full-bleed `object-fit:cover`); if NOT, the card gets the `no-flip` class and no back face is built.
+- Flip is CSS hover/`.is-active` → `rotateY(180deg)` on `.ci-story-card-shell`. `.ci-story-card.no-flip` overrides that transform to `none` and the `f`-key handler skips `no-flip` cards.
 
-**Rendering pipeline:** `ciBuildEditorialFront` checks `story.frontImage` first; if set, it short-circuits the editorial grid path and emits `<img class="ci-story-front-image">` + `<div class="ci-img-footer"><span class="ci-img-name">…</span><span class="ci-img-role">…</span></div>`. It also adds the `is-image-front` class to the card, which triggers the aspect-ratio sizing, hides the colored top/bottom `::before`/`::after` bands (the image already carries its own color blocks), and applies `container-type: inline-size` so future internal overlays can use container queries per [CLAUDE_CARD_SCALING_GUIDE.md](C:/Scripts/executive-bi-dashboard/CLAUDE_CARD_SCALING_GUIDE.md).
+**Responsive scaling (IMPORTANT — fixed 2026-06-02):** The `@media (max-width:900px)` and `(max-width:600px)` blocks set a fixed `height:340px` / `min-height:360px` on `.ci-story-card` (legacy text-panel cards needed it). Those break the 7:5 ratio for image cards and cover-crop the art. Both blocks now carry a `.ci-story-card.is-image-front { height:auto }` / `{ min-height:0 }` override so the aspect ratio governs at phone/tablet widths. Verified 7:5 at 375 / 768 / 1440px. The user provides both faces pre-composed, so there is no internal text reflow to manage — keep the card frame at 7:5 and let `cover` do the rest.
 
-**Back face:** Image-front cards still use the regular panel-driven back face (`impactBuildDefaultBackPanels` populates from `story.headline`, `story.support`, `story.name`, `story.role`). The flip mechanism is unchanged.
+**Editor compatibility:** The Quick Edit panel ([assets/impact-quick-edit.js](C:/Scripts/executive-bi-dashboard/assets/impact-quick-edit.js)) does NOT drive image cards — edit `CI_STORY_PAGE` directly. `candler-impact.json` `rows`/`cards` are `{}`; do not add per-card `panels` overrides for image cards (the panel path is bypassed, so they carry stale data silently).
 
-**Editor compatibility:** The Quick Edit panel in [assets/impact-quick-edit.js](C:/Scripts/executive-bi-dashboard/assets/impact-quick-edit.js) was built for the editorial-grid front face. It does NOT yet drive image-front cards. Editing image-front cards happens by editing `CI_STORY_PAGE` directly. Do not commit per-card overrides in [assets/page-config/candler-impact.json](C:/Scripts/executive-bi-dashboard/assets/page-config/candler-impact.json) that target image-front cards' `panels` — those overrides feed the editorial-grid path, which is bypassed, so they would carry stale data forward silently. The `cards: {}` block was cleared on 2026-05-21 for exactly this reason (a stale Sam Martinez override had been left pointing at the new Joanne card after the lineup change).
+**Regression risk:** Do NOT re-add a fixed `height`/`min-height` on `.ci-story-card.is-image-front` — it relies on `aspect-ratio:7/5`. Do NOT reintroduce the `ci-img-footer` HTML name overlay — the new banners are baked in and the overlay's cream fill would clash with non-cream banners (e.g. Joanne's navy). Do NOT give a front-only card a back or remove `no-flip` — front-only cards intentionally don't flip. Do NOT switch the front/back `<img>` to `object-fit:contain` — the PNGs are 7:5 to fit `cover` exactly.
 
-**Row labeling note (2026-05-21):** The current lineup places Mina Lee (M.T.S. alumna, 2026) inside the `student-stories` row and Rev. John Vaughn (Ebenezer Baptist Church — partner, not alumnus) inside the `alumni-stories` row. Row labels were not changed; per-card classification follows the user's manual assignment. If audience composition shifts further, consider renaming the row labels in `CI_STORY_PAGE.rows[].label`.
+### 2.2 CANDLER IMPACT - CARD TEXT CRISPNESS (THE RECURRING "PIXELATED CARD" FIX) (2026-06-02)
+**Symptom (recurring every time new cards are uploaded):** The baked-in card text — and the small bottom **name banner** worst of all — looks soft / pixelated, even though the source PNG is high-resolution. Historically this was patched by hand (the retired `ci-img-footer` HTML overlay re-typeset the banner). That was a per-design band-aid and only fixed the banner, not the body text.
 
-**Regression risk:** Do not re-introduce a fixed `height` rule on `.ci-story-card.is-image-front` — it relies on `aspect-ratio: 7/5` to track the source artwork. Do not raise the overlay's `pointer-events` from `none` to `auto` — that would block the card click/flip. Do not switch `.ci-story-front-image` to `object-fit: contain` — the PNGs are sized 7:5 to fit `cover` exactly, and `contain` would expose the cream card background as letterbox bars.
+**Root cause:** The hover-flip uses a 3D layer (`perspective` on `.ci-story-card` + `transform-style:preserve-3d` on `.ci-story-card-shell` + `backface-visibility:hidden` on `.ci-story-face`). On many GPUs/drivers Chrome rasterizes that 3D layer at **1× (CSS-pixel) resolution** and upscales it to the device's pixel ratio (e.g. 2× Retina). The card is then displayed at roughly half resolution → the baked text aliases. Smallest text (the banner) shows it first. This is hardware-specific: it does NOT reproduce in headless Chrome, so screenshot review here will look fine even when the user's display is blurry. **Raising PNG export resolution does NOT fix it** — the layer is rasterized at the card's CSS size regardless of source size.
+
+**The permanent fix (in code, automatic for every current and future card — no overlay, no per-card work):** Each image card paints **crisp resting `<img>` layers OUTSIDE the 3D shell**, as direct children of `.ci-story-card`:
+- `.ci-rest-front` (always built) and `.ci-rest-back` (built only when the card has a `backImage`). Classes/markup are emitted by `ciCreateStoryCard`; styling lives in the `is-image-front` CSS block (`.ci-rest-image` / `.ci-rest-front` / `.ci-rest-back`).
+- These layers sit at `z-index:3`, `pointer-events:none`, `object-fit:cover`, and are NOT inside the `preserve-3d`/`backface-hidden` subtree, so the browser paints them at full device resolution → crisp text on all hardware.
+- The 3D shell underneath is used **only for the flip MOTION**. CSS swaps the resting layers via opacity with asymmetric timing: leaving a state is instant; entering waits `0.45s` (≈ the `0.55s` shell rotation) so a resting layer reappears, device-sharp, only after the turn settles. So: front-at-rest = crisp `.ci-rest-front`; during hover = 3D shell rotates (motion); back-at-rest (while hovered) = crisp `.ci-rest-back`. The `:not(.no-flip)` guard keeps front-only cards showing `.ci-rest-front` permanently.
+
+**Regression risk:** Do NOT delete the `.ci-rest-front`/`.ci-rest-back` layers or move them inside `.ci-story-card-shell` — that puts the text back into the blurry 3D layer and the pixelation returns. Keep the resting layers' opacity timing in sync with the shell's flip duration (currently `0.55s` shell / `0.45s` re-entry delay); if you change the flip speed, update both. Do NOT try to "fix" this with the old `ci-img-footer` overlay again.
+
+### 2.3 CANDLER IMPACT - CARD UPLOAD INSTRUCTIONS (give these every time you add/replace cards)
+1. **Provide a front, and optionally a back, as separate PNGs.** A card with no back PNG becomes a non-flipping card automatically.
+2. **Aspect ratio MUST be 7:5** for both faces (e.g. 1748×1240, or larger at the same ratio). Non-7:5 art distorts under `object-fit:cover`.
+3. **Resolution:** ≥ 1748 px wide is sufficient (the crispness fix above means more pixels won't sharpen text further, but don't go below ~1500 px wide). Keep front and back the same dimensions.
+4. **Bake the name banner into the art** — it no longer has any HTML overlay or strip-color contract, so banner color/typography is whatever you design (cream, navy, etc.). Make banner text comfortably legible at the design size; it will still render crisp via the resting layers.
+5. **Filenames:** front `<first-last>.png`, back `<first-last>-back.png`, all-lowercase kebab-case, honorifics dropped (e.g. `john-vaughn.png` / `john-vaughn-back.png`). Drop them in `assets/candler-impact-cards/`.
+6. **Tell the assistant** the person's name, their role/affiliation, and which row (Students / Faculty & Staff / Alumni & Partners) each card belongs in. The assistant wires `CI_STORY_PAGE` (front+optional back), commits the PNGs as fresh Git assets, removes stale ones, and previews before pushing.
 
 ---
 
