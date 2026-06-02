@@ -1566,6 +1566,33 @@ body.page-config-loading .panel.active::before,
   .te-hero-accent-left,
   .te-hero-accent-right { display: none !important; }
   .te-hero { --te-hero-center-opacity: 0.92 !important; }
+
+  /* ── HERO BANNERS — Mission / Growth / Candler / This Year (NOT TheoEd) ───────
+     Each of these heroes uses a different desktop-tuned image system — Mission
+     "width-fit" at 78% center-right, Growth floating "artwork" offset 220px down,
+     This Year a panned cover — none of which frame well on a phone. Simplest
+     robust fix: on phones, just fill the banner with the photo (cover, centered)
+     and drop the desktop offsets/zoom. Headlines also run large (root font is
+     20px) so they're resized for phones, and the Mission hero is switched from
+     vertical-centered (which clips the top when content is tall) to top-aligned.
+     TheoEd is deliberately excluded. Desktop/tablet keep all their tuning. */
+  .gr-hero::before,
+  .mission-bar::before,
+  .ci-story-hero::before,
+  .ty-hero::before {
+    background-size: cover !important;
+    background-position: center !important;
+    transform: none !important;
+  }
+  /* Phone-sized headlines + no desktop copy nudges */
+  .gr-hero { --gr-hero-title-size: clamp(30px, 8vw, 40px) !important; }
+  .gr-hero-copy { transform: none !important; }
+  .mission-thesis { font-size: clamp(29px, 7.6vw, 38px) !important; }
+  /* Mission hero: flow text from the top (centering clipped it when tall) */
+  .mission-bar { min-height: auto !important; }
+  .mission-bar-overlay { min-height: 0 !important; }
+  .mission-hero-grid { min-height: 0 !important; }
+  .mission-intro-wrap { min-height: 0 !important; justify-content: flex-start !important; padding: 26px 0 24px !important; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1581,7 +1608,14 @@ body.page-config-loading .panel.active::before,
      of the (already crisp) resting layers and neutralize the 3D rotation so the
      buggy shell never shows. End-states still come from the .is-active rules. */
   .ci-story-card.is-image-front .ci-story-card-shell { transition: none !important; transform: none !important; }
-  .ci-story-card.is-image-front .ci-rest-image { transition: opacity 0.28s ease !important; }
+  /* Drive the crossfade ONLY off .is-active (tap), never :hover. On touch a tap
+     leaves a sticky :hover, and the base :hover rules would keep the back shown
+     so the card couldn't be tapped back to the front. These !important rules
+     neutralize the (non-important) :hover rules: not-active = front, active = back. */
+  .ci-story-card.is-image-front .ci-rest-front { opacity: 1 !important; transition: opacity 0.28s ease !important; }
+  .ci-story-card.is-image-front .ci-rest-back  { opacity: 0 !important; transition: opacity 0.28s ease !important; }
+  .ci-story-card.is-image-front.is-active:not(.no-flip) .ci-rest-front { opacity: 0 !important; }
+  .ci-story-card.is-image-front.is-active:not(.no-flip) .ci-rest-back  { opacity: 1 !important; }
 
   /* THIS YEAR: backface-visibility alone didn't stop the front ribbon/badge from
      ghosting (mirrored) onto the flipped-up back on iOS. Force them transparent
