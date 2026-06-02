@@ -1590,11 +1590,17 @@ body.page-config-loading .panel.active::before,
   /* Mission: larger headline, smaller full-width subtitle (fewer wrapped lines) */
   .mission-thesis { font-size: clamp(36px, 9.6vw, 48px) !important; }
   .mission-text { font-size: 0.82rem !important; max-width: none !important; width: 100% !important; }
-  /* Mission hero: flow text from the top (centering clipped it when tall) */
+  /* Mission hero: the grid was stuck at 2 columns on mobile (an inline style beat
+     the stylesheet's 1fr), so the text was crammed into a ~216px column and the
+     empty 320px visual column vertically centered it (huge top gap). Force a
+     single full-width column, hide the empty visual, and flow text from the top
+     with minimal padding. This gives the headline its 3 lines and the subtitle
+     far fewer lines. */
   .mission-bar { min-height: auto !important; }
-  .mission-bar-overlay { min-height: 0 !important; }
-  .mission-hero-grid { min-height: 0 !important; }
-  .mission-intro-wrap { min-height: 0 !important; justify-content: flex-start !important; padding: 26px 0 24px !important; }
+  .mission-bar-overlay { min-height: 0 !important; padding-top: 12px !important; }
+  .mission-hero-grid { min-height: 0 !important; grid-template-columns: 1fr !important; gap: 0 !important; align-items: start !important; align-content: start !important; }
+  .mission-hero-visual { display: none !important; }
+  .mission-intro-wrap { min-height: 0 !important; width: 100% !important; max-width: none !important; justify-content: flex-start !important; padding: 6px 0 22px !important; }
 
   /* The four config heroes draw a JS-computed left/right "edge-feather" wash whose
      photo-bound math is desktop-only (e.g. Growth's right feather lands at x=292px
@@ -1617,6 +1623,13 @@ body.page-config-loading .panel.active::before,
   /* Mission photo: pan left so the women (incl. the headwrap subject) are featured
      and the pen-writer on the far right falls off the edge. */
   .mission-bar::before { background-position: 12% center !important; }
+
+  /* On-Demand card: MissionResponsiveArt scales the card's frontGraphicShiftY
+     (-244) to ~-207px on the shorter mobile card, lifting the photo well above
+     the card bottom. Override the shift (empirically tuned at phone width) so the
+     image fills down to the card bottom like desktop. !important beats the inline
+     value the JS sets on the element. */
+  .offering-flip[data-card-id="on-demand-courses"] { --card-graphic-shift-y: 30px !important; }
 
   /* Our Team: the banner photo is a 2.4:1 panorama, so cover crops the people at
      the edges. Show the WHOLE image (contain) so everyone's full face is visible;
