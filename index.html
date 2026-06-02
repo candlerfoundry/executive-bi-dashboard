@@ -1587,7 +1587,9 @@ body.page-config-loading .panel.active::before,
   /* Phone-sized headlines + no desktop copy nudges */
   .gr-hero { --gr-hero-title-size: clamp(30px, 8vw, 40px) !important; }
   .gr-hero-copy { transform: none !important; }
-  .mission-thesis { font-size: clamp(29px, 7.6vw, 38px) !important; }
+  /* Mission: larger headline, smaller full-width subtitle (fewer wrapped lines) */
+  .mission-thesis { font-size: clamp(36px, 9.6vw, 48px) !important; }
+  .mission-text { font-size: 0.82rem !important; max-width: none !important; width: 100% !important; }
   /* Mission hero: flow text from the top (centering clipped it when tall) */
   .mission-bar { min-height: auto !important; }
   .mission-bar-overlay { min-height: 0 !important; }
@@ -1612,6 +1614,9 @@ body.page-config-loading .panel.active::before,
   .gr-hero::before,
   .ci-story-hero::before,
   .ty-hero::before { opacity: 0.6 !important; }
+  /* Mission photo: pan left so the women (incl. the headwrap subject) are featured
+     and the pen-writer on the far right falls off the edge. */
+  .mission-bar::before { background-position: 12% center !important; }
 
   /* Our Team: the banner photo is a 2.4:1 panorama, so cover crops the people at
      the edges. Show the WHOLE image (contain) so everyone's full face is visible;
@@ -1652,6 +1657,16 @@ body.page-config-loading .panel.active::before,
      and never strips the ribbon mid-hover.) */
   .ty-flip.is-flipped .ty-card-ribbon,
   .ty-flip.is-flipped .ty-card-badge { opacity: 0 !important; }
+
+  /* MISSION cards: the flip triggers on :hover/:focus-within OR .is-flipped. On
+     touch, tapping a card gives it focus, so :focus-within kept it flipped even
+     after tapping again (is-flipped toggled off) — you got stuck on the back.
+     On touch, neutralize :hover/:focus-within and let ONLY the tap (.is-flipped)
+     drive the flip. The .is-flipped rule is listed last at equal specificity so
+     it wins when the card is both flipped AND focused. */
+  .mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner,
+  .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner { transform: rotateY(0deg); }
+  .mission-page .offering-flip:not(.no-flip).is-flipped .offering-flip-inner { transform: rotateY(180deg); }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
