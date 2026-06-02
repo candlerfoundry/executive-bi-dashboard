@@ -1507,6 +1507,47 @@ body.page-config-loading .panel.active::before,
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
+   PHONE-ONLY POLISH (max-width: 600px) — added 2026-06-02 (mobile phase, batch 1)
+   ───────────────────────────────────────────────────────────────────────────
+   Strictly phone-scoped. The tablet band starts at 768px (min-width) and the
+   tablet collapse rules use max-width:900px, so nothing here can match at
+   >=601px — desktop and tablet rendering are unchanged. Placed AFTER the
+   max-width:900px block (≈line 306) so these win the cascade at phone widths.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 600px) {
+  /* ── HEADER BANNER ──────────────────────────────────────────────────────────
+     The default header is a 3-col grid with minmax(220px,1fr) side columns =
+     440px minimum, which overflows a ~390px phone and clips "2025 – 2026".
+     Re-flow into two rows: logo + year on top, centered title beneath. */
+  .header {
+    grid-template-columns: auto auto;
+    grid-template-areas: "logo year" "center center";
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px 12px;
+    padding: 8px 14px;
+  }
+  .header-logo     { grid-area: logo; justify-self: start; }
+  .header-year     { grid-area: year; justify-self: end; font-size: 0.78rem; letter-spacing: 0.1em; }
+  .header-center   { grid-area: center; justify-self: center; text-align: center; }
+  .header-logo-img { height: 36px; }
+  .header-eyebrow  { font-size: 0.55rem; letter-spacing: 0.26em; margin-bottom: 1px; }
+  .header-main     { font-size: 0.95rem; }
+
+  /* ── GROWTH & REACH: stop the whole-page horizontal scroll ───────────────────
+     Below 768px the stat grid stays at 3 columns and the tiles default to
+     min-width:auto, so three tiles can't fit ~390px and the document widens to
+     ~554px (sideways scroll). Drop to 2 columns, let tiles shrink, and tighten
+     the desktop 60/24px row gutters that waste ~120px on a phone. */
+  .gr-timeline-row,
+  .gr-stats-map-row,
+  .gr-denom-cities-row { padding: 28px 16px; }
+  .gr-sc-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .gr-sc      { min-width: 0; padding: 18px 14px; }
+  .gr-sc-num  { font-size: 30px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
    NAV TABS — overflow handling for narrow / mid viewports (added 2026-05-19)
    ───────────────────────────────────────────────────────────────────────────
    The six tab labels + the Publish to Main button need roughly 1100–1200px
