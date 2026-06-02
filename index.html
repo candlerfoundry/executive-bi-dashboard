@@ -1632,12 +1632,22 @@ body.page-config-loading .panel.active::before,
      and the pen-writer on the far right falls off the edge. */
   .mission-bar::before { background-size: auto 150% !important; background-position: 14% 24% !important; }
 
-  /* On-Demand card: MissionResponsiveArt scales the card's frontGraphicShiftY
-     (-244) to ~-207px on the shorter mobile card, lifting the photo well above
-     the card bottom. Override the shift (empirically tuned at phone width) so the
-     image fills down to the card bottom like desktop. !important beats the inline
-     value the JS sets on the element. */
-  .offering-flip[data-card-id="on-demand-courses"] { --card-graphic-shift-y: 30px !important; }
+  /* On-Demand card: on the shorter mobile card the responsive-art transform
+     framed the wrong region. Override scale + shift (empirically tuned at phone
+     width) so the orange-hat figure with the tablet fills the frame like desktop.
+     !important beats the inline values the JS sets on the element. */
+  .offering-flip[data-card-id="on-demand-courses"] { --card-graphic-scale: 14 !important; --card-graphic-shift-y: -205px !important; }
+
+  /* CANDLER IMPACT hero — mirror the Mission hero: short content-height banner,
+     text top-aligned and full width (was vertically centered with a big top gap),
+     subtitle sized like Mission's, and the photo zoomed/panned so the green-shirt
+     student sits to the RIGHT of the headline instead of being covered by it. */
+  .ci-story-hero { min-height: 0 !important; height: auto !important; }
+  .ci-story-hero-inner { min-height: 0 !important; height: auto !important; width: 100% !important; max-width: none !important; padding: 16px 18px 30px !important; align-items: flex-start !important; }
+  .ci-hero-copy { width: 100% !important; max-width: none !important; min-height: 0 !important; justify-content: flex-start !important; transform: none !important; }
+  .ci-hero-headline { width: 100% !important; max-width: none !important; }
+  .ci-hero-body { width: 100% !important; max-width: none !important; font-size: 0.82rem !important; }
+  .ci-story-hero::before { background-size: auto 150% !important; background-position: 10% 28% !important; }
 
   /* Our Team: the banner photo is a 2.4:1 panorama, so cover crops the people at
      the edges. Show the WHOLE image (contain) so everyone's full face is visible;
