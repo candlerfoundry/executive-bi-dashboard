@@ -818,6 +818,9 @@
         '</div>';
       flip.addEventListener('click', function(event) {
         if (event.target.closest('.cb-cta')) return;
+        // Editing (card selection) is admin-only. For normal visitors, do NOT
+        // preempt the event — let initMissionCardInteractions flip the card.
+        if (!document.body.classList.contains('admin-mode')) return;
         event.preventDefault();
         event.stopPropagation();
         selectCardFromCanvas(slug, flip.classList.contains('is-flipped') ? 'back' : 'front');

@@ -1557,6 +1557,38 @@ body.page-config-loading .panel.active::before,
      it on phones so the photo fills the banner. JSON is untouched (desktop keeps
      its offset); !important beats the inline custom property set by JS. */
   .ty-hero { --ty-hero-offset-x: 0 !important; }
+
+  /* ── THEOED hero ─────────────────────────────────────────────────────────────
+     The 3-photo collage (center + 2 side accents) is too busy on a phone. Show
+     just the single center image (the ≤960 block already makes it `cover`), hide
+     the two side accents, and lift the center opacity so it reads on its own.
+     Tablet/desktop keep the full 3-photo composition. */
+  .te-hero-accent-left,
+  .te-hero-accent-right { display: none !important; }
+  .te-hero { --te-hero-center-opacity: 0.92 !important; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOUCH-DEVICE FLIP FIXES (hover: none) — added 2026-06-02 (mobile phase)
+   Pointer-based (mouse) devices keep the existing 3D flip; these only target
+   touch devices, where iOS Safari's backface-visibility bug makes flips ugly.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (hover: none) {
+  /* CANDLER IMPACT image cards: the 3D shell flashes a MIRRORED front face on
+     iOS during the turn, and the crisp resting layer only fades back in after a
+     0.45s delay — so a tap shows a reversed front before the real back appears,
+     and tapping back feels stuck. Replace the flip MOTION with a clean crossfade
+     of the (already crisp) resting layers and neutralize the 3D rotation so the
+     buggy shell never shows. End-states still come from the .is-active rules. */
+  .ci-story-card.is-image-front .ci-story-card-shell { transition: none !important; transform: none !important; }
+  .ci-story-card.is-image-front .ci-rest-image { transition: opacity 0.28s ease !important; }
+
+  /* THIS YEAR: backface-visibility alone didn't stop the front ribbon/badge from
+     ghosting (mirrored) onto the flipped-up back on iOS. Force them transparent
+     once the card is flipped. (Touch-only, so the desktop hover-flip is untouched
+     and never strips the ribbon mid-hover.) */
+  .ty-flip.is-flipped .ty-card-ribbon,
+  .ty-flip.is-flipped .ty-card-badge { opacity: 0 !important; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
