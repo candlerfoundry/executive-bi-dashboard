@@ -1,6 +1,6 @@
 {
   "hero": {
-    "logoImage": "https://www.dropbox.com/scl/fi/mytchjl1bntbysy3scwu1/TheoEd-Full-Name-no-tagline-white.png?rlkey=nzul4ipst3mesi95zinzm3y3m&st=3r134bwi&dl=1",
+    "logoImage": "/assets/theoed/TheoEd-logo-white.png",
     "logoAlt": "TheoEd",
     "description": "Want to take TED to church? That's TheoEd: short talks about theology, free discussion guides, and big ideas for spiritual seekers everywhere.",
     "centerImage": {

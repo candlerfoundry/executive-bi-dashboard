@@ -126,6 +126,11 @@ body.page-config-loading .panel.active::before,
 .ty-card-ribbon { position: absolute; top: 12px; right: 0; font-size: 10px; font-weight: 700; letter-spacing: 1.6px; text-transform: uppercase; padding: 6px 12px 6px 14px; border-radius: 3px 0 0 3px; z-index: 2; font-family: 'Montserrat',sans-serif; box-shadow: 0 2px 6px rgba(0,0,0,0.18); }
 .ty-card-ribbon--ond { background: var(--orange); color: var(--cream); }
 .ty-card-ribbon--cic { background: #f6a85d; color: var(--blue); }
+/* iOS Safari: an absolutely-positioned, z-indexed child (the ribbon/badge) can
+   escape the front face's backface-visibility:hidden and bleed a MIRRORED copy
+   onto the flipped-up card back. Giving these children their own backface
+   culling hides that ghost. No-op on browsers that cull correctly (desktop). */
+.ty-card-ribbon, .ty-card-badge { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
 /* .ty-card-overlay removed — graphics carry their own typography */
 .ty-card-sem { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #f6a85d; margin-bottom: 6px; font-family: 'Montserrat',sans-serif; }
 .ty-card-title { font-size: 22px; font-weight: 700; color: var(--cream); line-height: 1.15; margin: 0 0 4px; letter-spacing: -0.02em; font-family: 'Montserrat',sans-serif; }
@@ -1545,6 +1550,13 @@ body.page-config-loading .panel.active::before,
   .gr-sc-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .gr-sc      { min-width: 0; padding: 18px 14px; }
   .gr-sc-num  { font-size: 30px; }
+
+  /* ── THIS YEAR hero ──────────────────────────────────────────────────────────
+     The published heroOffsetX (~144px, tuned for the wide desktop banner) shoves
+     the background photo off the right of a phone, leaving the left blank. Zero
+     it on phones so the photo fills the banner. JSON is untouched (desktop keeps
+     its offset); !important beats the inline custom property set by JS. */
+  .ty-hero { --ty-hero-offset-x: 0 !important; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -4633,7 +4645,7 @@ body.page-config-loading .panel.active::before,
     <div class="te-hero-accent te-hero-accent-right" id="te-hero-accent-right"></div>
     <div class="te-hero-overlay"></div>
       <div class="te-hero-content">
-        <img class="te-logo-img" id="te-logo-img" src="https://www.dropbox.com/scl/fi/mytchjl1bntbysy3scwu1/TheoEd-Full-Name-no-tagline-white.png?rlkey=nzul4ipst3mesi95zinzm3y3m&st=3r134bwi&dl=1" alt="TheoEd">
+        <img class="te-logo-img" id="te-logo-img" src="/assets/theoed/TheoEd-logo-white.png" alt="TheoEd">
       <p class="te-hero-desc" id="te-hero-desc">TheoEd brings the world's leading theological thinkers to cities across the U.S. TheoEd is open to the public, livestreamed, and made available for free online, becoming a surprising way for all spiritual seekers - churched and unchurched alike - to truly engage in theological discussion.</p>
       <div class="te-hero-stats" id="te-hero-stats">
         <div class="te-hs-item">
@@ -8363,14 +8375,21 @@ function ciCreateStoryCard(story) {
       back.appendChild(impactCreatePanelMarkup(panel, story, 'back'));
     });
   }
-  card.addEventListener('click', function(event) {
+  function ciCardActivate(event) {
     event.preventDefault();
-    impactSelectCard(card.getAttribute('data-story-key'));
-  });
+    // Editing (card selection) is admin-only. For everyone else a tap/click
+    // simply flips the card — pairing with the desktop :hover flip so both
+    // tap and hover work. Edit selection stays behind the admin wall.
+    if (document.body.classList.contains('admin-mode')) {
+      impactSelectCard(card.getAttribute('data-story-key'));
+    } else if (!card.classList.contains('no-flip')) {
+      card.classList.toggle('is-active');
+    }
+  }
+  card.addEventListener('click', ciCardActivate);
   card.addEventListener('keydown', function(event) {
     if (event.key === 'Enter' || event.key === ' ') {
-      event.preventDefault();
-      impactSelectCard(card.getAttribute('data-story-key'));
+      ciCardActivate(event);
     }
     if (event.key === 'f' || event.key === 'F') {
       event.preventDefault();
@@ -8416,9 +8435,10 @@ function ciRenderRows() {
     intro.setAttribute('tabindex', '0');
     var rowMeta = rowOverrides.meta || row.meta || '';
     intro.innerHTML = '<div class="ci-row-label">' + (rowOverrides.label || row.label) + '</div><div class="ci-row-title">' + (rowOverrides.title || row.title) + '</div><div class="ci-row-copy">' + (rowOverrides.copy || row.copy) + '</div>' + (rowMeta ? ('<div class="ci-row-meta">' + rowMeta + '</div>') : '');
-    intro.addEventListener('click', function() { impactSelectRow(row.id); });
+    intro.addEventListener('click', function() { if (document.body.classList.contains('admin-mode')) impactSelectRow(row.id); });
     intro.addEventListener('keydown', function(event) {
       if (event.key === 'Enter' || event.key === ' ') {
+        if (!document.body.classList.contains('admin-mode')) return;
         event.preventDefault();
         impactSelectRow(row.id);
       }
