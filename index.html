@@ -1596,11 +1596,19 @@ body.page-config-loading .panel.active::before,
      single full-width column, hide the empty visual, and flow text from the top
      with minimal padding. This gives the headline its 3 lines and the subtitle
      far fewer lines. */
-  .mission-bar { min-height: auto !important; }
-  .mission-bar-overlay { min-height: 0 !important; padding-top: 12px !important; }
-  .mission-hero-grid { min-height: 0 !important; grid-template-columns: 1fr !important; gap: 0 !important; align-items: start !important; align-content: start !important; }
+  /* MissionResponsiveArt sets an inline height:420px on these (scaled from a
+     1600px desktop reference), leaving a tall empty band below the text that
+     showed the water bottle. Force content-height so the banner is short, and
+     give the text equal top/bottom padding. The cover photo then shows its
+     vertical middle (the faces), cropping the water bottle at the bottom. */
+  .mission-bar,
+  .mission-bar-overlay,
+  .mission-hero-grid,
+  .mission-intro-wrap { min-height: 0 !important; height: auto !important; }
+  .mission-bar-overlay { padding: 0 18px !important; }
+  .mission-hero-grid { grid-template-columns: 1fr !important; gap: 0 !important; align-items: start !important; align-content: start !important; }
   .mission-hero-visual { display: none !important; }
-  .mission-intro-wrap { min-height: 0 !important; width: 100% !important; max-width: none !important; justify-content: flex-start !important; padding: 6px 0 22px !important; }
+  .mission-intro-wrap { width: 100% !important; max-width: none !important; justify-content: flex-start !important; padding: 16px 0 30px !important; }
 
   /* The four config heroes draw a JS-computed left/right "edge-feather" wash whose
      photo-bound math is desktop-only (e.g. Growth's right feather lands at x=292px
@@ -1622,7 +1630,7 @@ body.page-config-loading .panel.active::before,
   .ty-hero::before { opacity: 0.6 !important; }
   /* Mission photo: pan left so the women (incl. the headwrap subject) are featured
      and the pen-writer on the far right falls off the edge. */
-  .mission-bar::before { background-position: 12% center !important; }
+  .mission-bar::before { background-size: auto 150% !important; background-position: 14% 24% !important; }
 
   /* On-Demand card: MissionResponsiveArt scales the card's frontGraphicShiftY
      (-244) to ~-207px on the shorter mobile card, lifting the photo well above
