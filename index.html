@@ -36,6 +36,34 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .dashboard-publish[disabled] { opacity:0.72; cursor:progress; }
 .dashboard-publish--nav { padding:7px 12px; font-size:0.5rem; letter-spacing:0.14em; box-shadow:0 8px 18px rgba(0,0,0,0.14); margin-left: 12px; }
 
+/* ═══ ADMIN GATE — all editing UI is hidden until an admin unlocks it ═══ */
+/* The 5 page-editor toggle buttons + the global Publish button are hidden by
+   default so they can never pop up for casual / mobile visitors. They are only
+   revealed when <body> carries .admin-mode (set after a correct password). */
+.page-editor-toggle,
+.dashboard-publish { display:none !important; }
+body.admin-mode .page-editor-toggle { display:inline-flex !important; }
+body.admin-mode .dashboard-publish { display:inline-block !important; }
+
+/* Unobtrusive admin footer at the very bottom of the page */
+.admin-footer { margin-top:56px; padding:20px 24px calc(20px + env(safe-area-inset-bottom)); display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; background:#161b24; border-top:1px solid rgba(250,250,242,0.06); font-family:'Montserrat', system-ui, sans-serif; }
+.admin-footer-copy { font-size:0.66rem; letter-spacing:0.08em; color:rgba(250,250,242,0.34); }
+.admin-trigger { border:none; background:none; padding:4px 8px; font-size:0.6rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(250,250,242,0.18); cursor:pointer; transition:color 0.2s ease; }
+.admin-trigger:hover, .admin-trigger:focus-visible { color:rgba(250,250,242,0.62); outline:none; }
+body.admin-mode .admin-trigger { display:none; }
+.admin-login { display:flex; align-items:center; gap:8px; }
+.admin-login[hidden] { display:none; }
+.admin-pass { border:1px solid rgba(250,250,242,0.18); background:rgba(250,250,242,0.05); border-radius:999px; padding:7px 14px; font-size:0.74rem; color:#fafaf2; width:170px; }
+.admin-pass:focus { outline:none; border-color:rgba(200,72,38,0.75); }
+.admin-login-btn, .admin-logout { border:none; border-radius:999px; cursor:pointer; padding:7px 15px; font-size:0.58rem; font-weight:700; letter-spacing:0.14em; text-transform:uppercase; }
+.admin-login-btn { background:#c84826; color:#fafaf2; }
+.admin-logout { background:rgba(250,250,242,0.12); color:rgba(250,250,242,0.72); }
+.admin-logout[hidden] { display:none; }
+.admin-login-msg { font-size:0.62rem; letter-spacing:0.06em; color:#e8a898; }
+.admin-login-msg[hidden] { display:none; }
+.admin-flag { font-size:0.6rem; letter-spacing:0.14em; text-transform:uppercase; color:#c84826; font-weight:700; }
+.admin-flag[hidden] { display:none; }
+
 /* ═══ SECTION: NAV TABS ═══ */
 .nav-tabs { background: var(--blue); display: flex; justify-content: center; align-items:center; gap: 2px; padding: 0 32px; border-bottom: 1px solid rgba(250,250,242,0.08); }
 .nav-tab { font-family: 'Montserrat', sans-serif; font-weight: 600; font-size: 14px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,250,242,0.7); padding: 17px 24px; cursor: pointer; border: none; background: none; border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap; opacity: 0.7; }
@@ -4630,6 +4658,19 @@ body.page-config-loading .panel.active::before,
   </div>
 
 </div>
+
+<!-- ═══ ADMIN FOOTER — unobtrusive editor login ═══ -->
+<footer class="admin-footer" id="admin-footer">
+  <span class="admin-footer-copy">© The Candler Foundry &middot; Impact Dashboard</span>
+  <button type="button" class="admin-trigger" id="admin-trigger" aria-label="Admin login" aria-expanded="false">Admin</button>
+  <form class="admin-login" id="admin-login" hidden>
+    <input type="password" class="admin-pass" id="admin-pass" placeholder="Password" autocomplete="current-password" aria-label="Admin password">
+    <button type="submit" class="admin-login-btn">Unlock</button>
+    <span class="admin-login-msg" id="admin-login-msg" hidden>Incorrect password</span>
+  </form>
+  <span class="admin-flag" id="admin-flag" hidden>Admin mode on</span>
+  <button type="button" class="admin-logout" id="admin-logout" hidden>Exit admin</button>
+</footer>
 
 <script>
 const FACULTY = [
@@ -10451,6 +10492,84 @@ document.addEventListener('DOMContentLoaded', loadContent);
     showSlide(0);
     iqTimer = setInterval(iqNext, 5000);
   });
+})();
+
+// ═══ ADMIN GATE — password-protect the editing tools ═══
+// The editor toggles + Publish button are CSS-hidden until <body>.admin-mode is
+// set. Unlock is gated by a SHA-256 hash of the password (plaintext never ships
+// in source) and persists in sessionStorage (clears when the tab closes).
+(function() {
+  var ADMIN_HASH = 'd4c19d605c0bfa6272600e1022b5f1cc38723d666a61bdc63bfa9f2bec9d3bf9';
+  var STORAGE_KEY = 'executive-bi-dashboard.adminUnlocked.v1';
+
+  var trigger = document.getElementById('admin-trigger');
+  var form = document.getElementById('admin-login');
+  var pass = document.getElementById('admin-pass');
+  var msg = document.getElementById('admin-login-msg');
+  var flag = document.getElementById('admin-flag');
+  var logout = document.getElementById('admin-logout');
+  if (!trigger || !form || !pass) return;
+
+  function isUnlocked() {
+    try { return sessionStorage.getItem(STORAGE_KEY) === '1'; } catch (e) { return false; }
+  }
+
+  function applyUnlocked(on) {
+    document.body.classList.toggle('admin-mode', on);
+    if (flag) flag.hidden = !on;
+    if (logout) logout.hidden = !on;
+    if (on) {
+      form.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  function lockEditors() {
+    // Hide any editor shells that were left open and reset their toggles.
+    document.querySelectorAll('.page-editor-shell').forEach(function(shell) { shell.hidden = true; });
+    document.querySelectorAll('.page-editor-toggle').forEach(function(btn) { btn.setAttribute('aria-expanded', 'false'); });
+  }
+
+  async function sha256Hex(text) {
+    var data = new TextEncoder().encode(text);
+    var buf = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(buf)).map(function(b) { return b.toString(16).padStart(2, '0'); }).join('');
+  }
+
+  // Restore prior unlock for this tab.
+  applyUnlocked(isUnlocked());
+
+  trigger.addEventListener('click', function() {
+    var open = form.hidden;
+    form.hidden = !open;
+    trigger.setAttribute('aria-expanded', String(open));
+    if (open) { msg.hidden = true; pass.value = ''; pass.focus(); }
+  });
+
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    msg.hidden = true;
+    var entered;
+    try { entered = await sha256Hex(pass.value); }
+    catch (err) { msg.textContent = 'Cannot verify (insecure context)'; msg.hidden = false; return; }
+    if (entered === ADMIN_HASH) {
+      try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch (e2) {}
+      applyUnlocked(true);
+      pass.value = '';
+    } else {
+      msg.textContent = 'Incorrect password';
+      msg.hidden = false;
+      pass.select();
+    }
+  });
+
+  if (logout) {
+    logout.addEventListener('click', function() {
+      try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      lockEditors();
+      applyUnlocked(false);
+    });
+  }
 })();
 
 </script>

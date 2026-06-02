@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-06-02 (Candler Impact: new 15-card lineup, image backs, no name overlay)
+Last updated: 2026-06-02 (Admin gate: all editing UI now password-protected behind a footer login — see §34. Earlier same day: Candler Impact 15-card lineup, image backs, no name overlay)
 
 Canonical local working copy: `C:\Scripts\executive-bi-dashboard`. If older notes contain legacy path references, treat this C drive path as authoritative.
 
@@ -979,7 +979,38 @@ This pre-processing is essential — without it, the browser downscales 3-6MB so
 
 ---
 
+## 34. ADMIN GATE — ALL EDITING UI IS PASSWORD-PROTECTED (2026-06-02)
+**Rule:** Every editing affordance on the dashboard is hidden until an admin unlocks it. This was added because the editor toggle buttons were popping up for ordinary (especially mobile) visitors. It is the first step of a larger mobile-polish phase.
+
+**What is gated:** The five page-editor toggle buttons (Mission, Candler Impact, Growth and Reach, TheoEd, This Year — all share the class `.page-editor-toggle`) and the global `#dashboard-publish` "Publish to Main" button. The Candler Impact Quick Edit / Card Builder lives *inside* the impact editor shell, so it is gated transitively. Each editor shell (`.page-editor-shell`) is `hidden` by default and can only be opened by its now-gated toggle.
+
+**Mechanism (all in `index.html`):**
+- CSS (just after the `.dashboard-publish--nav` rule): `.page-editor-toggle` and `.dashboard-publish` are `display:none !important` by default; `body.admin-mode .page-editor-toggle` / `body.admin-mode .dashboard-publish` reveal them. So the single source of truth for "is editing visible" is the `admin-mode` class on `<body>`.
+- An unobtrusive `<footer class="admin-footer" id="admin-footer">` sits at the very bottom of the page (inserted right before the main `<script>`, after the last `#panel-*`). It holds a low-contrast `ADMIN` trigger (`#admin-trigger`), a hidden password form (`#admin-login` / `#admin-pass`), an "Admin mode on" flag, and an "Exit admin" button (`#admin-logout`).
+- An IIFE at the end of the main inline `<script>` (right after the "OUR IMPACT CAROUSEL" block) wires it: clicking the trigger reveals the form; on submit it SHA-256-hashes the typed password via `crypto.subtle` and compares to the stored `ADMIN_HASH` constant. Match → set `body.admin-mode`, persist `sessionStorage['executive-bi-dashboard.adminUnlocked.v1']='1'`. On load it restores that flag. Logout clears the flag, closes any open editor shells, and re-locks.
+
+**Password handling:** The plaintext password is NOT in the source — only its SHA-256 hex hash is stored as the `ADMIN_HASH` constant in the IIFE. To change the password, regenerate the hash and swap that one constant:
+```
+node -e "const c=require('crypto');console.log(c.createHash('sha256').update('NEW_PASSWORD_HERE').digest('hex'))"
+```
+The plaintext is deliberately kept out of CANONICAL and memory (credential-leak surface, same reasoning as §23). The current password is held by the user.
+
+**Security scope — important:** This is a **UI gate**, not cryptographic security. A determined user can read the hash and brute-force a weak password, or just set `body.admin-mode` from devtools. It exists to keep editing out of the way of casual/mobile visitors. The real publish boundary is server-side: the Netlify `publish-page-config` function honors the optional `CMS_SECRET` env var (§10). If hard auth is ever needed, set `CMS_SECRET` and have the page send it as the `X-CMS-Secret` header (the function already checks it; `pageEditorPublishConfig` would need to attach it).
+
+**Unlock scope:** `sessionStorage` — stays unlocked while the tab is open, re-locks when the tab/browser closes. Chosen over `localStorage` so a shared/mobile device doesn't stay in admin mode.
+
+**Regression risk:**
+- Do NOT remove the `.page-editor-toggle { display:none }` / `.dashboard-publish { display:none }` default rules or the `body.admin-mode` overrides — that re-exposes the editors to all visitors (the original mobile bug).
+- Do NOT commit the plaintext admin password into any tracked file.
+- If you add a NEW page editor, give its toggle the shared `.page-editor-toggle` class so it is gated automatically; otherwise it will be visible to everyone.
+- Keep the unlock persistence in `sessionStorage`, not `localStorage`, unless the user asks otherwise.
+
+**Verified (2026-06-02, local preview):** Default load — 5 toggles + publish button all `display:none`, footer present, trigger visible, not in admin mode. Correct password — unlocks, reveals all toggles + publish, shows flag + logout, hides trigger, persists across reload. Logout — re-hides everything, clears session, restores trigger. Wrong password — rejected with "Incorrect password", stays locked. `crypto.subtle` available (secure context on `127.0.0.1` and on Netlify https).
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
+[ ] Admin gate: editor toggles (.page-editor-toggle) + #dashboard-publish hidden unless body.admin-mode; password stored only as SHA-256 hash; no plaintext password committed; unlock persists in sessionStorage (see §34)
 [ ] Mission grid layout: card-back--grid CSS scoped, buildGridBackHtml shared between renderOfferings and renderOfferingsWithConfig, buildMissionState plumbs tileStyle + cardBackVariant + gridItems + cardLabelStyle
 [ ] Tile labels: cbg-tile-label--{theoed,podcast,unstuck} render correctly; cb-cta chevron suppressed via cbg-tile::after { content:none !important }
 [ ] In-page lightbox: #te-lightbox is hoisted to document.body on load; slot is <div class=te-lb-frame-slot> with position:absolute inset:0; closeLightbox wipes innerHTML
