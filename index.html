@@ -1593,6 +1593,35 @@ body.page-config-loading .panel.active::before,
   .mission-bar-overlay { min-height: 0 !important; }
   .mission-hero-grid { min-height: 0 !important; }
   .mission-intro-wrap { min-height: 0 !important; justify-content: flex-start !important; padding: 26px 0 24px !important; }
+
+  /* The four config heroes draw a JS-computed left/right "edge-feather" wash whose
+     photo-bound math is desktop-only (e.g. Growth's right feather lands at x=292px
+     on a 390px phone) → visible vertical seams + lopsided washing. Replace each
+     hero's ::after with the SAME clean, even cream-wash Our Team uses, and bring
+     every hero photo to one consistent faint opacity. (This drops the
+     --hero-local-edge-overlay entirely on phones, killing the seams.) */
+  .mission-bar::after,
+  .gr-hero::after,
+  .ci-story-hero::after,
+  .ty-hero::after {
+    background:
+      linear-gradient(90deg, rgba(255,253,248,0.85) 0%, rgba(255,253,248,0.75) 30%, rgba(255,253,248,0.30) 52%, rgba(255,253,248,0.15) 70%, rgba(255,253,248,0.30) 88%, rgba(255,253,248,0.55) 100%),
+      linear-gradient(180deg, rgba(255,253,248,0.12) 0%, rgba(255,253,248,0) 30%, rgba(255,253,248,0) 75%, rgba(255,253,248,0.25) 100%) !important;
+  }
+  .mission-bar::before,
+  .gr-hero::before,
+  .ci-story-hero::before,
+  .ty-hero::before { opacity: 0.6 !important; }
+
+  /* Our Team: the banner photo is a 2.4:1 panorama, so cover crops the people at
+     the edges. Show the WHOLE image (contain) so everyone's full face is visible;
+     the cream letterbox blends into the cream hero background. */
+  #panel-ourteam .ot-hero::before {
+    background-size: contain !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+    opacity: 0.72 !important;
+  }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
