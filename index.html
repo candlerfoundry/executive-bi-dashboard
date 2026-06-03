@@ -1547,9 +1547,18 @@ body.page-config-loading .panel.active::before,
   .gr-timeline-row,
   .gr-stats-map-row,
   .gr-denom-cities-row { padding: 28px 16px; }
+  /* Timeline row: the scroll track reserves 18px below + the 28px row bottom
+     stacked ~46px under the last entry vs 28px above "Our Journey". Trim both so
+     the bottom gap matches the top. */
+  .gr-timeline-row { padding-bottom: 12px; }
+  .gr-timeline-scroll { padding-bottom: 14px; }
   .gr-sc-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .gr-sc      { min-width: 0; padding: 18px 14px; }
+  .gr-sc      { min-width: 0; padding: 18px 10px; }
   .gr-sc-num  { font-size: 30px; }
+  /* "Total Registrations" is the longest label; at 12px/2px-tracking it overran
+     the 2-col card and clipped the trailing "s". Tighten tracking + font so every
+     label fits inside the card without clipping. */
+  .gr-sc-label { font-size: 11px !important; letter-spacing: 0.5px !important; }
 
   /* ── THIS YEAR hero ──────────────────────────────────────────────────────────
      The published heroOffsetX (~144px, tuned for the wide desktop banner) shoves
@@ -1585,8 +1594,9 @@ body.page-config-loading .panel.active::before,
     transform: none !important;
   }
   /* Phone-sized headlines + no desktop copy nudges */
-  .gr-hero { --gr-hero-title-size: clamp(30px, 8vw, 40px) !important; }
+  .gr-hero { --gr-hero-title-size: clamp(36px, 9.6vw, 48px) !important; }
   .gr-hero-copy { transform: none !important; }
+  .gr-hero-subtitle { font-size: 0.82rem !important; }
   /* Mission: larger headline, smaller full-width subtitle (fewer wrapped lines) */
   .mission-thesis { font-size: clamp(36px, 9.6vw, 48px) !important; }
   .mission-text { font-size: 0.82rem !important; max-width: none !important; width: 100% !important; }
@@ -1643,11 +1653,11 @@ body.page-config-loading .panel.active::before,
      subtitle sized like Mission's, and the photo zoomed/panned so the green-shirt
      student sits to the RIGHT of the headline instead of being covered by it. */
   .ci-story-hero { min-height: 0 !important; height: auto !important; }
-  .ci-story-hero-inner { min-height: 0 !important; height: auto !important; width: 100% !important; max-width: none !important; padding: 16px 18px 30px !important; align-items: flex-start !important; }
+  .ci-story-hero-inner { min-height: 0 !important; height: auto !important; width: 100% !important; max-width: none !important; padding: 24px 18px !important; align-items: flex-start !important; }
   .ci-hero-copy { width: 100% !important; max-width: none !important; min-height: 0 !important; justify-content: flex-start !important; transform: none !important; }
   .ci-hero-headline { width: 100% !important; max-width: none !important; }
   .ci-hero-body { width: 100% !important; max-width: none !important; font-size: 0.82rem !important; }
-  .ci-story-hero::before { background-size: auto 150% !important; background-position: 10% 28% !important; }
+  .ci-story-hero::before { background-size: auto 150% !important; background-position: 0% 28% !important; }
 
   /* Our Team: the banner photo is a 2.4:1 panorama, so cover crops the people at
      the edges. Show the WHOLE image (contain) so everyone's full face is visible;
