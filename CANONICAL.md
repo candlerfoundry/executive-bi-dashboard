@@ -1009,8 +1009,30 @@ The plaintext is deliberately kept out of CANONICAL and memory (credential-leak 
 
 ---
 
+## 35. THIS YEAR — PHONE HERO + CARD-BACK FIXES (2026-06-03)
+All changes are scoped to the phone-only `@media (max-width: 600px)` block in `index.html` (mobile-polish phase). Tablet/desktop (≥601px) rendering is untouched, so §33's approved 768–1920px behavior still stands.
+
+**Hero (`#panel-year .ty-hero`):**
+- `min-height: 0 !important` + `padding-top: 26px !important`. The published `heroHeight` (≈348px, 560px fallback) plus single-column stacked stats had blown the phone hero up to ~740px with a big empty gap. Collapsing to content height + trimming the desktop 64px top padding fixes both. The base `min-height: var(--ty-hero-min-height, 560px)` and JS-set hero vars are unchanged for desktop.
+- `.ty-stats-shell { grid-template-columns: repeat(2, 1fr) }` — stats are now 2-up on phones (matches the Growth & Reach hero) instead of one stat per full line. `.ty-stat-sub` shrunk to 11.5px so the subs don't wrap excessively in the narrow columns.
+- **Right-edge "divider" wash:** the shared mobile hero `::after` (used by Mission/Growth/Candler/This Year) re-brightens BOTH edges (left 0.85, right 0.55). This Year's headline is on the LEFT, so the right ramp (0.30 @88% → 0.55 @100%) painted a visible vertical band over the bright window in the photo. Fixed with a This-Year-only override `#panel-year .ty-hero::after` (ID specificity wins) that fades left-heavy → near-transparent on the right (no band, text still legible). Do NOT remove this override expecting the shared wash to look clean on This Year — it won't.
+
+**Card backs (phone):** Single-column phone cards keep the 3/2 aspect, so card height scales with phone width (≈260px @430 down to ≈187px @320). The back text was tuned for the wider/taller 4-col desktop card, so the `flex:1` italic question (`.ty-card-back-desc`) got squeezed to ~0 height and clipped or vanished. Fix: a `@media (max-width:600px)` block sizes EVERY back element in **`cqw`** units (`.ty-flip` is the `container-type: inline-size` container), so the whole back face scales proportionally to the card's own width across all phone widths. This intentionally supersedes the `@container (max-width:320px)` block on phones (the `!important` cqw rules win). This honors §33: front art + card aspect are unchanged; only the back content scales.
+
+**Why cqw, not fixed px / a container-threshold bump:** Fixed-px compacting fit at 390px but re-clipped at ≤375px (shorter cards). Raising the `@container` threshold can't work because desktop 4-col cards are also ~280–380px wide — they'd wrongly compact (§33 regression). Mobile single-column is only distinguishable from desktop 4-col by viewport, hence the `≤600` media query carrying cqw-scaled values.
+
+**Verified (2026-06-03, local preview at 320/360/375/390/430px):** all 12 This Year card backs — 0 desc clipping, 0 back overflow, CTA inside the card at every width; hero compact with 2-up stats and no right-edge band; `node --test tests/*.test.mjs` 25/25 pass.
+
+**Regression risk:**
+- Keep all of the above inside `@media (max-width: 600px)` — widening the scope will disturb §33's approved tablet/desktop backs.
+- Keep the back-face sizing in `cqw` (card-width-relative), not fixed px, or narrow phones clip again.
+- Keep `#panel-year .ty-hero::after` (ID-scoped) — it is what removes the right-edge divider band on This Year specifically.
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
 [ ] Admin gate: editor toggles (.page-editor-toggle) + #dashboard-publish hidden unless body.admin-mode; password stored only as SHA-256 hash; no plaintext password committed; unlock persists in sessionStorage (see §34)
+[ ] This Year phone (≤600px): hero is content-height with 2-up stats, no right-edge wash band (#panel-year .ty-hero::after), and card backs scale in cqw so the italic question never clips at 320–430px (see §35)
 [ ] Mission grid layout: card-back--grid CSS scoped, buildGridBackHtml shared between renderOfferings and renderOfferingsWithConfig, buildMissionState plumbs tileStyle + cardBackVariant + gridItems + cardLabelStyle
 [ ] Tile labels: cbg-tile-label--{theoed,podcast,unstuck} render correctly; cb-cta chevron suppressed via cbg-tile::after { content:none !important }
 [ ] In-page lightbox: #te-lightbox is hoisted to document.body on load; slot is <div class=te-lb-frame-slot> with position:absolute inset:0; closeLightbox wipes innerHTML

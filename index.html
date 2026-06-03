@@ -1566,6 +1566,43 @@ body.page-config-loading .panel.active::before,
      it on phones so the photo fills the banner. JSON is untouched (desktop keeps
      its offset); !important beats the inline custom property set by JS. */
   .ty-hero { --ty-hero-offset-x: 0 !important; }
+  /* The published heroHeight (≈348px, 560px fallback) plus single-column stacked
+     stats blew the phone hero up to ~740px with a big empty gap and an over-tall
+     photo wash. Collapse to content height, trim the desktop 64px top padding, and
+     lay the stats out 2-up like Growth & Reach so the banner stays compact. */
+  .ty-hero { min-height: 0 !important; padding-top: 26px !important; }
+  .ty-stats-shell { grid-template-columns: repeat(2, 1fr) !important; gap: 16px 14px !important; }
+  .ty-stat-sub { font-size: 11.5px !important; line-height: 1.3 !important; }
+  /* The shared mobile hero wash re-brightens BOTH edges (left 0.85, right 0.55),
+     but This Year's headline sits on the left, so the right-edge ramp
+     (0.30 @88% -> 0.55 @100%) just paints a visible vertical band/"divider" over
+     the bright window in this photo. Override only This Year's ::after (ID wins
+     the cascade) with a left-heavy wash that fades smoothly to near-transparent
+     on the right — no band, text stays legible. */
+  #panel-year .ty-hero::after {
+    background:
+      linear-gradient(90deg, rgba(250,250,242,0.92) 0%, rgba(250,250,242,0.82) 26%, rgba(250,250,242,0.35) 52%, rgba(250,250,242,0.12) 78%, rgba(250,250,242,0.05) 100%),
+      linear-gradient(180deg, rgba(250,250,242,0.10) 0%, rgba(250,250,242,0) 30%, rgba(250,250,242,0) 70%, rgba(250,250,242,0.28) 100%) !important;
+  }
+
+  /* This Year card backs: single-column phone cards keep the 3/2 ratio, so the
+     card HEIGHT shrinks with the phone width (≈233px @390 down to ≈187px @320).
+     The back text was tuned for the wider/taller 4-col desktop card, so the
+     flex:1 italic question got squeezed to ~0 height and clipped (or vanished).
+     Scale every back element with the card's own width (cqw — .ty-flip is the
+     container) so the layout stays proportional and the question keeps 2–4 lines
+     across all phone widths. Front art + card aspect unchanged (CANONICAL §33 —
+     back content only; this supersedes the @container(≤320) block on phones). */
+  .ty-card-back { padding: 3cqw 4.5cqw 3cqw !important; }
+  .ty-card-back-title { font-size: clamp(12px, 4cqw, 16px) !important; line-height: 1.1 !important; margin-bottom: 0.6cqw !important; }
+  .ty-card-back-instr { font-size: clamp(8.5px, 2.8cqw, 11px) !important; line-height: 1.15 !important; margin-bottom: 2cqw !important; }
+  .ty-card-back-rule { width: clamp(60px, 26cqw, 100px) !important; margin-bottom: 2.2cqw !important; }
+  .ty-card-back-dates { font-size: clamp(8px, 2.6cqw, 10px) !important; margin-bottom: 2cqw !important; }
+  .ty-card-back-desc { font-size: clamp(10px, 3.3cqw, 12.5px) !important; line-height: 1.28 !important; margin-bottom: 2cqw !important; min-height: 0 !important; }
+  .ty-card-back-stats { gap: 4cqw !important; margin: 1cqw 0 2cqw !important; }
+  .ty-back-num { font-size: clamp(14px, 5cqw, 19px) !important; }
+  .ty-back-lbl { font-size: clamp(7px, 2.4cqw, 9px) !important; letter-spacing: clamp(0.6px, 0.3cqw, 1px) !important; }
+  .ty-card-cta { padding: clamp(6px, 2cqw, 9px) clamp(9px, 3cqw, 14px) !important; font-size: clamp(9px, 2.8cqw, 11px) !important; }
 
   /* ── THEOED hero ─────────────────────────────────────────────────────────────
      The 3-photo collage (center + 2 side accents) is too busy on a phone. Show
