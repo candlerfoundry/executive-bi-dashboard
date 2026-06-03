@@ -627,11 +627,16 @@ Optional per-card tuning:
 
 **Click affordance preserved:** every CTA on the new back uses the existing `cb-cta` class (alongside `lb-btn` / `lb-tile`), so the existing flip-tap handler in `initMissionCardInteractions()` still ignores button clicks via `event.target.closest('.cb-cta')`.
 
+**⚠️ TWO renderers — the live one is `assets/mission-editor.js` (2026-06-03):** The Mission offerings (incl. the lookbook backs) are rendered at runtime by `assets/mission-editor.js` (`renderOfferingsWithConfig`, the lookbook builder ~lines 758-790). There is a NEAR-IDENTICAL fallback copy of the same builder inside `index.html`'s inline script (~lines 10548-10581). **Editing only the index.html copy has NO visible effect** — the page uses mission-editor.js. When you change lookbook/offering markup, edit BOTH so they stay in sync (and so the index.html fallback is correct if mission-editor.js ever fails to load). Note: external JS like mission-editor.js is cached hard by browsers — a local preview may keep serving the old copy after an edit; the fix is still correct, it just needs a true fresh load / production deploy to show.
+
+**External links open in a new tab (2026-06-03):** The lookbook primary button and the cover tile (`.lb-btn-primary`, `.lb-tile`) now carry `target="_blank" rel="noopener"` in both renderers — so the flipbook (`foundryflipbook.netlify.app`) and the Sabbath course (`candlerfoundry.emory.edu/...`, On-Demand back) open in a new tab instead of replacing the dashboard. A pop-out/iframe modal (like the TheoEd video lightbox) was rejected for these because they're full external pages on Webflow/Netlify that typically set `X-Frame-Options`/CSP `frame-ancestors` and refuse to be iframed; new-tab is the reliable, consistent choice (matches the existing "Browse Current Courses" secondary button and TheoEd PDF links).
+
 **Regression risk:**
 - Do not let the lookbook CSS leak. Keep every selector under `.mission-page .card-back--lookbook`.
 - Do not change the path `assets/flipbook/courses-flipbook-cover.png` without updating both the JSON and this entry.
 - Do not strip `backLayout` / `lookbook*` fields from `buildMissionState`.
 - Do not collapse the conditional render in `renderOfferings` / `renderOfferingsWithConfig` into the navy/orange branch; the lookbook layout has no `.cb-strip` and would render badly.
+- Keep `target="_blank" rel="noopener"` on `.lb-tile` and `.lb-btn-primary` in BOTH `mission-editor.js` and the `index.html` fallback.
 
 ---
 

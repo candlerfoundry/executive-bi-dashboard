@@ -774,13 +774,13 @@
               '<span class="lb-accent" aria-hidden="true"></span>' +
               '<p class="lb-lead"' + leadStyle + '>' + escapeHtml(backCopy) + '</p>' +
               '<div class="lb-ctas">' +
-                '<a class="cb-cta lb-btn lb-btn-primary" href="' + escapeHtml(primaryHref) + '" data-action-type="' + escapeHtml((primary && primary.type) || 'lookbook') + '">' + escapeHtml(primary.label) + ' <span class="lb-arrow" aria-hidden="true">→</span></a>' +
+                '<a class="cb-cta lb-btn lb-btn-primary" href="' + escapeHtml(primaryHref) + '" target="_blank" rel="noopener" data-action-type="' + escapeHtml((primary && primary.type) || 'lookbook') + '">' + escapeHtml(primary.label) + ' <span class="lb-arrow" aria-hidden="true">→</span></a>' +
                 secondaryHtml +
               '</div>' +
             '</div>' +
             '<div class="lb-divider" aria-hidden="true"></div>' +
             '<div class="lb-right">' +
-              '<a class="cb-cta lb-tile' + (hidePages ? ' is-flat' : '') + '" href="' + escapeHtml(lookbookHref) + '" data-action-type="lookbook" aria-label="Open the ' + escapeHtml(backHeading) + ' lookbook"' + (tileStyle ? ' style="' + tileStyle + '"' : '') + '>' +
+              '<a class="cb-cta lb-tile' + (hidePages ? ' is-flat' : '') + '" href="' + escapeHtml(lookbookHref) + '" target="_blank" rel="noopener" data-action-type="lookbook" aria-label="Open the ' + escapeHtml(backHeading) + ' lookbook"' + (tileStyle ? ' style="' + tileStyle + '"' : '') + '>' +
                 (hidePages ? '' : '<div class="lb-pages-back" aria-hidden="true"></div>') +
                 (hidePages ? '' : '<div class="lb-pages-mid" aria-hidden="true"></div>') +
                 '<div class="lb-cover">' +

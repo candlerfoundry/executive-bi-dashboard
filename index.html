@@ -383,10 +383,6 @@ body.page-config-loading .panel.active::before,
 .ci-hero-jumps { display:none !important; }
 .ci-hero-headline { width:min(100%, var(--ci-hero-title-width)); max-width:var(--ci-hero-title-width); font-size:var(--ci-hero-headline-size); line-height:0.98; letter-spacing:-0.05em; color:var(--nv); margin:0 0 var(--ci-hero-title-gap); text-wrap:balance; }
 .ci-hero-body { width:min(100%, var(--ci-hero-body-width)); max-width:var(--ci-hero-body-width); font-size:var(--ci-hero-body-size); line-height:1.7; color:rgba(30,37,48,0.86); font-weight:500; margin:0; }
-/* Large monitors only: match the Our Mission & Offerings hero height (420px).
-   The Candler Impact hero was 360px and read as noticeably shorter beside it.
-   Phone/tablet (<=900px) keep their existing content-height behaviour. */
-@media (min-width: 901px) { #panel-people { --ci-hero-min-height: 420px; } }
 .ci-story-row { display:grid; grid-template-columns:minmax(210px, 0.25fr) minmax(0, 1fr); gap:22px; align-items:center; padding:24px 0; border-top:1px solid rgba(30,37,48,0.09); }
 .ci-story-row:first-of-type { border-top:none; padding-top:0; }
   .ci-row-intro { position:relative; align-self:center; padding:6px 10px 12px 0; cursor:pointer; }
@@ -1305,7 +1301,10 @@ body.page-config-loading .panel.active::before,
 }
 @media (max-width:960px) {
   .te-hero { height:auto; min-height:256px; }
-  .te-hero::before { background-size:cover; background-position:center 18%; -webkit-mask-image:linear-gradient(180deg, #000 0%, #000 55%, transparent 100%); mask-image:linear-gradient(180deg, #000 0%, #000 55%, transparent 100%); }
+  /* Zoom into the auditorium seating and push the framing down so the on-stage
+     "TheoEd" sign (mid-photo) is cropped out — it otherwise sat right behind the
+     hero TheoEd logo, which read as redundant/messy on phones. */
+  .te-hero::before { background-size:auto 235%; background-position:center 100%; -webkit-mask-image:linear-gradient(180deg, #000 0%, #000 55%, transparent 100%); mask-image:linear-gradient(180deg, #000 0%, #000 55%, transparent 100%); }
   .te-hero-content { min-height:256px; height:auto; padding:24px 20px 22px; }
   .te-hs-item { padding:0 18px; }
   .theoed-speaker-grid { grid-template-columns:1fr; padding:32px 20px 18px; gap:22px; }
@@ -7158,7 +7157,7 @@ var IMPACT_EDITOR_DEFAULTS = {
     offsetY: 0
   },
   layout: {
-    heroHeight: 360,
+    heroHeight: 420,
     cardGap: 18,
     cardHeight: 344,
     quotePanelWidth: 54,
@@ -10567,13 +10566,13 @@ function renderOfferings(offerings) {
             '<span class="lb-accent" aria-hidden="true"></span>' +
             '<p class="lb-lead"' + leadStyle + '>' + backCopy + '</p>' +
             '<div class="lb-ctas">' +
-              '<a class="cb-cta lb-btn lb-btn-primary" href="' + primaryHref + '" data-action-type="' + ((primaryAct && primaryAct.type) || 'lookbook') + '">' + primaryAct.label + ' <span class="lb-arrow" aria-hidden="true">→</span></a>' +
+              '<a class="cb-cta lb-btn lb-btn-primary" href="' + primaryHref + '" target="_blank" rel="noopener" data-action-type="' + ((primaryAct && primaryAct.type) || 'lookbook') + '">' + primaryAct.label + ' <span class="lb-arrow" aria-hidden="true">→</span></a>' +
               secondaryHtml +
             '</div>' +
           '</div>' +
           '<div class="lb-divider" aria-hidden="true"></div>' +
           '<div class="lb-right">' +
-            '<a class="cb-cta lb-tile' + (hidePages ? ' is-flat' : '') + '" href="' + lookbookHref + '" data-action-type="lookbook" aria-label="Open the ' + backHeading + ' lookbook"' + (tileStyle ? ' style="' + tileStyle + '"' : '') + '>' +
+            '<a class="cb-cta lb-tile' + (hidePages ? ' is-flat' : '') + '" href="' + lookbookHref + '" target="_blank" rel="noopener" data-action-type="lookbook" aria-label="Open the ' + backHeading + ' lookbook"' + (tileStyle ? ' style="' + tileStyle + '"' : '') + '>' +
               (hidePages ? '' : '<div class="lb-pages-back" aria-hidden="true"></div>') +
               (hidePages ? '' : '<div class="lb-pages-mid" aria-hidden="true"></div>') +
               '<div class="lb-cover">' +
