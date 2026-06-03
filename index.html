@@ -1208,6 +1208,14 @@ body.page-config-loading .panel.active::before,
 #panel-theoed { padding-top:0; padding-bottom:0; background:#F5F0EB; }
 .te-hero { background-color:#0b0f18; height:348px; position:relative; overflow:hidden; }
 .te-hero::before { content:''; position:absolute; inset:0; background-image:var(--te-hero-center-img, url('assets/theoed_photos/Greg Ellison - 1.jpg')); background-position:var(--te-hero-center-pos, center 18%); background-size:var(--te-hero-center-size, 62% auto); background-repeat:no-repeat; opacity:var(--te-hero-center-opacity, 0.75); z-index:0; }
+/* Desktop (>960px): crop the center venue photo to the auditorium seating so the
+   on-stage "TheoEd" sign isn't shown behind the hero logo (redundant/messy). The
+   height-based zoom keeps the crop consistent across desktop widths (a width-based
+   config scale lets the sign creep back in as the image shortens on narrow desktops).
+   The image + opacity stay config-driven; phones use the ≤960px rule below. */
+@media (min-width: 961px) {
+  .te-hero::before { background-size:auto 240%; background-position:center 100%; }
+}
 .te-hero-accent { position:absolute; top:0; bottom:0; pointer-events:none; background-repeat:no-repeat; z-index:0; }
 .te-hero-accent-left { left:0; width:var(--te-accent-left-width, 32%); background-image:var(--te-accent-left-img, none); background-size:var(--te-accent-left-size, auto 100%); background-position:var(--te-accent-left-pos, 50% 40%); opacity:var(--te-accent-left-opacity, 0.42); -webkit-mask-image:radial-gradient(ellipse 120% 130% at 0% 50%, #000 0%, #000 var(--te-accent-left-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-left-mid, 72%), transparent 100%); mask-image:radial-gradient(ellipse 120% 130% at 0% 50%, #000 0%, #000 var(--te-accent-left-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-left-mid, 72%), transparent 100%); }
 .te-hero-accent-right { right:0; width:var(--te-accent-right-width, 32%); background-image:var(--te-accent-right-img, none); background-size:var(--te-accent-right-size, auto 100%); background-position:var(--te-accent-right-pos, 50% 40%); opacity:var(--te-accent-right-opacity, 0.42); -webkit-mask-image:radial-gradient(ellipse 120% 130% at 100% 50%, #000 0%, #000 var(--te-accent-right-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-right-mid, 72%), transparent 100%); mask-image:radial-gradient(ellipse 120% 130% at 100% 50%, #000 0%, #000 var(--te-accent-right-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-right-mid, 72%), transparent 100%); }
