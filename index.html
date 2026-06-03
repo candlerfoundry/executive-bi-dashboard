@@ -29,9 +29,8 @@ body { font-family: 'Montserrat', sans-serif; background: var(--cream); color: v
 .header-center { text-align: center; justify-self: center; }
 .header-eyebrow { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.35em; text-transform: uppercase; color: rgba(250,250,242,0.6); margin-bottom: 3px; }
 .header-main { font-size: 1.1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); }
-.header-support { justify-self: end; display: inline-flex; align-items: center; gap: 6px; background: var(--orange); color: var(--cream); text-decoration: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.03em; padding: 9px 18px; border-radius: 8px; border: 1px solid transparent; white-space: nowrap; box-shadow: 0 6px 16px rgba(200,72,38,0.26); transition: background 0.18s ease, transform 0.18s ease, box-shadow 0.18s ease; }
-.header-support:hover { background: #a83a1d; transform: translateY(-1px); box-shadow: 0 8px 20px rgba(200,72,38,0.34); }
-.header-support:active { transform: translateY(0); }
+.header-support { justify-self: end; display: inline-flex; align-items: center; background: transparent; color: var(--cream); text-decoration: none; font-size: 0.62rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 11px; border-radius: 6px; border: 1px solid rgba(250,250,242,0.32); white-space: nowrap; transition: background 0.18s ease, border-color 0.18s ease, color 0.18s ease; }
+.header-support:hover { background: var(--orange); border-color: var(--orange); color: var(--cream); }
 .header-actions { display:flex; align-items:center; justify-content:flex-end; gap:16px; }
 .dashboard-publish { border:none; border-radius:999px; background:#fafaf2; color:#1e2530; padding:10px 16px; font-size:0.7rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; cursor:pointer; transition:transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease; box-shadow:0 10px 22px rgba(0,0,0,0.14); }
 .dashboard-publish:hover { transform:translateY(-1px); }
@@ -384,6 +383,10 @@ body.page-config-loading .panel.active::before,
 .ci-hero-jumps { display:none !important; }
 .ci-hero-headline { width:min(100%, var(--ci-hero-title-width)); max-width:var(--ci-hero-title-width); font-size:var(--ci-hero-headline-size); line-height:0.98; letter-spacing:-0.05em; color:var(--nv); margin:0 0 var(--ci-hero-title-gap); text-wrap:balance; }
 .ci-hero-body { width:min(100%, var(--ci-hero-body-width)); max-width:var(--ci-hero-body-width); font-size:var(--ci-hero-body-size); line-height:1.7; color:rgba(30,37,48,0.86); font-weight:500; margin:0; }
+/* Large monitors only: match the Our Mission & Offerings hero height (420px).
+   The Candler Impact hero was 360px and read as noticeably shorter beside it.
+   Phone/tablet (<=900px) keep their existing content-height behaviour. */
+@media (min-width: 901px) { #panel-people { --ci-hero-min-height: 420px; } }
 .ci-story-row { display:grid; grid-template-columns:minmax(210px, 0.25fr) minmax(0, 1fr); gap:22px; align-items:center; padding:24px 0; border-top:1px solid rgba(30,37,48,0.09); }
 .ci-story-row:first-of-type { border-top:none; padding-top:0; }
   .ci-row-intro { position:relative; align-self:center; padding:6px 10px 12px 0; cursor:pointer; }
@@ -1207,13 +1210,13 @@ body.page-config-loading .panel.active::before,
 
 /* TAB: THEOED */
 #panel-theoed { padding-top:0; padding-bottom:0; background:#F5F0EB; }
-.te-hero { background-color:#0b0f18; height:304px; position:relative; overflow:hidden; }
+.te-hero { background-color:#0b0f18; height:348px; position:relative; overflow:hidden; }
 .te-hero::before { content:''; position:absolute; inset:0; background-image:var(--te-hero-center-img, url('assets/theoed_photos/Greg Ellison - 1.jpg')); background-position:var(--te-hero-center-pos, center 18%); background-size:var(--te-hero-center-size, 62% auto); background-repeat:no-repeat; opacity:var(--te-hero-center-opacity, 0.75); z-index:0; }
 .te-hero-accent { position:absolute; top:0; bottom:0; pointer-events:none; background-repeat:no-repeat; z-index:0; }
 .te-hero-accent-left { left:0; width:var(--te-accent-left-width, 32%); background-image:var(--te-accent-left-img, none); background-size:var(--te-accent-left-size, auto 100%); background-position:var(--te-accent-left-pos, 50% 40%); opacity:var(--te-accent-left-opacity, 0.42); -webkit-mask-image:radial-gradient(ellipse 120% 130% at 0% 50%, #000 0%, #000 var(--te-accent-left-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-left-mid, 72%), transparent 100%); mask-image:radial-gradient(ellipse 120% 130% at 0% 50%, #000 0%, #000 var(--te-accent-left-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-left-mid, 72%), transparent 100%); }
 .te-hero-accent-right { right:0; width:var(--te-accent-right-width, 32%); background-image:var(--te-accent-right-img, none); background-size:var(--te-accent-right-size, auto 100%); background-position:var(--te-accent-right-pos, 50% 40%); opacity:var(--te-accent-right-opacity, 0.42); -webkit-mask-image:radial-gradient(ellipse 120% 130% at 100% 50%, #000 0%, #000 var(--te-accent-right-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-right-mid, 72%), transparent 100%); mask-image:radial-gradient(ellipse 120% 130% at 100% 50%, #000 0%, #000 var(--te-accent-right-solid, 45%), rgba(0,0,0,0.4) var(--te-accent-right-mid, 72%), transparent 100%); }
 .te-hero-overlay { position:absolute; inset:0; background:linear-gradient(90deg, rgba(11,15,24,0.55) 0%, rgba(11,15,24,0.25) 22%, rgba(11,15,24,0.08) 50%, rgba(11,15,24,0.25) 78%, rgba(11,15,24,0.55) 100%), linear-gradient(180deg, rgba(11,15,24,0.08) 0%, rgba(11,15,24,0.34) 74%, rgba(11,15,24,0.7) 100%); z-index:1; }
-.te-hero-content { position:relative; z-index:2; height:304px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 24px 18px; text-align:center; gap:8px; transform:translateY(-12px); }
+.te-hero-content { position:relative; z-index:2; height:348px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:12px 24px 28px; text-align:center; gap:8px; transform:translateY(-8px); }
 .te-logo-img { min-width:132px; width:var(--te-logo-width, clamp(230px,18.4vw,345px)); max-width:min(92vw,520px); height:auto; display:block; transform:translateY(var(--te-logo-offset-y, -8px)); filter:drop-shadow(0 6px 12px rgba(0,0,0,0.7)) drop-shadow(0 0 18px rgba(250,250,242,0.24)); }
 .te-hero-desc { max-width:760px; font-size:clamp(0.86rem,0.94vw,0.98rem); font-weight:500; color:#ffffff; line-height:1.48; margin:0; text-shadow:0 2px 16px rgba(0,0,0,0.7); transform:translateY(var(--te-hero-text-offset-y, 0px)); }
 .te-hero-stats { display:flex; align-items:flex-start; justify-content:center; gap:0; margin-top:2px; flex-wrap:wrap; row-gap:12px; }
@@ -1535,7 +1538,7 @@ body.page-config-loading .panel.active::before,
     padding: 8px 14px;
   }
   .header-logo     { grid-area: logo; justify-self: start; }
-  .header-support  { grid-area: year; justify-self: end; font-size: 0.6rem; letter-spacing: 0.02em; padding: 6px 11px; border-radius: 7px; box-shadow: 0 4px 10px rgba(200,72,38,0.24); }
+  .header-support  { grid-area: year; justify-self: end; font-size: 0.56rem; letter-spacing: 0.06em; padding: 4px 9px; border-radius: 6px; }
   .header-center   { grid-area: center; justify-self: center; text-align: center; }
   .header-logo-img { height: 36px; }
   .header-eyebrow  { font-size: 0.55rem; letter-spacing: 0.26em; margin-bottom: 1px; }
@@ -2095,7 +2098,7 @@ body.page-config-loading .panel.active::before,
     <div class="header-eyebrow">Impact Dashboard</div>
     <div class="header-main">Candler Foundry</div>
   </div>
-  <a class="header-support" href="https://giving.emory.edu/products/the-candler-foundry-theoed" target="_blank" rel="noopener">Support The Foundry</a>
+  <a class="header-support" href="https://giving.emory.edu/products/the-candler-foundry-theoed" target="_blank" rel="noopener">Support Us</a>
 </header>
 
 <nav class="nav-tabs">

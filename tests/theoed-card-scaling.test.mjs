@@ -34,13 +34,14 @@ test('TheoEd speaker cards scale copy from the rendered card width', () => {
   assert.doesNotMatch(quoteRule, /-webkit-line-clamp|display\s*:\s*-webkit-box|overflow\s*:\s*hidden/);
 });
 
-test('TheoEd hero is shorter with a larger lifted logo', () => {
+test('TheoEd hero desktop height with a larger lifted logo', () => {
   const heroRule = extractRule('.te-hero');
   const heroContentRule = extractRule('.te-hero-content');
   const logoRule = extractRule('.te-logo-img');
 
-  assert.match(heroRule, /height:\s*304px/);
-  assert.match(heroContentRule, /height:\s*304px/);
+  // 348px (raised from 304px on 2026-06-03 for more bottom padding on large monitors)
+  assert.match(heroRule, /height:\s*348px/);
+  assert.match(heroContentRule, /height:\s*348px/);
   assert.match(logoRule, /clamp\(230px,18\.4vw,345px\)/);
   assert.match(logoRule, /--te-logo-offset-y,\s*-8px/);
   assert.match(logoRule, /drop-shadow/);
