@@ -54,6 +54,8 @@ Internal divider lines, awkward L-shaped photo sections, and accidental nested b
 
 `*` = has a back PNG and flips. The other 6 (david-cross, joel-kemp, elizabeth-arnold, joanne-solis-walker, mina-lee, carmie-mcdonald) are front-only and **must not flip**. Classification follows the user's manual assignment (e.g. Joanne Solis-Walker's banner reads "La Mesa Academy" but she is placed in Faculty & Staff; John Vaughn is a partner placed in Alumni & Partners).
 
+**Clip pop-outs (2026-06-04):** `carmie-mcdonald` and `elizabeth-arnold` stay front-only/`no-flip` but carry a `clip` field that turns the whole card into a video launcher (see §36). They do NOT flip — a click opens the lightbox player instead.
+
 **Asset location & filename convention:** [assets/candler-impact-cards/](C:/Scripts/executive-bi-dashboard/assets/candler-impact-cards). Front = `<first-last>.png`; back = `<first-last>-back.png`. All-lowercase, kebab-case, honorifics dropped (e.g. `john-vaughn.png`, `john-vaughn-back.png`). A front with no matching `-back.png` is intentionally a non-flipping card.
 
 **Source PNG spec:** Aspect ratio **7:5** for BOTH front and back (current set is 1748×1240). Cards are sized via `aspect-ratio: 7 / 5`; non-7:5 art distorts. The name banner is part of the artwork — no separate strip-color contract anymore, so per-card banner colors are fine (e.g. Joanne's banner is navy).
@@ -1038,6 +1040,33 @@ All changes are scoped to the phone-only `@media (max-width: 600px)` block in `i
 
 ---
 
+## 36. CANDLER IMPACT — CARD CLIP POP-OUTS (2026-06-04)
+A front-only story card can launch a video in the shared lightbox (§28) on click, with a hover/focus-revealed play overlay. Used for **Carmie McDonald** (YouTube teaching clip from her church) and **Ebby/Elizabeth Arnold** (3-Minute Bible Vimeo sample). Scoped entirely to `index.html` + the `CI_STORY_PAGE` card object — no new PNG, no editor wiring.
+
+**Add a clip to a card:** add a `clip` field to its `CI_STORY_PAGE` entry. Two source types:
+```js
+// Vimeo (preferred — ad-free per §29). Pass the full vimeo.com URL.
+clip: { vimeo: 'https://vimeo.com/1198469430',
+        caption: 'Watch a 3-Minute Bible sample',
+        videoTitle: '3-Minute Bible · The Candler Foundry' }
+
+// YouTube (when rights belong to a third party and we link, not rehost).
+// start/end are optional seconds that trim the clip.
+clip: { youtube: '2M0JjOTU1CU', start: 373, end: 572,
+        caption: 'See The Foundry in action at Carmie’s church',
+        videoTitle: 'The Bible and Poverty · Church of the Epiphany' }
+```
+`caption` is the hover label; `videoTitle` becomes the lightbox subtitle (`loc`).
+
+**Rendering / behavior:**
+- `ciCreateStoryCard`: a card with `story.clip` gets the `has-clip` class and a `.ci-clip-overlay` (a `.ci-clip-veil` navy gradient + `.ci-clip-cta` with a `.ci-clip-play` ▶ circle and `.ci-clip-label`). The overlay is `opacity:0` at rest, revealed on `:hover`/`:focus-within`, `z-index:4` (above the resting layers from §2.2).
+- `ciCardActivate`: when `story.clip` is set and NOT in admin mode, a click calls `ciOpenClipLightbox(story.clip)` and returns early — it does **not** flip or select. Admin mode still falls through to selection.
+- `ciOpenClipLightbox`: if `clip.vimeo`, hands the URL to `openCardLightbox({video})` (which detects Vimeo via `lbIsVimeo`/`lbVimeoEmbed`). Otherwise builds a `youtube-nocookie.com/embed/<id>?rel=0&modestbranding=1&autoplay=1[&start][&end]` and passes it as `embed`.
+
+**Regression risk:** Keep `.ci-clip-overlay` at `z-index:4` (above the §2.2 resting layers) or the play CTA hides behind the card art. Don't remove the `!admin-mode` guard in `ciCardActivate` — editors still need to select these cards. Clip cards remain `no-flip` front-only; do not give them a back PNG. Prefer Vimeo (ad-free, §29); use YouTube only when we're linking third-party-owned footage we can't rehost (e.g. Carmie's church owns the source).
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
 [ ] Admin gate: editor toggles (.page-editor-toggle) + #dashboard-publish hidden unless body.admin-mode; password stored only as SHA-256 hash; no plaintext password committed; unlock persists in sessionStorage (see §34)
 [ ] This Year phone (≤600px): hero is content-height with 2-up stats, no right-edge wash band (#panel-year .ty-hero::after), and card backs scale in cqw so the italic question never clips at 320–430px (see §35)
@@ -1046,6 +1075,7 @@ All changes are scoped to the phone-only `@media (max-width: 600px)` block in `i
 [ ] In-page lightbox: #te-lightbox is hoisted to document.body on load; slot is <div class=te-lb-frame-slot> with position:absolute inset:0; closeLightbox wipes innerHTML
 [ ] TheoEd Dropbox/Vimeo migration: theoed.json speakers + events.talks carry dbxUrl; mission-page.json TheoEd grid items carry theoedDbxUrl; openLightbox detects Vimeo URLs and falls back to YouTube only when nothing else is set
 
+[ ] Card clip pop-outs (§36): Carmie/Ebby cards stay no-flip front-only with a `clip` field; `.ci-clip-overlay` at z-index:4; `ciCardActivate` opens the lightbox (not flip) only outside admin mode; Vimeo preferred over YouTube
 [ ] Candler Impact still uses hero + 3 story rows, not the retired faculty grid
 [ ] Candler Impact cards still render as unified editorial story cards
 [ ] Candler Impact nav position is second
