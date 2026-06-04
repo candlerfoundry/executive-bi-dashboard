@@ -57,10 +57,10 @@
     "perCourseOverrides": {
       "_notes": "Keys are lowercased-alphanumeric substrings of course titles.",
       "sabbath": {
-        "label": "Enroll in this free course",
+        "label": "Try Course for Free",
         "url": "https://candlerfoundry.emory.edu/sabbath-gift-course",
         "hideDiscountCode": true,
-        "badge": "Free",
+        "badge": "🎁 Free Gift",
         "ctaStyle": "highlight"
       }
     }

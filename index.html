@@ -745,6 +745,63 @@ body.page-config-loading .panel.active::before,
 .ci-story-card.is-image-front.is-active:not(.no-flip) .ci-rest-front { opacity: 0; transition: opacity 0.12s ease; }
 .ci-story-card.is-image-front:hover:not(.no-flip) .ci-rest-back,
 .ci-story-card.is-image-front.is-active:not(.no-flip) .ci-rest-back { opacity: 1; transition: opacity 0.12s ease 0.45s; }
+/* Clip pop-out overlay (scoped to cards with a `clip`, e.g. Carmie). Hover/focus
+   reveals a soft navy veil + play CTA over the front-only card; click opens the
+   shared lightbox. Sits above the z-index:3 resting layers; pointer-events:none
+   so the card itself owns the click (works for hover + tap + keyboard). */
+.ci-story-card.has-clip { cursor: pointer; }
+.ci-clip-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: inherit;
+  overflow: hidden;
+}
+.ci-story-card.has-clip:hover .ci-clip-overlay,
+.ci-story-card.has-clip:focus-visible .ci-clip-overlay,
+.ci-story-card.has-clip:focus-within .ci-clip-overlay { opacity: 1; }
+.ci-clip-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(30,37,48,0) 38%, rgba(30,37,48,0.55) 72%, rgba(30,37,48,0.88) 100%);
+}
+.ci-clip-cta {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 0 22px 22px;
+  width: 100%;
+}
+.ci-clip-play {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: rgba(250,250,242,0.95);
+  color: #c84826;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  padding-left: 3px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+.ci-clip-label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.3;
+  color: #fafaf2;
+  text-shadow: 0 1px 6px rgba(0,0,0,0.45);
+}
 /* Defensive: if any legacy panels render on the front, hide them under the image variant. */
 .ci-story-card.is-image-front .ci-story-front .ci-story-panel,
 .ci-story-card.is-image-front .ci-story-front .ci-story-quote-panel,
@@ -1855,8 +1912,8 @@ body.page-config-loading .panel.active::before,
   inset: 0;
   background:
     linear-gradient(90deg,
-      rgba(255,253,248,0.85) 0%,
-      rgba(255,253,248,0.75) 30%,
+      rgba(255,253,248,0.72) 0%,
+      rgba(255,253,248,0.62) 30%,
       rgba(255,253,248,0.30) 52%,
       rgba(255,253,248,0.15) 70%,
       rgba(255,253,248,0.30) 88%,
@@ -4990,10 +5047,10 @@ const THEOED_SPEAKERS = [
   {name:'The Rt. Rev. Robert Wright', loc:'Atlanta \xb7 2022',   photo:'assets/theoed_photos/Rob Wright.jpg',            imgPos:'68% 18%', imgScale:'1.45', vid:'ipq7vf9QLxA', quote:'\u201cLove is overthrowing everything that is not love.\u201d',                                                                        guide:'assets/theoed/discussion-guides/THEO-189-the-right-rev-robert-wright-the-leadership-love-demands-discussion-guide.pdf'},
   {name:'Dr. Amy-Jill Levine',        loc:'Atlanta \xb7 2017',   photo:'assets/theoed_photos/Amy Jill-Levine 1.png',     imgPos:'18% 26%', imgScale:'1.0',  vid:'AFy_jjP2WzU', quote:'\u201cIt is not the job of the individual Christian to say who is saved and who is damned.\u201d',                                   guide:'assets/theoed/discussion-guides/THEO-128-amy-jill-levine-life-after-death-jesus-judiasm-and-justice-discussion-guide.pdf'},
   {name:'Julian Davis Reid',          loc:'Nashville \xb7 2025', photo:'assets/theoed_photos/Julian Davis Reid 1.jpg',   imgPos:'70% 24%', imgScale:'1.18', vid:'HEspbbh3-1w', quote:'\u201cThe bass notes are God\u2019s deepest messages \u2014 love, forgiveness, hope.\u201d',                                             guide:'assets/theoed/discussion-guides/THEO-184-julian-davis-reid-the-chord-changes-discussion-guide.pdf'},
-  {name:'Dr. Wil Gafney',             loc:'Atlanta \xb7 2020',   photo:'assets/theoed_photos/Wil Gafney - 1.jpg',        imgPos:'52% 20%', imgScale:'1.38', vid:'zLfpaRhsSUI', quote:'\u201cThe language you use about God tells me what you think about me.\u201d',                                                        guide:'assets/theoed/discussion-guides/THEO-180-dr-wil-gafney-biblical-language-for-a-god-who-transcends-gender-discussion-guide.pdf'},
+  {name:'Dr. Wil Gafney',             loc:'Atlanta \xb7 2020',   photo:'assets/theoed_photos/Wil Gafney - 1.jpg',        imgPos:'52% 20%', imgScale:'1.59', vid:'zLfpaRhsSUI', quote:'\u201cThe language you use about God tells me what you think about me.\u201d',                                                        guide:'assets/theoed/discussion-guides/THEO-180-dr-wil-gafney-biblical-language-for-a-god-who-transcends-gender-discussion-guide.pdf'},
   {name:'Shane Claiborne',            loc:'Atlanta \xb7 2018',   photo:'assets/theoed_photos/Shane Claiborne.jpg',       imgPos:'72% 24%', imgScale:'1.28', vid:'tVL7z73zuJ8', quote:'\u201cWe worship a homeless man on Sunday \u2014 can we ignore one on Monday?\u201d',                                                 guide:'assets/theoed/discussion-guides/THEO-182-dr-shane-claiborne-resurrecting-church-discussion-guide.pdf'},
-  {name:'Pete Enns',                  loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Pete Enns.jpeg',            imgPos:'50% 22%', imgScale:'1.28', vid:'YDirRZLtifE', quote:'\u201cReimagining God is not disloyalty \u2014 it is exactly what the tradition has always done.\u201d',                               guide:'assets/theoed/discussion-guides/THEO-138-pete-enns-reimagining-an-ancient-god-discussion-guide.pdf'},
-  {name:'Diana Butler Bass',          loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Diana Butler Bass.jpeg',    imgPos:'50% 22%', imgScale:'1.3',  vid:'4cNTthYIW0I', quote:'\u201cGratitude is not something we put on the side of our faith \u2014 it is central to God\u2019s dream of justice.\u201d',       guide:'assets/theoed/discussion-guides/THEO-181-dr-diana-butler-bass-jesus-the-ingrate-discussion-guide.pdf'}
+  {name:'Pete Enns',                  loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Pete Enns.jpeg',            imgPos:'50% 22%', imgScale:'1.47', vid:'YDirRZLtifE', quote:'\u201cReimagining God is not disloyalty \u2014 it is exactly what the tradition has always done.\u201d',                               guide:'assets/theoed/discussion-guides/THEO-138-pete-enns-reimagining-an-ancient-god-discussion-guide.pdf'},
+  {name:'Diana Butler Bass',          loc:'Atlanta \xb7 2019',   photo:'assets/theoed_photos/Diana Butler Bass.jpeg',    imgPos:'50% 22%', imgScale:'1.50',  vid:'4cNTthYIW0I', quote:'\u201cGratitude is not something we put on the side of our faith \u2014 it is central to God\u2019s dream of justice.\u201d',       guide:'assets/theoed/discussion-guides/THEO-181-dr-diana-butler-bass-jesus-the-ingrate-discussion-guide.pdf'}
 ];
 
 const THEOED_EVENTS = [
@@ -7123,7 +7180,9 @@ var CI_STORY_PAGE = {
       meta: '',
       stories: [
         { frontImage: '/assets/candler-impact-cards/joel-kemp.png',            name: 'Dr. Joel B. Kemp',     role: 'Assistant Professor of Hebrew Bible',   width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
-        { frontImage: '/assets/candler-impact-cards/elizabeth-arnold.png',     name: 'Dr. Elizabeth Arnold', role: 'The Candler Foundry',                   width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/elizabeth-arnold.png',     name: 'Dr. Elizabeth Arnold', role: 'The Candler Foundry',                   width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK,
+          // Hover-reveal pop-out clip — a full 3-minute 3-Minute-Bible sample (Vimeo, ad-free).
+          clip: { vimeo: 'https://vimeo.com/1198469430', caption: 'Watch a 3-Minute Bible sample', videoTitle: '3-Minute Bible · The Candler Foundry' } },
         { frontImage: '/assets/candler-impact-cards/sam-martinez.png',         backImage: '/assets/candler-impact-cards/sam-martinez-back.png', name: 'Sam Martinez', role: 'Candler Admissions',          width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
         { frontImage: '/assets/candler-impact-cards/joanne-solis-walker.png',  name: 'Dr. Joanne Solis-Walker', role: 'La Mesa Academy',                    width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
       ]
@@ -7136,7 +7195,10 @@ var CI_STORY_PAGE = {
       meta: '',
       stories: [
         { frontImage: '/assets/candler-impact-cards/mina-lee.png',        name: 'Mina Lee',            role: 'Candler Alumnus (M.T.S., 2026)',  width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
-        { frontImage: '/assets/candler-impact-cards/carmie-mcdonald.png', name: 'Rev. Carmie McDonald', role: 'Candler Alumnus (M.Div., 2023)', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK },
+        { frontImage: '/assets/candler-impact-cards/carmie-mcdonald.png', name: 'Rev. Carmie McDonald', role: 'Candler Alumnus (M.Div., 2023)', width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK,
+          // Hover-reveal pop-out clip — artwork-teaching segment (6:13–9:32):
+          // Ryan presents the da Firenze fresco, "giving to a church isn't loftier than giving to the poor."
+          clip: { youtube: '2M0JjOTU1CU', start: 373, end: 572, caption: 'See The Foundry in action at Carmie’s church', videoTitle: 'The Bible and Poverty · Church of the Epiphany' } },
         { frontImage: '/assets/candler-impact-cards/john-vaughn.png',     backImage: '/assets/candler-impact-cards/john-vaughn-back.png',  name: 'Rev. John Vaughn', role: 'Ebenezer Baptist Church',       width: CI_IMAGE_CARD_WIDTH, surface: CI_IMAGE_CARD_SURFACE, ink: CI_IMAGE_CARD_INK }
       ]
     }
@@ -8501,6 +8563,7 @@ function ciCreateStoryCard(story) {
   if (story.flipped) classNames.push('is-flipped');
   if (story.emphasis === 'text') classNames.push('is-text-dominant');
   if (story.emphasis === 'media') classNames.push('is-media-dominant');
+  if (story.clip) classNames.push('has-clip');
   card.className = classNames.join(' ');
   var _ciAccent = story.accent || '#c84826';
   card.style.setProperty('--ci-accent', _ciAccent);
@@ -8596,7 +8659,43 @@ function ciCreateStoryCard(story) {
       back.appendChild(impactCreatePanelMarkup(panel, story, 'back'));
     });
   }
+  // ----- Clip pop-out overlay (e.g. Carmie): hover/focus reveals a play CTA
+  // over the front-only card; the card click opens the clip in the lightbox. -----
+  if (story.clip) {
+    var clipOverlay = document.createElement('div');
+    clipOverlay.className = 'ci-clip-overlay';
+    clipOverlay.setAttribute('aria-hidden', 'true');
+    clipOverlay.innerHTML =
+      '<div class="ci-clip-veil"></div>' +
+      '<div class="ci-clip-cta">' +
+        '<span class="ci-clip-play">&#9654;</span>' +
+        '<span class="ci-clip-label">' + ciEscapeHtml(story.clip.caption || 'Watch') + '</span>' +
+      '</div>';
+    card.appendChild(clipOverlay);
+    card.setAttribute('aria-label', (story.name || '') + ' — ' + (story.clip.caption || 'play clip'));
+  }
+  function ciOpenClipLightbox(clip) {
+    if (!clip) return;
+    // Vimeo (ad-free, preferred per §29): hand the URL to openCardLightbox, which
+    // detects Vimeo and builds the player embed.
+    if (clip.vimeo) {
+      openCardLightbox({ video: clip.vimeo, name: story.name || '', loc: clip.videoTitle || '' });
+      return;
+    }
+    if (!clip.youtube) return;
+    var params = ['rel=0', 'modestbranding=1', 'autoplay=1'];
+    var s = parseInt(clip.start, 10); if (isFinite(s) && s > 0) params.push('start=' + s);
+    var e = parseInt(clip.end, 10);   if (isFinite(e) && e > 0) params.push('end=' + e);
+    var embed = 'https://www.youtube-nocookie.com/embed/' + clip.youtube + '?' + params.join('&');
+    openCardLightbox({ embed: embed, name: story.name || '', loc: clip.videoTitle || '' });
+  }
   function ciCardActivate(event) {
+    // Clip cards open the pop-out player on click/tap (admin editing aside).
+    if (story.clip && !document.body.classList.contains('admin-mode')) {
+      event.preventDefault();
+      ciOpenClipLightbox(story.clip);
+      return;
+    }
     event.preventDefault();
     // Editing (card selection) is admin-only. For everyone else a tap/click
     // simply flips the card — pairing with the desktop :hover flip so both
