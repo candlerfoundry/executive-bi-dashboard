@@ -154,7 +154,8 @@
       ],
       "lookbookTileTilt": 0,
       "lookbookTileFlat": true,
-      "frontGraphicShiftY": -244
+      "frontGraphicShiftY": -210,
+      "frontGraphicShiftX": 30
     },
     "sunday-school-simplified": {
       "section": "ministry",
