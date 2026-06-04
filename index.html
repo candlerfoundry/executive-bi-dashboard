@@ -1500,6 +1500,13 @@ body:not(.admin-mode) .te-editor-launch { display:none; }
   /* Image-front cards keep their 7:5 aspect ratio instead of a min-height. */
   .ci-story-card.is-image-front { min-height:0; }
   .ci-row-track { padding-bottom:14px; }
+  /* Mission offering cards keep a fixed height with overflow:hidden, so on
+     narrow phones the body text was clipped mid-word. Shrink the card text so
+     it fits within the card instead of being cut off. */
+  .mission-page .cf-name { font-size:1.12rem; }
+  .mission-page .cf-tagline { font-size:0.78rem; line-height:1.55; margin-bottom:14px; }
+  .mission-page .cf-flip-hint { font-size:0.58rem; }
+  .mission-page .cb-hook { font-size:0.78rem; line-height:1.55; }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
