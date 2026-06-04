@@ -47,10 +47,10 @@ Internal divider lines, awkward L-shaped photo sections, and accidental nested b
 ### 2.1 CANDLER IMPACT - IMAGE-FRONT/IMAGE-BACK CARD VARIANT (rewritten 2026-06-02)
 **Rule:** Story cards are fully pre-composed PNGs. The front is the entire designed card art (quote panel, photo, color blocks, AND the name/title banner all baked in). When a card has a back, the back is ALSO a pre-composed PNG. There is **no HTML name overlay** anymore (see history note below). Rounded corners and the multi-layer lift shadow are preserved.
 
-**Lineup — 17 cards across 3 rows (11 have backs, 6 are front-only) (updated 2026-06-04):**
+**Lineup — 18 cards across 3 rows (12 have backs, 6 are front-only) (updated 2026-06-04):**
 Cards with a back OR a clip feature lead each row; plain front-only cards sort to the end (user request, so the richest cards are seen first before the row scrolls).
 - `student-stories` → **Current & Prospective Students** (8): hannah-ford*, tammy-edwards*, kara-nelson*, emmanuel-kwarf*, elle-crosman*, hannah-ripert*, hangil-ryu*, david-cross
-- `faculty-stories` → **Faculty & Staff** (5): elizabeth-arnold (clip), sam-martinez*, susan-hylen*, joel-kemp, joanne-solis-walker
+- `faculty-stories` → **Faculty & Staff** (6): elizabeth-arnold (clip), sam-martinez*, susan-hylen*, bo-adams*, joel-kemp, joanne-solis-walker
 - `alumni-stories` → **Alumni & Partners** (4): carmie-mcdonald (clip), john-vaughn*, rebekah-lemon*, mina-lee
 
 `*` = has a back PNG and flips. The other 6 (david-cross, joel-kemp, elizabeth-arnold, joanne-solis-walker, mina-lee, carmie-mcdonald) are front-only and **must not flip**. Classification follows the user's manual assignment (e.g. Joanne Solis-Walker's banner reads "La Mesa Academy" but she is placed in Faculty & Staff; John Vaughn is a partner placed in Alumni & Partners).
