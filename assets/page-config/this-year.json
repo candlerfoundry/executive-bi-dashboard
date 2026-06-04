@@ -5,6 +5,18 @@
     "subtitle": "A snapshot of The Candler Foundry's latest learning opportunities.",
     "image": "/assets/student_photos/Master Class Student Talking 7.jpg"
   },
+  "layout": {
+    "edgeFeatherLeft": 120,
+    "edgeFeatherRight": 120,
+    "heroHeight": 348,
+    "heroFocusY": 40,
+    "heroFocusX": 35,
+    "heroOffsetX": 144,
+    "heroOffsetY": 0,
+    "heroOpacity": 0.5,
+    "fadeRight": 6,
+    "fadeLeft": 0
+  },
   "stats": [
     {
       "id": "courses",
@@ -251,18 +263,6 @@
     "congregationalEnrollmentAvg": 50,
     "_notes": "windowMonths is rolling. minStartDate is a hard floor — courses starting before this date are excluded regardless of the rolling window. Tiles only show types in includeTypesForTiles AND only courses with a Graphic. Banner stats are computed across includeTypesForStats. Each congregational CIC course contributes congregationalEnrollmentAvg enrollments since registrations aren't tracked for those.",
     "minStartDate": "2025-08-01"
-  },
-  "layout": {
-    "heroHeight": 348,
-    "heroFocusY": 40,
-    "heroFocusX": 35,
-    "heroOffsetX": 144,
-    "heroOffsetY": 0,
-    "heroOpacity": 0.5,
-    "fadeRight": 6,
-    "fadeLeft": 0,
-    "edgeFeatherLeft": 120,
-    "edgeFeatherRight": 120
   },
   "coursesSection": {
     "eyebrow": "12-Month lookback",
