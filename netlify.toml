@@ -5,3 +5,12 @@
   GITHUB_REPO = "candlerfoundry/executive-bi-dashboard"
   GITHUB_BRANCH = "main"
   # GITHUB_PAT must be added manually in the Netlify dashboard — do not hardcode it here
+
+# Keep the dashboard out of search engines (private donor site). The noindex
+# directive must be served on a crawlable response, so do NOT add a robots.txt
+# Disallow — that would stop Google from ever seeing this header. See also the
+# <meta name="robots"> tag in index.html.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Robots-Tag = "noindex, nofollow"
