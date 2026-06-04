@@ -1353,6 +1353,11 @@ body.page-config-loading .panel.active::before,
 #panel-theoed { position:relative; }
 .te-editor-launch { position:absolute; top:14px; right:24px; z-index:60; display:flex; justify-content:flex-end; pointer-events:none; }
 .te-editor-launch .page-editor-toggle { pointer-events:auto; }
+/* The launch wrapper only holds the admin "Edit TheoEd" button. For visitors that
+   button is display:none, but on mobile the wrapper switches to position:static with
+   top padding (below) and rendered a beige strip above the hero. Collapse it entirely
+   when not in admin mode so the hero meets the nav cleanly. */
+body:not(.admin-mode) .te-editor-launch { display:none; }
 .theoed-editor-panel[hidden] { display:none; }
 #mission-editor-shell .impact-editor-tabs { display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:12px 0 14px; }
 #mission-editor-shell .impact-editor-tab { flex:0 1 auto; min-width:0; border-radius:999px; padding:8px 11px; font-size:0.58rem; line-height:1.1; letter-spacing:0.1em; color:#1e2530; background:#ffffff; white-space:normal; overflow-wrap:anywhere; }
@@ -7364,7 +7369,8 @@ window.pageEditorPublishConfig = async function(options) {
   var response = await fetch('/.netlify/functions/publish-page-config', {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-CMS-Secret': (window.getCmsSecret ? window.getCmsSecret() : '')
     },
     body: JSON.stringify({
       commitMessage: options.commitMessage,
@@ -10890,6 +10896,13 @@ document.addEventListener('DOMContentLoaded', loadContent);
 (function() {
   var ADMIN_HASH = 'd4c19d605c0bfa6272600e1022b5f1cc38723d666a61bdc63bfa9f2bec9d3bf9';
   var STORAGE_KEY = 'executive-bi-dashboard.adminUnlocked.v1';
+  // The typed password is stashed for the tab session so editor write-calls can
+  // authorize against the server (X-CMS-Secret). Set the Netlify CMS_SECRET env
+  // var to this same password to turn server-side enforcement on. See CANONICAL §37.
+  var SECRET_KEY = 'executive-bi-dashboard.cmsSecret.v1';
+  window.getCmsSecret = function() {
+    try { return sessionStorage.getItem(SECRET_KEY) || ''; } catch (e) { return ''; }
+  };
 
   var trigger = document.getElementById('admin-trigger');
   var form = document.getElementById('admin-login');
@@ -10943,6 +10956,7 @@ document.addEventListener('DOMContentLoaded', loadContent);
     catch (err) { msg.textContent = 'Cannot verify (insecure context)'; msg.hidden = false; return; }
     if (entered === ADMIN_HASH) {
       try { sessionStorage.setItem(STORAGE_KEY, '1'); } catch (e2) {}
+      try { sessionStorage.setItem(SECRET_KEY, pass.value); } catch (e3) {}
       applyUnlocked(true);
       pass.value = '';
     } else {
@@ -10955,6 +10969,7 @@ document.addEventListener('DOMContentLoaded', loadContent);
   if (logout) {
     logout.addEventListener('click', function() {
       try { sessionStorage.removeItem(STORAGE_KEY); } catch (e) {}
+      try { sessionStorage.removeItem(SECRET_KEY); } catch (e) {}
       lockEditors();
       applyUnlocked(false);
     });

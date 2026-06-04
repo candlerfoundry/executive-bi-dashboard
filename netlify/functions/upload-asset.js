@@ -4,7 +4,7 @@
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'Content-Type',
+  'Access-Control-Allow-Headers': 'Content-Type, X-CMS-Secret',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
@@ -33,13 +33,20 @@ exports.handler = async function (event) {
     return { statusCode: 405, headers: CORS, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  const { GITHUB_PAT, GITHUB_REPO, GITHUB_BRANCH } = process.env;
+  const { GITHUB_PAT, GITHUB_REPO, GITHUB_BRANCH, CMS_SECRET } = process.env;
   if (!GITHUB_PAT || !GITHUB_REPO || !GITHUB_BRANCH) {
     return {
       statusCode: 500,
       headers: CORS,
       body: JSON.stringify({ error: 'Missing required environment variables' }),
     };
+  }
+
+  if (CMS_SECRET) {
+    const supplied = event.headers['x-cms-secret'] || event.headers['X-CMS-Secret'];
+    if (supplied !== CMS_SECRET) {
+      return { statusCode: 401, headers: CORS, body: JSON.stringify({ error: 'Unauthorized' }) };
+    }
   }
 
   let body;

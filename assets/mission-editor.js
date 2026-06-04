@@ -387,7 +387,10 @@
           var base64 = String(reader.result || '').split(',')[1];
           var response = await fetch('/.netlify/functions/upload-asset', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CMS-Secret': (window.getCmsSecret ? window.getCmsSecret() : '')
+            },
             body: JSON.stringify({ path: uploadPath, content: base64 })
           });
           var data = await response.json().catch(function() { return {}; });

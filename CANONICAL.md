@@ -1070,8 +1070,37 @@ clip: { youtube: '2M0JjOTU1CU', start: 373, end: 572,
 
 ---
 
+## 37. CMS WRITE-ENDPOINT LOCKDOWN — X-CMS-SECRET (2026-06-04)
+The admin gate (§34) only hides editor UI client-side; it does **not** protect the
+Netlify write functions. Anyone could POST directly to `publish-page-config`,
+`save-content`, or `upload-asset` and overwrite the live site. This section adds a
+**server-side** shared-secret check so the password actually gates writing, not just
+the buttons.
+
+**How it works:**
+- Each of the three functions checks `if (CMS_SECRET) { require header X-CMS-Secret === CMS_SECRET }`. `CMS_SECRET` is a Netlify **environment variable** (server-side only; never in source). `publish-page-config.js` already had this; `save-content.js` and `upload-asset.js` now mirror it. `X-CMS-Secret` is in each function's CORS `Access-Control-Allow-Headers`.
+- The clients send the secret = **the admin password the user types**. The in-page gate ([index.html](index.html), §34) stashes `pass.value` in `sessionStorage['executive-bi-dashboard.cmsSecret.v1']` on unlock (cleared on logout) and exposes `window.getCmsSecret()`. `pageEditorPublishConfig` (publish) and `uploadGitAsset` in [assets/mission-editor.js](assets/mission-editor.js) (image upload) attach the header from it.
+- [admin.html](admin.html) (legacy content.json CMS) was migrated off its hardcoded plaintext `foundry2025` to the **same SHA-256 hash** as the in-page gate; it stashes the typed password in `sessionStorage['cms_secret']` and sends it on its `upload-asset` / `save-content` calls. `checkAuth` now also requires a stored secret, so a stale session forces re-login.
+
+**Enabling it (the human step):** set `CMS_SECRET` in the Netlify dashboard (Site
+configuration → Environment variables) equal to the admin password (the plaintext
+behind hash `d4c19d60…`). Until that var is set, the check is **dormant** — every
+function behaves exactly as before, so shipping this code breaks nothing. Setting the
+var is what turns enforcement on.
+
+**Regression risk:** The secret IS the admin password — they must stay equal, so if you
+rotate one (the `ADMIN_HASH` in index.html **and** admin.html) you must update
+`CMS_SECRET` to match, or all publishing 401s. Don't hardcode `CMS_SECRET` in
+`netlify.toml` or source (it's the one credential that must stay server-side). The
+secret is sent as plaintext over HTTPS and held in `sessionStorage` for the tab — an
+acceptable trade for a link-only donor site, not bank-grade. `admin.html` no longer
+contains a usable password; don't reintroduce one.
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
 [ ] Admin gate: editor toggles (.page-editor-toggle) + #dashboard-publish hidden unless body.admin-mode; password stored only as SHA-256 hash; no plaintext password committed; unlock persists in sessionStorage (see §34)
+[ ] CMS lockdown (§37): publish-page-config / save-content / upload-asset each enforce `if (CMS_SECRET)` against X-CMS-Secret; clients send `window.getCmsSecret()` / `getSecret()`; admin.html has no plaintext password; `CMS_SECRET` lives only in Netlify env
 [ ] This Year phone (≤600px): hero is content-height with 2-up stats, no right-edge wash band (#panel-year .ty-hero::after), and card backs scale in cqw so the italic question never clips at 320–430px (see §35)
 [ ] Mission grid layout: card-back--grid CSS scoped, buildGridBackHtml shared between renderOfferings and renderOfferingsWithConfig, buildMissionState plumbs tileStyle + cardBackVariant + gridItems + cardLabelStyle
 [ ] Tile labels: cbg-tile-label--{theoed,podcast,unstuck} render correctly; cb-cta chevron suppressed via cbg-tile::after { content:none !important }

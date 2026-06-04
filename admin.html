@@ -631,7 +631,19 @@
 </div>
 
 <script>
-  const PASSWORD = 'foundry2025';
+  // SHA-256 of the admin password (plaintext never ships in source — matches the
+  // in-page editor gate). The typed password is also sent to the write functions as
+  // X-CMS-Secret; set Netlify's CMS_SECRET env var to it to enforce server-side.
+  const ADMIN_HASH = 'd4c19d605c0bfa6272600e1022b5f1cc38723d666a61bdc63bfa9f2bec9d3bf9';
+  const SECRET_KEY = 'cms_secret';
+  function getSecret() {
+    try { return sessionStorage.getItem(SECRET_KEY) || ''; } catch (e) { return ''; }
+  }
+  async function sha256Hex(text) {
+    const data = new TextEncoder().encode(text);
+    const buf = await crypto.subtle.digest('SHA-256', data);
+    return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+  }
   const ICONS = ['compass', 'play', 'mic', 'book', '3mb', 'broadcast', 'quill'];
   let content = {};
   let newMemberSeq = 100;
@@ -640,16 +652,20 @@
   // ── Auth ────────────────────────────────────────────────
 
   function checkAuth() {
-    if (sessionStorage.getItem('cms_auth') === '1') {
+    if (sessionStorage.getItem('cms_auth') === '1' && getSecret()) {
       showApp();
     }
   }
 
-  function submitPassword() {
+  async function submitPassword() {
     const val = document.getElementById('pw-input').value;
     const err = document.getElementById('pw-error');
-    if (val === PASSWORD) {
+    let hashed;
+    try { hashed = await sha256Hex(val); }
+    catch (e) { err.textContent = 'Cannot verify (insecure context)'; err.style.display = 'block'; return; }
+    if (hashed === ADMIN_HASH) {
       sessionStorage.setItem('cms_auth', '1');
+      try { sessionStorage.setItem(SECRET_KEY, val); } catch (e) {}
       err.style.display = 'none';
       showApp();
     } else {
@@ -931,7 +947,7 @@
       const base64 = await toBase64(file);
       const res = await fetch('/.netlify/functions/upload-asset', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CMS-Secret': getSecret() },
         body: JSON.stringify({ path, content: base64 }),
       });
       const data = await res.json();
@@ -1089,7 +1105,7 @@
       const payload = collectContent();
       const res = await fetch('/.netlify/functions/save-content', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-CMS-Secret': getSecret() },
         body: JSON.stringify({ content: payload }),
       });
       const data = await res.json();
