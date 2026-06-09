@@ -14,3 +14,4 @@
   for = "/*"
   [headers.values]
     X-Robots-Tag = "noindex, nofollow"
+    Content-Security-Policy = "frame-ancestors 'self' https://candlerfoundry.com https://*.webflow.io"
