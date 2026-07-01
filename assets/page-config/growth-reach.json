@@ -9,11 +9,11 @@
         "label": "TheoEd Views"
       },
       {
-        "value": "4,203",
+        "value": "4,231",
         "label": "Individual Learners"
       },
       {
-        "value": "74",
+        "value": "77",
         "label": "Church Partners"
       },
       {
@@ -53,7 +53,7 @@
   "stats": [
     {
       "id": "registrations",
-      "value": 6339,
+      "value": 6393,
       "suffix": "+",
       "prefix": "",
       "label": "Total Registrations",
@@ -61,7 +61,7 @@
     },
     {
       "id": "courses",
-      "value": 161,
+      "value": 164,
       "suffix": "",
       "prefix": "",
       "label": "Courses Offered",
@@ -168,17 +168,17 @@
       {
         "name": "Small congregations (under 200)",
         "pct": 30,
-        "count": "30% ~22 partners"
+        "count": "30% ~23 partners"
       },
       {
         "name": "Mid-sized congregations (200–800)",
         "pct": 40,
-        "count": "40% ~30 partners"
+        "count": "40% ~31 partners"
       },
       {
         "name": "Large congregations (800+)",
         "pct": 30,
-        "count": "30% ~22 partners"
+        "count": "30% ~23 partners"
       }
     ]
   },
@@ -209,30 +209,30 @@
     ],
     "byState": {
       "AK": 2,
-      "AL": 40,
+      "AL": 41,
       "AR": 10,
       "AZ": 11,
       "CA": 146,
       "CO": 23,
       "CT": 16,
-      "DC": 17,
+      "DC": 18,
       "DE": 2,
-      "FL": 265,
-      "GA": 1658,
+      "FL": 267,
+      "GA": 1670,
       "HI": 2,
       "IA": 8,
       "ID": 1,
-      "IL": 61,
+      "IL": 62,
       "IN": 23,
       "KS": 9,
-      "KY": 13,
+      "KY": 14,
       "LA": 14,
       "MA": 116,
       "MD": 33,
       "ME": 5,
       "MI": 30,
       "MN": 28,
-      "MO": 24,
+      "MO": 26,
       "MS": 18,
       "MT": 5,
       "NC": 148,
@@ -248,20 +248,20 @@
       "OR": 17,
       "PA": 54,
       "RI": 3,
-      "SC": 46,
+      "SC": 47,
       "SD": 1,
       "TN": 139,
-      "TX": 168,
+      "TX": 169,
       "UT": 2,
-      "VA": 67,
+      "VA": 68,
       "VT": 5,
       "WA": 35,
       "WI": 16,
-      "WV": 11,
+      "WV": 12,
       "WY": 2
     },
     "international": {
-      "total": 105,
+      "total": 106,
       "countries": 22,
       "byCountry": {
         "Canada": 35,
@@ -270,7 +270,7 @@
         "South Korea": 7,
         "Venezuela": 6,
         "Hong Kong": 6,
-        "Singapore": 3,
+        "Singapore": 4,
         "China": 3,
         "Australia": 3,
         "Philippines": 2,
@@ -289,8 +289,8 @@
       }
     },
     "meta": {
-      "located": 3502,
-      "total": 4203
+      "located": 3526,
+      "total": 4231
     }
   }
 }

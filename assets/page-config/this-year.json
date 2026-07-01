@@ -21,25 +21,25 @@
     {
       "id": "courses",
       "label": "Courses Offered",
-      "value": 48,
+      "value": 52,
       "sub": "Past 12 months · CIC + On-Demand"
     },
     {
       "id": "enrollments",
       "label": "Total Enrollments",
-      "value": 1835,
+      "value": 2053,
       "sub": "Across recent courses"
     },
     {
       "id": "alumni",
       "label": "Candler Alumni",
-      "value": 170,
+      "value": 180,
       "sub": "Alumni enrolled across recent courses"
     },
     {
       "id": "revenue",
       "label": "Operational Revenue",
-      "value": 39254,
+      "value": 43491,
       "prefix": "$",
       "sub": "Past 12 months · across Foundry offerings"
     }
@@ -75,8 +75,8 @@
       "openType": "Open to public",
       "description": "Did Paul really say what you think he did? Discover the real story!",
       "image": "/assets/this-year-cards/recB2rtr76CFuMaN6.png",
-      "registrations": 25,
-      "candlerAlumni": 6,
+      "registrations": 49,
+      "candlerAlumni": 14,
       "landingUrl": "http://coursesinthecommunity.com/fivemisconceptions",
       "startDate": "2026-07-07",
       "endDate": "2026-07-28"
@@ -90,8 +90,8 @@
       "openType": "Open to public",
       "description": "Can faith and patriotism bring us together in a divided America?",
       "image": "/assets/this-year-cards/reclpppt8MXjQHXz3.png",
-      "registrations": 32,
-      "candlerAlumni": 3,
+      "registrations": 46,
+      "candlerAlumni": 6,
       "landingUrl": "http://coursesinthecommunity.com/christian-nationalism",
       "startDate": "2026-06-09",
       "endDate": "2026-06-30"
@@ -195,7 +195,7 @@
       "openType": "",
       "description": "How do the four gospels tell different stories of Jesus rising from the dead?",
       "image": "/assets/this-year-cards/reckLVNu5j3Yom9OP.png",
-      "registrations": 16,
+      "registrations": 18,
       "candlerAlumni": 4,
       "landingUrl": "",
       "startDate": "2026-03-10",
@@ -210,8 +210,8 @@
       "openType": "",
       "description": "How can Paul’s advice to Corinth help us handle church conflicts today?",
       "image": "/assets/this-year-cards/recBxFPRZI6SK1cHz.png",
-      "registrations": 10,
-      "candlerAlumni": 2,
+      "registrations": 11,
+      "candlerAlumni": 3,
       "landingUrl": "",
       "startDate": "2026-02-03",
       "endDate": ""
@@ -225,7 +225,7 @@
       "openType": "",
       "description": "What if true rest could change how you live, work, and see yourself?",
       "image": "/assets/this-year-cards/recDuBLav6MNSfnmX.png",
-      "registrations": 17,
+      "registrations": 19,
       "candlerAlumni": 5,
       "landingUrl": "",
       "startDate": "2026-01-07",
