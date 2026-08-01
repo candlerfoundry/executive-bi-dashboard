@@ -21,25 +21,25 @@
     {
       "id": "courses",
       "label": "Courses Offered",
-      "value": 52,
+      "value": 57,
       "sub": "Past 12 months · CIC + On-Demand"
     },
     {
       "id": "enrollments",
       "label": "Total Enrollments",
-      "value": 2053,
+      "value": 2068,
       "sub": "Across recent courses"
     },
     {
       "id": "alumni",
       "label": "Candler Alumni",
-      "value": 180,
+      "value": 184,
       "sub": "Alumni enrolled across recent courses"
     },
     {
       "id": "revenue",
       "label": "Operational Revenue",
-      "value": 43491,
+      "value": 43928,
       "prefix": "$",
       "sub": "Past 12 months · across Foundry offerings"
     }
@@ -67,6 +67,21 @@
   },
   "courses": [
     {
+      "id": "reclAoLJJAMofy7dO",
+      "title": "Divine Metaphors",
+      "instructor": "Dr. Ryan Bonfiglio",
+      "semester": "Fall 2026",
+      "type": "CIC",
+      "openType": "Open to public",
+      "description": "What can we learn about God from the Bible’s bold and surprising images?",
+      "image": "/assets/this-year-cards/reclAoLJJAMofy7dO.png",
+      "registrations": 5,
+      "candlerAlumni": 1,
+      "landingUrl": "https://coursesinthecommunity.com/bib-metaphors",
+      "startDate": "2026-09-03",
+      "endDate": "2026-09-24"
+    },
+    {
       "id": "recB2rtr76CFuMaN6",
       "title": "Five Misconceptions of Paul",
       "instructor": "Dr. Elizabeth Arnold",
@@ -75,8 +90,8 @@
       "openType": "Open to public",
       "description": "Did Paul really say what you think he did? Discover the real story!",
       "image": "/assets/this-year-cards/recB2rtr76CFuMaN6.png",
-      "registrations": 49,
-      "candlerAlumni": 14,
+      "registrations": 56,
+      "candlerAlumni": 16,
       "landingUrl": "http://coursesinthecommunity.com/fivemisconceptions",
       "startDate": "2026-07-07",
       "endDate": "2026-07-28"
@@ -210,7 +225,7 @@
       "openType": "",
       "description": "How can Paul’s advice to Corinth help us handle church conflicts today?",
       "image": "/assets/this-year-cards/recBxFPRZI6SK1cHz.png",
-      "registrations": 11,
+      "registrations": 13,
       "candlerAlumni": 3,
       "landingUrl": "",
       "startDate": "2026-02-03",
@@ -225,8 +240,8 @@
       "openType": "",
       "description": "What if true rest could change how you live, work, and see yourself?",
       "image": "/assets/this-year-cards/recDuBLav6MNSfnmX.png",
-      "registrations": 19,
-      "candlerAlumni": 5,
+      "registrations": 20,
+      "candlerAlumni": 6,
       "landingUrl": "",
       "startDate": "2026-01-07",
       "endDate": ""
