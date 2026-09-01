@@ -9,7 +9,7 @@
         "label": "TheoEd Views"
       },
       {
-        "value": "4,237",
+        "value": "4,267",
         "label": "Individual Learners"
       },
       {
@@ -53,7 +53,7 @@
   "stats": [
     {
       "id": "registrations",
-      "value": 6417,
+      "value": 6505,
       "suffix": "+",
       "prefix": "",
       "label": "Total Registrations",
@@ -61,7 +61,7 @@
     },
     {
       "id": "courses",
-      "value": 170,
+      "value": 171,
       "suffix": "",
       "prefix": "",
       "label": "Courses Offered",
@@ -93,7 +93,7 @@
     },
     {
       "id": "podcast",
-      "value": 71,
+      "value": 73,
       "suffix": "",
       "prefix": "",
       "label": "Podcast Episodes",
@@ -209,16 +209,16 @@
     ],
     "byState": {
       "AK": 2,
-      "AL": 42,
+      "AL": 43,
       "AR": 10,
       "AZ": 11,
-      "CA": 146,
+      "CA": 147,
       "CO": 23,
       "CT": 16,
       "DC": 18,
       "DE": 2,
-      "FL": 269,
-      "GA": 1673,
+      "FL": 270,
+      "GA": 1689,
       "HI": 2,
       "IA": 8,
       "ID": 1,
@@ -235,7 +235,7 @@
       "MO": 26,
       "MS": 18,
       "MT": 5,
-      "NC": 148,
+      "NC": 149,
       "ND": 1,
       "NE": 5,
       "NH": 4,
@@ -248,16 +248,16 @@
       "OR": 17,
       "PA": 54,
       "RI": 3,
-      "SC": 47,
+      "SC": 48,
       "SD": 1,
-      "TN": 139,
-      "TX": 169,
+      "TN": 140,
+      "TX": 171,
       "UT": 2,
-      "VA": 69,
+      "VA": 70,
       "VT": 5,
-      "WA": 35,
+      "WA": 36,
       "WI": 16,
-      "WV": 12,
+      "WV": 13,
       "WY": 2
     },
     "international": {
@@ -289,8 +289,8 @@
       }
     },
     "meta": {
-      "located": 3533,
-      "total": 4237
+      "located": 3560,
+      "total": 4267
     }
   }
 }

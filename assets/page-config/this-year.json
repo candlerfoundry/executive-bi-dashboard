@@ -21,25 +21,25 @@
     {
       "id": "courses",
       "label": "Courses Offered",
-      "value": 57,
+      "value": 56,
       "sub": "Past 12 months · CIC + On-Demand"
     },
     {
       "id": "enrollments",
       "label": "Total Enrollments",
-      "value": 2068,
+      "value": 2099,
       "sub": "Across recent courses"
     },
     {
       "id": "alumni",
       "label": "Candler Alumni",
-      "value": 184,
+      "value": 196,
       "sub": "Alumni enrolled across recent courses"
     },
     {
       "id": "revenue",
       "label": "Operational Revenue",
-      "value": 43928,
+      "value": 42618,
       "prefix": "$",
       "sub": "Past 12 months · across Foundry offerings"
     }
@@ -75,8 +75,8 @@
       "openType": "Open to public",
       "description": "What can we learn about God from the Bible’s bold and surprising images?",
       "image": "/assets/this-year-cards/reclAoLJJAMofy7dO.png",
-      "registrations": 5,
-      "candlerAlumni": 1,
+      "registrations": 52,
+      "candlerAlumni": 7,
       "landingUrl": "https://coursesinthecommunity.com/bib-metaphors",
       "startDate": "2026-09-03",
       "endDate": "2026-09-24"
@@ -90,7 +90,7 @@
       "openType": "Open to public",
       "description": "Did Paul really say what you think he did? Discover the real story!",
       "image": "/assets/this-year-cards/recB2rtr76CFuMaN6.png",
-      "registrations": 56,
+      "registrations": 57,
       "candlerAlumni": 16,
       "landingUrl": "http://coursesinthecommunity.com/fivemisconceptions",
       "startDate": "2026-07-07",
@@ -225,7 +225,7 @@
       "openType": "",
       "description": "How can Paul’s advice to Corinth help us handle church conflicts today?",
       "image": "/assets/this-year-cards/recBxFPRZI6SK1cHz.png",
-      "registrations": 13,
+      "registrations": 15,
       "candlerAlumni": 3,
       "landingUrl": "",
       "startDate": "2026-02-03",
