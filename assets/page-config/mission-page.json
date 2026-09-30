@@ -174,27 +174,17 @@
       "frontGraphicFadeLeft": 0,
       "frontGraphicFadeStrength": 41,
       "backLayout": "grid",
-      "tileStyle": "pdf-thumb",
+      "tileStyle": "flipbook",
       "gridItems": [
         {
-          "title": "Covenants",
-          "thumbnail": "/assets/Sunday School Simplified/Living in Covenant Thumbnail.png",
-          "href": "/assets/Sunday School Simplified/Sunday School Simplified - Covenants (Feb. 2026).pdf"
+          "title": "Beyond Bumper Stickers",
+          "image": "/assets/sunday-school-flipbooks/beyond-bumper-stickers-cover.png",
+          "href": "https://sundayschoolsimplified.netlify.app/beyond-bumper-stickers/"
         },
         {
-          "title": "Psalms of Lament",
-          "thumbnail": "/assets/Sunday School Simplified/When God Feels Far Away.png",
-          "href": "/assets/Sunday School Simplified/Sunday School Simplified - Psalms of Lament (Jan. 2026).pdf"
-        },
-        {
-          "title": "Paul Meant Y'all",
-          "thumbnail": "/assets/Sunday School Simplified/Paul Meant Yall.png",
-          "href": "/assets/Sunday School Simplified/Sunday School Simplified - Paul Meant Yall.pdf"
-        },
-        {
-          "title": "Literary Motifs in the Gospels",
-          "thumbnail": "/assets/Sunday School Simplified/Marks Secret.png",
-          "href": "/assets/Sunday School Simplified/Sunday School Simplified - Literary Motifs in the Gospels.pdf"
+          "title": "The Gospel According to the Women",
+          "image": "/assets/sunday-school-flipbooks/gospel-according-to-the-women-cover.png",
+          "href": "https://sundayschoolsimplified.netlify.app/gospel-according-to-the-women/"
         }
       ]
     },

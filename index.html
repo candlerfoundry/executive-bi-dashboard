@@ -955,7 +955,10 @@ body.page-config-loading .panel.active::before,
 #mission-ministry .mission-section-head { background:transparent; }
 #mission-public { border-top:none; padding-top:clamp(40px, 3.5vw, 56px); }
 #panel-whoweare { position:relative; }
-.mission-page .offerings-grid { display:grid; gap:var(--mission-card-gap); align-items:stretch; grid-auto-rows:1fr; }
+/* align-self:start — size the card grid to its cards, not to the section's
+   intro column (.mission-section stretches its row). Since cards grow via
+   min-height (§38), a tall intro would otherwise stretch every card. */
+.mission-page .offerings-grid { display:grid; gap:var(--mission-card-gap); align-items:stretch; grid-auto-rows:1fr; align-self:start; }
 .mission-course-grid { grid-template-columns:repeat(var(--mission-community-columns),minmax(0,1fr)); }
 .mission-ministry-grid { grid-template-columns:repeat(var(--mission-ministry-columns),minmax(0,1fr)); }
 .mission-public-layout { display:block; }
@@ -979,7 +982,14 @@ body.page-config-loading .panel.active::before,
 /* ═══ OFFERING CARDS ═══ */
 .mission-page .offering-flip { height:100%; perspective:1400px; cursor:pointer; outline:none; container-type:inline-size; }
 .mission-page .offering-flip-inner { display:grid; min-height:100%; height:100%; position:relative; transform-style:preserve-3d; transition:transform 0.55s cubic-bezier(0.2,0.8,0.2,1); }
-.mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner, .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner, .mission-page .offering-flip.is-flipped .offering-flip-inner { transform:rotateY(180deg); }
+/* Flip on hover, on KEYBOARD focus, or via .is-flipped (tap). Not :focus-within:
+   the card is tabindex=0 and a mouse click focuses it (or a back-face link),
+   which kept the card stuck on its back after the pointer left. :focus-visible
+   only matches keyboard-style focus, so keyboard users still get the flip.
+   The :has() selector lives in its own rule — an unsupported selector would
+   invalidate the whole list, hover flip included. */
+.mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner, .mission-page .offering-flip:not(.no-flip):focus-visible .offering-flip-inner, .mission-page .offering-flip.is-flipped .offering-flip-inner { transform:rotateY(180deg); }
+.mission-page .offering-flip:not(.no-flip):has(:focus-visible) .offering-flip-inner { transform:rotateY(180deg); }
 .mission-page .offering-flip.is-edit-selected .card-front,
 .mission-page .offering-flip.is-edit-selected .card-back { outline:none; box-shadow:0 0 0 2px rgba(30,37,48,0.08), 0 18px 36px rgba(30,37,48,0.12); }
 /* min-height, not height: --mission-card-min is the designed card height, but
@@ -1159,6 +1169,17 @@ body.page-config-loading .panel.active::before,
 .mission-page .card-back--grid .cbg-tile--blog { background:#1a1a1a; box-shadow:0 3px 8px rgba(30,37,48,0.16); }
 .mission-page .card-back--grid .cbg-tile--blog:hover { box-shadow:0 6px 12px rgba(30,37,48,0.22); }
 .mission-page .card-back--grid .cbg-tile--blog img { display:block; width:100%; height:100%; object-fit:cover; object-position:center; }
+/* Flipbook tiles (Sunday School Simplified packets): whole portrait cover +
+   caption, book-like shadow, opens the flipbook in a new tab. */
+.mission-page .card-back--grid .cbg-tiles--flipbook { width:min(100%, 340px); column-gap:clamp(12px, 5cqw, 22px); align-items:center; }
+.mission-page .card-back--grid .cbg-tile--flipbook { height:auto; overflow:visible; border-radius:0; display:flex; flex-direction:column; align-items:center; gap:clamp(6px, 2cqw, 9px); }
+.mission-page .card-back--grid .cbg-tile--flipbook:hover { transform:translateY(-3px); }
+.mission-page .card-back--grid .cbg-tile--flipbook:focus-visible { outline:2px solid #c84826; outline-offset:4px; }
+.mission-page .card-back--grid .cbg-fb-cover { display:block; width:100%; aspect-ratio:720 / 932; border-radius:3px; overflow:hidden; background:#fff; box-shadow:0 6px 14px rgba(30,37,48,0.20), 0 1px 3px rgba(30,37,48,0.16); transition:box-shadow 0.15s ease; }
+.mission-page .card-back--grid .cbg-tile--flipbook:hover .cbg-fb-cover { box-shadow:0 12px 22px rgba(30,37,48,0.26), 0 2px 5px rgba(30,37,48,0.16); }
+.mission-page .card-back--grid .cbg-fb-cover img { display:block; width:100%; height:100%; object-fit:cover; }
+.mission-page .card-back--grid .cbg-fb-caption { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; line-height:1.2; color:#1e2530; text-align:center; white-space:nowrap; }
+.mission-page .card-back--grid .cbg-fb-ext { color:#c84826; }
 .mission-page .card-back--grid .cbg-tile--blog .cbg-blog-date { position:absolute; left:0; right:0; bottom:0; padding:18px 10px 8px; color:white; font-size:10px; font-weight:700; letter-spacing:0.10em; text-transform:uppercase; background:linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.70) 100%); text-shadow:0 1px 3px rgba(0,0,0,0.6); }
 
 
@@ -1870,14 +1891,15 @@ body:not(.admin-mode) .te-editor-launch { display:none; }
   .ty-flip.is-flipped .ty-card-ribbon,
   .ty-flip.is-flipped .ty-card-badge { opacity: 0 !important; }
 
-  /* MISSION cards: the flip triggers on :hover/:focus-within OR .is-flipped. On
+  /* MISSION cards: the flip triggers on :hover/:focus-visible OR .is-flipped. On
      touch, tapping a card gives it focus, so :focus-within kept it flipped even
      after tapping again (is-flipped toggled off) — you got stuck on the back.
      On touch, neutralize :hover/:focus-within and let ONLY the tap (.is-flipped)
      drive the flip. The .is-flipped rule is listed last at equal specificity so
      it wins when the card is both flipped AND focused. */
   .mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner,
-  .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner { transform: rotateY(0deg); }
+  .mission-page .offering-flip:not(.no-flip):focus-visible .offering-flip-inner { transform: rotateY(0deg); }
+  .mission-page .offering-flip:not(.no-flip):has(:focus-visible) .offering-flip-inner { transform: rotateY(0deg); }
   .mission-page .offering-flip:not(.no-flip).is-flipped .offering-flip-inner { transform: rotateY(180deg); }
 }
 
@@ -10585,9 +10607,21 @@ function buildGridBackHtml(o, backHeading, backCopy) {
                '<div class="cbg-blog-date">' + attr(item.date || '') + '</div>' +
              '</a>';
     }
+    if (tileStyle === 'flipbook') {
+      // Portrait packet cover + caption; opens the flipbook site in a new tab
+      // (a full external site — not iframe-able in the lightbox). The click
+      // delegate lets data-action-type="flipbook" fall through to the link.
+      return '<a class="cb-cta cbg-tile cbg-tile--flipbook" href="' + attr(item.href || '#') + '" target="_blank" rel="noopener" data-action-type="flipbook" aria-label="Open the ' + attr(item.title || '') + ' flipbook (opens in a new tab)">' +
+               // decoding="sync": the back face sits in a 3D (rotateY) layer and an
+               // async decode could paint the cover blank on the first flip.
+               '<span class="cbg-fb-cover"><img src="' + attr(item.image || '') + '" alt="' + attr(item.title || '') + ' cover" loading="eager" decoding="sync" /></span>' +
+               '<span class="cbg-fb-caption" aria-hidden="true">' + attr(item.caption || 'Open flipbook') + ' <span class="cbg-fb-ext">&#8599;</span></span>' +
+             '</a>';
+    }
     return '';
   }).join('');
   var rowClass = (items.length <= 2) ? ' cbg-tiles--1x2' : '';
+  if (tileStyle === 'flipbook') rowClass += ' cbg-tiles--flipbook';
   if (tileStyle === 'video-text' || tileStyle === 'podcast') rowClass += ' cbg-tiles--fill';
   if (tileStyle === 'video-thumb' && (o.cardLabelStyle === 'theoed' || o.cardLabelStyle === 'podcast')) rowClass += ' cbg-tiles--captioned cbg-tiles--captioned-' + o.cardLabelStyle;
   return '<div class="card-back card-back--grid' + variantClass + '">' +

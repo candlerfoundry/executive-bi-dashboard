@@ -737,7 +737,8 @@ The file is gitignored via the top-level `.gitignore`, so even an accidental `gi
 **Rule:** Six of the Mission cards (Sunday School Simplified, 3-Minute Bible, Unstuck, TheoEd, Candler in Conversation, Scholar's Blog) render their back face from a generic tile grid system controlled by per-card `backLayout: 'grid'` + `tileStyle` fields in [assets/page-config/mission-page.json](C:/Users/esavant/Dropbox/Scripts/executive-bi-dashboard/assets/page-config/mission-page.json). This is parallel to (and distinct from) the existing `backLayout: 'lookbook'` system documented in section 23.
 
 **Tile styles:**
-- `pdf-thumb` — Sunday School. 2×2 thumbnail tiles with an orange "PDF" badge. Click opens the PDF in the in-page lightbox (see section 28).
+- `flipbook` — Sunday School Simplified (since 2026-09-30, see §39). 1×2 portrait packet covers + "Open flipbook ↗" caption; opens the flipbook site in a NEW TAB.
+- `pdf-thumb` — *(no longer used after Sunday School switched to `flipbook`)*. 2×2 thumbnail tiles with an orange "PDF" badge. Click opens the PDF in the in-page lightbox (see section 28). Kept in code as a fallback.
 - `video-thumb` — 3-Minute Bible, TheoEd, Podcast (Candler in Conversation). 2×2 thumbnail tiles with a play overlay. Click opens the video in the lightbox. TheoEd tiles additionally carry `theoedVid` / `theoedDbxUrl` / `theoedGuide` data attributes so they invoke the existing `openLightbox()` flow with the speaker's discussion-guide download button visible.
 - `video-text` — *(legacy, no longer used after the Unstuck switch to `video-thumb`)*. Kept in code as a fallback.
 - `podcast` — *(legacy, no longer used after the Podcast switch to `video-thumb`)*. Kept in code as a fallback.
@@ -1108,15 +1109,43 @@ contains a usable password; don't reintroduce one.
 
 **Growth map tooltip persisted onto other tabs.** `#gr-map-tip` is `position:fixed` on `<body>` (outside `#panel-numreach`). The old `mouseout` handler tested the element being *left* (always a state), so leaving the map never hid it, and tab switches didn't either. **Fix (in `initNumbers()` + new `growthHideMapTip()`):** hide on `mouseout` unless `relatedTarget` is another state, on SVG `mouseleave`, on window `scroll`, on `touchstart` outside a state, and at the top of `switchTab()`. Regression risk: if the tooltip is ever moved or a new tab-switch path added, keep `growthHideMapTip()` wired to it.
 
+**Follow-up (same day, §39 session):** because cards now grow, `.mission-section`'s `align-items:stretch` let a tall intro column stretch every card in that row (Ministry cards were 324px instead of 272 at 1280px, to match "Equipping leaders and learners for everyday discipleship."). `.mission-page .offerings-grid` now has `align-self:start`, so the card grid is sized by its cards, never by the intro text. Do not remove it.
+
 **Files touched:** `index.html`, `assets/mission-editor.js`, `CANONICAL.md`. No JSON/config changes — editor values in `mission-page.json` keep the same meaning.
 
 **Testing performed:** Browser measurement of all 8 Mission cards (front tagline vs. flip hint, title overflow, back-face overflow, row heights) at 360, 390, 640, 768, 900, 910, 1024, 1199, 1280, 1440, 1680, 1920, 2200, 2560, 3440px — zero clipping; heights 320px at ≥1920 (unchanged), 272–286px tablet/phone. Screenshots reviewed at 2560, 1024, 768 (front + flipped back). Map: real-mouse hover → adjacent state (tip follows) → leave map (hidden) → hover + switch tab (hidden on TheoEd); real wheel scroll hides; synthetic touch outside hides. `git diff --check` clean; `node --check assets/mission-editor.js` OK; `node --test` 24/25 (the one failure is pre-existing — `tests/mission-responsive-art-prototype.test.mjs` asserts live `mission-page.json` values that an editor publish changed in June).
 
 ---
 
+## 39. SUNDAY SCHOOL SIMPLIFIED CARD BACK — FLIPBOOK COVERS (2026-09-30)
+**What changed:** The Sunday School Simplified Mission card back now shows the two packet flipbooks instead of the four monthly-lesson PDF tiles: *Beyond Bumper Stickers* (Vol. 01) and *The Gospel According to the Women* (Vol. 02). Each cover links straight to the flipbook in a new tab.
+
+**Where editable data lives:** `assets/page-config/mission-page.json` → `cards["sunday-school-simplified"]`: `tileStyle: "flipbook"` and `gridItems[] = { title, image, href }` (optional `caption`, default "Open flipbook"). Add a third packet by appending a `gridItems` entry; with 3+ items the grid switches from 1×2 to 2 columns automatically — check the fit.
+
+**Links / source project:** flipbooks live in the separate repo `candlerfoundry/sunday_school_simplified` (site `sundayschoolsimplified.netlify.app`, clean URLs `/<slug>/`, packet list in `packets/index.json`). Its README is canonical for that project — read it before touching anything there. The Netlify flipbook has **no login**; registration/gating lives only in the Webflow customer portal (Foxy), so these direct links deliberately skip registration (donor-facing dashboard, per Emily 2026-09-30). Phones hitting the same URLs are automatically served that site's lightweight phone reader, not the flipbook.
+
+**Cover assets:** `assets/sunday-school-flipbooks/<slug>-cover.png`, 720×932, made from each packet's full-resolution `packets/<slug>/assets/cover.png` (Lanczos + light unsharp; ~3× the largest rendered tile width for retina). Do NOT use that repo's `cover.png` directly (up to 3264px wide / ~52MB decoded) and don't hot-link it. Verify any new cover PNG fully decodes (the SSS README documents truncated-PNG corruption via Dropbox/OneDrive mounts).
+
+**Rendering:** `buildGridBackHtml` `flipbook` branch (index.html) → `<a class="cbg-tile cbg-tile--flipbook" data-action-type="flipbook" target="_blank">` wrapping `.cbg-fb-cover` (aspect-ratio 720/932, book shadow) + `.cbg-fb-caption` (12px). The click delegate does not intercept `flipbook`, so it navigates normally. CSS is scoped under `.mission-page .card-back--grid`. Cover `<img>` uses `decoding="sync"`: with `async`, the first flip into the 3D back face painted one cover blank until the next repaint.
+
+**Warnings for future assistants:**
+- Keep `target="_blank" rel="noopener"`: the flipbook is a full external site and will not iframe into `#te-lightbox`.
+- The flipbook's own README warns that the full flipbook is ~219MB of decoded bitmaps. That's fine on desktop and tablet, and phones get the reader. Don't try to embed the flipbook in the dashboard.
+- Mission card backs sit inside a 3D flip layer. §2.2 documents that some GPUs rasterize such layers at 1× (soft on Retina) and headless screenshots can't show it. If the covers look soft on a real Retina display, that is the cause, not the image files.
+- The four old lesson PDFs and thumbnails in `assets/Sunday School Simplified/` are no longer referenced. They were left in place, not deleted.
+
+**Mission flip trigger fix (all Mission cards, found during this review):** A Mission card flipped on `:hover`, `:focus-within`, or `.is-flipped`. The card is `tabindex=0`, so on desktop a mouse click focused it, or focused a link on its back such as a flipbook cover, and `:focus-within` kept it stuck on its back after the pointer left, until the user clicked somewhere else. Emily hit this clicking a flipbook cover; it affected every Mission card. The base rule now uses `:focus-visible` (the card itself) plus a separate `:has(:focus-visible)` rule (a back-face link), so only keyboard-style focus holds the flip. The `(hover:none)` touch block neutralizes the same selectors, so tap-to-flip (`.is-flipped`) is unchanged. Keep the `:has()` selector in its own rule: an unsupported selector invalidates a whole selector list, which would kill the hover flip too. Do NOT go back to `:focus-within`.
+
+**Files touched:** `index.html` (flipbook tile branch + CSS, §38 `align-self` follow-up, flip-trigger fix), `assets/page-config/mission-page.json`, `assets/sunday-school-flipbooks/` (2 new PNGs), `CANONICAL.md`.
+
+**Testing performed:** Both flipbook URLs return 200 with the right page titles. Flipbook back measured at 360, 390, 768, 1024, 1280, 1920 and 2560px: covers side by side, fully inside the card, captions not clipped, card height unchanged. Every Mission card re-swept at 13 widths from 360 to 3440px with no clipping. Click test: `defaultPrevented` false, correct href, `target=_blank`, card doesn't toggle, lightbox doesn't open. First-flip screenshot after a fresh reload shows both covers painted. No console errors.
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
 [ ] Mission cards (§38): `.card-front`/`.card-back` use `min-height` (not `height`); `.cf-tagline` not line-clamped; `fluidRem` caps at the 1920px reference value; mission-editor.js script tag carries a bumped `?v=` after any change
 [ ] Growth map tooltip (§38): hides on leaving a state/map, on scroll, on touch outside, and in `switchTab()`
+[ ] Mission flip trigger (§39): `:hover` / `:focus-visible` / `:has(:focus-visible)` (own rule) / `.is-flipped` — never `:focus-within`; clicking a card then moving the mouse away must show the front again
 [ ] Admin gate: editor toggles (.page-editor-toggle) + #dashboard-publish hidden unless body.admin-mode; password stored only as SHA-256 hash; no plaintext password committed; unlock persists in sessionStorage (see §34)
 [ ] CMS lockdown (§37): publish-page-config / save-content / upload-asset each enforce `if (CMS_SECRET)` against X-CMS-Secret; clients send `window.getCmsSecret()` / `getSecret()`; admin.html has no plaintext password; `CMS_SECRET` lives only in Netlify env
 [ ] This Year phone (≤600px): hero is content-height with 2-up stats, no right-edge wash band (#panel-year .ty-hero::after), and card backs scale in cqw so the italic question never clips at 320–430px (see §35)
