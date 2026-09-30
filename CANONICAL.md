@@ -1,5 +1,5 @@
 # Executive BI Dashboard - CANONICAL.md
-Last updated: 2026-06-02 (Admin gate: all editing UI now password-protected behind a footer login — see §34. Earlier same day: Candler Impact 15-card lineup, image backs, no name overlay)
+Last updated: 2026-09-30 (Mission card clipping on large/mid screens + Growth map tooltip leaking across tabs — see §38)
 
 Canonical local working copy: `C:\Scripts\executive-bi-dashboard`. If older notes contain legacy path references, treat this C drive path as authoritative.
 
@@ -1098,7 +1098,25 @@ contains a usable password; don't reintroduce one.
 
 ---
 
+## 38. MISSION CARD SIZING + GROWTH MAP TOOLTIP (2026-09-30)
+**Mission cards — text clipped on large monitors and at ~1024px (regression of the 2026-05-20 "Proposal A" fix).**
+- **Root cause 1 — rem mismatch:** `fluidRem()` in [assets/mission-editor.js](assets/mission-editor.js) builds its clamp assuming a 16px rem, but the dashboard root is `html { font-size: 20px }` (since 2026-03-16). Card/section type therefore rendered 1.25x the configured value and kept growing until ~2400px viewport, while the Mission shell stops at 1680px and card height (`fluidPx`) caps at 1920px → text outgrew the card on 2K/4K/ultrawide screens. **Fix:** `fluidRem` now caps at the value the curve renders at the 1920px reference viewport (reads the real root font-size). Every width ≤1920 renders exactly as before; nothing grows past 1920. Do NOT "fix" this by changing `html { font-size }` — every tab depends on it.
+- **Root cause 2 — fixed card height:** `.card-front` / `.card-back` used `height: var(--mission-card-min)` with `overflow:hidden`, and `.cf-tagline` could flex-shrink + was line-clamped at 6, so any overflow was silently cut mid-line. **Fix:** `min-height` instead of `height`; tagline is `display:block; flex-shrink:0` (no clamp). Front/back share one grid cell and rows use `grid-auto-rows:1fr`, so cards in a row stay equal height. At ≥1920px cards are still exactly 320px tall.
+- **901–1199px band:** side intro column + 3 cards left ~213px cards at 1024px. A `@media (min-width:901px) and (max-width:1199px)` block stacks the section intro above its cards (≥1200 unchanged; ≤900 already stacks).
+- **Tile back faces on wide single-column cards (tablet portrait):** full-width 2x2 / 1x2 tile grids were ~400–450px tall and were being clipped by the old fixed height. An `@container (min-width:520px)` rule caps uncaptioned grids at 420px wide and the blog 1x2 at 360px, keeping tablet cards ~280px. Desktop grid cards are ≤410px wide, so the rule never applies there.
+- `mission-editor.js` is now loaded as `/assets/mission-editor.js?v=20260930` — bump the query string whenever that file changes so browsers don't serve a stale copy (§23 note).
+
+**Growth map tooltip persisted onto other tabs.** `#gr-map-tip` is `position:fixed` on `<body>` (outside `#panel-numreach`). The old `mouseout` handler tested the element being *left* (always a state), so leaving the map never hid it, and tab switches didn't either. **Fix (in `initNumbers()` + new `growthHideMapTip()`):** hide on `mouseout` unless `relatedTarget` is another state, on SVG `mouseleave`, on window `scroll`, on `touchstart` outside a state, and at the top of `switchTab()`. Regression risk: if the tooltip is ever moved or a new tab-switch path added, keep `growthHideMapTip()` wired to it.
+
+**Files touched:** `index.html`, `assets/mission-editor.js`, `CANONICAL.md`. No JSON/config changes — editor values in `mission-page.json` keep the same meaning.
+
+**Testing performed:** Browser measurement of all 8 Mission cards (front tagline vs. flip hint, title overflow, back-face overflow, row heights) at 360, 390, 640, 768, 900, 910, 1024, 1199, 1280, 1440, 1680, 1920, 2200, 2560, 3440px — zero clipping; heights 320px at ≥1920 (unchanged), 272–286px tablet/phone. Screenshots reviewed at 2560, 1024, 768 (front + flipped back). Map: real-mouse hover → adjacent state (tip follows) → leave map (hidden) → hover + switch tab (hidden on TheoEd); real wheel scroll hides; synthetic touch outside hides. `git diff --check` clean; `node --check assets/mission-editor.js` OK; `node --test` 24/25 (the one failure is pre-existing — `tests/mission-responsive-art-prototype.test.mjs` asserts live `mission-page.json` values that an editor publish changed in June).
+
+---
+
 ## SELF-AUDIT BEFORE COMMITTING
+[ ] Mission cards (§38): `.card-front`/`.card-back` use `min-height` (not `height`); `.cf-tagline` not line-clamped; `fluidRem` caps at the 1920px reference value; mission-editor.js script tag carries a bumped `?v=` after any change
+[ ] Growth map tooltip (§38): hides on leaving a state/map, on scroll, on touch outside, and in `switchTab()`
 [ ] Admin gate: editor toggles (.page-editor-toggle) + #dashboard-publish hidden unless body.admin-mode; password stored only as SHA-256 hash; no plaintext password committed; unlock persists in sessionStorage (see §34)
 [ ] CMS lockdown (§37): publish-page-config / save-content / upload-asset each enforce `if (CMS_SECRET)` against X-CMS-Secret; clients send `window.getCmsSecret()` / `getSecret()`; admin.html has no plaintext password; `CMS_SECRET` lives only in Netlify env
 [ ] This Year phone (≤600px): hero is content-height with 2-up stats, no right-edge wash band (#panel-year .ty-hero::after), and card backs scale in cqw so the italic question never clips at 320–430px (see §35)

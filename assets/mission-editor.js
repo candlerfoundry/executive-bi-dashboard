@@ -576,7 +576,17 @@
       var maxPx = maxRem * 16, minPx = minRem * 16;
       var slope = (maxPx - minPx) / 640;
       var interceptPx = minPx - 1280 * slope;
-      return 'clamp(' + minRem.toFixed(3) + 'rem, calc(' + (interceptPx / 16).toFixed(3) + 'rem + ' + (slope * 100).toFixed(3) + 'vw), ' + maxRem.toFixed(3) + 'rem)';
+      var interceptRem = interceptPx / 16;
+      // The slope math above assumes a 16px rem, but the dashboard root is
+      // html { font-size: 20px }, so the rem parts render 1.25x larger and the
+      // curve only reaches maxRem around 2400px — long after the Mission shell
+      // (1680px) and card height (fluidPx, capped at 1920) stop growing. Text
+      // then outgrows fixed-size cards on large monitors. Cap at the value the
+      // curve actually renders at the 1920px reference viewport so every width
+      // <=1920 is unchanged and nothing keeps growing past it.
+      var rootPx = parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+      var capRem = Math.max(minRem, Math.min(maxRem, interceptRem + (slope * 1920) / rootPx));
+      return 'clamp(' + minRem.toFixed(3) + 'rem, calc(' + interceptRem.toFixed(3) + 'rem + ' + (slope * 100).toFixed(3) + 'vw), ' + capRem.toFixed(3) + 'rem)';
     }
     panel.style.setProperty('--mission-card-min', fluidPx(clamp(state.config.layout.cardMinHeight, 220, 420, 320), 0.85));
     panel.style.setProperty('--mission-community-columns', clamp(state.config.layout.communityColumns, 1, 4, 2));

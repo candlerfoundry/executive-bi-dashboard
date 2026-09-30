@@ -982,22 +982,27 @@ body.page-config-loading .panel.active::before,
 .mission-page .offering-flip:not(.no-flip):hover .offering-flip-inner, .mission-page .offering-flip:not(.no-flip):focus-within .offering-flip-inner, .mission-page .offering-flip.is-flipped .offering-flip-inner { transform:rotateY(180deg); }
 .mission-page .offering-flip.is-edit-selected .card-front,
 .mission-page .offering-flip.is-edit-selected .card-back { outline:none; box-shadow:0 0 0 2px rgba(30,37,48,0.08), 0 18px 36px rgba(30,37,48,0.12); }
-.mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
+/* min-height, not height: --mission-card-min is the designed card height, but
+   a card must grow when its copy needs more room (narrow 3-up columns, large
+   monitors) instead of clipping text mid-line under overflow:hidden. Front and
+   back share one grid cell and the row uses grid-auto-rows:1fr, so both faces
+   and every card in the row stay the same height. */
+.mission-page .card-front, .mission-page .card-back { grid-row:1; grid-column:1; border-radius:12px; display:flex; flex-direction:column; min-height:var(--mission-card-min); backface-visibility:hidden; -webkit-backface-visibility:hidden; }
 .mission-page .card-front { background:linear-gradient(180deg,#ffffff 0%,#fffdf8 100%); border:1px solid rgba(30,37,48,0.16); box-shadow:0 10px 20px rgba(30,37,48,0.08), 0 2px 5px rgba(30,37,48,0.08); overflow:hidden; position:relative; isolation:isolate; padding:var(--mission-card-pad) var(--mission-card-art-lg) var(--mission-card-pad) var(--mission-card-pad); transition:transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
   .mission-page .card-front::before { content:''; position:absolute; top:var(--card-graphic-top,clamp(10px, 1vw, 16px)); right:var(--card-graphic-right,clamp(8px, 0.9vw, 14px)); bottom:var(--card-graphic-bottom,clamp(8px, 0.9vw, 12px)); width:var(--card-graphic-width,var(--mission-card-art-lg)); background-image:var(--card-graphic,none); background-size:var(--card-graphic-size,contain); background-position:var(--card-bg-pos,center right); background-repeat:no-repeat; opacity:var(--card-graphic-opacity,0.9); z-index:0; pointer-events:none; border-radius:inherit; transform:translate(var(--card-graphic-shift-x, 0px), var(--card-graphic-shift-y, 0px)) scale(var(--card-graphic-scale,1)); transform-origin:center right; -webkit-mask-image:var(--card-graphic-mask, none); mask-image:var(--card-graphic-mask, none); -webkit-mask-size:100% 100%; mask-size:100% 100%; -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat; -webkit-mask-composite:source-in; mask-composite:intersect; }
 .mission-page .card-front::after { content:''; position:absolute; inset:0; background:linear-gradient(90deg, rgba(255,253,250,0.96) 0%, rgba(255,253,250,0.92) 46%, rgba(255,253,250,0.38) 72%, rgba(255,253,250,0.08) 100%); z-index:0; pointer-events:none; }
 .mission-page .offering-flip:hover .card-front { border-color:rgba(30,37,48,0.24); box-shadow:0 24px 40px rgba(30,37,48,0.16), 0 8px 14px rgba(30,37,48,0.08); }
 .mission-page .card-back { transform:rotateY(180deg); background:var(--mission-card-back-bg); border:1px solid rgba(30,37,48,0.22); box-shadow:0 20px 40px rgba(30,37,48,0.18), 0 8px 16px rgba(30,37,48,0.12); overflow:hidden; padding:0; }
-.mission-course-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
+.mission-course-grid .card-front { min-height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-lg) + clamp(8px, 1vw, 16px)); }
 .mission-course-grid .card-front::before { width:var(--card-graphic-width,var(--mission-card-art-lg)); }
-.mission-ministry-grid .card-front, .mission-public-grid .card-front { height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
+.mission-ministry-grid .card-front, .mission-public-grid .card-front { min-height:var(--mission-card-min); padding-right:calc(var(--mission-card-art-sm) + clamp(8px, 1vw, 14px)); }
 .mission-ministry-grid .card-front::before, .mission-public-grid .card-front::before { width:var(--card-graphic-width,var(--mission-card-art-sm)); right:var(--card-graphic-right,clamp(6px, 0.7vw, 10px)); opacity:var(--card-graphic-opacity,0.92); }
 .mission-page .cf-group { display:none; }
   .mission-page .cf-top { position:relative; z-index:1; display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:clamp(14px, 1.2vw, 18px); width:min(100%, var(--mission-card-front-text-width-local, var(--mission-card-front-text-width))); max-width:var(--mission-card-front-text-width-local, var(--mission-card-front-text-width)); }
 .mission-page .cf-icon { display:none; }
   .mission-page .cf-name { display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; font-family:var(--mission-heading-font); font-size:var(--mission-card-title-size-local, var(--mission-card-title-size)); font-weight:700; line-height:1.08; letter-spacing:-0.05em; color:var(--blue); margin:0; max-width:100%; text-wrap:balance; }
 .mission-course-grid .cf-name { font-size:var(--mission-card-title-size); }
-  .mission-page .cf-tagline { position:relative; z-index:1; display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical; overflow:hidden; width:min(100%, var(--mission-card-front-text-width-local, var(--mission-card-front-text-width))); max-width:var(--mission-card-front-text-width-local, var(--mission-card-front-text-width)); min-height:var(--mission-card-front-text-min-height); font-family:var(--mission-body-font); font-size:var(--mission-card-body-size-local, var(--mission-card-body-size)); font-weight:500; color:rgba(30,37,48,0.84); line-height:1.7; margin-bottom:clamp(20px, 1.6vw, 28px); }
+  .mission-page .cf-tagline { position:relative; z-index:1; display:block; flex-shrink:0; width:min(100%, var(--mission-card-front-text-width-local, var(--mission-card-front-text-width))); max-width:var(--mission-card-front-text-width-local, var(--mission-card-front-text-width)); min-height:var(--mission-card-front-text-min-height); font-family:var(--mission-body-font); font-size:var(--mission-card-body-size-local, var(--mission-card-body-size)); font-weight:500; color:rgba(30,37,48,0.84); line-height:1.7; margin-bottom:clamp(20px, 1.6vw, 28px); }
 .mission-page .cf-hook { display:none; }
 .mission-page .cf-flip-hint { position:relative; z-index:1; margin-top:auto; font-size:0.64rem; font-weight:700; letter-spacing:0.16em; text-transform:uppercase; color:rgba(200,72,38,0.8); }
 .mission-page .cb-strip { display:block; background:var(--mission-card-back-strip-bg); padding:14px 20px 13px; font-size:0.66rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; color:var(--mission-card-back-button-text); border-radius:12px 12px 0 0; }
@@ -1167,6 +1172,17 @@ body.page-config-loading .panel.active::before,
 
 @media (max-width:900px) {
   .mission-page .card-back--grid .cbg-tiles--captioned { width:min(100%, 340px); gap:6px; }
+}
+
+/* Wide single-column cards (tablet portrait, ~560–860px card width): a
+   full-width 2x2 (or 1x2 portrait blog) tile grid is ~400–450px tall, far
+   taller than the designed card. Cards now grow to fit their back face
+   (min-height), so cap the grid width instead — the whole set stays visible
+   at close to the designed card height. Desktop grid cards are <=410px wide,
+   so this never applies there. */
+@container (min-width:520px) {
+  .mission-page .card-back--grid .cbg-tiles:not(.cbg-tiles--captioned):not(.cbg-tiles--1x2) { width:min(100%, 420px); }
+  .mission-page .card-back--grid .cbg-tiles--1x2 { width:min(100%, 360px); }
 }
 
 @container (max-width:480px) {
@@ -1485,6 +1501,17 @@ body:not(.admin-mode) .te-editor-launch { display:none; }
   .page-editor-shell { top:104px; right:12px; left:12px; width:auto; max-height:calc(100vh - 118px); border-radius:20px; }
   .editor-grid-2, .editor-grid-3 { grid-template-columns:1fr; }
 }
+/* Mission, 901–1199px (small laptops, iPad landscape): the side intro column
+   (min 220px) plus three cards left each card ~213px wide at 1024px, which
+   clipped titles ("Simplifie…") and squeezed descriptions to a few words.
+   Stack the section intro above its cards in this band so the 3-up (and 2-up)
+   rows get the full shell width. >=1200px keeps the side-by-side layout;
+   <=900px already stacks and collapses to one column. */
+@media (min-width:901px) and (max-width:1199px) {
+  .mission-section { grid-template-columns:1fr; gap:clamp(16px, 2vw, 22px); }
+  .mission-section-head { min-height:auto; padding:0; }
+  .mission-section-copy { width:auto; max-width:min(100%, 640px); }
+}
 @media (max-width:600px) {
   #panel-people .section-header { padding:28px 18px 16px; }
   .ci-story-page { padding:0 0 36px; }
@@ -1500,9 +1527,8 @@ body:not(.admin-mode) .te-editor-launch { display:none; }
   /* Image-front cards keep their 7:5 aspect ratio instead of a min-height. */
   .ci-story-card.is-image-front { min-height:0; }
   .ci-row-track { padding-bottom:14px; }
-  /* Mission offering cards keep a fixed height with overflow:hidden, so on
-     narrow phones the body text was clipped mid-word. Shrink the card text so
-     it fits within the card instead of being cut off. */
+  /* Mission offering cards: smaller type on phones keeps cards close to their
+     designed height (cards now grow via min-height rather than clipping). */
   .mission-page .cf-name { font-size:1.12rem; }
   .mission-page .cf-tagline { font-size:0.78rem; line-height:1.55; margin-bottom:14px; }
   .mission-page .cf-flip-hint { font-size:0.58rem; }
@@ -6149,6 +6175,7 @@ function loadDashboardPanelConfig(id) {
 }
 
 function switchTab(id, btn) {
+  growthHideMapTip();
   if (needsDashboardPanelLoad(id)) setDashboardPanelLoading(id, true);
   document.querySelectorAll('.panel').forEach(function(p) { p.classList.remove('active'); });
   document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
@@ -7123,6 +7150,11 @@ function growthResetBarsAnimation() {
   growthEnsureBarsObserver();
 }
 
+function growthHideMapTip() {
+  var tip = document.getElementById('gr-map-tip');
+  if (tip) tip.classList.remove('show');
+}
+
 function initNumbers() {
   if (numbersReady) return;
   numbersReady = true;
@@ -7135,23 +7167,36 @@ function initNumbers() {
     tip.className = 'gr-map-tooltip';
     document.body.appendChild(tip);
   }
+  // The tooltip is position:fixed on <body> (outside #panel-numreach), so it
+  // must be hidden explicitly whenever the pointer leaves a state, the map, or
+  // the page scrolls / switches tab — otherwise it floats over other tabs.
   var mapSvg = document.querySelector('.gr-map-svg-wrap svg');
   if (mapSvg) {
-    mapSvg.addEventListener('mouseover', function(e) {
+    var updateTip = function(e) {
       var path = e.target.closest ? e.target.closest('.gr-map-state') : null;
-      if (!path) { tip.classList.remove('show'); return; }
+      if (!path) { growthHideMapTip(); return; }
       var name = path.getAttribute('data-name');
       var count = path.getAttribute('data-count');
       tip.textContent = name + ': ' + (parseInt(count, 10) || 0).toLocaleString() + ' participants';
-      tip.classList.add('show');
-    });
-    mapSvg.addEventListener('mouseout', function(e) {
-      if (!e.target.closest || !e.target.closest('.gr-map-state')) tip.classList.remove('show');
-    });
-    mapSvg.addEventListener('mousemove', function(e) {
       tip.style.left = (e.clientX + 16) + 'px';
       tip.style.top  = (e.clientY - 12) + 'px';
+      tip.classList.add('show');
+    };
+    mapSvg.addEventListener('mouseover', updateTip);
+    mapSvg.addEventListener('mousemove', updateTip);
+    // mouseout's target is the state being LEFT, so check where the pointer
+    // went: keep the tip only when moving straight onto another state.
+    mapSvg.addEventListener('mouseout', function(e) {
+      var to = e.relatedTarget;
+      if (!to || !to.closest || !to.closest('.gr-map-state')) growthHideMapTip();
     });
+    mapSvg.addEventListener('mouseleave', growthHideMapTip);
+    window.addEventListener('scroll', growthHideMapTip, { passive: true });
+    // Touch: a tap on a state shows the tip (via emulated mouse events); a tap
+    // anywhere else dismisses it.
+    document.addEventListener('touchstart', function(e) {
+      if (!e.target.closest || !e.target.closest('.gr-map-state')) growthHideMapTip();
+    }, { passive: true });
   }
 
   // Scroll-triggered count-up + bar fills (run only when the user has scrolled to the row)
@@ -10985,7 +11030,7 @@ document.addEventListener('DOMContentLoaded', loadContent);
 
 </script>
 <script src="/assets/mission-responsive-art-prototype.js"></script>
-<script src="/assets/mission-editor.js"></script>
+<script src="/assets/mission-editor.js?v=20260930"></script>
 <script src="/assets/impact-quick-edit.js"></script>
 </body>
 </html>
