@@ -1362,6 +1362,20 @@ body.page-config-loading .panel.active::before,
 .te-lb-video iframe { position:absolute; inset:0; width:100%; height:100%; border:none; }
 .te-lb-close { position:absolute; top:-44px; right:0; background:transparent; border:none; color:#fafaf2; font-size:32px; cursor:pointer; line-height:1; padding:4px 8px; opacity:0.8; }
 .te-lb-close:hover { opacity:1; }
+/* Reader mode (phones only): the Sunday School Simplified phone reader opens
+   full-screen inside the shared lightbox instead of a new tab, so phone users
+   can get back to the dashboard. Title + a labelled Close sit in a top bar;
+   the iframe fills the rest. Set by openCardLightbox({ reader:true }). */
+#te-lightbox.is-reader .te-lb-backdrop { background:#1e2530; }
+#te-lightbox.is-reader .te-lb-box { width:100vw; max-width:none; height:100vh; height:100dvh; display:flex; flex-direction:column; padding-top:env(safe-area-inset-top, 0px); }
+#te-lightbox.is-reader .te-lb-meta { flex:0 0 auto; min-height:52px; margin:0; padding:0 112px 0 16px; align-items:center; }
+#te-lightbox.is-reader .te-lb-name { font-size:15px; line-height:1.25; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+#te-lightbox.is-reader .te-lb-close { top:calc(env(safe-area-inset-top, 0px) + 8px); right:10px; display:inline-flex; align-items:center; gap:6px; min-height:36px; padding:6px 14px; border:1px solid rgba(250,250,242,0.45); border-radius:999px; font-size:20px; opacity:1; }
+#te-lightbox.is-reader .te-lb-close::after { content:'Close'; font-family:'Montserrat',sans-serif; font-size:13px; font-weight:700; letter-spacing:0.06em; text-transform:uppercase; }
+#te-lightbox.is-reader .te-lb-video { flex:1 1 auto; min-height:0; padding-top:0; background:#fff; }
+#te-lightbox.is-reader .te-lb-frame-slot, #te-lightbox.is-reader .te-lb-frame-slot > iframe { background:#fff; }
+#te-lightbox.is-reader .te-lb-guide { display:none; }
+html.cb-reader-open, body.cb-reader-open { overflow:hidden; }
 /* Discussion guide banner in the TheoEd lightbox */
 .te-lb-guide { margin-top:14px; display:flex; align-items:center; justify-content:center; }
 .te-lb-guide[data-state="empty"] .te-lb-guide-link { display:none; }
@@ -6061,6 +6075,9 @@ function openLightbox(vid, name, loc, guide, dbxUrl) {
       guideWrap.setAttribute('data-state', 'empty');
     }
   }
+  lb.classList.remove('is-reader');
+  document.documentElement.classList.remove('cb-reader-open');
+  document.body.classList.remove('cb-reader-open');
   lb.classList.add('open');
   document.body.classList.add('cb-lightbox-locked');
 }
@@ -6103,7 +6120,22 @@ function openCardLightbox(opts) {
     var iframe = document.createElement('iframe');
     iframe.src = opts.pdf || opts.embed;
     iframe.setAttribute('allowfullscreen', '');
+    if (opts.reader) {
+      // The SSS reader plays Vimeo inline; nested players need these grants.
+      iframe.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+      iframe.setAttribute('title', opts.name || 'Reader');
+    }
     slot.appendChild(iframe);
+  }
+  lb.classList.toggle('is-reader', !!opts.reader);
+  document.documentElement.classList.toggle('cb-reader-open', !!opts.reader);
+  document.body.classList.toggle('cb-reader-open', !!opts.reader);
+  if (opts.reader) {
+    // Phone Back / swipe-back should close the reader, not leave the dashboard.
+    // Push one marker entry; popstate back past it closes the lightbox. (Lesson
+    // navigation inside the reader is hash-routed in the iframe, so Back steps
+    // through lessons first, then closes.)
+    try { history.pushState({ cbReader: true }, ''); } catch (e) {}
   }
   var guideWrap = document.getElementById('te-lb-guide');
   var guideLink = document.getElementById('te-lb-guide-link');
@@ -6126,9 +6158,18 @@ function closeLightbox() {
   var lb = document.getElementById('te-lightbox');
   var slot = document.getElementById('te-lb-frame');
   if (!lb) return;
+  var wasReader = lb.classList.contains('is-reader') && lb.classList.contains('open');
   lb.classList.remove('open');
+  lb.classList.remove('is-reader');
+  document.documentElement.classList.remove('cb-reader-open');
+  document.body.classList.remove('cb-reader-open');
   document.body.classList.remove('cb-lightbox-locked');
   if (slot) slot.innerHTML = '';
+  // Closed with the button/Escape (not Back): drop the marker entry we pushed
+  // so the next Back press isn't a dead one. Only when it's still on top.
+  if (wasReader && !closeLightbox._fromPopstate && history.state && history.state.cbReader) {
+    try { history.back(); } catch (e) {}
+  }
   var guideWrap = document.getElementById('te-lb-guide');
   var guideLink = document.getElementById('te-lb-guide-link');
   if (guideWrap) guideWrap.setAttribute('data-state', 'empty');
@@ -6145,7 +6186,30 @@ function setupLightboxCloseControls() {
   lbClose.addEventListener('click', closeLightbox);
   lbBackdrop.addEventListener('click', closeLightbox);
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLightbox(); });
+  // Back past the reader's marker entry (see openCardLightbox) closes it.
+  window.addEventListener('popstate', function(e) {
+    var lb = document.getElementById('te-lightbox');
+    if (!lb || !lb.classList.contains('is-reader') || !lb.classList.contains('open')) return;
+    if (e.state && e.state.cbReader) return;
+    closeLightbox._fromPopstate = true;
+    try { closeLightbox(); } finally { closeLightbox._fromPopstate = false; }
+  });
 }
+
+// Same phone test as the Sunday School Simplified site's own gate
+// (engine/render.js isPhone): shorter SCREEN side < 540px AND a coarse
+// pointer. Hardware-based, so rotation and iPad "desktop mode" can't fool it;
+// fails toward "not a phone". Phones get the in-page reader; tablets and
+// desktops keep opening the full flipbook in a new tab.
+function dashboardIsPhone() {
+  try {
+    var s = window.screen || {}, w = +s.width || 0, h = +s.height || 0;
+    if (!w || !h || !window.matchMedia) return false;
+    if (!window.matchMedia('(pointer: coarse)').matches) return false;
+    return Math.min(w, h) < 540;
+  } catch (e) { return false; }
+}
+window.dashboardIsPhone = dashboardIsPhone;
 window.setupLightboxCloseControls = setupLightboxCloseControls;
 setupLightboxCloseControls();
 
@@ -10656,6 +10720,17 @@ window.buildGridBackHtml = buildGridBackHtml;
       var action = tile.getAttribute('data-action-type');
       var href = tile.getAttribute('href');
       if (action === 'blog') return;
+      if (action === 'flipbook') {
+        // Phones: open the SSS phone reader full-screen in the lightbox so
+        // Close / Back return to the dashboard. Tablets + desktop: fall
+        // through to the plain link (new tab) — the flipbook needs the room.
+        if (!dashboardIsPhone()) return;
+        event.preventDefault(); event.stopPropagation();
+        var fbImg = tile.querySelector('img');
+        var fbTitle = fbImg ? (fbImg.getAttribute('alt') || '').replace(/ cover$/, '') : '';
+        if (window.openCardLightbox) window.openCardLightbox({ embed: href, name: fbTitle, reader: true });
+        return;
+      }
       if (action === 'pdf') {
         event.preventDefault(); event.stopPropagation();
         var alt = tile.querySelector('img') ? (tile.querySelector('img').getAttribute('alt') || '') : '';
